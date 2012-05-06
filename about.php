@@ -28,16 +28,16 @@
 				<section>
 					<h2>G&eacute;n&eacute;ralit&eacute;s :</h2>
 					<ul>
-						<li>Application : Leed (Light Feed)</li>
-						<li>Version : 1.0 Alpha</li>
-						<li>Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)</li>
-						<li>Dépot SVN : http://hades.idleman.fr/leed</li>
-						<li>Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les traveaux dérivé peuvent être autorisés avec accord de l'auteur</li>
+						<li><b>Application :</b> Leed (Light Feed)</li>
+						<li><b>Version :</b> 1.0 Alpha</li>
+						<li><b>Auteur :</b> Valentin CARRUESCO aka Idleman (idleman@idleman.fr)</li>
+						<li><b>Dépot SVN :</b> http://hades.idleman.fr/leed</li>
+						<li><b>Licence :</b> CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les traveaux dérivé peuvent être autorisés avec accord de l'auteur</li>
 					</ul>
 
 					<h2>PRESENTATION</h2>
 					<p>
-						Leed (contraction de Light Feed) est un agrégatteur RSS libre et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.</p><p>
+						<b>Leed (contraction de Light Feed)</b> est un agrégatteur RSS libre et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.</p><p>
 						Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche synchronisée (Cron),ainsi, l'utilisateur ne subis pas les lenteures dues à la récupération et au traitement de chacun des flux suivis.</p><p>
 						A noter que Leed est compatible toutes résolutions, sur pc, tablettes et smartphone et fonctionne sous tous les navigateurs.</p><p>
 						Le script est également compatible avec les fichiers d'exports/imports OPML ce qui rend la migration de tous les agrégateurs réspectant le standard OPML simple et rapide.
@@ -57,8 +57,8 @@
 					</ul>
 					<h2>LIBRAIRIES</h2>
 					<ul>
-						<li>Responsive / Cross browser : Initializr (www.initializr.com)</li>
-						<li>Javascript : JQuery (www.jquery.com)</li>
+						<li><b>Responsive / Cross browser :</b> Initializr (www.initializr.com)</li>
+						<li><b>Javascript :</b> JQuery (www.jquery.com)</li>
 					</ul>			
 				</section>
 				
