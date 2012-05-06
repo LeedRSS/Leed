@@ -39,7 +39,7 @@ require_once('common.php');
 				<ul>
 					<li><a href="index.php">Accueil</a></li>
 					<li><a href="addFeed.php">+ Flux</a></li>
-					<li><a href="http://blog.idleman.fr">A propos</a></li>
+					<li><a href="about.php">A propos</a></li>
 				</ul>
 			</nav>
 		</header>
