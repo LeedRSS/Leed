@@ -31,5 +31,9 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 	Pour mettre a jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
 	6. Le script est installé, merci d'vaoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
 
+================
+== LIBRAIRIES ==
+================
 
-
+	Responsive / Cross browser : Initializr (www.initializr.com)
+	Javascript : JQuery (www.jquery.com)
