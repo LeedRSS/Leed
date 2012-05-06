@@ -36,13 +36,18 @@ if(isset($_GET['action'])){
 				</ul>
 
 			</aside>
-			<?php if($currentFeed !=false){
+			<?php 
+
+
+
 
 				$articleView = $configurationManager->get('articleView');
 				$articlePerPages = $configurationManager->get('articlePerPages');
 				$articleDisplayLink = $configurationManager->get('articleDisplayLink');
 				$articleDisplayDate = $configurationManager->get('articleDisplayDate');
 				$articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
+				
+				if($currentFeed !=false){
 
 				$numberOfFeed = $eventManager->rowCount(array('feed'=>$currentFeed->getId()));
 				$page = (isset($_['page'])?$_['page']:1);
@@ -77,7 +82,39 @@ if(isset($_GET['action'])){
 
 				<p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?action=readFeed&feed=<?php echo $currentFeed->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p>
 			</article>
+			<?php }else{ 
+			
+				
+
+				$unreadEvents = $eventManager->rowCount(array('unread'=>1));
+				$page = (isset($_['page'])?$_['page']:1);
+				$pages = round($unreadEvents/$articlePerPages); 
+				$startArticle = ($page-1)*$articlePerPages;
+				$events = $eventManager->loadAll(array('unread'=>1),'pubDate',$startArticle.','.$articlePerPages);
+
+				?>
+
+				<article>
+				<header>
+					<h1>Non lu (<?php echo $unreadEvents; ?>)</h1>
+				</header>
+
+			<?php
+				
+				foreach($events as $event){
+			 ?>
+				<section <?php if(!$event->getUnread()){ ?>class="eventRead"<?php } ?> >
+					<h2><a onclick="$(this).parent().parent().addClass('eventRead');" target="_blank" href="action.php?action=readContent&id=<?php echo $event->getId(); ?>" alt="Voir l'article sur le blog" title="Voir l'article sur le blog"><?php echo $event->getTitle(); ?></a></h2>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" traget="_blank">Lien direct vers l'article</a><?php } ?>
+					</h3>
+					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
+
+					<!--<a href="index.php?action=readFeedEvent&feed=<?php echo $feed->getId(); ?>&event=<?php echo $event->getId(); ?>">Lire la suite</a>-->
+				</section>
+
 			<?php } ?>
+			<p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p>
+			</article><?php } ?>
 			
 			
 			

@@ -53,6 +53,7 @@ switch ($_['action']){
 			/*********************/
 			if(isset($_POST['exportButton'])){
 				$feeds = $feedManager->populate('name');
+				$folders = $folderManager->populate('name');
 				$xmlStream = '<?xml version="1.0" encoding="utf-8"?>
 	<opml version="2.0">
 		<head>
@@ -61,13 +62,18 @@ switch ($_['action']){
 			<ownerEmail>idleman@idleman.fr</ownerEmail>
 			<dateCreated>'.date('D, d M Y H:i:s').'+0000</dateCreated>
 		</head>
-		<body>
-			<outline text="Leed" title="Leed" icon="">'."\n";
-				foreach($feeds as $feed){
-					$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
+		<body>';
+
+				foreach($folders as $folder){
+					$feeds = $folder->getFeeds();
+					$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
+						foreach($feeds as $feed){
+							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
+						}
+					$xmlStream .= '			</outline>';
 				}
-				$xmlStream .= '			</outline>
-		</body>
+				
+		$xmlStream .= '</body>
 	</opml>';
 
 
