@@ -272,7 +272,7 @@ header a,header a:hover{
 	width:70%;
 }
 
-#addBloc,#exportBloc,#importBloc,#bookBloc,#preferenceBloc{
+#addBloc,#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#manageFolderBloc{
 	display:none;
 }
 .pointer{

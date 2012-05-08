@@ -9,12 +9,14 @@
 			
 	
 			$feeds = $feedManager->populate('name'); 
+			$folders = $folderManager->populate('name'); 
 			?>
 
 			<aside>
 				<h3>Options des flux</h3>
 				<ul>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc').fadeToggle(200);">Gestion des flux</li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #manageFolderBloc').fadeToggle(200);">Gestion des Dossiers</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Pr&eacute;f&eacute;rences</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #addBloc').fadeToggle(200);">Ajout d'un flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
@@ -25,14 +27,11 @@
 			</aside>
 			
 			<article>
-				<header>
-					<h1>Gestion</h1>
-					<p>Cette section permet la gestion des parametrages de leed: configurations, flux RSS suivis, ajout depuis une url, import, export, supression...</p>
 				
-				</header>
 				
 
 				<section id="preferenceBloc">
+
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<h2>Pr&eacute;f&eacute;rences :</h2>
 					<section>
@@ -51,22 +50,75 @@
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
-					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
 					
 					</section>
 					<button name="installButton">Enregistrer</button>
 					</form>
 				</section>
 
-				<section id="manageBloc">
-					<h2><?php echo count($feeds);?> RSS suivis :</h2>
+
+				<section id="manageFolderBloc">
+					<h2>Gestion des dossiers (<?php echo count($folders);?>) :</h2>
+
+					<br/>
+					<form method="POST" action="action.php?action=addFolder">
+						Nouveau dossier <input type="text" name="newFolder"> <button>Ajouter</button>
+					</form>
+					<br/>
+					<table id="feedTable">
+						
+						<?php foreach($folders as $folder){?>
+						<tr><td><?php echo $folder->getName(); ?></td><td><button onclick="renameFolder(this,<?php echo $folder->getId(); ?>)">Renommer</button></td><td><?php if($folder->getId()!='1'){ ?><button onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&id=<?php echo $folder->getId() ?>'">Supprimer</button><?php } ?></td></tr>
+						<?php } ?>
+					</table>
+
+				</section>
+
+				<!--<section id="manageBloc">
+					<h2>Gestion des flux (<?php echo count($feeds);?>) :</h2>
 					<table id="feedTable">
 						<?php foreach($feeds as $feed){?>
 						<tr><td><?php echo '<a href="'.$feed->getUrl().'">'.$feed->getName().'</a>'; ?></td><td><button onclick="window.location='action.php?action=removeFeed&id=<?php echo $feed->getId() ?>'">Supprimer</button></td></tr>
 						<tr><td colspan="2"><p><?php echo $feed->getDescription(); ?></p></td></tr>
 						<?php } ?>
 					</table>
+				</section>-->
+
+
+
+			<section id="manageBloc">
+					<?php 
+						$folders = $folderManager->populate('name');
+					?>
+					<h2>Gestion des flux :</h2>
+					<ul class="clear">
+					<?php foreach($folders as $folder){  
+						$feeds = $folder->getFeeds();
+						?>
+					<li><h1 class="folder" onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"><?php echo $folder->getName().' ('.count($feeds).')'; ?></h1>
+						<table  style="width:100%;" <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>>
+							<?php if (count($feeds)!=0 ) {foreach($feeds as $feed){ ?>
+								<tr>
+									<td style="width:50%;"><a href="index.php?action=readFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> </a></td>
+									<td><select onchange="changeFeedFolder(this,<?php echo $feed->getId();?>);">
+										<?php foreach($folders as $listFolder){ ?>
+											<option <?php if($feed->getFolder()==$listFolder->getId()){?>selected="selected"<?php } ?> value="<?php echo $listFolder->getId(); ?>"><?php echo $listFolder->getName(); ?></option>
+										<?php } ?>
+									</select></td>
+									<td><button onclick="window.location='action.php?action=removeFeed&id=<?php echo $feed->getId() ?>'">Supprimer</button></td></tr>
+							<?php }} ?>
+						</table>
+					</li>
+					<?php } ?>
+				</ul>
 				</section>
+
+
+				
+
+
+				
+
 				
 				<section id="bookBloc">
 					<h2>Utiliser le bookmarklet :</h2>

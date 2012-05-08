@@ -21,6 +21,7 @@ require_once('common.php');
 	<link rel="stylesheet" href="css/style.css">
 
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+
 </head>
 <body>
 	<div id="header-container">

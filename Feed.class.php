@@ -66,13 +66,33 @@ class Feed extends SQLiteEntity{
 					if(trim($event->getCreator()==''))
 						$event->setCreator($item->creator);
 					
-				
+					$event->setDescription(utf8_decode($item->description));
 				
 
-					$event->setContent($item->children($namespaces['content']));
+					if(isset($namespaces['content'])){
+						$event->setContent($item->children($namespaces['content']));
+					}else{
+						/*//Tentative de detronquage si la description existe
+						if($event->getDescription()!=''){
+							  // preg_match('#<a(.+)href=(.+)>#isU', $event->getDescription(), $matches);
+							 //echo var_dump($matches);
+
+							//Récup de l'article dans son contexte
+							 $allContent = simplexml_load_file($event->getGuid());
+							 if($allContent!=false){
+							 	foreach($xml->xpath('//item') as $div){
+							 		echo var_dump($div);
+							 		echo '<hr>';
+							 	}
+							 }
+							
+
+						}
+						*/
+					}
 					$event->setLink($item->link);
 					$event->setCategory($item->category);
-					$event->setDescription(utf8_decode($item->description));
+					
 					$event->setFeed($this->id);
 					$event->setUnread(1);
 					$event->save();

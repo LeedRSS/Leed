@@ -25,10 +25,10 @@ if(isset($_GET['action'])){
 					<?php foreach($folders as $folder){  
 						$feeds = $folder->getFeeds();
 						?>
-					<li  ><h1 class="folder" onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"><?php echo $folder->getName().' ('.count($feeds).')'; ?></h1>
-						<ul <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>  style="margin:0">
+					<li><h1 class="folder" onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"><?php echo $folder->getName().' ('.count($feeds).')'; ?></h1>
+						<ul <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>>
 							<?php if (count($feeds)!=0 ) {foreach($feeds as $feed){ ?>
-								<li><a href="index.php?action=readFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> <?php $unread = $feed->countUnreadEvents(); if($unread!=0){ ?></a>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed->getId(); ?>'"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread; ?></span></button><?php } ?> </li>
+								<li><a href="index.php?action=readFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> </a><?php $unread = $feed->countUnreadEvents(); if($unread!=0){ ?>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed->getId(); ?>'"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread; ?></span></button><?php } ?> </li>
 							<?php }} ?>
 						</ul>
 					</li>
@@ -37,9 +37,6 @@ if(isset($_GET['action'])){
 
 			</aside>
 			<?php 
-
-
-
 
 				$articleView = $configurationManager->get('articleView');
 				$articlePerPages = $configurationManager->get('articlePerPages');
@@ -76,7 +73,7 @@ if(isset($_GET['action'])){
 					</h3>
 					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
 
-					<!--<a href="index.php?action=readFeedEvent&feed=<?php echo $feed->getId(); ?>&event=<?php echo $event->getId(); ?>">Lire la suite</a>-->
+					
 				</section>
 				<?php } ?>
 
@@ -109,13 +106,14 @@ if(isset($_GET['action'])){
 					</h3>
 					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
 
-					<!--<a href="index.php?action=readFeedEvent&feed=<?php echo $feed->getId(); ?>&event=<?php echo $event->getId(); ?>">Lire la suite</a>-->
 				</section>
 
 			<?php } ?>
 			<p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p>
 			</article><?php } ?>
 			
+
+
 			
 			
 		</div> <!-- #main -->

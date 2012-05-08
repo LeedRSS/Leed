@@ -39,10 +39,6 @@ switch ($_['action']){
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
 			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
-			//Création du dossier de base
-			$folder =$folderManager->load(array('id'=>1));
-			$folder->setName($_['category']);
-			$folder->save();
 	
 		header('location: ./addFeed.php');
 	break;
@@ -152,15 +148,54 @@ switch ($_['action']){
 			}
 	break;
 
+	case 'changeFeedFolder':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(isset($_['feed'])){
+			$feedManager->change(array('folder'=>$_['folder']),array('id'=>$_['feed']));
+		}
+		header('location: ./addFeed.php');
+	break;
+
 	case 'removeFeed':
-		/**************************/
-		/** Supression d'une url **/
-		/**************************/
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_GET['id'])){
 			$feedManager->delete(array('id'=>$_GET['id']));
-			header('location: ./addFeed.php');
+			$eventManager->delete(array('feed'=>$_GET['id']));
 		}
+		header('location: ./addFeed.php');
+	break;
+
+	case 'addFolder':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(isset($_['newFolder'])){
+			$folder = new Folder();
+			$folder->setParent(-1);
+			$folder->setIsopen(0);
+			$folder->setName($_['newFolder']);
+			$folder->save();
+		}
+		header('location: ./addFeed.php');
+	break;
+
+
+	case 'renameFolder':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(isset($_['id'])){
+			$folderManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
+		}
+	break;
+
+
+	case 'removeFolder':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(isset($_['id'])){
+
+			$eventManager->query('DELETE * FROM event INNER JOIN folder ON ( feed.folder = folder.id ) INNER JOIN event ON ( feed.id = event.feed ) WHERE folder.id = '.$_['id'].' ;');
+			$feedManager->delete(array('folder'=>$_['id']));
+			$folderManager->delete(array('id'=>$_['id']));
+
+		}
+		header('location: ./addFeed.php');
 	break;
 
 	case 'readContent':
