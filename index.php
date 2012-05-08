@@ -4,7 +4,10 @@
 $folders = $folderManager->populate('name');
 $currentFeed = false;
 
-
+$shareOption = false;
+if($configurationManager->get('plugin_shaarli')=='1'){
+	$shareOption = $configurationManager->get('plugin_shaarli_link');
+}
 
 
 if(isset($_GET['action'])){
@@ -69,11 +72,9 @@ if(isset($_GET['action'])){
 				 ?>
 				<section <?php if(!$event->getUnread()){ ?>class="eventRead"<?php } ?> >
 					<h2><a onclick="$(this).parent().parent().addClass('eventRead');" target="_blank" href="action.php?action=readContent&id=<?php echo $event->getId(); ?>" alt="Voir l'article sur le blog" title="Voir l'article sur le blog"><?php echo $event->getTitle(); ?></a></h2>
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" traget="_blank">Lien direct vers l'article</a><?php } ?>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" traget="_blank">Lien direct vers l'article</a><?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getGuid()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> 
 					</h3>
 					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
-
-					
 				</section>
 				<?php } ?>
 
@@ -102,7 +103,7 @@ if(isset($_GET['action'])){
 			 ?>
 				<section <?php if(!$event->getUnread()){ ?>class="eventRead"<?php } ?> >
 					<h2><a onclick="$(this).parent().parent().addClass('eventRead');" target="_blank" href="action.php?action=readContent&id=<?php echo $event->getId(); ?>" alt="Voir l'article sur le blog" title="Voir l'article sur le blog"><?php echo $event->getTitle(); ?></a></h2>
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" traget="_blank">Lien direct vers l'article</a><?php } ?>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" traget="_blank">Lien direct vers l'article</a><?php } if($shareOption!=false){ ?> <button alt="partager sur shaarli" title="partager sur shaarli"  onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getGuid()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?>
 					</h3>
 					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
 

@@ -8,15 +8,33 @@ require_once("common.php");
 switch ($_['action']){
 
 	case 'synchronize':
-		$feeds = $feedManager->populate('name');
+
+		$synchronisationType = $configurationManager->get('synchronisationType');
+
+
+			if(isset($_['format'])) echo '<textarea style="width:100%;height: 500px;overflow:auto;">';
 			echo '------------------------------------------------------------------'."\n";
-			echo '-------------- Synchronisation du '.date('d/m/Y').' --------------'."\n";
+			echo '-------------- Synchronisation du '.date('d/m/Y H:i:s').' --------------'."\n";
 			echo '------------------------------------------------------------------'."\n";
+
+		if($synchronisationType=='graduate'){
+			$feeds = $feedManager->loadAll(null,'lastupdate','10');
+			echo 'Synchronisation graduée...'."\n";
+		}else{
+			$feeds = $feedManager->populate('name');
+			echo 'Synchronisation complete...'."\n";
+		}	
+			
 			echo count($feeds).' Flux a synchroniser...'."\n";
 		foreach ($feeds as $feed) {
 			$feed->parse();
 			echo date('H:i:s').' - Flux '.$feed->getName().' : OK'."\n";;
 		}
+			echo date('H:i:s').' - Synchronisation terminée'."\n";
+		if(isset($_['format'])) echo '</textarea>';
+
+
+
 	break;
 
 	case 'readAll':
@@ -34,11 +52,13 @@ switch ($_['action']){
 			$configurationManager->put('root',$_['root']);
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
-
 			$configurationManager->put('articlePerPages',$_['articlePerPages']);
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
 			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
+			$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
+			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
+			$configurationManager->put('synchronisationType',$_['synchronisationType']);
 	
 		header('location: ./addFeed.php');
 	break;

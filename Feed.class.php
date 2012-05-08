@@ -1,7 +1,7 @@
 <?php
 class Feed extends SQLiteEntity{
 
-	protected $id,$name,$url,$unread=0,$events=array(),$description,$website,$folder;
+	protected $id,$name,$url,$unread=0,$events=array(),$description,$website,$folder,$lastupdate;
 	protected $TABLE_NAME = 'feed';
 	protected $CLASS_NAME = 'Feed';
 	protected $object_fields = 
@@ -12,6 +12,7 @@ class Feed extends SQLiteEntity{
 		'website'=>'longstring',
 		'url'=>'longstring',
 		'unread'=>'integer',
+		'lastupdate'=>'string',
 		'folder'=>'integer'
 	);
 
@@ -36,6 +37,7 @@ class Feed extends SQLiteEntity{
 			$this->name = array_shift ($xml->xpath('channel/title'));
 			$this->description = array_shift ($xml->xpath('channel/description'));
 			$this->website = array_shift ($xml->xpath('channel/link'));
+
 			$eventManager = new Event();
 
 			
@@ -105,6 +107,8 @@ class Feed extends SQLiteEntity{
 			$this->name = 'Flux invalide';
 			$this->description = 'Impossible de se connecter au flux demand&eacute, peut &ecirc;tre est il en maintenance?';
 		}
+			$this->lastUpdate = time();
+			$this->save();
 
 	}
 
@@ -171,6 +175,15 @@ class Feed extends SQLiteEntity{
 	function setFolder($folder){
 		$this->folder = $folder;
 	}
+
+	function getLastupdate(){
+		return $this->lastUpdate;
+	}
+
+	function setLastupdate($lastupdate){
+		$this->lastupdate = $lastupdate;
+	}
+	
 
 
 }

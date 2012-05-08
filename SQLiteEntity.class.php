@@ -192,7 +192,7 @@ class SQLiteEntity extends SQLite3
 		$objects = array();
 		$whereClause = '';
 	
-			if(sizeof($columns)!=0){
+			if($columns!=null && sizeof($columns)!=0){
 			$whereClause .= ' WHERE ';
 				$start = reset(array_keys($columns));
 				foreach($columns as $column=>$value){

@@ -60,6 +60,13 @@ if(isset($_['installButton'])){
 	$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
 	$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
+
+	$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
+	$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
+
+
+	$configurationManager->put('synchronisationType',$_['synchronisationType']);
+
 	//Création du dossier de base
 	$folder = new Folder();
 	$folder->setName($_['category']);
@@ -73,14 +80,31 @@ if(isset($_['installButton'])){
 	 <article style="width:100%;">
 				<header>
 					<h1>Installation de Leed termin&eacute;e</h1>
-					<p>L'installation de Leed est termin&eacute;e, n'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
+					<p>L'installation de Leed est termin&eacute;e!!</p>
 
+					
+					
+					<?php if ($_['synchronisationType']=='complete'){ ?>
+					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize</code>
+					<code>0 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
-	 				<p>N'oubliez pas de supprimer la page install.php par mesure de s&eacute;curit&eacute;</p>
+	 				
+					<?php }else if ($_['synchronisationType']=='graduate'){ ?>
+					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
+					<code>sudo crontab -e</code>
+					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
+					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
+					<p>Quittez et sauvegardez le fichier.</p>
+					<p>Cet exemple mettra &agrave; jour vos flux toutes les 5 minutes(conseill&eacute; pour une synchronisation gradu&eacute;e) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
+	 				
+					<?php }else{  ?>
+
+					<?php }  ?>
+
+					<p>N'oubliez pas de supprimer la page install.php par mesure de s&eacute;curit&eacute;</p>
 	 				<p>Cliquez <a style="color:#F16529;" href="index.php">ici</a> pour acceder au script</p>
 	 <?php
 }else{
@@ -150,6 +174,13 @@ if(isset($_['installButton'])){
 				</section>
 
 				<section>
+					<h2>Synchronisation</h2>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
+				</section>
+
+				<section>
 					<h2>Pr&eacute;ferences</h2>
 					<!--<p>Vue des flux: <input type="radio" value="list" name="view">Liste <input type="radio" value="mosaic" name="view">Mosaique</p>
 					<h3>Mosaic : affichage par bloc, style netvives, liste: affichage en liste style rssLounge</h3>-->
@@ -160,8 +191,16 @@ if(isset($_['installButton'])){
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
 					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
-					
 				</section>
+
+				<section>
+					<h2>Options</h2>
+					<p><input onchange="$('.shaarliBlock').slideToggle(200);" type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli<a></p>
+					<p class="shaarliBlock" style="display:none;">Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" name="plugin_shaarli_link"></p>
+					<h3>Nb: cette option affichera un bouton a coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de lien shaarli.</h3>
+				</section>
+
+
 				<button name="installButton">Lancer l'installation</button>
 			</article>
 	</form>		
