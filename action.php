@@ -220,7 +220,7 @@ switch ($_['action']){
 
 	case 'readContent':
 		$event = $eventManager->load(array('id'=>$_['id']));
-		$eventManager->change(array('unread','0'),array('id'=>$_['id']));
+		$eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
 		header('location: '.$event->getGuid());
 	break;
 
