@@ -39,8 +39,8 @@ require_once('common.php');
 			<nav>
 				<ul>
 					<li><a href="index.php">Accueil</a></li>
-					<li><a href="addFeed.php">+ Flux</a></li>
-					<li><a href="about.php">A propos</a></li>
+					<li><a href="index.php?action=favorites">Favoris</a></li>
+					<li><a href="addFeed.php">Gestion</a></li>
 				</ul>
 			</nav>
 		</header>

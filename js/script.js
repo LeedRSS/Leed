@@ -17,7 +17,21 @@ function toggleFolder(element,folder){
 
 }
 
+function addFavorite(element,id){
+	$(element).fadeOut(100);
+	$.ajax({
+				  url: "./action.php?action=addFavorite",
+				  data:{id:id}
+	});
+}
 
+function removeFavorite(element,id){
+	$(element).fadeOut(100);
+	$.ajax({
+				  url: "./action.php?action=removeFavorite",
+				  data:{id:id}
+	});
+}
 
 function renameFolder(element,folder){
 	var folderLine = $(element).parent().parent();

@@ -2,7 +2,7 @@
 
 class Event extends SQLiteEntity{
 
-	protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread;
+	protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
 	protected $TABLE_NAME = 'event';
 	protected $CLASS_NAME = 'Event';
 	protected $object_fields = 
@@ -16,6 +16,7 @@ class Event extends SQLiteEntity{
 		'unread'=>'integer',
 		'feed'=>'integer',
 		'unread'=>'integer',
+		'favorite'=>'integer',
 		'pubdate'=>'string'
 	);
 
@@ -115,6 +116,12 @@ class Event extends SQLiteEntity{
 	}
 	function getFeed(){
 		return $this->feed;
+	}
+	function setFavorite($favorite){
+		$this->favorite = $favorite;
+	}
+	function getFavorite(){
+		return $this->favorite;
 	}
 
 }

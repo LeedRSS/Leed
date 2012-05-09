@@ -2,7 +2,7 @@ Application : Leed (Light Feed)
 Version : 1.0 Alpha
 Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 Dépot SVN : http://hades.idleman.fr/leed
-Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les traveaux dérivé peuvent être autorisés avec accord de l'auteur
+Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les travaux dérivés peuvent être autorisés avec accord de l'auteur
 
 ==================
 == PRESENTATION ==
@@ -10,7 +10,7 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 
 	Leed (contraction de Light Feed) est un agrégatteur RSS libre et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
-	Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche synchronisée (Cron),ainsi, l'utilisateur ne subis pas les lenteures dues à la récupération et au traitement de chacun des flux suivis.
+	Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche synchronisée (Cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacuns des flux suivis.
 
 	A noter que Leed est compatible toutes résolutions, sur pc, tablettes et smartphone et fonctionne sous tous les navigateurs.
 
@@ -21,15 +21,15 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 ==================
 
 	1. Récuperez le projet sur le dépot SVN de la version courante : http://hades.idleman.fr/leed
-	2. Placez le projet dans votre repertoire web et appliquer une permission chmod 777 sur le dossier et son contenu
-	3. Depuis votre navigateur, accedez a la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez le instructions.
+	2. Placez le projet dans votre repertoire web et appliquez une permission chmod 777 sur le dossier et son contenu
+	3. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez le instructions.
 	4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité
 	5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize ex : 
 
 	0 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize
 
-	Pour mettre a jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
-	6. Le script est installé, merci d'vaoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
+	Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
+	6. Le script est installé, merci d'avoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
 
 ================
 == LIBRAIRIES ==

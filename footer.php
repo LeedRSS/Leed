@@ -3,7 +3,7 @@
 
 	<div id="footer-container">
 		<footer class="wrapper">
-			<p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+			<p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a> | <a href="about.php">A propos</a></p>
 		</footer>
 	</div>
 

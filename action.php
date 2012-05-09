@@ -133,11 +133,11 @@ switch ($_['action']){
 					$level2 = $item->outline;
 					foreach($level2 as $item2){
 						$newFeed = new Feed();
-						$newFeed->setName($item2[0]['title']);
+						$newFeed->setName($item2[0]['text']);
 
-						$folder = $folderManager->load(array('name'=>$item['title']));
+						$folder = $folderManager->load(array('name'=>$item['text']));
 						$folder = (!$folder?new Folder():$folder);
-						$folder->setName($item['title']);
+						$folder->setName($item['text']);
 						$folder->setParent(-1);
 						$folder->setIsopen(0);
 						$folder->save();
@@ -219,10 +219,17 @@ switch ($_['action']){
 	break;
 
 	case 'readContent':
-		$event = $eventManager->load(array('id'=>$_GET['id']));
-		$event->setUnread(0);
-		$event->save();
+		$event = $eventManager->load(array('id'=>$_['id']));
+		$eventManager->change(array('unread','0'),array('id'=>$_['id']));
 		header('location: '.$event->getGuid());
+	break;
+
+	case 'addFavorite':
+		$eventManager->change(array('favorite'=>'1'),array('id'=>$_['id']));
+	break;
+
+	case 'removeFavorite':
+		$eventManager->change(array('favorite'=>'0'),array('id'=>$_['id']));
 	break;
 	
 	case 'login':

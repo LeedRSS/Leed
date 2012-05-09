@@ -143,7 +143,7 @@ class Feed extends SQLiteEntity{
 	}
 
 	function getName(){
-		return (isset($this->name)?$this->name:$this->url);
+		return (trim($this->name)!='' ? $this->name:$this->url);
 	}
 
 	function setName($name){
