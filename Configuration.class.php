@@ -1,7 +1,7 @@
 <?php
 class Configuration extends SQLiteEntity{
 
-	protected $id,$key,$value;
+	protected $id,$key,$value,$confTab;
 	protected $TABLE_NAME = 'configuration';
 	protected $CLASS_NAME = 'Configuration';
 	protected $object_fields = 
@@ -15,17 +15,38 @@ class Configuration extends SQLiteEntity{
 		parent::__construct();
 	}
 
+	public function getAll(){
+
+		if(!isset($_SESSION['configuration'])){
+	
+		$configurationManager = new Configuration();
+		$configsQuery = $configurationManager->query('SELECT key,value FROM configuration');
+		$confTab = array();
+
+		while($config = $configsQuery->fetchArray() ){
+			$this->confTab[$config['key']] = $config['value'];
+		}
+
+		$_SESSION['configuration'] = serialize($this->confTab);
+		
+		}else{
+			$this->confTab = unserialize($_SESSION['configuration']);
+		}
+	}
 
 	public function get($key){
-		$configurationManager = new Configuration();
-		$config = $configurationManager->load(array('key'=>$key));
-		return (is_object($config)?$config->getValue():'');
+		return (isset($this->confTab[$key])?$this->confTab[$key]:'');
 	}
 
 	public function put($key,$value){
 		$configurationManager = new Configuration();
-		$config = $configurationManager->load(array('key'=>$key));
-		$config = (!$config?new Configuration():$config);
+		$configurationManager->change(array('value'=>$value),array('key'=>$key));
+		$this->confTab[$key] = $value;
+		unset($_SESSION['configuration']);
+	}
+
+	public function add($key,$value){
+		$config = new Configuration();
 		$config->setKey($key);
 		$config->setValue($value);
 		$config->save();

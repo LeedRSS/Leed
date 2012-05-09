@@ -3,41 +3,15 @@
 
 
 /* TEAM */
-  <your title>: <your name>
-  Site:
-  Twitter:
-  Location:
+  Creator: Idleman (idleman@idleman.fr)
+  Site: http://blog.idleman.fr
+  Twitter: none
+  Location: Nowhere
 
 /* THANKS */
-  Names (& URL):
+  Names (& URL): BoilerPlate, Modernizr, jQuery, Initializr, PHP authors & chuck norris
 
 /* SITE */
   Standards: HTML5, CSS3
   Components: Modernizr, jQuery
-  Software:
-
-
-
-                               -o/-
-                               +oo//-
-                              :ooo+//:
-                             -ooooo///-
-                             /oooooo//:
-                            :ooooooo+//-
-                           -+oooooooo///-
-           -://////////////+oooooooooo++////////////::
-            :+ooooooooooooooooooooooooooooooooooooo+:::-
-              -/+ooooooooooooooooooooooooooooooo+/::////:-
-                -:+oooooooooooooooooooooooooooo/::///////:-
-                  --/+ooooooooooooooooooooo+::://////:-
-                     -:+ooooooooooooooooo+:://////:--
-                       /ooooooooooooooooo+//////:-
-                      -ooooooooooooooooooo////-
-                      /ooooooooo+oooooooooo//:
-                     :ooooooo+/::/+oooooooo+//-
-                    -oooooo/::///////+oooooo///-
-                    /ooo+::://////:---:/+oooo//:
-                   -o+/::///////:-      -:/+o+//-
-                   :-:///////:-            -:/://
-                     -////:-                 --//:
-                       --                       -:
+  Software: Sublime Text2

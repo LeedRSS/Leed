@@ -52,20 +52,20 @@ if(isset($_['installButton'])){
 	//Identification de l'utilisateur en session
 	$_SESSION['currentUser'] = serialize($admin);
 	//Ajout des préférences et reglages
-	$configurationManager->put('root',$_['root']);
+	$configurationManager->add('root',$_['root']);
 	//$configurationManager->put('view',$_['view']);
-	$configurationManager->put('articleView',$_['articleView']);
+	$configurationManager->add('articleView',$_['articleView']);
 
-	$configurationManager->put('articlePerPages',$_['articlePerPages']);
-	$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
-	$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
-	$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
+	$configurationManager->add('articlePerPages',$_['articlePerPages']);
+	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
+	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
+	$configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
 
-	$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
-	$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
+	$configurationManager->add('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
+	$configurationManager->add('plugin_shaarli_link',$_['plugin_shaarli_link']);
 
 
-	$configurationManager->put('synchronisationType',$_['synchronisationType']);
+	$configurationManager->add('synchronisationType',$_['synchronisationType']);
 
 	//Création du dossier de base
 	$folder = new Folder();
