@@ -59,7 +59,9 @@ switch ($_['action']){
 			$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
 			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
-	
+			
+			
+
 		header('location: ./addFeed.php');
 	break;
 

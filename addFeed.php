@@ -36,7 +36,7 @@
 					<h2>Pr&eacute;f&eacute;rences :</h2>
 					<section>
 						<h2>G&eacute;n&eacute;ral</h2>
-						<p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
+						<p>Racine du projet : <input type="text" name="root" value="<?php echo $configurationManager->get('root'); ?>"></p>
 						<h3>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
 					</section>
 
