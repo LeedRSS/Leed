@@ -125,11 +125,8 @@ code{
 nav a{
 	display:block;
 	margin-bottom:10px;
-	padding:15px 0;
-
 	background:#e44d26;
 	color:white;
-
 	text-align:center;
 	text-decoration:none;
 	font-weight:bold;
@@ -233,17 +230,19 @@ header a,header a:hover{
 .logo{
 	background:url('../logo.png') no-repeat 0px center;
 	padding-left:60px;
-	padding-top:20px;
-	height:53px;
-	font-size:4em;
+	padding-top:15px;
+	height:40px;
+	font-size:3em;
 	margin:0;
 }
 
 .loginBloc{
-	margin:29px 20px 0px 20px;
+	margin:10px;
 	float:left;
-	width:40%;
+	width:300px;
 }
+
+
 .loginBloc input{
 	width:100px;
 	border:none;
@@ -254,7 +253,7 @@ header a,header a:hover{
 }
 
 .logo i{
-	font-size:0.7em;
+	font-size:0.8em;
 }
 
 #main aside ul li ul li:hover{
@@ -305,11 +304,25 @@ footer a,#main aside a{
 	padding:0px 2% 10px;
 }
 
-#footer-container footer{
+#footer-container footer p,#footer-container footer{
 	color:white;
-	padding:5px 0;
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	font-size:10px;
 }
 
+#footer-container footer p{
+	margin-top:7px;
+}
+
+#footer-container footer{
+	float:right;
+}
+
+#footer-container footer p a{
+	font-size:10px;
+}
 #main article section a.button {
 	color:#ffffff;
 	font-size:10px;
@@ -352,7 +365,7 @@ footer a,#main aside a{
 		float:left;
 		width:27%;
 		margin:0 1.7%;
-		padding:25px 2%;
+		padding:15px 1%;
 		margin-bottom:0;
 	}
 	
@@ -422,6 +435,8 @@ footer a,#main aside a{
 		width:1026px; /* 1140px - 10% for margins */
 		margin:0 auto;
 	}
+
+
 }
 
 /* =============================================================================

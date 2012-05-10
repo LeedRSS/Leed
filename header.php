@@ -18,15 +18,8 @@
 	<div id="header-container">
 		<header class="wrapper clearfix">
 			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
-			<div class="loginBloc">
-			<?php if(!$myUser){ ?>
-			<form action="action.php?action=login" method="POST">
-					<input type="text" class="miniInput" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput" name="password" placeholder="Mot de passe"/> <button>GO!!</button>
-			</form>
-			<?php }else{ ?>
-				<span>Identifi&eacute; avec <span><?php echo $myUser->getLogin(); ?></span></span><button onclick="window.location='action.php?action=logout'">D&eacute;connexion</button>
-			<?php } ?>
-			</div>
+			
+			
 			<nav>
 				<ul>
 					<li><a href="index.php">Accueil</a></li>
@@ -37,3 +30,6 @@
 		</header>
 	</div>
 	<div id="main-container">
+
+
+			

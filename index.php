@@ -11,6 +11,10 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 ?>
 		<div id="main" class="wrapper clearfix">
 			
+
+
+
+	
 			<!--//////-->
 			<!-- MENU -->
 			<!--//////-->

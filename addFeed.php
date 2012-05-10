@@ -5,9 +5,6 @@
 		<div id="main" class="wrapper clearfix">
 
 			<?php
-
-			
-	
 			$feeds = $feedManager->populate('name'); 
 			$folders = $folderManager->populate('name'); 
 			?>
@@ -15,10 +12,10 @@
 			<aside>
 				<h3>Options des flux</h3>
 				<ul>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #addBloc').fadeToggle(200);">+ Ajout d'un flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc').fadeToggle(200);">Gestion des flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageFolderBloc').fadeToggle(200);">Gestion des Dossiers</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Pr&eacute;f&eacute;rences</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #addBloc').fadeToggle(200);">Ajout d'un flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
@@ -31,7 +28,6 @@
 				
 
 				<section id="preferenceBloc">
-
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<h2>Pr&eacute;f&eacute;rences :</h2>
 					<section>
@@ -140,13 +136,13 @@
 				<form action="action.php?action=addFeed" method="POST">
 				<section id="addBloc">
 					<h2>Ajouter depuis une URL</h2>
-					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/><button>Ajouter</button></p>
+					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/> <button>Ajouter</button></p>
 				</section>
 				</form>
 				<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
 				<section id="importBloc">
 					<h2>Importer les flux au format opml</h2>
-					<p>Fichier OPML : <input name="newImport" type="file"/><button name="importButton">Importer</button></p>
+					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
 					<p>Nb : L'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
 				</section>
 				</form>
