@@ -128,28 +128,10 @@ switch ($_['action']){
 				if(isset($_POST['importButton'])){
 				set_time_limit (360);
 				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
-				$level = $xml->xpath('body//outline');
-				foreach($level as $item){
-					$level2 = $item->outline;
-					foreach($level2 as $item2){
-						$newFeed = new Feed();
-						$newFeed->setName($item2[0]['text']);
+				//$level = $xml->xpath('body//outline');
 
-						$folder = $folderManager->load(array('name'=>$item['text']));
-						$folder = (!$folder?new Folder():$folder);
-						$folder->setName($item['text']);
-						$folder->setParent(-1);
-						$folder->setIsopen(0);
-						$folder->save();
-						$newFeed->setFolder($folder->getId());
 
-						$newFeed->setUrl($item2[0]['xmlUrl']);
-						$newFeed->setDescription($item2[0]['description']);
-						$newFeed->setWebsite($item2[0]['htmlUrl']);
-						$newFeed->save();
-						$newFeed->parse();
-					}
-				}
+				Functions::recursiveXmlOutline($xml->body->outline,1);
 				header('location: ./addFeed.php');
 			}
 	break;

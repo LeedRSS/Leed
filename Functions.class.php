@@ -319,6 +319,37 @@ class Functions
 		}
 		return $allFiles;
 	}
-	
+
+
+
+		public function recursiveXmlOutline($level,$folderId){
+			$folderManager = new Folder();
+			foreach($level as $item){
+		
+					if(isset($item->outline[0])){
+						$folder = $folderManager->load(array('name'=>$item['text']));
+						$folder = (!$folder?new Folder():$folder);
+						$folder->setName($item['text']);
+						$folder->setParent(($folderId==1?-1:$folderId));
+						$folder->setIsopen(0);
+						$folder->save();
+						Functions::recursiveXmlOutline($item->outline,$folder->getId());
+					}else{
+						$newFeed = new Feed();
+						$newFeed->setName($item[0]['text']);
+						$newFeed->setUrl($item[0]['xmlUrl']);
+						$newFeed->setDescription($item[0]['description']);
+						$newFeed->setWebsite($item[0]['htmlUrl']);
+						$newFeed->setFolder($folderId);
+						$newFeed->save();
+						$newFeed->parse();
+					}
+			
+			}
+		
+
+
+		}
+
 }
 ?>
