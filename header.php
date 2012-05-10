@@ -15,10 +15,22 @@
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 </head>
 <body>
+
 	<div id="header-container">
+
 		<header class="wrapper clearfix">
+
 			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
 			
+				<div class="loginBloc">
+			<?php if(!$myUser){ ?>
+			<form action="action.php?action=login" method="POST">
+					<input type="text" class="miniInput left" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput left" name="password" placeholder="Mot de passe"/> <button class="left">GO!!</button>
+			</form>
+			<?php }else{ ?>
+				<span>Identifi&eacute; avec <span><?php echo $myUser->getLogin(); ?></span></span><button onclick="window.location='action.php?action=logout'">D&eacute;connexion</button>
+			<?php } ?>
+			</div>
 			
 			<nav>
 				<ul>

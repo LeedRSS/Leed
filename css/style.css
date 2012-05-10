@@ -237,12 +237,10 @@ header a,header a:hover{
 }
 
 .loginBloc{
-	margin:10px;
+	margin:20px 20px 0px 20px;
 	float:left;
-	width:300px;
+	width:40%;
 }
-
-
 .loginBloc input{
 	width:100px;
 	border:none;
@@ -253,7 +251,7 @@ header a,header a:hover{
 }
 
 .logo i{
-	font-size:0.8em;
+	font-size:0.7em;
 }
 
 #main aside ul li ul li:hover{
@@ -310,14 +308,6 @@ footer a,#main aside a{
 	margin:0px;
 	text-align:center;
 	font-size:10px;
-}
-
-#footer-container footer p{
-	margin-top:7px;
-}
-
-#footer-container footer{
-	float:right;
 }
 
 #footer-container footer p a{
