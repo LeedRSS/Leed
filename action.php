@@ -69,7 +69,7 @@ switch ($_['action']){
 			/*********************/
 			if(isset($_POST['exportButton'])){
 				$feeds = $feedManager->populate('name');
-				$folders = $folderManager->populate('name');
+				$folders = $folderManager->loadAll(array('parent'=>-1),'name');
 				$xmlStream = '<?xml version="1.0" encoding="utf-8"?>
 	<opml version="2.0">
 		<head>
@@ -80,14 +80,15 @@ switch ($_['action']){
 		</head>
 		<body>';
 
-				foreach($folders as $folder){
-					$feeds = $folder->getFeeds();
-					$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
-						foreach($feeds as $feed){
-							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
-						}
-					$xmlStream .= '			</outline>';
-				}
+				$xmlStream .= Functions::recursiveExportOutline($folders);
+				// foreach($folders as $folder){
+				// 	$feeds = $folder->getFeeds();
+				// 	$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
+				// 		foreach($feeds as $feed){
+				// 			$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
+				// 		}
+				// 	$xmlStream .= '			</outline>';
+				// }
 				
 		$xmlStream .= '</body>
 	</opml>';
@@ -128,10 +129,7 @@ switch ($_['action']){
 				if(isset($_POST['importButton'])){
 				set_time_limit (360);
 				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
-				//$level = $xml->xpath('body//outline');
-
-
-				Functions::recursiveXmlOutline($xml->body->outline,1);
+				Functions::recursiveImportXmlOutline($xml->body->outline,1);
 				header('location: ./addFeed.php');
 			}
 	break;

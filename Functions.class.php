@@ -322,7 +322,7 @@ class Functions
 
 
 
-		public function recursiveXmlOutline($level,$folderId){
+		public function recursiveImportXmlOutline($level,$folderId){
 			$folderManager = new Folder();
 			foreach($level as $item){
 		
@@ -333,7 +333,7 @@ class Functions
 						$folder->setParent(($folderId==1?-1:$folderId));
 						$folder->setIsopen(0);
 						$folder->save();
-						Functions::recursiveXmlOutline($item->outline,$folder->getId());
+						Functions::recursiveImportXmlOutline($item->outline,$folder->getId());
 					}else{
 						$newFeed = new Feed();
 						$newFeed->setName($item[0]['text']);
@@ -344,11 +344,25 @@ class Functions
 						$newFeed->save();
 						$newFeed->parse();
 					}
-			
 			}
-		
+		}
 
 
+		public function recursiveExportOutline($folders){
+			$xmlStream = '';
+			foreach($folders as $folder){
+					$feeds = $folder->getFeeds();
+					$childFolders = $folder->getFolders();
+					$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
+					$xmlStream .= Functions::recursiveExportOutline($childFolders);
+						foreach($feeds as $feed){
+							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
+						}
+					
+					$xmlStream .= '			</outline>';
+					
+			}
+			return $xmlStream;
 		}
 
 }
