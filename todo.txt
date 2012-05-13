@@ -4,10 +4,10 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== BUGS CONSTATES  ====
 =========================
 
-- Certains flux ne sont pas parsés
-- La synchronisation en dégradé ne prends que les 10 premiers flux (toujours les mêmes)
-- Les dates s'affichent toutes au 1 Janviers 1990 (hello timestamp !!)
-- Les liens visités sont en violet dans le header/footer 
+- [CORRIGE - A TESTER] Certains flux ne sont pas parsés
+- [CORRIGE - A TESTER] La synchronisation en dégradé ne prends que les 10 premiers flux (toujours les mêmes)
+- [CORRIGE - A TESTER] Les dates s'affichent toutes au 1 Janviers 1990 (hello timestamp !!)
+- [CORRIGE - A TESTER] Les liens visités sont en violet dans le header/footer 
 
 =============================
 ==== ECARTS FONCTIONNELS ====

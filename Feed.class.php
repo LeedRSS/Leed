@@ -105,14 +105,16 @@ class Feed extends SQLiteEntity{
 				}
 
 			}
-			
+			$result = true;
+				
 		}else{
 			$this->name = 'Flux invalide';
 			$this->description = 'Impossible de se connecter au flux demand&eacute, peut &ecirc;tre est il en maintenance?';
+			$result = false;
 		}
-			$this->lastUpdate = time();
+			$this->lastupdate = time();
 			$this->save();
-
+			return $result;
 	}
 
 	

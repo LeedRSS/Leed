@@ -333,7 +333,8 @@ class Functions
 						$folder->setParent(($folderId==1?-1:$folderId));
 						$folder->setIsopen(0);
 						$folder->save();
-						Functions::recursiveImportXmlOutline($item->outline,$folder->getId());
+						$report.= '[DOSSIER] Creation '.$item['text']."\n";
+						$report.= Functions::recursiveImportXmlOutline($item->outline,$folder->getId())."\n";
 					}else{
 						$newFeed = new Feed();
 						$newFeed->setName($item[0]['text']);
@@ -342,9 +343,11 @@ class Functions
 						$newFeed->setWebsite($item[0]['htmlUrl']);
 						$newFeed->setFolder($folderId);
 						$newFeed->save();
-						$newFeed->parse();
+						$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
+						$report.= '[FLUX] Parsage du flux : '.($newFeed->parse()?'OK':'NOK')."\n";
 					}
 			}
+			return $report;
 		}
 
 

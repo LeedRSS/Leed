@@ -131,7 +131,10 @@ switch ($_['action']){
 				if(isset($_POST['importButton'])){
 				set_time_limit (360);
 				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
-				Functions::recursiveImportXmlOutline($xml->body->outline,1);
+				$report = 'Import de flux depart : '.date('d/m/Y H:i:s')."\n";
+				$report .= Functions::recursiveImportXmlOutline($xml->body->outline,1);
+				$report .= 'Import de flux fin : '.date('d/m/Y H:i:s')."\n";
+				file_put_contents('./logs/Import du '.date('d-m-Y').'.log', $report ,FILE_APPEND);
 				header('location: ./addFeed.php');
 			}
 	break;

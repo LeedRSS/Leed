@@ -64,7 +64,9 @@ class Event extends SQLiteEntity{
 	}
 
 	function setPubdate($pubdate){
-		$this->pubdate = date('d/m/Y H:i:s',strtotime($pubdate));
+		//$this->pubdate = date('d/m/Y H:i:s',strtotime($pubdate));
+		$formatDate = strtotime($pubdate);
+		$this->pubdate = (!$formatDate?$pubdate:date('d/m/Y H:i:s',$formatDate));
 	}
 
 	function getLink(){
