@@ -33,7 +33,10 @@ class Feed extends SQLiteEntity{
 
 	function parse(){
 		$xml = @simplexml_load_file($this->url,"SimpleXMLElement",LIBXML_NOCDATA);
-		if($xml!=false){
+
+		if(is_object($xml)){
+
+			
 			$this->name = array_shift ($xml->xpath('channel/title'));
 			$this->description = array_shift ($xml->xpath('channel/description'));
 			$this->website = array_shift ($xml->xpath('channel/link'));

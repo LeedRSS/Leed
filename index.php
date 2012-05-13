@@ -14,7 +14,7 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 
 
 
-	
+
 			<!--//////-->
 			<!-- MENU -->
 			<!--//////-->
@@ -109,9 +109,9 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 				<!-- CORPS ARTICLE -->
 				<section <?php if(!$event->getUnread()){ ?>class="eventRead"<?php } ?> >
 					<!-- TITRE -->
-					<h2><a onclick="$(this).parent().parent().addClass('eventRead');" target="_blank" href="action.php?action=readContent&id=<?php echo $event->getId(); ?>" alt="Voir l'article sur le blog" title="Voir l'article sur le blog"><?php echo $event->getTitle(); ?></a></h2>
+					<h2><a onclick="readThis(this,<?php echo $event->getId(); ?>);" target="_blank" href="<?php echo $event->getGuid(); ?>" alt="Voir l'article sur le blog" title="Voir l'article sur le blog"><?php echo $event->getTitle(); ?></a> </h2>
 					<!-- DETAILS + OPTIONS -->
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getGuid()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?></h3>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> le <?php echo $event->getPubDate(); } if ($articleDisplayLink){ ?>- <a href="<?php echo $event->getGuid(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getGuid()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> - <span class="pointer" onclick="readThis(this,<?php echo $event->getId(); ?>);">(marquer comme lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->
 					<p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p>
 				</section>

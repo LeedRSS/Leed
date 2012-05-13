@@ -64,4 +64,11 @@ function changeFeedFolder(element,id){
 }
 
 
+function readThis(element,id){
+	$(element).parent().parent().addClass('eventRead');
+	$.ajax({
+				  url: "./action.php?action=readContent",
+				  data:{id:id}
+	});
+}
 

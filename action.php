@@ -60,7 +60,7 @@ switch ($_['action']){
 			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
 			
-			
+
 
 		header('location: ./addFeed.php');
 	break;
@@ -187,6 +187,12 @@ switch ($_['action']){
 		}
 	break;
 
+	case 'sandbox':
+		/*$event = new Event();
+		$event->setGuid('http://www.google.com');
+		$event->setTitle('hey !!');
+		$event->save();*/
+	break;
 
 	case 'removeFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
@@ -203,7 +209,7 @@ switch ($_['action']){
 	case 'readContent':
 		$event = $eventManager->load(array('id'=>$_['id']));
 		$eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
-		header('location: '.$event->getGuid());
+		//header('location: '.$event->getGuid());
 	break;
 
 	case 'addFavorite':
