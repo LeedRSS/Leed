@@ -37,15 +37,25 @@ class Feed extends SQLiteEntity{
 		if(is_object($xml)){
 
 			
-			$this->name = array_shift ($xml->xpath('channel/title'));
-			$this->description = array_shift ($xml->xpath('channel/description'));
-			$this->website = array_shift ($xml->xpath('channel/link'));
+			
+			$this->name = (isset($xml->title)?$xml->title:$xml->channel->title);
+			$this->description = $xml->channel->description;
+			$this->website = $xml->channel->link;
+
+			if(trim($this->website)=='') $this->website = (isset($xml->link[1]['href'])?$xml->link[1]['href']:$xml->link['href']);
+			if(trim($this->description)=='') $this->description = $xml->subtitle;
 
 			$eventManager = new Event();
 
 			
+			$items = $xml->xpath('//item');
+		
+			if(count($items)==0) $items = $xml->entry;
 
-			foreach($xml->xpath('//item') as $item){
+			
+
+			foreach($items as $item){
+
 				$alreadyParsed = $eventManager->load(array('guid'=>$item->guid));
 
 				if(!$alreadyParsed){
@@ -68,14 +78,27 @@ class Feed extends SQLiteEntity{
 					if(trim($event->getPubdate()==''))
 						$event->setPubdate($item->date);
 
+					if(trim($event->getPubdate()==''))
+						$event->setPubdate($item->published);
+
 					if(trim($event->getCreator()==''))
 						$event->setCreator($item->creator);
+
+					if(trim($event->getCreator()==''))
+						$event->setCreator($item->author);
+
+					if(trim($event->getGuid()==''))
+						$event->setGuid($item->link['href']);
+					
 					
 					$event->setDescription(utf8_decode($item->description));
 				
 
 					if(isset($namespaces['content'])){
 						$event->setContent($item->children($namespaces['content']));
+					
+					}else if(isset($event->content)){
+						$event->setContent($event->content);
 					}else{
 						/*//Tentative de detronquage si la description existe
 						if($event->getDescription()!=''){

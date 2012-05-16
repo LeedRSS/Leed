@@ -139,13 +139,11 @@
 					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/> <button>Ajouter</button></p>
 				</section>
 				</form>
-				<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
+				
 				<section id="importBloc">
-					<h2>Importer les flux au format opml</h2>
-					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
-					<p>Nb : L'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
+					 <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
-				</form>
+				
 				<form action="action.php?action=exportFeed" method="POST">
 				<section id="exportBloc">
 					<h2>Exporter les flux au format opml</h2>

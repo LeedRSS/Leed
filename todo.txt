@@ -28,3 +28,49 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Possibilité de marquer un dossier entier comme lu
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article
+
+
+=================
+==== A TRIER ====
+=================
+
+
+
+- Pouvoir choisir la catégorie directement a l'ajout
+- Les lfux ne sont pas trié par ordre alphabetiques
+- Il manque également des retours à l'utilisateur : un petit message "chargement en cour" plutôt que la page qui charge sans rien dire.
+- Il faudrait séparer le titre du flux du premier article, ça n'est pas super clair.
+- Le clic sur un dossier vide entraîne tout de même une animation : c'est voulu ?
+- La page n'a pas de titre.
+- Les liens "favoris", "gestion", "accueil" ne changent pas au survol
+- Certains flux n'ont pas leur contenu d'affiché.
+- Certains flux ne marchent pas (celui de maître Eolas par exemple)
+- Moi qui ait environ 987324987623098432987 flux, je pense que ce serait une bonne idée de fermer un dossier lors d'une ouverture d'un autre.
+- Erreurs SQL latentes : 
+    
+    [Mon May 14 13:45:11 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::query(): Unable to prepare statement: 1, no such table: configuration in /var/www/leed/Configuration.class.php on line 23
+    [Mon May 14 13:45:11 2012] [error] [client 193.55.66.56] PHP Fatal error: Call to a member function fetchArray() on a non-object in /var/www/leed/Configuration.class.php on line 26
+    [Mon May 14 13:47:40 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 336, referer: http://[...]leed/addFeed.php
+    [Mon May 14 13:47:41 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:48:20 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:50:18 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:50:57 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "http": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:50:59 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "me": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:51:23 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:52:26 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:52:34 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:53:42 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:54:04 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:54:38 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "First": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:56:10 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:57:37 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:57:41 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:57:45 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): unrecognized token: "3Cscript" in /var/www/leed/SQLiteEntity.class.php on line 130, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 13:57:56 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]leed/addFeed.php
+    [Mon May 14 13:58:03 2012] [error] [client 193.55.66.56] PHP Notice: Undefined variable: report in /var/www/leed/Functions.class.php on line 346, referer: http://[...]/leed/addFeed.php
+    [Mon May 14 14:25:46 2012] [error] [client 193.55.66.56] script '/var/www/leed/refresh.php' not found or unable to stat
+    [Mon May 14 14:25:46 2012] [error] [client 193.55.66.56] File does not exist: /var/www/404.html
+    [Mon May 14 14:27:45 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): unrecognized token: "3Cscript" in /var/www/leed/SQLiteEntity.class.php on line 130
+    [Mon May 14 14:28:11 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "First": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130
+    [Mon May 14 14:29:54 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "http": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130
+    [Mon May 14 14:29:59 2012] [error] [client 193.55.66.56] PHP Warning: SQLite3::exec(): near "me": syntax error in /var/www/leed/SQLiteEntity.class.php on line 130

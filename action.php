@@ -120,22 +120,51 @@ switch ($_['action']){
 			}
 	break;
 	
+
+	case 'importForm':
+		echo '<link rel="stylesheet" href="css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
+					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
+					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p></form>
+				
+			';
+	break;
+
 	case 'changeFolderState':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$folderManager->change(array('isopen'=>$_['isopen']),array('id'=>$_['id']));
 	break;
 
 	case 'importFeed':
+				if (ob_get_level() == 0) ob_start();
+				ignore_user_abort(true);
+				set_time_limit(0);
+				
+				echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
+				echo str_pad('',4096)."\n";ob_flush();flush();
+				
 
 				if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 				if(isset($_POST['importButton'])){
-				set_time_limit (360);
+			
+				echo '<li>Lecture du fichier OPML...</li>';
+				echo str_pad('',4096)."\n";ob_flush();flush();
 				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
 				$report = 'Import de flux depart : '.date('d/m/Y H:i:s')."\n";
+				echo '<li>Parsage recursif du fichier OPML...</li>';
+				echo str_pad('',4096)."\n";ob_flush();flush();
 				$report .= Functions::recursiveImportXmlOutline($xml->body->outline,1);
 				$report .= 'Import de flux fin : '.date('d/m/Y H:i:s')."\n";
+				echo '<li>Création des logs d\'imports....</li>';
+				echo str_pad('',4096)."\n";ob_flush();flush();
 				file_put_contents('./logs/Import du '.date('d-m-Y').'.log', $report ,FILE_APPEND);
-				header('location: ./addFeed.php');
+				echo '<li>Import des flux terminé.</li>';
+				echo str_pad('',4096)."\n";ob_flush();flush();
+
+				echo '</ul>';
+				echo str_pad('',4096)."\n";ob_flush();flush();
+
+				ob_end_flush();
+				//header('location: ./addFeed.php');
 			}
 	break;
 

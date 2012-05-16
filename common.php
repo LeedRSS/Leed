@@ -6,6 +6,10 @@ require_once('Functions.class.php');
 require_once('User.class.php');
 require_once('Folder.class.php');
 require_once('Configuration.class.php');
+
+//Calage de la date
+date_default_timezone_set('Europe/Paris'); 
+
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
 $feedManager = new Feed();
 $eventManager = new Event();

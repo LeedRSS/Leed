@@ -324,8 +324,8 @@ class Functions
 
 		public function recursiveImportXmlOutline($level,$folderId){
 			$folderManager = new Folder();
+			$report= '';
 			foreach($level as $item){
-		
 					if(isset($item->outline[0])){
 						$folder = $folderManager->load(array('name'=>$item['text']));
 						$folder = (!$folder?new Folder():$folder);
@@ -334,6 +334,8 @@ class Functions
 						$folder->setIsopen(0);
 						$folder->save();
 						$report.= '[DOSSIER] Creation '.$item['text']."\n";
+						echo '<li>[DOSSIER] Creation '.$item['text'].'</li>';
+						echo str_pad('',4096)."\n";ob_flush();flush();
 						$report.= Functions::recursiveImportXmlOutline($item->outline,$folder->getId())."\n";
 					}else{
 						$newFeed = new Feed();
@@ -344,7 +346,10 @@ class Functions
 						$newFeed->setFolder($folderId);
 						$newFeed->save();
 						$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
-						$report.= '[FLUX] Parsage du flux : '.($newFeed->parse()?'OK':'NOK')."\n";
+						$parseResult = '[FLUX] Parsage du flux '.$item[0]['text'].': '.($newFeed->parse()?'OK':'NOK')."\n";
+						$report.= $parseResult;
+						echo '<li>'.$parseResult.'</li>';
+						echo str_pad('',4096)."\n";ob_flush();flush();
 					}
 			}
 			return $report;

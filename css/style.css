@@ -230,6 +230,10 @@ header a,header a:hover,header a:visited{
 	cursor: pointer;
 }
 
+.importFrame{
+	border:none;
+}
+
 
 .logo{
 	background:url('../logo.png') no-repeat 0px center;
