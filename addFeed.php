@@ -136,7 +136,14 @@
 				<form action="action.php?action=addFeed" method="POST">
 				<section id="addBloc">
 					<h2>Ajouter depuis une URL</h2>
-					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/> <button>Ajouter</button></p>
+					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
+					 <select name="newUrlCategory">
+						<?php foreach($folders as $folder){ ?>
+							<option <?php if($folder->getId()==1){ ?>selected="selected"<?php } ?> value="<?php echo $folder->getId(); ?>"><?php echo $folder->getName(); ?></option>
+						<?php } ?>
+					</select>
+					 <button>Ajouter</button></p>
+				
 				</section>
 				</form>
 				

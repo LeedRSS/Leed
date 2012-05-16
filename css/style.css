@@ -187,19 +187,36 @@ header a,header a:hover,header a:visited{
 
 #main article header{
 	margin-top:10px;
+	padding:5px;
+	background-color:#222222;
+	color:#ffffff;
+}
+
+#main article header p{
+	font-size:11px;
+	margin:0px;
 }
 
 #main article header h1{
-	font-size:2em;
+	font-size:1em;
+	color:#ffffff;
 	margin:0px;
+	float:left;
+	margin-right:10px;
 }
-#main article header h1 a,#main article section h2 a{
+#main article section h2 a{
 	text-decoration:none;
 	color: #222222;
 	cursor: pointer;
 }
+#main article header h1 a{
+	text-decoration:none;
+	color: #ffffff;
+	cursor: pointer;
+}
 #main article section h2{
 	margin-bottom:5px;
+	font-size:1.1em;
 }
 #main article section h3{
 	font-size:10px;
@@ -367,6 +384,11 @@ footer a,#main aside a{
 		margin:0 1.7%;
 		padding:15px 1%;
 		margin-bottom:0;
+		border-bottom: 5px solid #E44D26;
+	}
+
+	nav a:hover{
+		border-bottom: 5px solid #F7BC79;
 	}
 	
 	nav li:first-child a{ margin-left:0;  }

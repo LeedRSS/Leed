@@ -18,7 +18,7 @@ class Folder extends SQLiteEntity{
 
 	function getFeeds(){
 		$feedManager = new Feed();
-		return $feedManager->loadAll(array('folder'=>$this->getId()));
+		return $feedManager->loadAll(array('folder'=>$this->getId()),'name');
 	}
 
 	function getFolders(){

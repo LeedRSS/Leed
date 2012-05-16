@@ -175,7 +175,7 @@ switch ($_['action']){
 				$newFeed = new Feed();
 				$newFeed->setUrl($_['newUrl']);
 				$newFeed->getInfos();
-				$newFeed->setFolder(1);
+				$newFeed->setFolder((isset($_['newUrlCategory'])?$_['newUrlCategory']:1));
 				$newFeed->save();
 				$newFeed->parse();
 				header('location: ./addFeed.php');
