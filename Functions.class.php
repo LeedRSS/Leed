@@ -324,6 +324,7 @@ class Functions
 
 		public function recursiveImportXmlOutline($level,$folderId){
 			$folderManager = new Folder();
+			$feedManager = new Feed();
 			$report= '';
 			foreach($level as $item){
 					if(isset($item->outline[0])){
@@ -332,23 +333,33 @@ class Functions
 						$folder->setName($item['text']);
 						$folder->setParent(($folderId==1?-1:$folderId));
 						$folder->setIsopen(0);
-						$folder->save();
+						if($folder->getId()== '') $folder->save();
 						$report.= '[DOSSIER] Creation '.$item['text']."\n";
 						echo '<li>[DOSSIER] Creation '.$item['text'].'</li>';
 						echo str_pad('',4096)."\n";ob_flush();flush();
 						$report.= Functions::recursiveImportXmlOutline($item->outline,$folder->getId())."\n";
 					}else{
-						$newFeed = new Feed();
-						$newFeed->setName($item[0]['text']);
-						$newFeed->setUrl($item[0]['xmlUrl']);
-						$newFeed->setDescription($item[0]['description']);
-						$newFeed->setWebsite($item[0]['htmlUrl']);
-						$newFeed->setFolder($folderId);
-						$newFeed->save();
-						$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
-						$parseResult = '[FLUX] Parsage du flux '.$item[0]['text'].': '.($newFeed->parse()?'OK':'NOK')."\n";
-						$report.= $parseResult;
-						echo '<li>'.$parseResult.'</li>';
+					
+
+						$newFeed = $feedManager->load(array('url'=>$item[0]['xmlUrl']));
+						$newFeed = (!$newFeed?new Feed():$newFeed);
+
+						if($newFeed->getId()==''){
+							$newFeed->setName($item[0]['text']);
+							$newFeed->setUrl($item[0]['xmlUrl']);
+							$newFeed->setDescription($item[0]['description']);
+							$newFeed->setWebsite($item[0]['htmlUrl']);
+							$newFeed->setFolder($folderId);
+							$newFeed->save();
+
+							$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
+							$parseResult = '[FLUX] Parsage du flux '.$item[0]['text'].': '.($newFeed->parse()?'OK':'NOK')."\n";
+							$report.= $parseResult;
+							echo '<li>'.$parseResult.'</li>';
+						}else{
+							$report.= '[FLUX] '.$item[0]['text'].' deja existant, aucune action...'."\n";
+							echo '<li>Flux '.$item[0]['text'].' deja existant, aucune action...</li>';
+						}
 						echo str_pad('',4096)."\n";ob_flush();flush();
 					}
 			}

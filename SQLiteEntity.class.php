@@ -100,7 +100,7 @@ class SQLiteEntity extends SQLite3
 
 			$end = end(array_keys($this->object_fields));
 			foreach($this->object_fields as $field=>$type){
-				$id = eval('return $this->'.$field.';');
+				$id = eval('return htmlentities($this->'.$field.');');
 				$query .= '`'.$field.'`="'.$id.'"';
 				if($field != $end)$query .=',';
 			}
@@ -127,6 +127,7 @@ class SQLiteEntity extends SQLite3
 			$query .=');';
 		}
 		if($this->debug)echo '<i>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+		//var_dump ($query);
 		if(!$this->exec($query)) echo $this->lastErrorMsg().'</i>';
 		$this->id =  (!isset($this->id)?$this->lastInsertRowID():$this->id);
 	}

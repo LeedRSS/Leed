@@ -31,7 +31,7 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 						  	$feeds = $folder->getFeeds();
 					?>
 					<!-- DOSSIER -->
-					<li><h1 class="folder" <?php if(count($feeds)!=0){ ?>onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"<?php } ?>><?php  echo $folder->getName().' ('.count($feeds).')'; ?></h1>
+					<li><h1 class="folder" <?php if(count($feeds)!=0){ ?>onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"<?php } ?>><?php  echo $folder->getName().' ('.count($feeds).')'; ?> <?php if(count($feeds)!=0){ ?> - <a href="action.php?action=readFolder&folder=<?php  echo $folder->getId() ?>">lire tout</a><?php } ?></h1>
 						<!-- FLUX DU DOSSIER -->
 						<ul <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>>
 							<?php if (count($feeds)!=0 ) {foreach($feeds as $feed){ ?>

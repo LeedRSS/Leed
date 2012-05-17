@@ -27,8 +27,9 @@ switch ($_['action']){
 			
 			echo count($feeds).' Flux a synchroniser...'."\n";
 		foreach ($feeds as $feed) {
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') : OK'."\n";
 			$feed->parse();
-			echo date('H:i:s').' - Flux '.$feed->getName().' : OK'."\n";;
+			
 		}
 			echo date('H:i:s').' - Synchronisation terminée'."\n";
 		if(isset($_['format'])) echo '</textarea>';
@@ -40,7 +41,20 @@ switch ($_['action']){
 	case 'readAll':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$feed = (isset($_['feed'])?array('feed'=>$_['feed']):null);
-		$eventManager->change(array('unread'=>'0'),$feed);
+		$eventManager->change(array('unread'=>'1'),$feed);
+		header('location: ./index.php');
+
+	break;
+
+	case 'readFolder':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+
+		$feeds = $feedManager->loadAll(array('folder'=>$_['folder']));
+		foreach($feeds as $feed){
+			$eventManager->change(array('unread'=>'0'),array('feed'=>$feed->getId()));
+		}
+
+		//TODO $eventManager->exec('UPDATE event SET `unread`="0" WHERE `feed`=(SELECT id FROM feed WHERE folder="'.$_['folder'].'") ');
 		header('location: ./index.php');
 
 	break;
