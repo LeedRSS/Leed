@@ -5,9 +5,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Reduction automatique des images d'articles qui dépassent
-- Marquer tout un flux comme lu fonctionne de nouveaux.
-- Les liens dans la rubrique gestion des flux pointent de nouveaux vers les bon flux
+- Les news ne sont maintenant triées par dates descendantes (du plus récent au moins récent)
 
 =========================
 ==== BUGS CONSTATES  ====
@@ -22,7 +20,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
 - TODO : optimiser la requete pour la lecture de tous les flux d'un dossier (pas propre)
-- Les news ne sont pas triées par dates
+
 
 
 =====================

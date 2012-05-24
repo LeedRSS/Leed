@@ -202,7 +202,7 @@ class SQLiteEntity extends SQLite3
 				}
 			}
 			$query = 'SELECT * FROM `'.$this->TABLE_NAME.'` '.$whereClause.' ';
-			if($order!=null) $query .='ORDER BY `'.$order.'` ';
+			if($order!=null) $query .='ORDER BY '.$order.' ';
 			if($limit!=null) $query .='LIMIT '.$limit.' ';
 			$query .=';';
 			if($this->debug) echo '<br>'.__METHOD__.' : Requete --> '.$query.'<br>';

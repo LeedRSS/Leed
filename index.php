@@ -69,7 +69,7 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $currentFeed->getEvents($startArticle,$articlePerPages,'id');
+						$events = $currentFeed->getEvents($startArticle,$articlePerPages,'pubdate DESC');
 
 						?>
 						<h1><a target="_blank" href="<?php echo $currentFeed->getWebSite(); ?>"><?php echo $currentFeed->getName(); ?></a></h1>
@@ -83,7 +83,7 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $eventManager->loadAll(array('favorite'=>1),'pubDate',$startArticle.','.$articlePerPages);
+						$events = $eventManager->loadAll(array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
 						<h1>Articles favoris (<?php echo $numberOfItem; ?>)</h1>
 						<?php
@@ -96,7 +96,7 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $eventManager->loadAll(array('unread'=>1),'pubDate',$startArticle.','.$articlePerPages);
+						$events = $eventManager->loadAll(array('unread'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
 						<h1>Non lu (<?php echo $numberOfItem; ?>)</h1>
 						<?php
