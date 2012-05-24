@@ -109,7 +109,7 @@ if(isset($_['installButton'])){
 
 					
 					
-					<?php if ($_['synchronisationType']=='complete'){ ?>
+					<?php if ($_['synchronisationType']=='auto'){ ?>
 					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
@@ -125,7 +125,6 @@ if(isset($_['installButton'])){
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les 5 minutes(conseill&eacute; pour une synchronisation gradu&eacute;e) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				
-					<?php }else{  ?>
 
 					<?php }  ?>
 
@@ -142,7 +141,7 @@ if(isset($_['installButton'])){
 						<?php 
 
 						if(!is_writable('./')){
-							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 777 -R /var/www/leed/)';
+							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 775 -R /var/www/leed/)';
 						}else{
 							$test['Succ&egrave;s'][]='Permissions sur le dossier courant : OK';
 						}
@@ -202,7 +201,7 @@ if(isset($_['installButton'])){
 					<h2>Synchronisation</h2>
 					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
 					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
-					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
+					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
 				</section>
 
 				<section>

@@ -5,7 +5,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-
+- Résolu : L'explication du cron a l'install ne s'affiche plus
 
 =========================
 ==== BUGS CONSTATES  ====
@@ -21,6 +21,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
 - Il peut y avoir des doublons de dossiers
+
 
 =====================
 ==== SUGGESTIONS ====
