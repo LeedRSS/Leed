@@ -159,7 +159,8 @@ class SQLiteEntity extends SQLite3
 			}
 		}
 
-		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+		 if($this->debug)
+			echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 		if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 
@@ -177,6 +178,7 @@ class SQLiteEntity extends SQLite3
 		return $results;
 	}
 
+
 	/**
 	* Méthode de selection multiple d'elements de l'entité
 	* @author Valentin CARRUESCO
@@ -189,7 +191,7 @@ class SQLiteEntity extends SQLite3
 	* @param <String> $debug='false' active le debug mode (0 ou 1)
 	* @return <Array<Entity>> $Entity
 	*/
-	public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug='false'){
+	public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug='false',$selColumn='*'){
 		$objects = array();
 		$whereClause = '';
 	
@@ -201,28 +203,36 @@ class SQLiteEntity extends SQLite3
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 				}
 			}
-			$query = 'SELECT * FROM `'.$this->TABLE_NAME.'` '.$whereClause.' ';
+			$query = 'SELECT '.$selColumn.' FROM `'.$this->TABLE_NAME.'` '.$whereClause.' ';
 			if($order!=null) $query .='ORDER BY '.$order.' ';
 			if($limit!=null) $query .='LIMIT '.$limit.' ';
 			$query .=';';
-			if($this->debug) echo '<br>'.__METHOD__.' : Requete --> '.$query.'<br>';
+			  if($this->debug) 
+				echo '<br>'.__METHOD__.' : Requete --> '.$query.'<br>';
 			
 
 			$execQuery = $this->query($query);
 
-			if(!$execQuery) echo $this->lastErrorMsg();
+			if(!$execQuery) 
+				echo $this->lastErrorMsg();
 
 			while($queryReturn = $execQuery->fetchArray() ){
 
 				$object = eval(' return new '.$this->CLASS_NAME.'();');
 				foreach($this->object_fields as $field=>$type){
 
-					eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
+					if(isset($queryReturn[$field])) eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
 				}
 				$objects[] = $object;
 				unset($object);
 			}
 			return $objects;
+	}
+
+	public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug='false'){
+		eval('$objects = $this->loadAll($columns,null,null,\''.$operation.'\',\''.$debug.'\',\''.$selColumn.'\');');
+		if(count($objects)==0)$objects = array();
+		return $objects;
 	}
 
 	/**

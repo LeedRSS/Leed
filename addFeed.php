@@ -47,12 +47,14 @@
 						<h2>Pr&eacute;ferences</h2>
 						<!--<p>Vue des flux: <input type="radio" value="list" name="view">Liste <input type="radio" value="mosaic" name="view">Mosaique</p>
 						<h3>Mosaic : affichage par bloc, style netvives, liste: affichage en liste style rssLounge</h3>-->
-						<p>Affichage des articles: <input type="radio" <?php $articleView = $configurationManager->get('articleView'); if($articleView=='partial'){ ?> checked="checked" <?php } ?> value="partial" name="articleView">Partiel <input type="radio" <?php if($articleView=='complete'){ ?> checked="checked" <?php } ?> value="complete" name="articleView">Complet</p>
-						<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 						<p>Nombre d'articles par pages: <input type="text" value="<?php echo $configurationManager->get('articlePerPages'); ?>" name="articlePerPages"></p>
 						<p>Affichage du lien direct de l'article: <input type="radio" <?php $articleDisplayLink = $configurationManager->get('articleDisplayLink'); if($articleDisplayLink=='1'){ ?> checked="checked" <?php } ?>value="1" name="articleDisplayLink">Oui <input type="radio" <?php if($articleDisplayLink=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayLink">Non</p>
 						<p>Affichage de la date de l'article: <input type="radio" <?php $articleDisplayDate = $configurationManager->get('articleDisplayDate'); if($articleDisplayDate=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayDate">Oui <input type="radio" <?php if($articleDisplayDate=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayDate">Non</p>
 						<p>Affichage de l'auteur de l'article: <input type="radio" <?php $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor'); if($articleDisplayAuthor=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayAuthor">Oui <input type="radio" <?php if($articleDisplayAuthor=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayAuthor">Non</p>
+						<p>Affichage du contenu de l'article: <input type="radio"  <?php $articleDisplayContent = $configurationManager->get('articleDisplayContent'); if($articleDisplayContent=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayContent">Oui <input type="radio" <?php if($articleDisplayContent=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayContent">Non</p>
+						<p>Type d'affichage du contenu: <input type="radio" <?php $articleView = $configurationManager->get('articleView'); if($articleView=='partial'){ ?> checked="checked" <?php } ?> value="partial" name="articleView">Partiel <input type="radio" <?php if($articleView=='complete'){ ?> checked="checked" <?php } ?> value="complete" name="articleView">Complet</p>
+						<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
+					
 					</section>
 
 					<section>

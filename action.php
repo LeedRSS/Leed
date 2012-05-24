@@ -49,12 +49,12 @@ switch ($_['action']){
 	case 'readFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 
-		$feeds = $feedManager->loadAll(array('folder'=>$_['folder']));
+		$feeds = $feedManager->loadAllOnlyColumn('id',array('folder'=>$_['folder']));
+		
 		foreach($feeds as $feed){
 			$eventManager->change(array('unread'=>'0'),array('feed'=>$feed->getId()));
 		}
 
-		//TODO $eventManager->exec('UPDATE event SET `unread`="0" WHERE `feed`=(SELECT id FROM feed WHERE folder="'.$_['folder'].'") ');
 		header('location: ./index.php');
 
 	break;
@@ -66,6 +66,7 @@ switch ($_['action']){
 			$configurationManager->put('root',$_['root']);
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
+			$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
 			$configurationManager->put('articlePerPages',$_['articlePerPages']);
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);

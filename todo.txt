@@ -5,7 +5,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Les news ne sont maintenant triées par dates descendantes (du plus récent au moins récent)
+
 
 =========================
 ==== BUGS CONSTATES  ====
@@ -19,8 +19,6 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 
 - Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
-- TODO : optimiser la requete pour la lecture de tous les flux d'un dossier (pas propre)
-
 
 
 =====================
@@ -33,6 +31,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
+- Possibilité de parser a travers un proxy
 
 =================
 ==== A TRIER ====

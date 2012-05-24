@@ -79,6 +79,7 @@ if(isset($_['installButton'])){
 	$configurationManager->add('root',$_['root']);
 	//$configurationManager->put('view',$_['view']);
 	$configurationManager->add('articleView',$_['articleView']);
+	$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
 
 	$configurationManager->add('articlePerPages',$_['articlePerPages']);
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
@@ -208,12 +209,13 @@ if(isset($_['installButton'])){
 					<h2>Pr&eacute;ferences</h2>
 					<!--<p>Vue des flux: <input type="radio" value="list" name="view">Liste <input type="radio" value="mosaic" name="view">Mosaique</p>
 					<h3>Mosaic : affichage par bloc, style netvives, liste: affichage en liste style rssLounge</h3>-->
-					<p>Affichage des articles: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
-					<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
+					<p>Affichage du contenu de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
+					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
+					<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
 				</section>
 

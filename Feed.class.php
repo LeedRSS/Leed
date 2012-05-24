@@ -32,6 +32,28 @@ class Feed extends SQLiteEntity{
 	}
 
 	function parse(){
+
+
+
+		/*
+
+		//TODO parser a travers un proxy
+
+		 $proxy = getenv("HTTP_PROXY"); 
+		
+		 if (strlen($proxy) > 1) { 
+		 $r_default_context = stream_context_get_default (array 
+		                    ('http' => array( 
+		                     'proxy' => $proxy, 
+		                     'request_fulluri' => True, 
+		                     'header'=>sprintf('Authorization: Basic %s',base64_encode('login:password'))
+		                    ), 
+		                ) 
+		            ); 
+		  libxml_set_streams_context($r_default_context); 
+		      } 
+		*/
+
 		$xml = @simplexml_load_file($this->url,"SimpleXMLElement",LIBXML_NOCDATA);
 
 		if(is_object($xml)){
