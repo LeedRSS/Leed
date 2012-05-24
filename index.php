@@ -1,5 +1,7 @@
 <?php require_once('header.php'); 
 
+if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false ){
+
 //Récuperation de l'action (affichage) demandée
 $action = (isset($_['action'])?$_['action']:'');
 //Récuperation des dossiers de flux par ordre de nom
@@ -7,13 +9,9 @@ $folders = $folderManager->populate('name');
 //Récuperation du chemin vers shaarli si le plugin shaarli est activé
 $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configurationManager->get('plugin_shaarli_link'):false);  
 
-
 ?>
 		<div id="main" class="wrapper clearfix">
 			
-
-
-
 
 			<!--//////-->
 			<!-- MENU -->
@@ -121,10 +119,24 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 				</section>
 				<?php } ?>
 				<!-- PIED DE PAGE DES ARTICLES -->
-				<p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?<?php echo 'action='.$action; if($action=='selectedFeed') echo '&feed='.$currentFeed->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p>
+				<?php if($pages!=0) { ?><p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?<?php echo 'action='.$action; if($action=='selectedFeed') echo '&feed='.$currentFeed->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p> <?php } ?>
 			</article>
 
 
 		</div> <!-- #main -->
 
-<?php require_once('footer.php'); ?>
+<?php 
+
+}else{
+	?>
+	<div id="main" class="wrapper clearfix">
+		<article>
+				<h3>Vous devez &ecirc;tre connect&eacute; pour consulter vos flux </h3>
+				<p>Si vous &ecirc;tes administrateur, vous pouvez r&eacute;gler les droits de visualisation dans la partie administration.</p>
+		</article>
+	</div>
+
+	<?php 
+}
+
+require_once('footer.php'); ?>

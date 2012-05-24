@@ -45,8 +45,8 @@
 
 					<section>
 						<h2>Pr&eacute;ferences</h2>
-						<!--<p>Vue des flux: <input type="radio" value="list" name="view">Liste <input type="radio" value="mosaic" name="view">Mosaique</p>
-						<h3>Mosaic : affichage par bloc, style netvives, liste: affichage en liste style rssLounge</h3>-->
+						<p>Autoriser la lecture anonyme: <input type="radio"  <?php $articleDisplayAnonymous = $configurationManager->get('articleDisplayAnonymous');  if($articleDisplayAnonymous=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayAnonymous">Oui <input type="radio" <?php if($articleDisplayAnonymous=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayAnonymous">Non</p>
+						<h3>Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
 						<p>Nombre d'articles par pages: <input type="text" value="<?php echo $configurationManager->get('articlePerPages'); ?>" name="articlePerPages"></p>
 						<p>Affichage du lien direct de l'article: <input type="radio" <?php $articleDisplayLink = $configurationManager->get('articleDisplayLink'); if($articleDisplayLink=='1'){ ?> checked="checked" <?php } ?>value="1" name="articleDisplayLink">Oui <input type="radio" <?php if($articleDisplayLink=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayLink">Non</p>
 						<p>Affichage de la date de l'article: <input type="radio" <?php $articleDisplayDate = $configurationManager->get('articleDisplayDate'); if($articleDisplayDate=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayDate">Oui <input type="radio" <?php if($articleDisplayDate=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayDate">Non</p>

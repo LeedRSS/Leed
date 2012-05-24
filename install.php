@@ -80,7 +80,7 @@ if(isset($_['installButton'])){
 	//$configurationManager->put('view',$_['view']);
 	$configurationManager->add('articleView',$_['articleView']);
 	$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
-
+	$configurationManager->add('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
 	$configurationManager->add('articlePerPages',$_['articlePerPages']);
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
@@ -207,8 +207,8 @@ if(isset($_['installButton'])){
 
 				<section>
 					<h2>Pr&eacute;ferences</h2>
-					<!--<p>Vue des flux: <input type="radio" value="list" name="view">Liste <input type="radio" value="mosaic" name="view">Mosaique</p>
-					<h3>Mosaic : affichage par bloc, style netvives, liste: affichage en liste style rssLounge</h3>-->
+					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
+					<h3>Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>

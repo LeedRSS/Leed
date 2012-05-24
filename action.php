@@ -67,6 +67,8 @@ switch ($_['action']){
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
 			$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
+			$configurationManager->add('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
+
 			$configurationManager->put('articlePerPages',$_['articlePerPages']);
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
