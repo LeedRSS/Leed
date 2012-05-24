@@ -5,22 +5,25 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- L'import OPML détecte les flux déjà existant
-- Résolution des Warning: SQLite3 latents
-- Diminution des requetes sur les dossiers existants lors de l'import
-- Pouvoir marquer tous les flux d'un dossier comme lu
-- Ajout de l'url des flux dans les logs de synchronisation
+- Reduction automatique des images d'articles qui dépassent
+- Marquer tout un flux comme lu fonctionne de nouveaux.
+- Les liens dans la rubrique gestion des flux pointent de nouveaux vers les bon flux
 
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
+- Certains evenements de flux sont enregistrés en double (ex : planete auto hebergement) cela vient certainement du fait que les permalink ne sont pas bien renseigné || pas bien parsé
+
 =============================
 ==== ECARTS FONCTIONNELS ====
 =============================
 
+- Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
 - TODO : optimiser la requete pour la lecture de tous les flux d'un dossier (pas propre)
+- Les news ne sont pas triées par dates
+
 
 =====================
 ==== SUGGESTIONS ====
@@ -28,7 +31,6 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 
 - Ajout un plugin pour Sharrre ( http://sharrre.com/ )
 - AJout d'information sur le log de synchronisation (Etat - adresse du flux ...)
-- Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - Possibilité de n'afficher que les titres des news dans les préférences
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article

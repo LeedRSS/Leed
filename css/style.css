@@ -224,7 +224,9 @@ header a,header a:hover,header a:visited{
 	color:#939393;
 	margin:0px;
 }
-
+#main article section img{
+	max-width: 100%;
+}
 #main aside ul,#main aside ul li ul{
 	padding:0;
 	margin:0;

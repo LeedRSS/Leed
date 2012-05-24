@@ -102,7 +102,7 @@
 						<table  style="width:100%;">
 							<?php if (count($feeds)!=0 ) {foreach($feeds as $feed){ ?>
 								<tr>
-									<td style="width:50%;"><a href="index.php?action=readFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> </a></td>
+									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> </a></td>
 									<td><select onchange="changeFeedFolder(this,<?php echo $feed->getId();?>);">
 										<?php foreach($folders as $listFolder){ ?>
 											<option <?php if($feed->getFolder()==$listFolder->getId()){?>selected="selected"<?php } ?> value="<?php echo $listFolder->getId(); ?>"><?php echo $listFolder->getName(); ?></option>

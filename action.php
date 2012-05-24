@@ -41,7 +41,7 @@ switch ($_['action']){
 	case 'readAll':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$feed = (isset($_['feed'])?array('feed'=>$_['feed']):null);
-		$eventManager->change(array('unread'=>'1'),$feed);
+		$eventManager->change(array('unread'=>'0'),$feed);
 		header('location: ./index.php');
 
 	break;
