@@ -249,7 +249,7 @@ switch ($_['action']){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
 
-			$eventManager->query('DELETE * FROM event INNER JOIN folder ON ( feed.folder = folder.id ) INNER JOIN event ON ( feed.id = event.feed ) WHERE folder.id = '.$_['id'].' ;');
+			@$eventManager->query('DELETE * FROM event INNER JOIN folder ON ( feed.folder = folder.id ) INNER JOIN event ON ( feed.id = event.feed ) WHERE folder.id = '.$_['id'].' ;');
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
 

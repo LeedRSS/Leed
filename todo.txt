@@ -5,14 +5,11 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Desactivation du temps maximum d'execution pour la synchronisation 
-
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
- - Encodages foireux pour certains flux
-
+- La requete perssonalisée pour supprimer les evenements lors de la supression d'un dossier ne fonctionne pas (fuck'in SQLITE)
  
 =============================
 ==== ECARTS FONCTIONNELS ====
@@ -30,6 +27,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Détronquer les flux qui ne comportent que la description courte de l'article
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
 - Possibilité de parser a travers un proxy
+- Mettre une verif sur le timeout et le safe mode a l'installation avec un warning si le safe mode est a 1 et le timeout !=0
 
 =================
 ==== A TRIER ====
