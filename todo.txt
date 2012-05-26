@@ -5,24 +5,20 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Correction de certains problemes d'encodages (malheureusement pas encore tout) 
-- Résolution de certains liens qui ne fonctionnaient pas au clic sur le titre (je prenais le guid pour un lien, ce qui n'est aps toujours le cas) pensez a réinstaller leed car il y a modificationd e la base pour ce correctif.
+- Desactivation du temps maximum d'execution pour la synchronisation 
 
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
  - Encodages foireux pour certains flux
- 
 
+ 
 =============================
 ==== ECARTS FONCTIONNELS ====
 =============================
 
-
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
-
-
 
 =====================
 ==== SUGGESTIONS ====

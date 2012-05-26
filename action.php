@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(0);
 require_once("common.php");
 
 
@@ -154,8 +154,7 @@ switch ($_['action']){
 	case 'importFeed':
 				if (ob_get_level() == 0) ob_start();
 				ignore_user_abort(true);
-				set_time_limit(0);
-				
+			
 				echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
 				echo str_pad('',4096)."\n";ob_flush();flush();
 				

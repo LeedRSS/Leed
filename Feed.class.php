@@ -71,8 +71,7 @@ class Feed extends SQLiteEntity{
 		
 			if(count($items)==0) $items = $xml->entry;
 
-			
-
+	
 			foreach($items as $item){
 
 
@@ -121,7 +120,7 @@ class Feed extends SQLiteEntity{
 					if(trim($event->getCreator())=='')
 						$event->setCreator('Anonyme');
 					
-					$event->setDescription(utf8_decode($item->description));
+					$event->setDescription($item->description);
 				
 					$event->setLink($item->link);
 

@@ -57,7 +57,7 @@ class Event extends SQLiteEntity{
 	}
 
 	function setDescription($description){
-		$this->description = str_replace('’','\'',$description);
+		$this->description = utf8_decode(str_replace('’','\'',$description));
 	}
 
 	function getPubdate($format=false){
