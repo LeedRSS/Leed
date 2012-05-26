@@ -17,7 +17,7 @@ class Event extends SQLiteEntity{
 		'feed'=>'integer',
 		'unread'=>'integer',
 		'favorite'=>'integer',
-		'pubdate'=>'string'
+		'pubdate'=>'integer'
 	);
 
 	function __construct($guid=null,$title=null,$description=null,$content=null,$pubdate=null,$link=null,$category=null,$creator=null){
@@ -59,14 +59,28 @@ class Event extends SQLiteEntity{
 		$this->description = $description;
 	}
 
-	function getPubdate(){
-		return $this->pubdate;
+	function getPubdate($format=false){
+		if($this->pubdate!=0){
+		return ($format!=false?date($format,$this->pubdate):$this->pubdate);
+		}else{
+			return '';
+		}
+	}
+
+	function getPubdateWithInstant($instant){
+		$alpha = $instant - $this->pubdate;
+		if ($alpha < 86400 ){
+			$hour = floor($alpha/3600);
+			$alpha = ($hour!=0?$alpha-($hour*3600):$alpha);
+			$minuts = floor($alpha/60);
+			return 'il y a '.($hour!=0?$hour.'h et':'').' '.$minuts.'min';
+		}else{
+			return 'le '.$this->getPubdate('d/m/Y à H:i:s');
+		}
 	}
 
 	function setPubdate($pubdate){
-		//$this->pubdate = date('d/m/Y H:i:s',strtotime($pubdate));
-		$formatDate = strtotime($pubdate);
-		$this->pubdate = (!$formatDate?$pubdate:date('d/m/Y H:i:s',$formatDate));
+		$this->pubdate = strtotime($pubdate);
 	}
 
 	function getLink(){

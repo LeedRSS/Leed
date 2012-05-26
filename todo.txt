@@ -5,31 +5,37 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Résolu : L'explication du cron a l'install ne s'affiche plus
+- Modification des dates en timestamp (integer en base) résoud les problèmes de classement par dates
+- Calcul du nombre heures/minutes de publication jusqu'a l'instant présent pour les évenements recentes de moins de 24 h.
+- Il ne peux plus y avoir des doublons de dossiers
+- Optimisation de la requete de test de l'existence des evenements (gain de temps sur import et synchronisation).
+- Certains evenements de flux sont enregistrés en double (ex : planete auto hebergement) cela vient certainement du fait que les permalink ne sont pas bien renseigné || pas bien parsé
+- Ajouts d'informations auparavant non captées pour certains flux atom. (Franchement, c'est si compliqué de s'entendre sur UN standard?)
+- Création d'une description automatique dans le cas ou seul le contenu total est renseigné
+
+- [Non résolu - Impossible de reproduire le bug] Les imports de dossiers avec accents sont buggués 
 
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
-- Certains evenements de flux sont enregistrés en double (ex : planete auto hebergement) cela vient certainement du fait que les permalink ne sont pas bien renseigné || pas bien parsé
-
+ -Encodages foireux pour certains flux
 
 =============================
 ==== ECARTS FONCTIONNELS ====
 =============================
 
-- Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
+
 - A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
-- Il peut y avoir des doublons de dossiers
+
 
 
 =====================
 ==== SUGGESTIONS ====
 =====================
 
+- Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - Ajout un plugin pour Sharrre ( http://sharrre.com/ )
-- AJout d'information sur le log de synchronisation (Etat - adresse du flux ...)
-- Possibilité de n'afficher que les titres des news dans les préférences
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).

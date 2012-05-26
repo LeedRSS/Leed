@@ -309,7 +309,7 @@ class SQLiteEntity extends SQLite3
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
 			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
-			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+			//echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 			if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 	

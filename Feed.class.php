@@ -33,10 +33,7 @@ class Feed extends SQLiteEntity{
 
 	function parse(){
 
-
-
 		/*
-
 		//TODO parser a travers un proxy
 
 		 $proxy = getenv("HTTP_PROXY"); 
@@ -78,10 +75,16 @@ class Feed extends SQLiteEntity{
 
 			foreach($items as $item){
 
-				$alreadyParsed = $eventManager->load(array('guid'=>$item->guid));
 
-				if(!$alreadyParsed){
-					$event = new Event($item->guid,$item->title);
+				//Deffinition du GUID : 
+				$guid = (trim($item->guid)!=''?$item->guid:$item->link['href']);
+
+				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($guid)));
+				
+				//echo '<hr>'.$item->title.' ('.$guid.') : '.$alreadyParsed.($alreadyParsed==0?'Non parsé':'Parsé').'<hr>';
+
+				if($alreadyParsed==0){
+					$event = new Event($guid,$item->title);
 					$namespaces = $item->getNameSpaces(true);
 					if(isset($namespaces['dc'])){ 
 						$dc = $item->children($namespaces['dc']);
@@ -94,34 +97,43 @@ class Feed extends SQLiteEntity{
 					}
 
 
-					if(trim($event->getPubdate()==''))
+					if(trim($event->getPubdate())=='')
 						$event->setPubdate($item->pubDate);
 
-					if(trim($event->getPubdate()==''))
+					if(trim($event->getPubdate())=='')
 						$event->setPubdate($item->date);
 
-					if(trim($event->getPubdate()==''))
+					if(trim($event->getPubdate())=='')
 						$event->setPubdate($item->published);
 
-					if(trim($event->getCreator()==''))
+					if(trim($event->getPubdate())=='')
+						$event->setPubdate($item->updated);
+
+					if(trim($event->getCreator())=='')
 						$event->setCreator($item->creator);
 
-					if(trim($event->getCreator()==''))
+					if(trim($event->getCreator())=='')
 						$event->setCreator($item->author);
 
-					if(trim($event->getGuid()==''))
-						$event->setGuid($item->link['href']);
-					
+					if(trim($event->getCreator())=='')
+						$event->setCreator($item->author->name);
+
+					if(trim($event->getCreator())=='')
+						$event->setCreator('Anonyme');
 					
 					$event->setDescription(utf8_decode($item->description));
 				
 
-					if(isset($namespaces['content'])){
+
+					$event->setContent($item->content);
+
+					if(trim($event->getContent())=='' && isset($namespaces['content']))
 						$event->setContent($item->children($namespaces['content']));
 					
-					}else if(isset($event->content)){
-						$event->setContent($event->content);
-					}else{
+					
+					if(trim($event->getDescription())=='')
+						$event->setDescription(substr($event->getContent(),0,300));
+					
 						/*//Tentative de detronquage si la description existe
 						if($event->getDescription()!=''){
 							  // preg_match('#<a(.+)href=(.+)>#isU', $event->getDescription(), $matches);
@@ -139,14 +151,13 @@ class Feed extends SQLiteEntity{
 
 						}
 						*/
-					}
+					
 					$event->setLink($item->link);
 					$event->setCategory($item->category);
 					
 					$event->setFeed($this->id);
 					$event->setUnread(1);
 					$event->save();
-
 				}
 
 			}

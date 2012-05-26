@@ -210,8 +210,8 @@ switch ($_['action']){
 	case 'removeFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_GET['id'])){
-			$feedManager->delete(array('id'=>$_GET['id']));
-			$eventManager->delete(array('feed'=>$_GET['id']));
+			$feedManager->delete(array('id'=>$_['id']));
+			$eventManager->delete(array('feed'=>$_['id']));
 		}
 		header('location: ./addFeed.php');
 	break;
@@ -219,11 +219,14 @@ switch ($_['action']){
 	case 'addFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['newFolder'])){
-			$folder = new Folder();
-			$folder->setParent(-1);
-			$folder->setIsopen(0);
-			$folder->setName($_['newFolder']);
-			$folder->save();
+				$folder = new Folder();
+			if($folder->rowCount(array('name'=>$_['newFolder']))==0){
+
+				$folder->setParent(-1);
+				$folder->setIsopen(0);
+				$folder->setName($_['newFolder']);
+				$folder->save();
+			}
 		}
 		header('location: ./addFeed.php');
 	break;
