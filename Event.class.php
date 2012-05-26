@@ -13,6 +13,7 @@ class Event extends SQLiteEntity{
 		'creator'=>'string',
 		'content'=>'longstring',
 		'description'=>'longstring',
+		'link'=>'longstring',
 		'unread'=>'integer',
 		'feed'=>'integer',
 		'unread'=>'integer',
@@ -56,7 +57,7 @@ class Event extends SQLiteEntity{
 	}
 
 	function setDescription($description){
-		$this->description = $description;
+		$this->description = str_replace('’','\'',$description);
 	}
 
 	function getPubdate($format=false){
@@ -108,7 +109,7 @@ class Event extends SQLiteEntity{
 	}
 
 	function setContent($content){
-		$this->content = $content;
+		$this->content = str_replace('’','\'',$content);
 	}
 
 

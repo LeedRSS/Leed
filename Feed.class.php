@@ -123,7 +123,10 @@ class Feed extends SQLiteEntity{
 					
 					$event->setDescription(utf8_decode($item->description));
 				
+					$event->setLink($item->link);
 
+					if(trim($event->getLink())=='')
+					$event->setLink($item->link['href']);
 
 					$event->setContent($item->content);
 
@@ -132,7 +135,7 @@ class Feed extends SQLiteEntity{
 					
 					
 					if(trim($event->getDescription())=='')
-						$event->setDescription(substr($event->getContent(),0,300));
+						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
 					
 						/*//Tentative de detronquage si la description existe
 						if($event->getDescription()!=''){
@@ -152,7 +155,7 @@ class Feed extends SQLiteEntity{
 						}
 						*/
 					
-					$event->setLink($item->link);
+					
 					$event->setCategory($item->category);
 					
 					$event->setFeed($this->id);
