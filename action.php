@@ -238,29 +238,19 @@ switch ($_['action']){
 		}
 	break;
 
-	case 'sandbox':
-		/*$event = new Event();
-		$event->setGuid('http://www.google.com');
-		$event->setTitle('hey !!');
-		$event->save();*/
-	break;
-
 	case 'removeFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-
-			@$eventManager->query('DELETE * FROM event INNER JOIN folder ON ( feed.folder = folder.id ) INNER JOIN event ON ( feed.id = event.feed ) WHERE folder.id = '.$_['id'].' ;');
+			$eventManager->query('DELETE FROM event WHERE event.feed in (SELECT feed.id FROM feed WHERE feed.folder ='.$_['id'].') ;');
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
-
 		}
 		header('location: ./addFeed.php');
 	break;
 
 	case 'readContent':
 		$event = $eventManager->load(array('id'=>$_['id']));
-		$eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
-		//header('location: '.$event->getGuid());
+		if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
 	break;
 
 	case 'addFavorite':

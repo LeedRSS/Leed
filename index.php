@@ -8,6 +8,10 @@ $action = (isset($_['action'])?$_['action']:'');
 $folders = $folderManager->populate('name');
 //Récuperation du chemin vers shaarli si le plugin shaarli est activé
 $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configurationManager->get('plugin_shaarli_link'):false);  
+//Recuperation de tous les non Lu
+$unread = $feedManager->countUnreadEvents();
+
+$allFeeds = $feedManager->getFeedsPerFolder();
 
 ?>
 		<div id="main" class="wrapper clearfix">
@@ -26,14 +30,17 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 						//Pour chaques dossier
 						foreach($folders as $folder){  
 							//on récupere tous les flux lié au dossier
-						  	$feeds = $folder->getFeeds();
+						  	//$feeds = $folder->getFeeds();
+						  	$feeds = (isset($allFeeds[$folder->getId()])?$allFeeds[$folder->getId()]:array());
+
 					?>
 					<!-- DOSSIER -->
 					<li><h1 class="folder" <?php if(count($feeds)!=0){ ?>onclick="toggleFolder(this,<?php echo $folder->getId(); ?>);"<?php } ?>><?php  echo $folder->getName().' ('.count($feeds).')'; ?> <?php if(count($feeds)!=0){ ?> - <a href="action.php?action=readFolder&folder=<?php  echo $folder->getId() ?>">lire tout</a><?php } ?></h1>
 						<!-- FLUX DU DOSSIER -->
 						<ul <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>>
-							<?php if (count($feeds)!=0 ) {foreach($feeds as $feed){ ?>
-								<li><a href="index.php?action=selectedFeed&feed=<?php echo $feed->getId();?>" alt="<?php echo $feed->getUrl(); ?>" title="<?php echo $feed->getUrl(); ?>"><?php echo $feed->getName(); ?> </a><?php $unread = $feed->countUnreadEvents(); if($unread!=0){ ?>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed->getId(); ?>'"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread; ?></span></button><?php } ?> </li>
+							<?php if (count($feeds)!=0 ) {
+								foreach($feeds as $feed){ ?>
+								<li><a href="index.php?action=selectedFeed&feed=<?php echo $feed['id'];?>" alt="<?php echo $feed['url']; ?>" title="<?php echo $feed['url']; ?>"><?php echo $feed['name']; ?> </a><?php if(isset($unread[$feed['id']])){ ?>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed['id']; ?>'"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread[$feed['id']]; ?></span></button><?php } ?> </li>
 							<?php }} ?>
 						</ul>
 						<!-- FIN FLUX DU DOSSIER -->

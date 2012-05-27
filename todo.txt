@@ -1,21 +1,27 @@
 Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet et signaler les bugs/suggestions déjà proposés, ne pas tenir compte/supprimer si vous le souhaitez. Idleman
 
 
+
 ========================
 ==== DERNIER COMMIT ====
 ========================
 
+ - Affichage du temps d'execution en bas de page
+ - Mutualisation des requêtes unread pour gain de perfs 
+ - Mutualisation des requêtes de flux par dossiers pour gain de perfs
+ - La requete perssonalisée pour supprimer les evenements lors de la supression d'un dossier fonctionne mieux
+
+(merci a remi wick pour les conseils de perfs)
+
 =========================
 ==== BUGS CONSTATES  ====
 =========================
-
-- La requete perssonalisée pour supprimer les evenements lors de la supression d'un dossier ne fonctionne pas (fuck'in SQLITE)
  
 =============================
 ==== ECARTS FONCTIONNELS ====
 =============================
 
-- A partir de 200 flux, la navigation commence a ramer (Voir si je peux optimiser les requetes / Créer un adaptateur MySQL)
+- A partir de 100 flux, la navigation commence a ramer : Mutualiser les requetes, proposer un passage à MySQL et mettre en place un microtime
 
 =====================
 ==== SUGGESTIONS ====

@@ -1,4 +1,5 @@
 <?php session_start();
+$start=microtime(true);
 require_once('SQLiteEntity.class.php');
 require_once('Feed.class.php');
 require_once('Event.class.php');

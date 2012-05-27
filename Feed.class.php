@@ -224,10 +224,23 @@ class Feed extends SQLiteEntity{
 	}
 
 	function countUnreadEvents(){
-		$result = 0;
-		$eventManager = new Event();
-		$result = $eventManager->rowCount(array('feed'=>$this->getId(),'unread'=>'1'));
-		return $result;
+		$unreads = array();
+		$results = $this->query("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
+		while($item = $results->fetchArray()){
+			$unreads[$item[1]] = $item[0];
+		}
+		return $unreads;
+	}
+
+	function getFeedsPerFolder(){
+		$feeds = array();
+		$results = $this->query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ;");
+		while($item = $results->fetchArray()){
+			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
+			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
+			$feeds[$item['folder']][$item['id']]['url'] = $item['url'];
+		}
+		return $feeds;
 	}
 
 

@@ -207,15 +207,12 @@ class SQLiteEntity extends SQLite3
 			if($order!=null) $query .='ORDER BY '.$order.' ';
 			if($limit!=null) $query .='LIMIT '.$limit.' ';
 			$query .=';';
-			  if($this->debug) 
-				echo '<br>'.__METHOD__.' : Requete --> '.$query.'<br>';
-			
-
+			  
+			//echo '<hr>'.__METHOD__.' : Requete --> '.$query.'<br>';
 			$execQuery = $this->query($query);
 
 			if(!$execQuery) 
 				echo $this->lastErrorMsg();
-
 			while($queryReturn = $execQuery->fetchArray() ){
 
 				$object = eval(' return new '.$this->CLASS_NAME.'();');
