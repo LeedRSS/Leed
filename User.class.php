@@ -15,6 +15,9 @@ class User extends SQLiteEntity{
 		parent::__construct();
 	}
 
+	function setId($id){
+		$this->id = $id;
+	}
 
 	function exist($login,$password){
 		$userManager = new User();

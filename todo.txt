@@ -6,13 +6,10 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
- - Affichage du temps d'execution en bas de page
- - Mutualisation des requêtes unread pour gain de perfs 
- - Mutualisation des requêtes de flux par dossiers pour gain de perfs
- - La requete perssonalisée pour supprimer les evenements lors de la supression d'un dossier fonctionne mieux
-
-(merci a remi wick pour les conseils de perfs)
-
+- Remplacement de time() par $_SERVER['REQUEST_TIME'] (gain de perf)
+- Supression de la colonne unread des flux qui ne sert plsu a rien
+- Résolution de l'affichage du pubdate qui ne correpondait pas aux preferences
+- Chargement uniquement des informations indispensables pour les evenements (gain de perf ennoooorme :D)
 =========================
 ==== BUGS CONSTATES  ====
 =========================
@@ -27,6 +24,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== SUGGESTIONS ====
 =====================
 
+- Verifier que les connexions a la base sql ne sont pas multiples inutilement
 - Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - Ajout un plugin pour Sharrre ( http://sharrre.com/ )
 - Proposer un .sh d'installation complete du programme + cron automatique
@@ -34,6 +32,8 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
 - Possibilité de parser a travers un proxy
 - Mettre une verif sur le timeout et le safe mode a l'installation avec un warning si le safe mode est a 1 et le timeout !=0
+- Dissocier l'appel du menu de l'appl des flux via ajax pour eviter de recharhger inutilement le menu a chaque fois ? (gain de perfs...)
+Faire un loadAllOnlyColumn au lieu de loadAll surtout sur les events avec preference sans contenu ou desc.
 
 =================
 ==== A TRIER ====

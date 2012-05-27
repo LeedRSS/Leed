@@ -214,10 +214,8 @@ class SQLiteEntity extends SQLite3
 			if(!$execQuery) 
 				echo $this->lastErrorMsg();
 			while($queryReturn = $execQuery->fetchArray() ){
-
 				$object = eval(' return new '.$this->CLASS_NAME.'();');
 				foreach($this->object_fields as $field=>$type){
-
 					if(isset($queryReturn[$field])) eval('$object->'.$field .'= html_entity_decode(\''. addslashes($queryReturn[$field]).'\');');
 				}
 				$objects[] = $object;
@@ -227,7 +225,7 @@ class SQLiteEntity extends SQLite3
 	}
 
 	public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug='false'){
-		eval('$objects = $this->loadAll($columns,null,null,\''.$operation.'\',\''.$debug.'\',\''.$selColumn.'\');');
+		eval('$objects = $this->loadAll($columns,\''.$order.'\',\''.$limit.'\',\''.$operation.'\',\''.$debug.'\',\''.$selColumn.'\');');
 		if(count($objects)==0)$objects = array();
 		return $objects;
 	}

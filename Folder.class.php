@@ -16,6 +16,10 @@ class Folder extends SQLiteEntity{
 		parent::__construct();
 	}
 
+	function setId($id){
+		$this->id = $id;
+	}
+
 	function getFeeds(){
 		$feedManager = new Feed();
 		return $feedManager->loadAll(array('folder'=>$this->getId()),'name');

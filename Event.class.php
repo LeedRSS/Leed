@@ -34,7 +34,9 @@ class Event extends SQLiteEntity{
 		parent::__construct();
 	}
 
-
+function setId($id){
+		$this->id = $id;
+	}
 
 	function getCreator(){
 		return $this->creator;
@@ -109,7 +111,7 @@ class Event extends SQLiteEntity{
 	}
 
 	function setContent($content){
-		$this->content = str_replace('’','\'',$content);
+		$this->content = utf8_decode(str_replace('’','\'',$content));
 	}
 
 

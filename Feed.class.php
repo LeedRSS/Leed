@@ -1,7 +1,7 @@
 <?php
 class Feed extends SQLiteEntity{
 
-	protected $id,$name,$url,$unread=0,$events=array(),$description,$website,$folder,$lastupdate;
+	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
 	protected $TABLE_NAME = 'feed';
 	protected $CLASS_NAME = 'Feed';
 	protected $object_fields = 
@@ -11,7 +11,6 @@ class Feed extends SQLiteEntity{
 		'description'=>'longstring',
 		'website'=>'longstring',
 		'url'=>'longstring',
-		'unread'=>'integer',
 		'lastupdate'=>'string',
 		'folder'=>'integer'
 	);
@@ -170,20 +169,22 @@ class Feed extends SQLiteEntity{
 			$this->description = 'Impossible de se connecter au flux demand&eacute, peut &ecirc;tre est il en maintenance?';
 			$result = false;
 		}
-			$this->lastupdate = time();
+			$this->lastupdate = $_SERVER['REQUEST_TIME'];
 			$this->save();
 			return $result;
 	}
 
 	
-
+	function setId($id){
+		$this->id = $id;
+	}
 
 	function getDescription(){
 		return stripslashes($this->description);
 	}
 
 	function setDescription($description){
-		$this->description = $description;
+		$this->description = html_entity_decode($description);
 	}
 	function getWebSite(){
 		return $this->website;
@@ -210,22 +211,19 @@ class Feed extends SQLiteEntity{
 	}
 
 	function setName($name){
-		$this->name = $name;
+		$this->name = html_entity_decode($name);
 	}
 
-	function getUnread(){
-		return $this->unread;
-	}
 
-	function getEvents($start=0,$limit=10000,$order){
+	function getEvents($start=0,$limit=10000,$order,$columns='*'){
 		$eventManager = new Event();
-		$events = $eventManager->loadAll(array('feed'=>$this->getId()),$order,$start.','.$limit);
+		$events = $eventManager->loadAllOnlyColumn($columns,array('feed'=>$this->getId()),$order,$start.','.$limit);
 		return $events;
 	}
 
 	function countUnreadEvents(){
 		$unreads = array();
-		$results = $this->query("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
+		$results = Feed::query("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
 		while($item = $results->fetchArray()){
 			$unreads[$item[1]] = $item[0];
 		}
@@ -234,7 +232,7 @@ class Feed extends SQLiteEntity{
 
 	function getFeedsPerFolder(){
 		$feeds = array();
-		$results = $this->query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ;");
+		$results = Feed::query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ;");
 		while($item = $results->fetchArray()){
 			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
 			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);

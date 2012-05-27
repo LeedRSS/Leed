@@ -10,13 +10,10 @@ $folders = $folderManager->populate('name');
 $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configurationManager->get('plugin_shaarli_link'):false);  
 //Recuperation de tous les non Lu
 $unread = $feedManager->countUnreadEvents();
-
+//recuperation de tous les flux
 $allFeeds = $feedManager->getFeedsPerFolder();
-
 ?>
 		<div id="main" class="wrapper clearfix">
-			
-
 			<!--//////-->
 			<!-- MENU -->
 			<!--//////-->
@@ -46,7 +43,12 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 						<!-- FIN FLUX DU DOSSIER -->
 					</li>
 					<!-- FIN DOSSIER -->
-					<?php } ?>
+					<?php }
+
+					unset($unread);
+					unset($allFeeds);
+					unset($folders);
+					 ?>
 				</ul>
 			</aside>
 
@@ -65,17 +67,27 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 				$articleDisplayDate = $configurationManager->get('articleDisplayDate');
 				$articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 
+				$target = 'title,unread,favorite,';
+				if($articleDisplayContent && $articleView=='partial') $target .= 'description,';
+				if($articleDisplayContent && $articleView!='partial') $target .= 'content,';
+				if($articleDisplayLink) $target .= 'link,';
+				if($articleDisplayDate) $target .= 'pubDate,';
+				if($articleDisplayAuthor) $target .= 'creator,';
+				$target .= 'id';
 				
 
 				switch($action){
 					/* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
 					case 'selectedFeed':
 						$currentFeed = $feedManager->getById($_['feed']);
+
 						$numberOfItem = $eventManager->rowCount(array('feed'=>$currentFeed->getId()));
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $currentFeed->getEvents($startArticle,$articlePerPages,'pubdate DESC');
+						
+
+						$events = $currentFeed->getEvents($startArticle,$articlePerPages,'pubdate DESC',$target);
 
 						?>
 						<h1><a target="_blank" href="<?php echo $currentFeed->getWebSite(); ?>"><?php echo $currentFeed->getName(); ?></a></h1>
@@ -89,7 +101,9 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $eventManager->loadAll(array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
+
+
+						$events = $eventManager->loadAllOnlyColumn($target,array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
 						<h1>Articles favoris (<?php echo $numberOfItem; ?>)</h1>
 						<?php
@@ -102,7 +116,7 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						$events = $eventManager->loadAll(array('unread'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
+						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
 						<h1>Non lu (<?php echo $numberOfItem; ?>)</h1>
 						<?php
@@ -113,7 +127,7 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 				</header>
 
 				<?php 
-					$time = time();
+					$time = $_SERVER['REQUEST_TIME'];
 					foreach($events as $event){ 
 					$plainDescription = strip_tags($event->getDescription());
 					?>
@@ -122,7 +136,7 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 					<!-- TITRE -->
 					<h2><a onclick="readThis(this,<?php echo $event->getId(); ?>);" target="_blank" href="<?php echo $event->getLink(); ?>" alt="<?php echo $plainDescription; ?>" title="<?php echo $plainDescription; ?>"><?php echo $event->getTitle(); ?></a> </h2>
 					<!-- DETAILS + OPTIONS -->
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayLink){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> - <span class="pointer" onclick="readThis(this,<?php echo $event->getId(); ?>);">(marquer comme lu)</span></h3>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> - <span class="pointer" onclick="readThis(this,<?php echo $event->getId(); ?>);">(marquer comme lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->
 					<?php if($articleDisplayContent){ ?><p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p> <?php } ?>
 				</section>
