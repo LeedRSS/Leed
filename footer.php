@@ -8,7 +8,7 @@
 	</div>
 
 
-<script src="js/libs/jquery-1.7.2.min.js"></script>
+<script src="js/libs/jqueryAndModernizr.min.js"></script>
 <script src="js/script.js"></script>
 
 </body>

@@ -85,12 +85,11 @@ if(isset($_['installButton'])){
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
 	$configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
-
 	$configurationManager->add('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
 	$configurationManager->add('plugin_shaarli_link',$_['plugin_shaarli_link']);
-
-
 	$configurationManager->add('synchronisationType',$_['synchronisationType']);
+	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
+
 
 	//Création du dossier de base
 	$folder = new Folder();
@@ -216,6 +215,9 @@ if(isset($_['installButton'])){
 					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
 					<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
+					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers &eacute;venement d'un flux</p>
+					<h3>Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre abse de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
+					
 				</section>
 
 				<section>

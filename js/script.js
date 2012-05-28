@@ -1,9 +1,3 @@
-/* Author:
-
-*/
-
-
-
 function toggleFolder(element,folder){
 	feedBloc = $('ul',$(element).parent());
 	open = 0;
@@ -14,7 +8,6 @@ function toggleFolder(element,folder){
 				  url: "./action.php?action=changeFolderState",
 				  data:{id:folder,isopen:open}
 	});
-
 }
 
 function addFavorite(element,id){

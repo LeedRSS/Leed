@@ -295,7 +295,7 @@ class SQLiteEntity extends SQLite3
 	* @param <String> $debug='false' active le debug mode (0 ou 1)
 	* @return Aucun retour
 	*/
-	public function delete($columns,$operation='=',$debug='false'){
+	public function delete($columns,$operation='=',$debug='false',$limit=null){
 		$whereClause = '';
 
 			$start = reset(array_keys($columns));
@@ -303,7 +303,7 @@ class SQLiteEntity extends SQLite3
 				if($column != $start)$whereClause .= ' AND ';
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
-			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
+			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' '.(isset($limit)?'LIMIT '.$limit:'').';';
 			//echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
 			if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}

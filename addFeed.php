@@ -54,6 +54,8 @@
 						<p>Affichage du contenu de l'article: <input type="radio"  <?php $articleDisplayContent = $configurationManager->get('articleDisplayContent'); if($articleDisplayContent=='1'){ ?> checked="checked" <?php } ?> value="1" name="articleDisplayContent">Oui <input type="radio" <?php if($articleDisplayContent=='0'){ ?> checked="checked" <?php } ?> value="0" name="articleDisplayContent">Non</p>
 						<p>Type d'affichage du contenu: <input type="radio" <?php $articleView = $configurationManager->get('articleView'); if($articleView=='partial'){ ?> checked="checked" <?php } ?> value="partial" name="articleView">Partiel <input type="radio" <?php if($articleView=='complete'){ ?> checked="checked" <?php } ?> value="complete" name="articleView">Complet</p>
 						<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
+						<p>Conserver les <input type="text" value="<?php echo $configurationManager->get('feedMaxEvents'); ?>" name="feedMaxEvents"> derniers &eacute;venement d'un flux</p>
+						<h3>Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre abse de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
 					
 					</section>
 

@@ -10,9 +10,9 @@ switch ($_['action']){
 	case 'synchronize':
 
 		$synchronisationType = $configurationManager->get('synchronisationType');
+		$maxEvents = $configurationManager->get('feedMaxEvents');
 
-
-			if(isset($_['format'])) echo '<textarea style="width:100%;height: 500px;overflow:auto;">';
+		if(isset($_['format'])) echo '<textarea style="width:100%;height: 500px;overflow:auto;">';
 			echo '------------------------------------------------------------------'."\n";
 			echo '-------------- Synchronisation du '.date('d/m/Y H:i:s').' --------------'."\n";
 			echo '------------------------------------------------------------------'."\n";
@@ -27,8 +27,11 @@ switch ($_['action']){
 			
 			echo count($feeds).' Flux a synchroniser...'."\n";
 		foreach ($feeds as $feed) {
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') : OK'."\n";
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...'."\n";
 			$feed->parse();
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...'."\n";
+			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') termin&eacute;'."\n";
 			
 		}
 			echo date('H:i:s').' - Synchronisation terminée'."\n";
@@ -76,7 +79,7 @@ switch ($_['action']){
 			$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
 			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
-			
+			$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 
 
 		header('location: ./addFeed.php');

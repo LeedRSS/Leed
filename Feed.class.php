@@ -174,6 +174,12 @@ class Feed extends SQLiteEntity{
 			return $result;
 	}
 
+
+	function removeOldEvents($maxEvent){
+		$eventManager = new Event();
+		$limit = $eventManager->rowCount(array('feed'=>$this->id))-$maxEvent;
+		if ($limit>0) $this->exec("DELETE FROM Event WHERE id in(SELECT id FROM Event WHERE feed=".$this->id."  AND favorite!=1 ORDER BY pubDate ASC LIMIT ".($limit>0?$limit:0).");");
+	}
 	
 	function setId($id){
 		$this->id = $id;
@@ -232,7 +238,7 @@ class Feed extends SQLiteEntity{
 
 	function getFeedsPerFolder(){
 		$feeds = array();
-		$results = Feed::query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ;");
+		$results = Feed::query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ORDER BY feed.name ;");
 		while($item = $results->fetchArray()){
 			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
 			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
