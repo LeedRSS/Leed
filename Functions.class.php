@@ -305,7 +305,7 @@ class Functions
 		return '#'.substr($val,0,6);
 	}
 	
-	public function scanRecursiveDir($dir){
+	public static function scanRecursiveDir($dir){
 		$files = scandir($dir);
 		$allFiles = array();
 		foreach($files as $file){
@@ -322,7 +322,7 @@ class Functions
 
 
 
-		public function recursiveImportXmlOutline($level,$folderId){
+		public static function recursiveImportXmlOutline($level,$folderId){
 			$folderManager = new Folder();
 			$feedManager = new Feed();
 			$report= '';
@@ -367,7 +367,7 @@ class Functions
 		}
 
 
-		public function recursiveExportOutline($folders){
+		public static function recursiveExportOutline($folders){
 			$xmlStream = '';
 			foreach($folders as $folder){
 					$feeds = $folder->getFeeds();
