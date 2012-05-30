@@ -1,5 +1,5 @@
 <?php session_start(); 
-
+require_once('Functions.class.php');
 $_ = array();
 foreach($_POST as $key=>$val){
 $_[$key]=Functions::secure($val);
@@ -55,7 +55,7 @@ if(isset($_['installButton'])){
 	require_once('SQLiteEntity.class.php');
 	require_once('Feed.class.php');
 	require_once('Event.class.php');
-	require_once('Functions.class.php');
+	
 	require_once('User.class.php');
 	require_once('Folder.class.php');
 	require_once('Configuration.class.php');
