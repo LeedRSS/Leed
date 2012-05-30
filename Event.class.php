@@ -107,7 +107,7 @@ function setId($id){
 	}
 
 	function getContent(){
-		return $this->content;
+		return utf8_encode($this->content);
 	}
 
 	function setContent($content){
