@@ -82,16 +82,18 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 						$currentFeed = $feedManager->getById($_['feed']);
 
 						$numberOfItem = $eventManager->rowCount(array('feed'=>$currentFeed->getId()));
+						$allowedOrder = array('date'=>'pubdate DESC','unread'=>'unread DESC');
+						$order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['date']);
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
 						
 
-						$events = $currentFeed->getEvents($startArticle,$articlePerPages,'pubdate DESC',$target);
+						$events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
 
 						?>
 						<h1><a target="_blank" href="<?php echo $currentFeed->getWebSite(); ?>"><?php echo $currentFeed->getName(); ?></a></h1>
-						<p><?php echo $currentFeed->getDescription(); ?></p>
+						<p><?php echo $currentFeed->getDescription(); ?> - <a href="index.php?action=selectedFeed&feed=<?php echo $_['feed']; ?>&page=<?php echo $page; ?>&order=unread">Voir les non lu en premier<a></p>
 						<?php
 
 					break;
@@ -136,7 +138,7 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 					<!-- TITRE -->
 					<h2><a onclick="readThis(this,<?php echo $event->getId(); ?>);" target="_blank" href="<?php echo $event->getLink(); ?>" alt="<?php echo $plainDescription; ?>" title="<?php echo $plainDescription; ?>"><?php echo $event->getTitle(); ?></a> </h2>
 					<!-- DETAILS + OPTIONS -->
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> - <span class="pointer" onclick="readThis(this,<?php echo $event->getId(); ?>);">(marquer comme lu)</span></h3>
+					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button><?php } ?> - <span class="pointer" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(non lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->
 					<?php if($articleDisplayContent){ ?><p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p> <?php } ?>
 				</section>

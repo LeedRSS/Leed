@@ -256,6 +256,11 @@ switch ($_['action']){
 		if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
 	break;
 
+	case 'unreadContent':
+		$event = $eventManager->load(array('id'=>$_['id']));
+		if($myUser!=false) $eventManager->change(array('unread'=>'1'),array('id'=>$_['id']));
+	break;
+
 	case 'addFavorite':
 		$eventManager->change(array('favorite'=>'1'),array('id'=>$_['id']));
 	break;

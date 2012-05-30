@@ -1,20 +1,5 @@
-<?php session_start();
-require_once('SQLiteEntity.class.php');
-require_once('Feed.class.php');
-require_once('Event.class.php');
-require_once('Functions.class.php');
-require_once('User.class.php');
-require_once('Folder.class.php');
-require_once('Configuration.class.php');
-$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
-$feedManager = new Feed();
-$eventManager = new Event();
-$userManager = new User();
-$folderManager = new Folder();
-$configurationManager = new Configuration();
+<?php session_start(); 
 
-
-//Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
 foreach($_POST as $key=>$val){
 $_[$key]=Functions::secure($val);
@@ -61,7 +46,26 @@ $_[$key]=Functions::secure($val);
 
 
 			<?php
+
+
+//Récuperation et sécurisation de toutes les variables POST et GET
+
+
 if(isset($_['installButton'])){
+	require_once('SQLiteEntity.class.php');
+	require_once('Feed.class.php');
+	require_once('Event.class.php');
+	require_once('Functions.class.php');
+	require_once('User.class.php');
+	require_once('Folder.class.php');
+	require_once('Configuration.class.php');
+	$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+	$feedManager = new Feed();
+	$eventManager = new Event();
+	$userManager = new User();
+	$folderManager = new Folder();
+	$configurationManager = new Configuration();
+
 	//Création de la base et des tables
 	$feedManager->create();
 	$eventManager->create();
@@ -165,6 +169,12 @@ if(isset($_['installButton'])){
 						 $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activ&eacute;e sur votre serveur, merci de bien vouloir l\'installer';
 						}else{
 						 $test['Succ&egrave;s'][] = 'Extension Sqlite3 : OK';	
+						}
+
+						if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
+							$test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activ&eacute;,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
+						}else{
+							$test['Succ&egrave;s'][] = 'Gestion du timeout : OK';
 						}
 
 						foreach($test as $type=>$messages){

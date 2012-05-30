@@ -57,11 +57,30 @@ function changeFeedFolder(element,id){
 }
 
 
-function readThis(element,id){
-	$(element).parent().parent().addClass('eventRead');
+function readThis(element,id,hide){
+	var parent = $(element).parent().parent();
+	if(!parent.hasClass('eventRead')){
+		
+		$.ajax({
+					  url: "./action.php?action=readContent",
+					  data:{id:id},
+					  success:function(){
+					  	$(element).html('(lu)');
+					  	if(hide){ parent.fadeOut(200); 
+					  	}else{ 
+					  		parent.addClass('eventRead');
+					  	}
+					  }
+		});
+	}else{
+		parent.removeClass('eventRead');
 	$.ajax({
-				  url: "./action.php?action=readContent",
-				  data:{id:id}
+				  url: "./action.php?action=unreadContent",
+				  data:{id:id},
+				  success:function(){
+				  	$(element).html('(non lu)');
+				  }
 	});
+	}
 }
 
