@@ -96,7 +96,8 @@ if(isset($_['installButton'])){
 
 
 	//Création du dossier de base
-	$folder = new Folder();
+	$folder = $folderManager->load(array('id'=>1));
+	$folder = (!$folder?new Folder():$folder);
 	$folder->setName($_['category']);
 	$folder->setParent(-1);
 	$folder->setIsopen(1);

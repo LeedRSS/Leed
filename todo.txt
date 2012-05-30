@@ -6,15 +6,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Dans les catégories unread lors de la lecture d'un event, il disparait completement de la liste des non lu, dans les autres ctagéorie, il réduit son opacité.
-
-- On peux maintenant marquer un evenement comme "non lu" en recliquant sur l'option pour "marquer comme lu" un evenement
-
-- Dans les lecture de flux, On peux maintenant voir les non lu en premiers
-
-- L'installateur gère mieux l'absence de SQLite 3 
-
-- L'installateur gère mieux la prévention sur les sfemode a On (qui empechent leed de gerer les temps d'executions maximum)
+- Le refresh de la page d'installation ne duplique plus le dossier général
 
 =========================
 ==== BUGS CONSTATES  ====
@@ -31,9 +23,9 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== SUGGESTIONS ====
 =====================
 
+- Voir le nombre d'event non lu par dossier
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
-
 - Verifier que les connexions a la base sql ne sont pas multiples inutilement
 - Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - Ajout un plugin pour Sharrre ( http://sharrre.com/ )
