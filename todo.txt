@@ -6,7 +6,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Le refresh de la page d'installation ne duplique plus le dossier général
+
 
 =========================
 ==== BUGS CONSTATES  ====

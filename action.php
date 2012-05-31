@@ -82,7 +82,7 @@ switch ($_['action']){
 			$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 
 
-		header('location: ./addFeed.php');
+	header('location: ./addFeed.php');
 	break;
 
 	case 'exportFeed':
