@@ -65,7 +65,6 @@ function readThis(element,id,hide){
 					  url: "./action.php?action=readContent",
 					  data:{id:id},
 					  success:function(){
-					  	$(element).html('(lu)');
 					  	if(hide){ parent.fadeOut(200); 
 					  	}else{ 
 					  		parent.addClass('eventRead');
@@ -76,10 +75,7 @@ function readThis(element,id,hide){
 		parent.removeClass('eventRead');
 	$.ajax({
 				  url: "./action.php?action=unreadContent",
-				  data:{id:id},
-				  success:function(){
-				  	$(element).html('(non lu)');
-				  }
+				  data:{id:id}
 	});
 	}
 }

@@ -244,7 +244,7 @@ switch ($_['action']){
 	case 'removeFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$eventManager->query('DELETE FROM event WHERE event.feed in (SELECT feed.id FROM feed WHERE feed.folder ='.$_['id'].') ;');
+			$eventManager->customExecute('DELETE FROM event WHERE event.feed in (SELECT feed.id FROM feed WHERE feed.folder ='.$_['id'].') ;');
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
 		}

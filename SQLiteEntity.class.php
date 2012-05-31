@@ -74,10 +74,10 @@ class SQLiteEntity extends SQLite3
 	public function create($debug='false'){
 		$query = 'CREATE TABLE IF NOT EXISTS `'.$this->TABLE_NAME.'` (';
 
-		$end = end(array_keys($this->object_fields));
+		$i=false;
 		foreach($this->object_fields as $field=>$type){
+			if($i){$query .=',';}else{$i=true;}
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
-			if($field != $end)$query .=',';
 		}
 
 		$query .= ');';
@@ -98,29 +98,29 @@ class SQLiteEntity extends SQLite3
 			$query = 'UPDATE `'.$this->TABLE_NAME.'`';
 			$query .= ' SET ';
 
-			$end = end(array_keys($this->object_fields));
+			$i = false;
 			foreach($this->object_fields as $field=>$type){
+				if($i){$query .=',';}else{$i=true;}
 				$id = eval('return htmlentities($this->'.$field.');');
 				$query .= '`'.$field.'`="'.$id.'"';
-				if($field != $end)$query .=',';
 			}
 
 			$query .= ' WHERE `id`="'.$this->id.'";';
 		}else{
 			$query = 'INSERT INTO `'.$this->TABLE_NAME.'`(';
-			$end = end(array_keys($this->object_fields));
+			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($type!='key'){
+					if($i){$query .=',';}else{$i=true;}
 					$query .='`'.$field.'`';
-					if($field != $end)$query .=',';
 				}
 			}
 			$query .=')VALUES(';
-			$end = end(array_keys($this->object_fields));
+			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($type!='key'){
+					if($i){$query .=',';}else{$i=true;}
 					$query .='"'.eval('return htmlentities($this->'.$field.');').'"';
-					if($field != $end)$query .=',';
 				}
 			}
 
@@ -144,18 +144,18 @@ class SQLiteEntity extends SQLite3
 	*/
 	public function change($columns,$columns2=null,$operation='=',$debug='false'){
 		$query = 'UPDATE `'.$this->TABLE_NAME.'` SET ';
-		$end = end(array_keys($columns));
+		$i=false;
 		foreach ($columns as $column=>$value){
+			if($i){$query .=',';}else{$i=true;}
 			$query .= '`'.$column.'`="'.$value.'" ';
-			if($column != $end)$query .=',';
 		}
 
 		if($columns2!=null){
 			$query .=' WHERE '; 
-			$end = end(array_keys($columns2));
+			$i=false;
 			foreach ($columns2 as $column=>$value){
+				if($i){$query .='AND ';}else{$i=true;}
 				$query .= '`'.$column.'`'.$operation.'"'.$value.'" ';
-				if($column != $end)$query .='AND ';
 			}
 		}
 
@@ -196,9 +196,10 @@ class SQLiteEntity extends SQLite3
 	
 			if($columns!=null && sizeof($columns)!=0){
 			$whereClause .= ' WHERE ';
-				$start = reset(array_keys($columns));
+				$i = false;
 				foreach($columns as $column=>$value){
-					if($column != $start)$whereClause .= ' AND ';
+
+					if($i){$whereClause .=' AND ';}else{$i=true;}
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 				}
 			}
@@ -271,9 +272,9 @@ class SQLiteEntity extends SQLite3
 		$whereClause ='';
 		if($columns!=null){
 			$whereClause = ' WHERE ';
-			$start = reset(array_keys($columns));
+			$i=false;
 			foreach($columns as $column=>$value){
-					if($column != $start)$whereClause .= ' AND ';
+					if($i){$whereClause .=' AND ';}else{$i=true;}
 					$whereClause .= '`'.$column.'`="'.$value.'"';
 			}
 		}
@@ -297,9 +298,9 @@ class SQLiteEntity extends SQLite3
 	public function delete($columns,$operation='=',$debug='false',$limit=null){
 		$whereClause = '';
 
-			$start = reset(array_keys($columns));
+			$i=false;
 			foreach($columns as $column=>$value){
-				if($column != $start)$whereClause .= ' AND ';
+				if($i){$whereClause .=' AND ';}else{$i=true;}
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
 			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' '.(isset($limit)?'LIMIT '.$limit:'').';';
@@ -307,6 +308,12 @@ class SQLiteEntity extends SQLite3
 			if(!$this->exec($query)) echo $this->lastErrorMsg();
 	}
 	
+	public function customExecute($request){
+		$this->exec($request);
+	}
+	public function customQuery($request){
+		return $this->query($request);
+	}
 
 	// ACCESSEURS
 		/**

@@ -6,14 +6,15 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-
+- Résolus : Quand on click sur le titre du post on on est bien dirigé vers le site du post sans problème mais le tire change en "(lu)" 
+- Modification des boucles de requettages de SQLITEentity pour gain de perf + fix des strictes sous PHP 5.4 
+- Modification SQLITEentity appel de requete perssonalisé (portabilité vers MySQL)
 
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
 - Quand on click sur le titre du post on on est bien dirigé vers le site du post sans problème mais le tire change en "(lu)" 
-
 
 
 =============================

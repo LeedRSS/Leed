@@ -229,7 +229,7 @@ class Feed extends SQLiteEntity{
 
 	function countUnreadEvents(){
 		$unreads = array();
-		$results = Feed::query("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
+		$results = Feed::customQuery("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
 		while($item = $results->fetchArray()){
 			$unreads[$item[1]] = $item[0];
 		}
@@ -238,7 +238,7 @@ class Feed extends SQLiteEntity{
 
 	function getFeedsPerFolder(){
 		$feeds = array();
-		$results = Feed::query("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ORDER BY feed.name ;");
+		$results = Feed::customQuery("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ORDER BY feed.name ;");
 		while($item = $results->fetchArray()){
 			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
 			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);

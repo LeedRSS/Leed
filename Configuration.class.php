@@ -20,7 +20,7 @@ class Configuration extends SQLiteEntity{
 		if(!isset($_SESSION['configuration'])){
 	
 		$configurationManager = new Configuration();
-		$configsQuery = $configurationManager->query('SELECT key,value FROM configuration');
+		$configsQuery = $configurationManager->customQuery('SELECT key,value FROM configuration');
 		$confTab = array();
 
 		while($config = $configsQuery->fetchArray() ){
