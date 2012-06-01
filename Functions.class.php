@@ -1,10 +1,9 @@
 <?php
 
 /*
- @nom: function
- @auteur: Valentin CARRUESCO (valentin.carruesco@sys1.fr)
- @date de création: 10/10/2011 à 21:10
- @description: Classe de stockage des fonctions utiles (toutes disponibles en static)
+ @nom: constant
+ @auteur: Idleman (idleman@idleman.fr)
+ @description:  Classe de stockage des fonctions utiles (toutes disponibles en static)
  */
 
 class Functions

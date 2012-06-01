@@ -1,4 +1,12 @@
-<?php require_once('header.php'); 
+<?php 
+
+/*
+ @nom: index
+ @auteur: Idleman (idleman@idleman.fr)
+ @description:  Page d'accueil et de lecture des flux
+ */
+
+require_once('header.php'); 
 
 if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false ){
 

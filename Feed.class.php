@@ -1,4 +1,11 @@
 <?php
+
+/*
+ @nom: Feed
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Classe de gestion des flux RSS/ATOM
+ */
+
 class Feed extends SQLiteEntity{
 
 	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;

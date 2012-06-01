@@ -16,12 +16,21 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 
 	Le script est également compatible avec les fichiers d'exports/imports OPML ce qui rend la migration de tous les agrégateurs réspectant le standard OPML simple et rapide.
 
+================
+== PRE-REQUIS ==
+================
+
+	- Serveur Apache conseillé (Non testé sur les autres serveurs types Nginx ...)
+	- PHP 5.3 minimum
+	- Extension SQLite 3 pour PHP5
+	- SQLite 3
+
 ==================
 == INSTALLATION ==
 ==================
 
 	1. Récuperez le projet sur le dépot SVN de la version courante : http://hades.idleman.fr/leed
-	2. Placez le projet dans votre repertoire web et appliquez une permission chmod 775 sur le dossier et son contenu
+	2. Placez le projet dans votre repertoire web et appliquez une permission chmod 775 (nb si vous êtes sur un hebergement ovh, préférez un 0755 ou vous aurez une erreur 500) sur le dossier et son contenu
 	3. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez les instructions.
 	4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité
 	5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize ex : 

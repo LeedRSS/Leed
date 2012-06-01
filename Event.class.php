@@ -1,5 +1,11 @@
 <?php
 
+/*
+ @nom: Event
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Classe de gestion des évenements/news liés a chaques flux RSS/ATOM
+ */
+
 class Event extends SQLiteEntity{
 
 	protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;

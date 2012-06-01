@@ -1,4 +1,12 @@
 <?php
+
+
+/*
+ @nom: Configuration
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Classe de gestion des préférences, fonctionne sur un simple système clé=>valeur avec un cache session pour eviter les requête inutiles
+ */
+
 class Configuration extends SQLiteEntity{
 
 	protected $id,$key,$value,$confTab;

@@ -1,4 +1,14 @@
-<?php require_once('header.php'); ?>
+<?php 
+
+/*
+ @nom: about
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Page "A propos" d'information contextuelles sur le projet 
+ */
+
+require_once('header.php');
+require_once('constant.php'); 
+?>
 
 
 
@@ -9,9 +19,9 @@
 				<h3>Auteur</h3>
 				<ul>
 						<li>Nom : Valentin CARRUESCO aka Idleman</li>
-						<li>Mail : <a href="idleman@idleman.fr">idleman@idleman.fr</a></li>
-						<li>Blog : <a href="blog.idleman.fr">blog.idleman.fr</a></li>
-						<li>CV : <a href="www.idleman.fr">blog.idleman.fr</a></li>
+						<li>Mail : <a href="mailto: idleman@idleman.fr">idleman@idleman.fr</a></li>
+						<li>Blog : <a href="http://blog.idleman.fr">blog.idleman.fr</a></li>
+						<li>CV : <a href="http://www.idleman.fr">blog.idleman.fr</a></li>
 				</ul>
 			</aside>
 			
@@ -19,7 +29,6 @@
 				<header>
 					<h1>A propos</h1>
 					<p>A propos de Leed (Light Feed)</p>
-				
 				</header>
 				
 
@@ -29,7 +38,7 @@
 					<h2>G&eacute;n&eacute;ralit&eacute;s :</h2>
 					<ul>
 						<li><b>Application :</b> Leed (Light Feed)</li>
-						<li><b>Version :</b> 1.0 Alpha</li>
+						<li><b>Version :</b> <?php echo VERSION_NUMBER.' ('.VERSION_NAME.')'; ?></li>
 						<li><b>Auteur :</b> Valentin CARRUESCO aka Idleman (idleman@idleman.fr)</li>
 						<li><b>D&eacute;pot SVN :</b> http://hades.idleman.fr/leed</li>
 						<li><b>Licence :</b> CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les travaux d&eacute;riv&eacute;s peuvent &ecirc;tre autoris&eacute;s avec accord de l'auteur</li>

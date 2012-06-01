@@ -1,4 +1,11 @@
 <?php
+
+/*
+ @nom: Folder
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Classe de gestion des dossiers/catégories contenant les flux
+ */
+
 class Folder extends SQLiteEntity{
 
 	protected $id,$name,$parent,$isopen;

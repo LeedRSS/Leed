@@ -1,4 +1,11 @@
 <?php
+
+/*
+ @nom: User
+ @auteur: Idleman (idleman@idleman.fr)
+ @description:  Classe de gestion des utilisateurs
+ */
+
 class User extends SQLiteEntity{
 
 	protected $id,$login,$password;

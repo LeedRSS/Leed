@@ -2,13 +2,13 @@
 
 /*
 	@nom: SQLiteEntity
-	@auteur: Valentin CARRUESCO (valentincarruesco@yahoo.fr)
-	@date de création: 16/04/2012 02:34:15
+	@auteur: Idleman (idleman@idleman.fr)
 	@description: Classe parent de tous les modèles (classe entitées) liées a la base de donnée,
 	 cette classe est configuré pour agir avec une base SQLite, mais il est possible de redefinir ses codes SQL pour l'adapter à un autre SGBD sans affecter 
 	 le reste du code du projet.
 
 */
+
 
 class SQLiteEntity extends SQLite3
 {

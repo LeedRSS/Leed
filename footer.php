@@ -1,5 +1,4 @@
-
-	</div> <!-- #main-container -->
+</div> <!-- #main-container -->
 
 	<div id="footer-container">
 		<footer class="wrapper">

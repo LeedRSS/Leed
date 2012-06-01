@@ -1,4 +1,12 @@
-<?php session_start(); 
+<?php 
+
+/*
+ @nom: install
+ @auteur: Idleman (idleman@idleman.fr)
+ @description:  Page d'installation du script (a supprimer après installation)
+ */
+
+session_start(); 
 require_once('Functions.class.php');
 $_ = array();
 foreach($_POST as $key=>$val){
@@ -145,7 +153,7 @@ if(isset($_['installButton'])){
 						<?php 
 
 						if(!is_writable('./')){
-							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 775 -R /var/www/leed/)';
+							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 775 -R '.str_replace(basename(__FILE__),'',__FILE__).')';
 						}else{
 							$test['Succ&egrave;s'][]='Permissions sur le dossier courant : OK';
 						}
@@ -160,7 +168,7 @@ if(isset($_['installButton'])){
 						}else{
 							 $test['Succ&egrave;s'][] = 'Fonction requise "file_put_contents" : OK';	
 						}
-						if (@version_compare(PHP_VERSION, '4.3.0') <= 0){
+						if (@version_compare(PHP_VERSION, '5.3.0') <= 0){
 						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
 						}else{
 						 $test['Succ&egrave;s'][] = 'Compabilit&eacute; de version PHP ('.PHP_VERSION.') : OK';	

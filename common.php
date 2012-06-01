@@ -1,4 +1,12 @@
-<?php session_start();
+<?php 
+
+/*
+ @nom: common
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
+ */
+
+session_start();
 $start=microtime(true);
 class_exists('SQLiteEntity') or require_once('SQLiteEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');

@@ -1,4 +1,12 @@
-<?php require_once('header.php'); ?>
+<?php 
+
+/*
+ @nom: addFeed
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Page de gestion de toutes les préférences/configurations administrateur
+ */
+
+require_once('header.php'); ?>
 
 
 

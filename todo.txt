@@ -6,23 +6,24 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Résolus : Quand on click sur le titre du post on on est bien dirigé vers le site du post sans problème mais le tire change en "(lu)" 
-- Modification des boucles de requettages de SQLITEentity pour gain de perf + fix des strictes sous PHP 5.4 
-- Modification SQLITEentity appel de requete perssonalisé (portabilité vers MySQL)
+- L'exemple pour attribuer les accès en ecritures sur le dossier de leed (lors de l'install) est maintenant dynamique (determiné en fonction du chemin local vers leed)
+
+- Modification des liens a propos qui ne fonctionnait pas
+
+- Commentaires sur les pages/classes du projet
 
 =========================
 ==== BUGS CONSTATES  ====
 =========================
 
-- Quand on click sur le titre du post on on est bien dirigé vers le site du post sans problème mais le tire change en "(lu)" 
-
+- Modification des prérequis dans le README
+- Modification de la versiond e PHP requise dans l'install.php
 
 =============================
 ==== ECARTS FONCTIONNELS ====
 =============================
 
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
-- Doc : Tu ne donnes pas les prérequis : Faut-il mysql ou sqlight, Apache ou Nginx ?
 
 =====================
 ==== SUGGESTIONS ====

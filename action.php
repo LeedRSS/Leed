@@ -1,4 +1,11 @@
 <?php
+
+/*
+ @nom: action
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Page de gestoin des evenements non liés a une vue particulière (appels ajax, requetes sans resultats etc...)
+ */
+
 set_time_limit(0);
 require_once("common.php");
 
