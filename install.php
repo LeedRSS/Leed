@@ -35,7 +35,7 @@ $_[$key]=Functions::secure($val);
 
 	<link rel="stylesheet" href="css/style.css">
 
-	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+	<script src="js/libs/jqueryAndModernizr.min.js"></script>
 </head>
 <body>
 	<div id="header-container">
