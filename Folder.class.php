@@ -19,6 +19,29 @@ class Folder extends SQLiteEntity{
 		'isopen'=>'integer'
 	);
 
+	function unreadCount(){
+
+	}
+
+
+	function getEvents($start=0,$limit=10000,$order,$columns='*'){
+		$eventManager = new Event();
+		$objects = array();
+		$results = $this->customQuery('SELECT '.$columns.' FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread=1 AND feed.folder = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
+		
+		while($item = $results->fetchArray()){
+			$object = new Event();
+				foreach($object->getObject_fields() as $field=>$type){
+					if(isset($item[$field])) eval('$object->set'.ucFirst($field) .'(html_entity_decode(\''. addslashes($item[$field]).'\'),false);');
+				}
+				$objects[] = $object;
+				unset($object);
+		}
+
+		
+		return $objects;
+	}
+
 	function __construct(){
 		parent::__construct();
 	}

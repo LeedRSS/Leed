@@ -88,7 +88,7 @@ if(isset($_['installButton'])){
 	//Identification de l'utilisateur en session
 	$_SESSION['currentUser'] = serialize($admin);
 	//Ajout des préférences et reglages
-	$configurationManager->add('root',$_['root']);
+	$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 	//$configurationManager->put('view',$_['view']);
 	$configurationManager->add('articleView',$_['articleView']);
 	$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
@@ -125,7 +125,7 @@ if(isset($_['installButton'])){
 					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
+					<code>0 * * * * wget -q -O <?php echo (str_replace(basename(__FILE__),'logs/cron.log',__FILE__)); ?> http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				
@@ -133,7 +133,7 @@ if(isset($_['installButton'])){
 					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
+					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O <?php echo (str_replace(basename(__FILE__),'logs/cron.log',__FILE__)); ?> http://127.0.0.1/leed/action.php?action=synchronize	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les 5 minutes(conseill&eacute; pour une synchronisation gradu&eacute;e) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				

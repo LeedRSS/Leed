@@ -72,8 +72,9 @@ switch ($_['action']){
 	case 'updateConfiguration':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 
+
 			//Ajout des préférences et reglages
-			$configurationManager->put('root',$_['root']);
+			$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
 			$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
@@ -245,6 +246,13 @@ switch ($_['action']){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
 			$folderManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
+		}
+	break;
+
+	case 'renameFeed':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(isset($_['id'])){
+			$feedManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
 		}
 	break;
 

@@ -339,5 +339,9 @@ class SQLiteEntity extends SQLite3
 		$this->debug = $debug;
 	}
 
+	public function getObject_fields(){
+		return $this->object_fields;
+	}
+
 }
 ?>

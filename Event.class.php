@@ -40,7 +40,19 @@ class Event extends SQLiteEntity{
 		parent::__construct();
 	}
 
-function setId($id){
+
+	function getEventCountPerFolder(){
+		$events = array();
+		$results = $this->customQuery('SELECT COUNT('.$this->TABLE_NAME.'.id),folder.id FROM '.$this->TABLE_NAME.' INNER JOIN feed ON (event.feed = feed.id) INNER JOIN folder ON (folder.id = feed.folder) WHERE '.$this->TABLE_NAME.'.unread=1 GROUP BY folder.id');
+		
+		while($item = $results->fetchArray()){
+			$events[$item[1]] = $item[0];
+		}
+		
+		return $events;
+	}
+
+	function setId($id){
 		$this->id = $id;
 	}
 
@@ -64,8 +76,9 @@ function setId($id){
 		return utf8_encode($this->description);
 	}
 
-	function setDescription($description){
-		$this->description = utf8_decode(str_replace('’','\'',$description));
+	function setDescription($description,$encoding = true){
+		$this->description =  str_replace('’','\'',$description);
+		if($encoding)$this->description = utf8_decode($this->description);
 	}
 
 	function getPubdate($format=false){
@@ -116,8 +129,9 @@ function setId($id){
 		return utf8_encode($this->content);
 	}
 
-	function setContent($content){
-		$this->content = utf8_decode(str_replace('’','\'',$content));
+	function setContent($content,$encoding=true){
+		$this->content = str_replace('’','\'',$content);
+		if($encoding)$this->content = utf8_decode($this->content);
 	}
 
 

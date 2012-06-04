@@ -51,6 +51,35 @@ function saveRenameFolder(element,folder){
 	});
 }
 
+
+function renameFeed(element,feed){
+	var feedLine = $(element).parent().parent();
+	var feedNameCase = $('td:first a',feedLine);
+	var url = feedNameCase.attr('href');
+	var value = feedNameCase.html();
+	$(element).html('Enregistrer');
+	$(element).attr('style','background-color:#0C87C9;');
+	$(element).attr('onclick','saveRenameFeed(this,'+feed+',"'+url+'")');
+	feedNameCase.replaceWith('<input type="text" name="feedName" value="'+value+'"/>');
+}
+
+function saveRenameFeed(element,feed,url){
+	var feedLine = $(element).parent().parent();
+	var feedNameCase = $('td:first',feedLine);
+	var value = $('input',feedNameCase).val();
+	$(element).html('Renommer');
+	$(element).attr('style','background-color:#F16529;');
+	$(element).attr('onclick','renameFeed(this,'+feed+')');
+	feedNameCase.replaceWith('<a href="'+url+'">'+value+'</a>');
+	$.ajax({
+				  url: "./action.php?action=renameFeed",
+				  data:{id:feed,name:value}
+	});
+}
+
+
+
+
 function changeFeedFolder(element,id){
 	var value = $(element).val();
 	window.location = "./action.php?action=changeFeedFolder&feed="+id+"&folder="+value;

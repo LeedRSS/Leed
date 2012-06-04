@@ -142,6 +142,11 @@ class Feed extends SQLiteEntity{
 					if(trim($event->getDescription())=='')
 						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
 					
+
+					if(trim($event->getContent())=='')
+						$event->setContent($event->getDescription());
+					
+
 						/*//Tentative de detronquage si la description existe
 						if($event->getDescription()!=''){
 							  // preg_match('#<a(.+)href=(.+)>#isU', $event->getDescription(), $matches);
