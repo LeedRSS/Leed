@@ -7,6 +7,6 @@
  */
 
 	define('VERSION_NUMBER','1');
-	define('VERSION_NAME','Beta (rev 44)');
+	define('VERSION_NAME','Beta (rev 45)');
 
 ?>

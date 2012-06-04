@@ -6,14 +6,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Ajout automatique du "/" en fin de racine de projet
-- Mise à jour de l'installation pour préciser un chemin perssonalisé dans l'exemple du cron (fichier de sortie)
-- En cas de contenu absent , leed copie bien la description et reciproquement
-- [IMPOSSIBLE DE REPRODUIRE LE BUG] il y a un petit problème avec l'option d'affichage partiel/complet (passage en complet qui fait disparaître les "contenus"), d'ailleurs une option de déploiement des contenus des flux serait un plus, surtout sur la page d'accueil.
-- Possibilité de pouvoir renommer un flux
-- Possibilité de voir le nombre d'event non lu par dossier (au lieu du nombre de flux)
-- Possibilité de lire les non lu par dossiers
-- Ajout du numéro de version de Leed en rapport avec le Release dans a propos
+- Résolution de la regression : impossible de marquer comme lu tout un flux
 
 =========================
 ==== BUGS CONSTATES  ====

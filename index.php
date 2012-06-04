@@ -48,7 +48,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						<ul <?php if(!$folder->getIsopen()){ ?>style="display:none;"<?php } ?>>
 							<?php if (count($feeds)!=0 ) {
 								foreach($feeds as $feed){ ?>
-								<li><a href="index.php?action=selectedFeed&feed=<?php echo $feed['id'];?>" alt="<?php echo $feed['url']; ?>" title="<?php echo $feed['url']; ?>"><?php echo $feed['name']; ?> </a><?php if(isset($unread[$feed['id']])){ ?>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed['id']; ?>;'"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread[$feed['id']]; ?></span></button><?php } ?> </li>
+								<li><a href="index.php?action=selectedFeed&feed=<?php echo $feed['id'];?>" alt="<?php echo $feed['url']; ?>" title="<?php echo $feed['url']; ?>"><?php echo $feed['name']; ?> </a><?php if(isset($unread[$feed['id']])){ ?>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=<?php echo $feed['id']; ?>';"><span alt="marquer comme lu" title="marquer comme lu"><?php echo $unread[$feed['id']]; ?></span></button><?php } ?> </li>
 							<?php }} ?>
 						</ul>
 						<!-- FIN FLUX DU DOSSIER -->
