@@ -6,7 +6,6 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Performance : modification du système de requettage pour les imports et synchronisation, gain du double de temps d'execution.
 
 =======================
 ==== BUGS VALIDES  ====
@@ -22,7 +21,6 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== SUGGESTIONS VALIDEES ====
 ==============================
 
-- Afin d'economiser des requetes sur l'import, voir si on ne peux pas integrer tous les evenements d'unflux en une seule requete
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
 - Traiter le module de synchro comme le module d'import pour la progression
