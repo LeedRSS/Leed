@@ -63,7 +63,7 @@ class Feed extends SQLiteEntity{
 
 			
 			
-			$this->name = (isset($xml->title)?$xml->title:$xml->channel->title);
+			if(trim($this->name=='')) $this->name = (isset($xml->title)?$xml->title:$xml->channel->title);
 			$this->description = $xml->channel->description;
 			$this->website = $xml->channel->link;
 
@@ -83,7 +83,7 @@ class Feed extends SQLiteEntity{
 
 				//Deffinition du GUID : 
 				$guid = (trim($item->guid)!=''?$item->guid:$item->link['href']);
-
+				$guid = (trim($guid)!=''?$guid:$item->link);
 				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($guid)));
 				
 				//echo '<hr>'.$item->title.' ('.$guid.') : '.$alreadyParsed.($alreadyParsed==0?'Non parsé':'Parsé').'<hr>';

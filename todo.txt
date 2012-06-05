@@ -6,41 +6,47 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Résolution de la regression : impossible de marquer comme lu tout un flux
+- Bug résolu : Le renommage des flux ne survie pas à la mise à jour des flux
+- Bug résolu : lorsqu'on clique sur le titre de la news pour ouvrir la page, la news se grise ; par contre effectivement lorsqu'on clique sur "lu/non lu", la news disparait
+ce n'est pas forcément très cohérent dans le fonctionnement...
+- Fausse alerte : Le bookmarlket a l'air d'avoir subis une regression
+- Résolu : les non-lus ne sont pas triés par ordre chronologique lorsqu'on clique sur "afficher les non lus en premier"
+-Bug résolu : L'ajout du flux RSS de Ouest France (www.ouest-france.fr/actu/actualite-RSS.php) ne fonctionne pas. Une seule actu est prise en compte.
+- Possibilité de choisir de classer les flux du plus ancien au plus récent
+- Ajout du nombres de secondes d'execution pour l'import et la synchronisation
 
-=========================
-==== BUGS CONSTATES  ====
-=========================
+=======================
+==== BUGS VALIDES  ====
+=======================
 
-- Le bookmarlket a l'air d'avoir subis une regression
--Bug : L'ajout du flux RSS de Ouest France (www.ouest-france.fr/actu/actualite-RSS.php) ne fonctionne pas. Une seule actu est prise en compte.
-
-=============================
-==== ECARTS FONCTIONNELS ====
-=============================
+=====================================
+==== ECARTS FONCTIONNELS VALIDES ====
+=====================================
 
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
 
-=====================
-==== SUGGESTIONS ====
-=====================
+==============================
+==== SUGGESTIONS VALIDEES ====
+==============================
+
 - Afin d'economiser des requetes sur l'import, voir si on ne peux pas integrer tous les evenements d'unflux en une seule requete
-- Tu devrais utiliser le nommage dynamique pour éviter d'utiliser les fonctions eval()
-- Ajouter le titre du blog sur les evenements non lu
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
+- Traiter le module de synchro comme le module d'import pour la progression
+
+===================
+==== A TRAITER ====
+===================
+
+
+- Tu devrais utiliser le nommage dynamique pour éviter d'utiliser les fonctions eval()
 - Verifier que les connexions a la base sql ne sont pas multiples inutilement
-- Possibilité de choisir de classer les flux du plus récent au plus ancien (et inversement)
 - Ajout un plugin pour Sharrre ( http://sharrre.com/ )
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
 - Possibilité de parser a travers un proxy
-- Dissocier l'appel du menu de l'appl des flux via ajax pour eviter de recharhger inutilement le menu a chaque fois ? (gain de perfs...)
+- Dissocier l'appel du menu de l'appl des flux via ajax pour eviter de recharger inutilement le menu a chaque fois ? (gain de perfs...)
 - proposer un passage à MySQL pour les grands nombres de flux
 - Code proxy :   Attention car sous GNU/Linux les variables sont Case sensitive il faut en tenir compte avec la fonction getenv.
-
-=================
-==== A TRIER ====
-=================
-
+- Ajouter des raccourcis touches, imiter rsslounge pour de na perdre les habitudes utilisateurs :http://code.google.com/p/rsslounge/wiki/Shortcuts

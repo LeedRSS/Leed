@@ -41,7 +41,7 @@ switch ($_['action']){
 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') termin&eacute;'."\n";
 			
 		}
-			echo date('H:i:s').' - Synchronisation terminée'."\n";
+			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )'."\n";
 		if(isset($_['format'])) echo '</textarea>';
 
 
@@ -184,7 +184,7 @@ switch ($_['action']){
 				echo '<li>Création des logs d\'imports....</li>';
 				echo str_pad('',4096)."\n";ob_flush();flush();
 				file_put_contents('./logs/Import du '.date('d-m-Y').'.log', $report ,FILE_APPEND);
-				echo '<li>Import des flux terminé.</li>';
+				echo '<li>Import des flux terminé ( '.number_format(microtime(true)-$start,3).' secondes ).</li>';
 				echo str_pad('',4096)."\n";ob_flush();flush();
 
 				echo '</ul>';
