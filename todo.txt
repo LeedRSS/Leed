@@ -6,14 +6,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Bug résolu : Le renommage des flux ne survie pas à la mise à jour des flux
-- Bug résolu : lorsqu'on clique sur le titre de la news pour ouvrir la page, la news se grise ; par contre effectivement lorsqu'on clique sur "lu/non lu", la news disparait
-ce n'est pas forcément très cohérent dans le fonctionnement...
-- Fausse alerte : Le bookmarlket a l'air d'avoir subis une regression
-- Résolu : les non-lus ne sont pas triés par ordre chronologique lorsqu'on clique sur "afficher les non lus en premier"
--Bug résolu : L'ajout du flux RSS de Ouest France (www.ouest-france.fr/actu/actualite-RSS.php) ne fonctionne pas. Une seule actu est prise en compte.
-- Possibilité de choisir de classer les flux du plus ancien au plus récent
-- Ajout du nombres de secondes d'execution pour l'import et la synchronisation
+- Performance : modification du système de requettage pour les imports et synchronisation, gain du double de temps d'execution.
 
 =======================
 ==== BUGS VALIDES  ====

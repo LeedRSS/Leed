@@ -61,8 +61,6 @@ class Feed extends SQLiteEntity{
 
 		if(is_object($xml)){
 
-			
-			
 			if(trim($this->name=='')) $this->name = (isset($xml->title)?$xml->title:$xml->channel->title);
 			$this->description = $xml->channel->description;
 			$this->website = $xml->channel->link;
@@ -71,23 +69,16 @@ class Feed extends SQLiteEntity{
 			if(trim($this->description)=='') $this->description = $xml->subtitle;
 
 			$eventManager = new Event();
-
-			
 			$items = $xml->xpath('//item');
-		
 			if(count($items)==0) $items = $xml->entry;
-
-	
+			$nonParsedEvents = array();
 			foreach($items as $item){
-
 
 				//Deffinition du GUID : 
 				$guid = (trim($item->guid)!=''?$item->guid:$item->link['href']);
 				$guid = (trim($guid)!=''?$guid:$item->link);
 				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($guid)));
 				
-				//echo '<hr>'.$item->title.' ('.$guid.') : '.$alreadyParsed.($alreadyParsed==0?'Non parsé':'Parsé').'<hr>';
-
 				if($alreadyParsed==0){
 					$event = new Event($guid,$item->title);
 					$namespaces = $item->getNameSpaces(true);
@@ -95,10 +86,7 @@ class Feed extends SQLiteEntity{
 						$dc = $item->children($namespaces['dc']);
 						$event->setCreator($dc->creator);
 						$event->setPubdate($dc->date);
-
-						if($event->getPubdate()=='')
-						$event->setPubdate($dc->pubDate);
-
+						if($event->getPubdate()=='') $event->setPubdate($dc->pubDate);
 					}
 
 
@@ -170,10 +158,14 @@ class Feed extends SQLiteEntity{
 					
 					$event->setFeed($this->id);
 					$event->setUnread(1);
-					$event->save();
+					$nonParsedEvents[] = $event;
+					unset($event);
 				}
 
 			}
+
+			if(count($nonParsedEvents)!=0) $eventManager->massiveInsert($nonParsedEvents);
+
 			$result = true;
 				
 		}else{

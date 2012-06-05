@@ -14,6 +14,12 @@ require_once("common.php");
 //Execution du code en fonction de l'action
 switch ($_['action']){
 
+
+	case 'sandbox':
+		// $events = array(new Event('$guid=null','$title=null','$description=null','$content=null','$pubdate=null','$link=null','$category=null','$creator=null'),new Event('$g','$t','$d','$c','$p','$l','$c','$c'));
+		// $eventManager->massiveInsert($events);
+	break;
+
 	case 'synchronize':
 
 		$synchronisationType = $configurationManager->get('synchronisationType');
