@@ -6,7 +6,10 @@
  @description: Page de gestion de toutes les préférences/configurations administrateur
  */
 
-require_once('header.php'); ?>
+require_once('header.php'); 
+
+if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false ){
+?>
 
 
 
@@ -178,4 +181,18 @@ require_once('header.php'); ?>
 			
 		</div> <!-- #main -->
 
-<?php require_once('footer.php'); ?>
+<?php 
+
+}else{
+	?>
+	<div id="main" class="wrapper clearfix">
+		<article>
+				<h3>Vous devez &ecirc;tre connect&eacute; pour consulter vos flux </h3>
+				<p>Si vous &ecirc;tes administrateur, vous pouvez r&eacute;gler les droits de visualisation dans la partie administration.</p>
+		</article>
+	</div>
+
+	<?php 
+}
+
+require_once('footer.php'); ?>

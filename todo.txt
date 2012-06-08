@@ -6,25 +6,12 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Intégration du parseur simplePie, ceci implique :
-		- Résolution des flux mal parsés
-		- Import et synchronisation moins gourmands et plus rapides
-		- Problèmes d'encodages résolus (a tester)
-		- Problèmes d'evenements parsés en double résolu (a tester)
-
-  /!\ Attention, possibilité de grosses régressions, gardez l'oeil ouvert (et le bon :))
+- Verouillage de la partie gestion pour la anonymes si le public mode est a off dans les préférences
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
-Certains flux sont nommé "flux invalide" même s'ils fonctionnent correctement.Même après avoir renommé le flux correctement, le nom "flux invalide" revient après mise à jour et apparition de nouvelles actus.
-
-
- Flux qui ne fonctionne pas avec le refresh.
-Quand je flag tout a lu et que je refais une synchronisation j'ai des flux déjà lu qui se reflag a non lu.
-1 exemple :
-<li><a href="index.php?action=selectedFeed&feed=24" alt="http://www.rom-freaks.net/rss.xml" title="http://www.rom-freaks.net/rss.xml">.:: www.ROM-FREAKs.NET ::. - ROMs and ISOs 4 You! - RSS Feed </a>  <button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed=24';"><span alt="marquer comme lu" title="marquer comme lu">20</span></button> </li>
 
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
@@ -43,7 +30,7 @@ Quand je flag tout a lu et que je refais une synchronisation j'ai des flux déj�
 - mettre en place la pagination pour les parcours de dossiers
 - Intervertir la disposition des bouton pour parcourir (bientot deplier) et des flux pour que les boutons toujours visibles soient alignés
 - Interdire la visibilité de la partie gestion si les préférences ont décochée le read for anonymous
--  Il pourrait être intéressant que le bouton "lu/non lu" de chaque news soit positionné à un endroit fixe sur la page d'accueil (une colonne à droite ou à gauche du titre?) ; cela permettrait d'ouvrir sa page d'accueil, de positionner sa souris sur le bouton de la première actu, puis de cliquer rapidement pour chaque news sans déplacer sa souris pour les faire disparaître au fur et à mesure qu'on en prend connaissance.
+
 
 ===================
 ==== A TRAITER ====
@@ -67,14 +54,6 @@ erreur de copier collé, c'est le premier lien qui ne marche pas (http://feeds.b
 
 Pour curl je dirais que ce serait bien de l'avoir en option car parfois on doit désactiver l'option allow_url_fopen et là ton simplexml_load_file est mort ainsi que toute ton appli.
 Est ce que tu as eu les de regarder SimplePie ?
-
-
-Flux qui sont invalide à l'import (si tu peux regarder si ça fonctionne chez toi)
-<li><a href="index.php?action=selectedFeed&feed=49" alt="http://blog.gaetan-grigis.eu/feed/" title="http://blog.gaetan-grigis.eu/feed/">Flux invalide </a> </li>
-<li><a href="index.php?action=selectedFeed&feed=65" alt="http://philippe.scoffoni.net/feed/" title="http://philippe.scoffoni.net/feed/">Flux invalide </a> </li>
-<li><a href="index.php?action=selectedFeed&feed=69" alt="http://www.quebecos.com/modules/rss/rss.php" title="http://www.quebecos.com/modules/rss/rss.php">Flux invalide </a> </li>
-<li><a href="index.php?action=selectedFeed&feed=3" alt="http://www.mangetamain.fr/feed" title="http://www.mangetamain.fr/feed">Flux invalide </a> </li>
-
 
 
 Idées d'amélioration :
