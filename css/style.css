@@ -528,6 +528,9 @@ footer a,#main aside a{
 .left{
 	float:left;
 }
+.right{
+	float:right;
+}
 .clear{
 	clear:both;
 }

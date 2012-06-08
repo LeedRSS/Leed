@@ -40,6 +40,16 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 	Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
 	6. Le script est installé, merci d'avoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
 
+=================
+== MISE A JOUR ==
+=================
+
+	Pour faire une mise à jour d'une version de Leed sur une autre, copiez le fichier database.db de votre ancienne installation vers votre nouvelle installation.
+
+	Vous ne devez pas relancer l'installation (install.php).
+
+	Dans certain cas, il est possible que les mises a jours concernent également la structure de la base de donnée, vous ne pourrez donc pas utiliser la technique ci dessous et devrez utiliser le module d'export/import puis rééfectuer l'installation.
+
 ================
 == LIBRAIRIES ==
 ================
