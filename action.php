@@ -16,8 +16,11 @@ switch ($_['action']){
 
 
 	case 'sandbox':
-		// $events = array(new Event('$guid=null','$title=null','$description=null','$content=null','$pubdate=null','$link=null','$category=null','$creator=null'),new Event('$g','$t','$d','$c','$p','$l','$c','$c'));
-		// $eventManager->massiveInsert($events);
+		// $feed = new Feed();
+		// $feed->setUrl('http://blog.idleman.fr/?feed=rss2');
+		// $feed->parse2();
+		// var_dump($feed);
+		
 	break;
 
 	case 'synchronize':

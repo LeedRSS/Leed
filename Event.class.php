@@ -73,7 +73,8 @@ class Event extends SQLiteEntity{
 	}
 
 	function getDescription(){
-		return utf8_encode($this->description);
+		// return utf8_encode($this->description);
+		return $this->description;
 	}
 
 	function setDescription($description,$encoding = true){
@@ -126,7 +127,8 @@ class Event extends SQLiteEntity{
 	}
 
 	function getContent(){
-		return utf8_encode($this->content);
+		//return utf8_encode($this->content);
+		return $this->content;
 	}
 
 	function setContent($content,$encoding=true){

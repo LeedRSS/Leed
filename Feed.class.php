@@ -37,7 +37,7 @@ class Feed extends SQLiteEntity{
 		}
 	}
 
-	function parse(){
+	function parse2(){
 
 		/*
 		//TODO parser a travers un proxy
@@ -173,6 +173,66 @@ class Feed extends SQLiteEntity{
 			$this->description = 'Impossible de se connecter au flux demand&eacute, peut &ecirc;tre est il en maintenance?';
 			$result = false;
 		}
+			$this->lastupdate = $_SERVER['REQUEST_TIME'];
+			$this->save();
+			return $result;
+	}
+
+
+	function parse(){
+
+		require_once("SimplePie.class.php");
+		$feed = new SimplePie();
+		$feed->set_feed_url($this->url);
+		$feed->init();
+		$feed->handle_content_type();
+
+		$this->name = $feed->get_title();
+		$this->website = $feed->get_link();
+		$this->description = $feed->get_description();
+
+		$items = $feed->get_items();
+		$eventManager = new Event();
+			
+		$nonParsedEvents = array();
+		foreach($items as $item){
+
+				//Deffinition du GUID : 
+			
+				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($item->get_id())));
+				
+
+				if($alreadyParsed==0){
+					$event = new Event();
+					$event->setGuid($item->get_id());
+					$event->setTitle($item->get_title());
+					$event->setPubdate($item->get_date());
+					$event->setCreator( (is_object($item->get_author())?$item->get_author()->name:'Anonyme') );
+				
+					$event->setLink($item->get_permalink());
+					$event->setContent($item->get_content());
+					$event->setDescription($item->get_description());
+					
+					if(trim($event->getDescription())=='')
+						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
+					
+					if(trim($event->getContent())=='')
+						$event->setContent($event->getDescription());
+					
+					$event->setCategory($item->get_category());
+					$event->setFeed($this->id);
+					$event->setUnread(1);
+					$nonParsedEvents[] = $event;
+					unset($event);
+				}
+
+		}
+
+			if(count($nonParsedEvents)!=0) $eventManager->massiveInsert($nonParsedEvents);
+
+			$result = true;
+				
+		
 			$this->lastupdate = $_SERVER['REQUEST_TIME'];
 			$this->save();
 			return $result;

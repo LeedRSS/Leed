@@ -1,5 +1,6 @@
 function toggleFolder(element,folder){
 	feedBloc = $('ul',$(element).parent().parent());
+
 	open = 0;
 	if(feedBloc.css('display')=='none') open = 1;
 	feedBloc.slideToggle(200);

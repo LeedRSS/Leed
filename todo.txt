@@ -6,17 +6,19 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Dossiers : Inversion des bouton non lu et parcourir pour alignement plus logique
-- Dossiers :Inversion bouton parcourir et bouton de pliage/dépliage 
-- Description la manip de mise à jour (sauvegarde de la base donnée) dans le README
-- Bouton "lu/non lu" de chaque news soit positionné à un endroit fixe
+- Intégration du parseur simplePie, ceci implique :
+		- Résolution des flux mal parsés
+		- Import et synchronisation moins gourmands et plus rapides
+		- Problèmes d'encodages résolus (a tester)
+		- Problèmes d'evenements parsés en double résolu (a tester)
+
+  /!\ Attention, possibilité de grosses régressions, gardez l'oeil ouvert (et le bon :))
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
 Certains flux sont nommé "flux invalide" même s'ils fonctionnent correctement.Même après avoir renommé le flux correctement, le nom "flux invalide" revient après mise à jour et apparition de nouvelles actus.
- Le flux suivant ne marche pas :http://feeds.boston.com/boston/bigpicture/indexhttp://www.boston.com/bigpicture/index.xml
 
 
  Flux qui ne fonctionne pas avec le refresh.
