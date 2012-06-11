@@ -6,23 +6,28 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Verouillage de la partie gestion pour la anonymes si le public mode est a off dans les préférences
+
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
+- Le bouton deplier disparait quand il n'y a plus d'evenements non lu
+- A cause de la rotation des evenements, certains evenements sont reparsé et remis en non lu, au lieu de supprimer les events qui tournent, ne garder que l'uid et vider le reste.
 
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
 =====================================
 
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
+- Pertes de perfs sur les dernieres revisions
+- Include dans boucle de synchro a dégager pour gain de perf
 
 ==============================
 ==== SUGGESTIONS VALIDEES ====
 ==============================
 
+- AJouter une options purge de la bdd
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
 - Traiter le module de synchro comme le module d'import pour la progression
