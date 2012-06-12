@@ -37,9 +37,9 @@ class Feed extends SQLiteEntity{
 		}
 	}
 
-	function parse2(){
+	/*function parse2(){
 
-		/*
+		
 		//TODO parser a travers un proxy
 
 		 $proxy = getenv("HTTP_PROXY"); 
@@ -55,7 +55,7 @@ class Feed extends SQLiteEntity{
 		            ); 
 		  libxml_set_streams_context($r_default_context); 
 		      } 
-		*/
+		
 
 		$xml = @simplexml_load_file($this->url,"SimpleXMLElement",LIBXML_NOCDATA);
 
@@ -135,7 +135,7 @@ class Feed extends SQLiteEntity{
 						$event->setContent($event->getDescription());
 					
 
-						/*//Tentative de detronquage si la description existe
+						//Tentative de detronquage si la description existe
 						if($event->getDescription()!=''){
 							  // preg_match('#<a(.+)href=(.+)>#isU', $event->getDescription(), $matches);
 							 //echo var_dump($matches);
@@ -151,7 +151,7 @@ class Feed extends SQLiteEntity{
 							
 
 						}
-						*/
+						
 					
 					
 					$event->setCategory($item->category);
@@ -178,10 +178,10 @@ class Feed extends SQLiteEntity{
 			return $result;
 	}
 
-
+*/
 	function parse(){
 
-		require_once("SimplePie.class.php");
+		
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
 		$feed->init();

@@ -24,7 +24,7 @@ switch ($_['action']){
 	break;
 
 	case 'synchronize':
-
+		require_once("SimplePie.class.php");
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 
@@ -172,6 +172,7 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
+				require_once("SimplePie.class.php");
 				if (ob_get_level() == 0) ob_start();
 				ignore_user_abort(true);
 			
@@ -206,6 +207,7 @@ switch ($_['action']){
 
 	
 	case 'addFeed':
+			require_once("SimplePie.class.php");
 			if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 			if(isset($_['newUrl'])){
 				$newFeed = new Feed();

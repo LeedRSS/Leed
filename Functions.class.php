@@ -371,16 +371,21 @@ class Functions
 			foreach($folders as $folder){
 					$feeds = $folder->getFeeds();
 					$childFolders = $folder->getFolders();
-					$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
+					$xmlStream .='<outline text="'.Functions::stripAccents(strip_tags($folder->getName())).'" title="'.Functions::stripAccents(strip_tags($folder->getName())).'" icon="">'."\n";
 					$xmlStream .= Functions::recursiveExportOutline($childFolders);
 						foreach($feeds as $feed){
-							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
+							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.Functions::stripAccents(strip_tags($feed->getDescription())).'" title="'.Functions::stripAccents(strip_tags($feed->getName())).'" description="'.Functions::stripAccents(strip_tags($feed->getDescription())).'" />'."\n";
 						}
 					
 					$xmlStream .= '			</outline>';
 					
 			}
 			return $xmlStream;
+		}
+
+		function stripAccents($string){
+			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüıÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜİ',
+		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 		}
 
 }
