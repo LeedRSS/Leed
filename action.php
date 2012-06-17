@@ -16,11 +16,7 @@ switch ($_['action']){
 
 
 	case 'sandbox':
-		// $feed = new Feed();
-		// $feed->setUrl('http://blog.idleman.fr/?feed=rss2');
-		// $feed->parse2();
-		// var_dump($feed);
-		
+		var_dump($configurationManager->populate());
 	break;
 
 	case 'synchronize':
@@ -86,8 +82,8 @@ switch ($_['action']){
 			$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
-			$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
-			$configurationManager->add('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
+			$configurationManager->put('articleDisplayContent',$_['articleDisplayContent']);
+			$configurationManager->put('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
 
 			$configurationManager->put('articlePerPages',$_['articlePerPages']);
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
@@ -96,7 +92,13 @@ switch ($_['action']){
 			$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
 			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
-			$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
+			$configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
+
+	
+		
+			 $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
+			 if(trim($_['password'])!='') $userManager->change(array('password'=>User::encrypt($_['password'])),array('id'=>$myUser->getId()));
+		
 
 
 	header('location: ./addFeed.php');

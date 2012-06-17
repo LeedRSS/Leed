@@ -374,7 +374,7 @@ class Functions
 					$xmlStream .='<outline text="'.Functions::stripAccents(strip_tags($folder->getName())).'" title="'.Functions::stripAccents(strip_tags($folder->getName())).'" icon="">'."\n";
 					$xmlStream .= Functions::recursiveExportOutline($childFolders);
 						foreach($feeds as $feed){
-							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.Functions::stripAccents(strip_tags($feed->getDescription())).'" title="'.Functions::stripAccents(strip_tags($feed->getName())).'" description="'.Functions::stripAccents(strip_tags($feed->getDescription())).'" />'."\n";
+							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getWebsite().'" title="'.$feed->getWebsite().'" description="'.$feed->getWebsite().'" />'."\n";
 						}
 					
 					$xmlStream .= '			</outline>';

@@ -6,25 +6,36 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Résolution : Le bouton deplier disparait quand il n'y a plus d'evenements non lu
-- Optimisation  du parsage
+- [RESOLUTION BUG] Lorsqu'on ajoute un flux, le nom n'est pas ajouté automatique ; à la place, c'est l'adresse du lien du flux qui s'affiche.
+
+- [RESOLUTION BUG] Le nom des flux personnalisés n'est pas conservé lors des mises à jour CRON.
+
+- [RESOLUTION REGRESSION] La preference racine du serveur n'etait pas pris en compte
+
+- [RESOLUTION REGRESSION] Certaines preferences ne pouvaient plus être modifiées
+
+- [VERIFIE + FONCTIONNE = AUCUNE ACTION] le bouton déplier ne marche pas sur Safari
+
+- [FONCTIONNALITE] Possibilité de modifier le login et le mot de passe admin
+
+- [RESOLUTION BUG] L'export genere un modèle mal encodé
+
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
-
 - A cause de la rotation des evenements, certains evenements sont reparsé et remis en non lu, au lieu de supprimer les events qui tournent, ne garder que l'uid et vider le reste.
-- L'export genere un modèle mal encodé
+
 
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
 =====================================
-
+- Je trouve l'option "shaarli" pas très KiSS compliant.
+C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
-- Pertes de perfs sur les dernieres revisions
-- Include dans boucle de synchro a dégager pour gain de perf
+- Pertes de perfs sur les dernieres revisions j'ai l'impression
 - marquer comme lu un dossier est extremement long
-
+"Import du 13-05-2012.log" à la racine et "Import du 31-05-2012.log" dans le dossier logs pourraient être effacés du dépôt...
 ==============================
 ==== SUGGESTIONS VALIDEES ====
 ==============================
@@ -33,43 +44,27 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
 - Traiter le module de synchro comme le module d'import pour la progression
-- Intervertir le bouton depliage et le boutton de parcour d'un dossier (regle un bug graphique et c'ets plus logique)
 - mettre en place la pagination pour les parcours de dossiers
-- Intervertir la disposition des bouton pour parcourir (bientot deplier) et des flux pour que les boutons toujours visibles soient alignés
-- Interdire la visibilité de la partie gestion si les préférences ont décochée le read for anonymous
+- le bouton lu/non lu de chaque news de la page d'accueil n'est toujours pas sur une position fixe comme annoncé sur les features de la rev 49 (si titre sur deux lignes, le bouton descend et si nom du rédacteur de la news varie beaucoup en longueur, le bouton se déplace) 
 
 
 ===================
 ==== A TRAITER ====
 ===================
 
-
 - Tu devrais utiliser le nommage dynamique pour éviter d'utiliser les fonctions eval()
 - Verifier que les connexions a la base sql ne sont pas multiples inutilement
-- Ajout un plugin pour Sharrre ( http://sharrre.com/ )
 - Proposer un .sh d'installation complete du programme + cron automatique
 - Détronquer les flux qui ne comportent que la description courte de l'article
 - Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
-- Possibilité de parser a travers un proxy
 - Dissocier l'appel du menu de l'appl des flux via ajax pour eviter de recharger inutilement le menu a chaque fois ? (gain de perfs...)
 - proposer un passage à MySQL pour les grands nombres de flux
-- Code proxy :   Attention car sous GNU/Linux les variables sont Case sensitive il faut en tenir compte avec la fonction getenv.
+- Possibilité de parser a travers un proxy:  Attention car sous GNU/Linux les variables sont Case sensitive il faut en tenir compte avec la fonction getenv.
 - Ajouter des raccourcis touches, imiter rsslounge pour de na perdre les habitudes utilisateurs :http://code.google.com/p/rsslounge/wiki/Shortcuts
-Ce matin tous les flux de 3 de mes 4 quatre dossiers ont été renommés en "flux invalide".Ils sont par contre toujours fonctionnels.
-erreur de copier collé, c'est le premier lien qui ne marche pas (http://feeds.boston.com/boston/bigpicture/index) 
 
+- Pour curl je dirais que ce serait bien de l'avoir en option car parfois on doit désactiver l'option allow_url_fopen et là ton simplexml_load_file est mort ainsi que toute ton appli.
 
-Pour curl je dirais que ce serait bien de l'avoir en option car parfois on doit désactiver l'option allow_url_fopen et là ton simplexml_load_file est mort ainsi que toute ton appli.
-Est ce que tu as eu les de regarder SimplePie ?
-
-
-Idées d'amélioration :
-- Dans un répertoire Classer les flux avec des non lus en premier ça évite de scroller dans les répertoirs qui ont beaucoup des flux
 - Mettre l'info de la dernière date heure de mise jour des flux (peut-être a coté du calcul du temps de génération de la page)
+
 - Trouver un moyen de manager les favoris sinon ce va être difficile de s'il retrouver
 - Faire une recherche dans les events
-
-Nice to Have :
-- L'application est inutilisable quand on désactive JavaScript
-- Si allow_url_fopen = off l'import ne fonctionne plus dans ce cas l'utilisation de curl peut-être utile
-- Une extension de PDO a la place de Sqlite3 serait sympa pour les malheureux qui ne peuvent pas installer autre chose que sqlite2, pdo et pdo_sqlite

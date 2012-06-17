@@ -48,6 +48,14 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 					</section>
 
 					<section>
+						<h2>Utilisateur</h2>
+						<p>Identifiant : <input type="text" name="login" value="<?php echo $myUser->getLogin(); ?>"></p>
+						<p>Mot de passe : <input type="text" name="password" value=""></p>
+						<h3>Laissez le champs vide si vous ne souhaitez pas changer le mot de passe</h3>
+					
+					</section>
+
+					<section>
 						<h2>Synchronisation</h2>
 						<p><input type="radio" <?php $synchronisationType =$configurationManager->get('synchronisationType'); if($synchronisationType=='auto'){ ?> checked="checked" <?php } ?> value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
 						<p><input type="radio" <?php if($synchronisationType=='graduate'){ ?> checked="checked" <?php } ?>  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>

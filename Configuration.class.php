@@ -43,6 +43,7 @@ class Configuration extends SQLiteEntity{
 	}
 
 	public function get($key){
+
 		return (isset($this->confTab[$key])?$this->confTab[$key]:'');
 	}
 
@@ -58,6 +59,8 @@ class Configuration extends SQLiteEntity{
 		$config->setKey($key);
 		$config->setValue($value);
 		$config->save();
+		$this->confTab[$key] = $value;
+		unset($_SESSION['configuration']);
 	}
 	
 	function getId(){

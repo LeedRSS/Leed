@@ -37,148 +37,6 @@ class Feed extends SQLiteEntity{
 		}
 	}
 
-	/*function parse2(){
-
-		
-		//TODO parser a travers un proxy
-
-		 $proxy = getenv("HTTP_PROXY"); 
-		
-		 if (strlen($proxy) > 1) { 
-		 $r_default_context = stream_context_get_default (array 
-		                    ('http' => array( 
-		                     'proxy' => $proxy, 
-		                     'request_fulluri' => True, 
-		                     'header'=>sprintf('Authorization: Basic %s',base64_encode('login:password'))
-		                    ), 
-		                ) 
-		            ); 
-		  libxml_set_streams_context($r_default_context); 
-		      } 
-		
-
-		$xml = @simplexml_load_file($this->url,"SimpleXMLElement",LIBXML_NOCDATA);
-
-		if(is_object($xml)){
-
-			if(trim($this->name=='')) $this->name = (isset($xml->title)?$xml->title:$xml->channel->title);
-			$this->description = $xml->channel->description;
-			$this->website = $xml->channel->link;
-
-			if(trim($this->website)=='') $this->website = (isset($xml->link[1]['href'])?$xml->link[1]['href']:$xml->link['href']);
-			if(trim($this->description)=='') $this->description = $xml->subtitle;
-
-			$eventManager = new Event();
-			$items = $xml->xpath('//item');
-			if(count($items)==0) $items = $xml->entry;
-			$nonParsedEvents = array();
-			foreach($items as $item){
-
-				//Deffinition du GUID : 
-				$guid = (trim($item->guid)!=''?$item->guid:$item->link['href']);
-				$guid = (trim($guid)!=''?$guid:$item->link);
-				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($guid)));
-				
-				if($alreadyParsed==0){
-					$event = new Event($guid,$item->title);
-					$namespaces = $item->getNameSpaces(true);
-					if(isset($namespaces['dc'])){ 
-						$dc = $item->children($namespaces['dc']);
-						$event->setCreator($dc->creator);
-						$event->setPubdate($dc->date);
-						if($event->getPubdate()=='') $event->setPubdate($dc->pubDate);
-					}
-
-
-					if(trim($event->getPubdate())=='')
-						$event->setPubdate($item->pubDate);
-
-					if(trim($event->getPubdate())=='')
-						$event->setPubdate($item->date);
-
-					if(trim($event->getPubdate())=='')
-						$event->setPubdate($item->published);
-
-					if(trim($event->getPubdate())=='')
-						$event->setPubdate($item->updated);
-
-					if(trim($event->getCreator())=='')
-						$event->setCreator($item->creator);
-
-					if(trim($event->getCreator())=='')
-						$event->setCreator($item->author);
-
-					if(trim($event->getCreator())=='')
-						$event->setCreator($item->author->name);
-
-					if(trim($event->getCreator())=='')
-						$event->setCreator('Anonyme');
-					
-					$event->setDescription($item->description);
-				
-					$event->setLink($item->link);
-
-					if(trim($event->getLink())=='')
-					$event->setLink($item->link['href']);
-
-					$event->setContent($item->content);
-
-					if(trim($event->getContent())=='' && isset($namespaces['content']))
-						$event->setContent($item->children($namespaces['content']));
-					
-					
-					if(trim($event->getDescription())=='')
-						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
-					
-
-					if(trim($event->getContent())=='')
-						$event->setContent($event->getDescription());
-					
-
-						//Tentative de detronquage si la description existe
-						if($event->getDescription()!=''){
-							  // preg_match('#<a(.+)href=(.+)>#isU', $event->getDescription(), $matches);
-							 //echo var_dump($matches);
-
-							//Récup de l'article dans son contexte
-							 $allContent = simplexml_load_file($event->getGuid());
-							 if($allContent!=false){
-							 	foreach($xml->xpath('//item') as $div){
-							 		echo var_dump($div);
-							 		echo '<hr>';
-							 	}
-							 }
-							
-
-						}
-						
-					
-					
-					$event->setCategory($item->category);
-					
-					$event->setFeed($this->id);
-					$event->setUnread(1);
-					$nonParsedEvents[] = $event;
-					unset($event);
-				}
-
-			}
-
-			if(count($nonParsedEvents)!=0) $eventManager->massiveInsert($nonParsedEvents);
-
-			$result = true;
-				
-		}else{
-			$this->name = 'Flux invalide';
-			$this->description = 'Impossible de se connecter au flux demand&eacute, peut &ecirc;tre est il en maintenance?';
-			$result = false;
-		}
-			$this->lastupdate = $_SERVER['REQUEST_TIME'];
-			$this->save();
-			return $result;
-	}
-
-*/
 	function parse(){
 
 		
@@ -187,7 +45,8 @@ class Feed extends SQLiteEntity{
 		$feed->init();
 		$feed->handle_content_type();
 
-		$this->name = $feed->get_title();
+		if($this->name=='') $this->name = $feed->get_title();
+		if($this->name=='') $this->name = $this->url;
 		$this->website = $feed->get_link();
 		$this->description = $feed->get_description();
 

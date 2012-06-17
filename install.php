@@ -88,7 +88,7 @@ if(isset($_['installButton'])){
 	//Identification de l'utilisateur en session
 	$_SESSION['currentUser'] = serialize($admin);
 	//Ajout des préférences et reglages
-	$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
+	$configurationManager->add('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 	//$configurationManager->put('view',$_['view']);
 	$configurationManager->add('articleView',$_['articleView']);
 	$configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
