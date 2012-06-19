@@ -7,7 +7,7 @@
  @description: Classe de gestion des préférences, fonctionne sur un simple système clé=>valeur avec un cache session pour eviter les requête inutiles
  */
 
-class Configuration extends SQLiteEntity{
+class Configuration extends MysqlEntity{
 
 	protected $id,$key,$value,$confTab;
 	protected $TABLE_NAME = 'configuration';
@@ -28,11 +28,11 @@ class Configuration extends SQLiteEntity{
 		if(!isset($_SESSION['configuration'])){
 	
 		$configurationManager = new Configuration();
-		$configsQuery = $configurationManager->customQuery('SELECT key,value FROM configuration');
+		$configs = $configurationManager->populate();
 		$confTab = array();
 
-		while($config = $configsQuery->fetchArray() ){
-			$this->confTab[$config['key']] = $config['value'];
+		foreach($configs as $config){
+			$this->confTab[$config->getKey()] = $config->getValue();
 		}
 
 		$_SESSION['configuration'] = serialize($this->confTab);

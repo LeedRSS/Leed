@@ -6,26 +6,14 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- [RESOLUTION BUG] Lorsqu'on ajoute un flux, le nom n'est pas ajouté automatique ; à la place, c'est l'adresse du lien du flux qui s'affiche.
-
-- [RESOLUTION BUG] Le nom des flux personnalisés n'est pas conservé lors des mises à jour CRON.
-
-- [RESOLUTION REGRESSION] La preference racine du serveur n'etait pas pris en compte
-
-- [RESOLUTION REGRESSION] Certaines preferences ne pouvaient plus être modifiées
-
-- [VERIFIE + FONCTIONNE = AUCUNE ACTION] le bouton déplier ne marche pas sur Safari
-
-- [FONCTIONNALITE] Possibilité de modifier le login et le mot de passe admin
-
-- [RESOLUTION BUG] L'export genere un modèle mal encodé
+- Passage de la base de donnée SQLite3 à MySQL, gain de rapidité, supression naturelle de bugs divers type :
+- Lorsque le fichier SQl devient trop gros, certains hosts type ovh sortent un :Unknown: write failed: No space left on device (28)
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
 - A cause de la rotation des evenements, certains evenements sont reparsé et remis en non lu, au lieu de supprimer les events qui tournent, ne garder que l'uid et vider le reste.
-
 
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
@@ -39,7 +27,7 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 ==============================
 ==== SUGGESTIONS VALIDEES ====
 ==============================
-
+- dans les non lu : effacer le message avant la réponse de la requete de supression pour gagner en rapidité de lisibilité
 - AJouter une options purge de la bdd
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part

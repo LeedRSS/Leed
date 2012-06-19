@@ -60,7 +60,8 @@ $_[$key]=Functions::secure($val);
 
 
 if(isset($_['installButton'])){
-	require_once('SQLiteEntity.class.php');
+	require_once('constant.php');
+	require_once('MysqlEntity.class.php');
 	require_once('Feed.class.php');
 	require_once('Event.class.php');
 	
@@ -168,17 +169,17 @@ if(isset($_['installButton'])){
 						}else{
 							 $test['Succ&egrave;s'][] = 'Fonction requise "file_put_contents" : OK';	
 						}
-						if (@version_compare(PHP_VERSION, '5.3.0') <= 0){
+						if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
 						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
 						}else{
 						 $test['Succ&egrave;s'][] = 'Compabilit&eacute; de version PHP ('.PHP_VERSION.') : OK';	
 						}
 
-						if (!@extension_loaded('sqlite3')){
-						 $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activ&eacute;e sur votre serveur, merci de bien vouloir l\'installer';
-						}else{
-						 $test['Succ&egrave;s'][] = 'Extension Sqlite3 : OK';	
-						}
+						// if (!@extension_loaded('sqlite3')){
+						//  $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activ&eacute;e sur votre serveur, merci de bien vouloir l\'installer';
+						// }else{
+						//  $test['Succ&egrave;s'][] = 'Extension Sqlite3 : OK';	
+						// }
 
 						if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
 							$test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activ&eacute;,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
@@ -212,7 +213,6 @@ if(isset($_['installButton'])){
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur: <input type="text" name="login" placeholder="Identifiant"></p>
 					<p>Mot de passe de l'administrateur: <input type="text" name="password" placeholder="Mot de passe"></p>
-					<h3>Si vous perdez vos identifiants admin, supprimez le fichier database.db pour reinitialiser le script (nb: l'ensemble des donn&eacute;es seront perdues)</h3>
 				</section>
 
 				<section>

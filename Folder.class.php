@@ -6,7 +6,7 @@
  @description: Classe de gestion des dossiers/catégories contenant les flux
  */
 
-class Folder extends SQLiteEntity{
+class Folder extends MysqlEntity{
 
 	protected $id,$name,$parent,$isopen;
 	protected $TABLE_NAME = 'folder';
@@ -29,7 +29,7 @@ class Folder extends SQLiteEntity{
 		$objects = array();
 		$results = $this->customQuery('SELECT '.$columns.' FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread=1 AND feed.folder = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
 		
-		while($item = $results->fetchArray()){
+		while($item = mysql_fetch_array($results)){
 			$object = new Event();
 				foreach($object->getObject_fields() as $field=>$type){
 					if(isset($item[$field])) eval('$object->set'.ucFirst($field) .'(html_entity_decode(\''. addslashes($item[$field]).'\'),false);');

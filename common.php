@@ -8,7 +8,8 @@
 
 session_start();
 $start=microtime(true);
-class_exists('SQLiteEntity') or require_once('SQLiteEntity.class.php');
+require_once('constant.php');
+class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
 class_exists('Functions') or require_once('Functions.class.php');

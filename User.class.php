@@ -6,7 +6,7 @@
  @description:  Classe de gestion des utilisateurs
  */
 
-class User extends SQLiteEntity{
+class User extends MysqlEntity{
 
 	protected $id,$login,$password;
 	protected $TABLE_NAME = 'user';

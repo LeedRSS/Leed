@@ -6,7 +6,7 @@
  @description: Classe de gestion des flux RSS/ATOM
  */
 
-class Feed extends SQLiteEntity{
+class Feed extends MysqlEntity{
 
 	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
 	protected $TABLE_NAME = 'feed';
@@ -153,7 +153,7 @@ class Feed extends SQLiteEntity{
 	function countUnreadEvents(){
 		$unreads = array();
 		$results = Feed::customQuery("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
-		while($item = $results->fetchArray()){
+		while($item = mysql_fetch_array($results)){
 			$unreads[$item[1]] = $item[0];
 		}
 		return $unreads;
@@ -162,7 +162,7 @@ class Feed extends SQLiteEntity{
 	function getFeedsPerFolder(){
 		$feeds = array();
 		$results = Feed::customQuery("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ORDER BY feed.name ;");
-		while($item = $results->fetchArray()){
+		while($item = mysql_fetch_array($results)){
 			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
 			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
 			$feeds[$item['folder']][$item['id']]['url'] = $item['url'];

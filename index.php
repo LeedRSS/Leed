@@ -82,7 +82,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 				if($articleDisplayContent && $articleView=='partial') $target .= 'event.description,';
 				if($articleDisplayContent && $articleView!='partial') $target .= 'event.content,';
 				if($articleDisplayLink) $target .= 'event.link,';
-				if($articleDisplayDate) $target .= 'event.pubDate,';
+				if($articleDisplayDate) $target .= 'event.pubdate,';
 				if($articleDisplayAuthor) $target .= 'event.creator,';
 				$target .= 'event.id';
 				

@@ -6,7 +6,7 @@
  @description: Classe de gestion des évenements/news liés a chaques flux RSS/ATOM
  */
 
-class Event extends SQLiteEntity{
+class Event extends MysqlEntity{
 
 	protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
 	protected $TABLE_NAME = 'event';
@@ -45,7 +45,7 @@ class Event extends SQLiteEntity{
 		$events = array();
 		$results = $this->customQuery('SELECT COUNT('.$this->TABLE_NAME.'.id),folder.id FROM '.$this->TABLE_NAME.' INNER JOIN feed ON (event.feed = feed.id) INNER JOIN folder ON (folder.id = feed.folder) WHERE '.$this->TABLE_NAME.'.unread=1 GROUP BY folder.id');
 		
-		while($item = $results->fetchArray()){
+		while($item = mysql_fetch_array($results)){
 			$events[$item[1]] = $item[0];
 		}
 		
