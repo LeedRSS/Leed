@@ -6,9 +6,6 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Passage de la base de donnée SQLite3 à MySQL, gain de rapidité, supression naturelle de bugs divers type :
-- Lorsque le fichier SQl devient trop gros, certains hosts type ovh sortent un :Unknown: write failed: No space left on device (28)
-
 =======================
 ==== BUGS VALIDES  ====
 =======================
@@ -24,6 +21,7 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 - Pertes de perfs sur les dernieres revisions j'ai l'impression
 - marquer comme lu un dossier est extremement long
 "Import du 13-05-2012.log" à la racine et "Import du 31-05-2012.log" dans le dossier logs pourraient être effacés du dépôt...
+- Les parcourir de dossier n'affichent que les events non lu
 ==============================
 ==== SUGGESTIONS VALIDEES ====
 ==============================
