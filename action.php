@@ -20,36 +20,49 @@ switch ($_['action']){
 	break;
 
 	case 'synchronize':
+		if (ob_get_level() == 0) ob_start();
 		require_once("SimplePie.class.php");
+
+		echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
+		echo str_pad('',4096)."\n";ob_flush();flush();
+
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 
-		if(isset($_['format'])) echo '<textarea style="width:100%;height: 500px;overflow:auto;">';
-			echo '------------------------------------------------------------------'."\n";
-			echo '-------------- Synchronisation du '.date('d/m/Y H:i:s').' --------------'."\n";
-			echo '------------------------------------------------------------------'."\n";
+		
+
+			echo '<h3>Synchronisation du '.date('d/m/Y H:i:s').'</h3>';
+			echo '<hr/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 
 		if($synchronisationType=='graduate'){
 			$feeds = $feedManager->loadAll(null,'lastupdate','10');
-			echo 'Synchronisation graduée...'."\n";
+			echo 'Type gradué...<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 		}else{
 			$feeds = $feedManager->populate('name');
-			echo 'Synchronisation complete...'."\n";
+			echo 'Type complet...<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 		}	
 			
-			echo count($feeds).' Flux a synchroniser...'."\n";
+			echo count($feeds).' Flux &agrave; synchroniser...<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 		foreach ($feeds as $feed) {
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...'."\n";
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 			$feed->parse();
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...'."\n";
+			echo str_pad('',4096)."\n";ob_flush();flush();
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') termin&eacute;'."\n";
-			
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') termin&eacute;<br/>';
+			echo str_pad('',4096)."\n";ob_flush();flush();
 		}
-			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )'."\n";
-		if(isset($_['format'])) echo '</textarea>';
+			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )<br/>';
+		echo str_pad('',4096)."\n";ob_flush();flush();
 
 
+		ob_end_flush();
 
 	break;
 
@@ -164,6 +177,14 @@ switch ($_['action']){
 		echo '<link rel="stylesheet" href="css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
 					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
 					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p></form>
+				
+			';
+	break;
+
+	case 'synchronizeForm':
+		echo '<link rel="stylesheet" href="css/style.css">
+				<a class="button" href="action.php?action=synchronize&format=html">Synchroniser maintenant</a>
+					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
 				
 			';
 	break;

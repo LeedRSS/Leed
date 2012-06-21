@@ -116,6 +116,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					case 'selectedFolder':
 						$currentFolder = $folderManager->getById($_['folder']);
 						$numberOfItem = $currentFolder->unreadCount();
+
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = round($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
@@ -176,7 +177,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 				</section>
 				<?php } ?>
 				<!-- PIED DE PAGE DES ARTICLES -->
-				<?php if($pages!=0) { ?><p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?<?php echo 'action='.$action; if($action=='selectedFeed') echo '&feed='.$currentFeed->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p> <?php } ?>
+				<?php if($pages!=0) { ?><p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?<?php echo 'action='.$action; if($action=='selectedFeed') echo '&feed='.$currentFeed->getId(); if($action=='selectedFolder') echo '&folder='.$currentFolder->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p> <?php } ?>
 			</article>
 
 

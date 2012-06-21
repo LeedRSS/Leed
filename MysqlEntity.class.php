@@ -351,6 +351,7 @@ class MysqlEntity
 		mysql_query($request);
 	}
 	public function customQuery($request){
+	//	mysql_query($request) or die(mysql_error());
 		return mysql_query($request);
 	}
 	

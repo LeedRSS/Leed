@@ -20,7 +20,9 @@ class Folder extends MysqlEntity{
 	);
 
 	function unreadCount(){
-
+		$results = $this->customQuery('SELECT COUNT(event.id) FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread=1 AND feed.folder = '.$this->getId());
+		$number = mysql_fetch_array($results);
+		return $number[0];
 	}
 
 

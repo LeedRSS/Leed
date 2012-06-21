@@ -16,8 +16,8 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 		<div id="main" class="wrapper clearfix">
 
 			<?php
-			$feeds = $feedManager->populate('name'); 
-			$folders = $folderManager->populate('name'); 
+				$feeds = $feedManager->populate('name'); 
+				$folders = $folderManager->populate('name'); 
 			?>
 
 			<aside>
@@ -30,7 +30,8 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer"><a target="_blank" href="./action.php?action=synchronize&format=html">Mise &agrave; jour manuelle des flux</a></li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise &agrave; jour manuelle des flux</a></li>
+				
 				</ul>
 			</aside>
 			
@@ -177,6 +178,12 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 				<section id="importBloc">
 					 <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
+
+				<section id="synchronizeBloc">
+					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
+				</section>
+
+				
 				
 				<form action="action.php?action=exportFeed" method="POST">
 				<section id="exportBloc">

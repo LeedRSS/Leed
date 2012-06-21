@@ -90,15 +90,18 @@ function changeFeedFolder(element,id){
 function readThis(element,id,hide){
 	var parent = $(element).parent().parent();
 	if(!parent.hasClass('eventRead')){
+
+		if(hide){ 
+					  		parent.fadeOut(200); 
+					  	}else{ 
+					  		parent.addClass('eventRead');
+					  	}
 		
 		$.ajax({
 					  url: "./action.php?action=readContent",
 					  data:{id:id},
-					  success:function(){
-					  	if(hide){ parent.fadeOut(200); 
-					  	}else{ 
-					  		parent.addClass('eventRead');
-					  	}
+					  success:function(msg){
+					  	if(msg!="") alert('Erreur de lecture : '+msg);
 					  }
 		});
 	}else{

@@ -290,9 +290,12 @@ header a,header a:hover,header a:visited{
 }
 
 .loginBloc{
-	margin:20px 20px 0px 20px;
-	float:left;
-	width:40%;
+	background-color: #222222;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    margin: 15px 20px 0;
+    padding: 5px;
+    width: 40%;
 }
 .loginBloc input{
 	width:100px;
@@ -301,6 +304,7 @@ header a,header a:hover,header a:visited{
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	margin-right:1%;
+
 }
 
 .logo i{
@@ -324,7 +328,7 @@ header a,header a:hover,header a:visited{
 	width:70%;
 }
 
-#addBloc,#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#manageFolderBloc{
+#addBloc,#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#manageFolderBloc,#synchronizeBloc{
 	display:none;
 }
 .pointer{

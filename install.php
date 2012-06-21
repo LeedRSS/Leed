@@ -60,6 +60,24 @@ $_[$key]=Functions::secure($val);
 
 
 if(isset($_['installButton'])){
+
+
+	$constant = "<?php
+	define('VERSION_NUMBER','1');
+	define('VERSION_NAME','Beta (rev 58)');
+
+	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
+	define('MYSQL_HOST','".$_['mysqlHost']."'); 
+	//Identifiant MySQL
+	define('MYSQL_LOGIN','".$_['mysqlLogin']."');
+	//mot de passe MySQL
+	define('MYSQL_MDP','".$_['mysqlMdp']."');
+	//Nom de la base MySQL ou se trouvera leed
+	define('MYSQL_BDD','".$_['mysqlBase']."');
+	?>";
+
+	file_put_contents('constant.php', $constant);
+
 	require_once('constant.php');
 	require_once('MysqlEntity.class.php');
 	require_once('Feed.class.php');
@@ -209,6 +227,17 @@ if(isset($_['installButton'])){
 					<h3>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
 				</section>
 
+				<section>
+					<h2>Base de donn&eacute;es</h2>
+					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
+					<h3>G&eacute;neralement localhost</h3>
+					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
+					<p>Mot de passe MySQL : <input type="text" name="mysqlMdp" value=""></p>
+					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
+					<h3>Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
+				</section>
+
+				
 				<section>
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur: <input type="text" name="login" placeholder="Identifiant"></p>

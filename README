@@ -31,15 +31,15 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 
 	1. Récuperez le projet sur le dépot SVN de la version courante : http://hades.idleman.fr/leed
 	2. Placez le projet dans votre repertoire web et appliquez une permission chmod 775 (nb si vous êtes sur un hebergement ovh, préférez un 0755 ou vous aurez une erreur 500) sur le dossier et son contenu
-	3. Editez le fichier constant.php pour y placer vos parametres de connexion a MySQL (la base doit être précédemment créée)
-	4. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez les instructions.
-	5. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité
-	6. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize ex : 
+	3. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez les instructions.
+	4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité
+	5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize ex : 
 
 	0 * * * * wget -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize
 
 	Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
-	6. Le script est installé, merci d'avoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
+
+Le script est installé, merci d'avoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
 
 =================
 == MISE A JOUR ==
