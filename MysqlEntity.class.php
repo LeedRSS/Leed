@@ -91,10 +91,11 @@ class MysqlEntity
 	public function create($debug='false'){
 		$query = 'CREATE TABLE IF NOT EXISTS `'.$this->TABLE_NAME.'` (';
 
-		$end = end(array_keys($this->object_fields));
+		$i=false;
 		foreach($this->object_fields as $field=>$type){
+			if($i){$query .=',';}else{$i=true;}
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
-			if($field != $end)$query .=',';
+			
 		}
 
 		$query .= ');';
