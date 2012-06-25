@@ -31,6 +31,7 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise &agrave; jour manuelle des flux</a></li>
+						<li class="pointer" onclick="window.location='action.php?action=purge';">Vider les &eacute;venements</a></li>
 				
 				</ul>
 			</aside>

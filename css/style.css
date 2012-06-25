@@ -157,7 +157,7 @@ header a,header a:hover,header a:visited{
 	padding:30px 0;
 }
 
-#main button, .loginBloc button,.button{
+#main button, .loginBloc button,.button,.readUnreadButton{
 	background-color:#f16529;
 	border:0px;
 	color:#ffffff;
@@ -167,6 +167,14 @@ header a,header a:hover,header a:visited{
 	-moz-border-radius: 30px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
+}
+
+.readUnreadButton{
+-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	
+	line-height:20px;
 }
 
 #main aside a.unreadForFolder,#main aside a.readFolder{

@@ -147,26 +147,26 @@ class MysqlEntity
 			$query = 'UPDATE `'.$this->TABLE_NAME.'`';
 			$query .= ' SET ';
 
-			$end = end(array_keys($this->object_fields));
+			$i=false;
 			foreach($this->object_fields as $field=>$type){
+				if($i){$query .=',';}else{$i=true;}
 				$id = eval('return htmlentities($this->'.$field.');');
 				$query .= '`'.$field.'`="'.$id.'"';
-				if($field != $end)$query .=',';
 			}
 
 			$query .= ' WHERE `id`="'.$this->id.'";';
 		}else{
 			$query = 'INSERT INTO `'.$this->TABLE_NAME.'`(';
-			$end = end(array_keys($this->object_fields));
+			$i=false;
 			foreach($this->object_fields as $field=>$type){
+				if($i){$query .=',';}else{$i=true;}
 				$query .='`'.$field.'`';
-				if($field != $end)$query .=',';
 			}
 			$query .=')VALUES(';
-			$end = end(array_keys($this->object_fields));
+			$i=false;
 			foreach($this->object_fields as $field=>$type){
+				if($i){$query .=',';}else{$i=true;}
 				$query .='"'.eval('return htmlentities($this->'.$field.');').'"';
-				if($field != $end)$query .=',';
 			}
 
 			$query .=');';
@@ -188,16 +188,18 @@ class MysqlEntity
 	*/
 	public function change($columns,$columns2,$operation='=',$debug='false'){
 		$query = 'UPDATE `'.$this->TABLE_NAME.'` SET ';
-		$end = end(array_keys($columns));
+		$i=false;
 		foreach ($columns as $column=>$value){
+			if($i){$query .=',';}else{$i=true;}
 			$query .= '`'.$column.'`="'.$value.'" ';
-			if($column != $end)$query .=',';
 		}
 		$query .=' WHERE '; 
-		$end = end(array_keys($columns2));
+
+		$i = false;
 		foreach ($columns2 as $column=>$value){
+			if($i){$query .='AND ';}else{$i=true;}
 			$query .= '`'.$column.'`'.$operation.'"'.$value.'" ';
-			if($column != $end)$query .='AND ';
+			
 		}
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		mysql_query($query)or die(mysql_error());
@@ -336,9 +338,9 @@ class MysqlEntity
 	public function delete($columns,$operation='=',$debug='false'){
 		$whereClause = '';
 
-			$start = reset(array_keys($columns));
+			$i=false;
 			foreach($columns as $column=>$value){
-				if($column != $start)$whereClause .= ' AND ';
+				if($i){$whereClause .=' AND ';}else{$i=true;}
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
 			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';

@@ -66,6 +66,7 @@ switch ($_['action']){
 
 	break;
 
+
 	case 'readAll':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$feed = (isset($_['feed'])?array('feed'=>$_['feed']):null);
@@ -116,6 +117,14 @@ switch ($_['action']){
 
 	header('location: ./addFeed.php');
 	break;
+
+
+	case 'purge':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		$eventManager->truncate();
+		header('location: ./addFeed.php');
+	break;
+
 
 	case 'exportFeed':
 				/*********************/
