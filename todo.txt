@@ -6,19 +6,19 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Modification de l'affichage lu/non lu pour pouvoir mieux cliquer depuis les smartphones
-- Résolution des bugs types "Warning: array_keys()" (ctte fois ça devrait être bon promis ^^)
-- Ajout d'une option de purge (supression des evenements uniquement) pour désengorger la base en cas de trop gros ralentissements
+- Résolution du bug sur le "tout marquer comme lu"
+- ajout dans le to-do
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
 
 
-
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
 =====================================
+
+- donner un prefixe comme leed_* pour les db uniques
 - Je trouve l'option "shaarli" pas très KiSS compliant.
 C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
@@ -34,10 +34,37 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
 - mettre en place la pagination pour les parcours de dossiers
 - le bouton lu/non lu de chaque news de la page d'accueil n'est toujours pas sur une position fixe comme annoncé sur les features de la rev 49 (si titre sur deux lignes, le bouton descend et si nom du rédacteur de la news varie beaucoup en longueur, le bouton se déplace) 
-
+-Je voudrait éviter les favicons, qu m'obligeraient a passer par des 
+machines de guerres de script pour la récupération de l'image et qui 
+ralentirais de beaucoups leed, par contre peut être que je développerais
+ un ptit système de couleurs attribuées en fonction du nom et/ou de 
+l'url du feed pour dissocier un flux d'un autre :)
+Pouvoir plier/déplier un article (contenu masqué/démasqué)
 ===================
 ==== A TRAITER ====
 ===================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Tu devrais utiliser le nommage dynamique pour éviter d'utiliser les fonctions eval()
 - Verifier que les connexions a la base sql ne sont pas multiples inutilement

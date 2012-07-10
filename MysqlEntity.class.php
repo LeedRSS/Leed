@@ -201,7 +201,7 @@ class MysqlEntity
 			$query .= '`'.$column.'`'.$operation.'"'.$value.'" ';
 			
 		}
-		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+		echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		mysql_query($query)or die(mysql_error());
 	}
 
