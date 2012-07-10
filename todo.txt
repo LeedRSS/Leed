@@ -1,7 +1,6 @@
 Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet et signaler les bugs/suggestions déjà proposés, ne pas tenir compte/supprimer si vous le souhaitez. Idleman
 
 
-
 ========================
 ==== DERNIER COMMIT ====
 ========================
@@ -13,6 +12,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== BUGS VALIDES  ====
 =======================
 
+- Dans les prefs, le module shaarli ne peux pas être activé (a tester)
 
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
@@ -21,10 +21,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 - donner un prefixe comme leed_* pour les db uniques
 - Je trouve l'option "shaarli" pas très KiSS compliant.
 C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
-- Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu (sous firefox du moins).
-- Pertes de perfs sur les dernieres revisions j'ai l'impression
-- marquer comme lu un dossier est extremement long
-"Import du 13-05-2012.log" à la racine et "Import du 31-05-2012.log" dans le dossier logs pourraient être effacés du dépôt...
+- Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu sous firefox.
 
 ==============================
 ==== SUGGESTIONS VALIDEES ====
@@ -40,6 +37,7 @@ ralentirais de beaucoups leed, par contre peut être que je développerais
  un ptit système de couleurs attribuées en fonction du nom et/ou de 
 l'url du feed pour dissocier un flux d'un autre :)
 Pouvoir plier/déplier un article (contenu masqué/démasqué)
+
 ===================
 ==== A TRAITER ====
 ===================
