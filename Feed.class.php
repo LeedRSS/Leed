@@ -101,7 +101,7 @@ class Feed extends MysqlEntity{
 	function removeOldEvents($maxEvent){
 		$eventManager = new Event();
 		$limit = $eventManager->rowCount(array('feed'=>$this->id))-$maxEvent;
-		if ($limit>0) $this->customExecute("DELETE FROM Event WHERE id in(SELECT id FROM Event WHERE feed=".$this->id."  AND favorite!=1 ORDER BY pubDate ASC LIMIT ".($limit>0?$limit:0).");");
+		if ($limit>0) $this->customExecute("DELETE FROM ".MYSQL_PREFIX."event WHERE id in(SELECT id FROM ".MYSQL_PREFIX."event WHERE feed=".$this->id."  AND favorite!=1 ORDER BY pubDate ASC LIMIT ".($limit>0?$limit:0).");");
 	}
 	
 	function setId($id){
@@ -152,7 +152,7 @@ class Feed extends MysqlEntity{
 
 	function countUnreadEvents(){
 		$unreads = array();
-		$results = Feed::customQuery("SELECT COUNT(event.id), feed.id FROM event INNER JOIN feed ON (event.feed = feed.id) WHERE event.unread = '1' GROUP BY feed.id") ;
+		$results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."feed.id FROM ".MYSQL_PREFIX."event INNER JOIN ".MYSQL_PREFIX."feed ON (".MYSQL_PREFIX."event.feed = ".MYSQL_PREFIX."feed.id) WHERE ".MYSQL_PREFIX."event.unread = '1' GROUP BY ".MYSQL_PREFIX."feed.id") ;
 		while($item = mysql_fetch_array($results)){
 			$unreads[$item[1]] = $item[0];
 		}
@@ -161,7 +161,7 @@ class Feed extends MysqlEntity{
 
 	function getFeedsPerFolder(){
 		$feeds = array();
-		$results = Feed::customQuery("SELECT feed.name AS name, feed.id   AS id, feed.url  AS url, folder.id AS folder FROM feed INNER JOIN folder ON ( feed.folder = folder.id ) ORDER BY feed.name ;");
+		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
 		while($item = mysql_fetch_array($results)){
 			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
 			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);

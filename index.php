@@ -78,13 +78,13 @@ $allEvents = $eventManager->getEventCountPerFolder();
 				$articleDisplayDate = $configurationManager->get('articleDisplayDate');
 				$articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 
-				$target = 'event.title,event.unread,event.favorite,';
-				if($articleDisplayContent && $articleView=='partial') $target .= 'event.description,';
-				if($articleDisplayContent && $articleView!='partial') $target .= 'event.content,';
-				if($articleDisplayLink) $target .= 'event.link,';
-				if($articleDisplayDate) $target .= 'event.pubdate,';
-				if($articleDisplayAuthor) $target .= 'event.creator,';
-				$target .= 'event.id';
+				$target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,';
+				if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';
+				if($articleDisplayContent && $articleView!='partial') $target .= MYSQL_PREFIX.'event.content,';
+				if($articleDisplayLink) $target .= MYSQL_PREFIX.'event.link,';
+				if($articleDisplayDate) $target .= MYSQL_PREFIX.'event.pubdate,';
+				if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';
+				$target .= MYSQL_PREFIX.'event.id';
 				
 
 				switch($action){

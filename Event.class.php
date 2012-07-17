@@ -43,7 +43,7 @@ class Event extends MysqlEntity{
 
 	function getEventCountPerFolder(){
 		$events = array();
-		$results = $this->customQuery('SELECT COUNT('.$this->TABLE_NAME.'.id),folder.id FROM '.$this->TABLE_NAME.' INNER JOIN feed ON (event.feed = feed.id) INNER JOIN folder ON (folder.id = feed.folder) WHERE '.$this->TABLE_NAME.'.unread=1 GROUP BY folder.id');
+		$results = $this->customQuery('SELECT COUNT('.MYSQL_PREFIX.$this->TABLE_NAME.'.id),'.MYSQL_PREFIX.'folder.id FROM '.MYSQL_PREFIX.$this->TABLE_NAME.' INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) INNER JOIN '.MYSQL_PREFIX.'folder ON ('.MYSQL_PREFIX.'folder.id = '.MYSQL_PREFIX.'feed.folder) WHERE '.MYSQL_PREFIX.$this->TABLE_NAME.'.unread=1 GROUP BY '.MYSQL_PREFIX.'folder.id');
 		
 		while($item = mysql_fetch_array($results)){
 			$events[$item[1]] = $item[0];

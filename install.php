@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1');
-	define('VERSION_NAME','Beta (rev 61)');
+	define('VERSION_NAME','Beta (rev 62)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -74,6 +74,8 @@ if(isset($_['installButton'])){
 	define('MYSQL_MDP','".$_['mysqlMdp']."');
 	//Nom de la base MySQL ou se trouvera leed
 	define('MYSQL_BDD','".$_['mysqlBase']."');
+	//Prefix des noms des tables leed pour les bases de données uniques
+	define('MYSQL_PREFIX','".$_['mysqlPrefix']."');
 	?>";
 
 	file_put_contents('constant.php', $constant);
@@ -235,6 +237,7 @@ if(isset($_['installButton'])){
 					<p>Mot de passe MySQL : <input type="text" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3>Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
+					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
 				</section>
 
 				

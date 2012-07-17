@@ -5,8 +5,8 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Résolution du bug sur le "tout marquer comme lu"
-- ajout dans le to-do
+- Modification du README pour adaptation a mysql
+- Ajout d'un prefix pour les noms de tables
 
 =======================
 ==== BUGS VALIDES  ====
@@ -45,8 +45,10 @@ Pouvoir plier/déplier un article (contenu masqué/démasqué)
 
 
 
-
-
+- cliquer sur le titre d'un item lu l'ouvre (logique) et le marque non-lu (me semble pas logique).
+- il y a un petit tiret qui se balade après "favoriser" (relique de quand lu/non lu se trouvait juste après).
+- il me semble que le cache est un peut agressif parfois (du genre quand on fait 2 synchronisation trop proches).
+- Une petite suggestion, ce serait sympa d'avoir un fond alterné pour les articles (genre gris très claire).
 
 
 

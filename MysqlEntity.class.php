@@ -1,4 +1,5 @@
 <?php
+require_once('constant.php');
 require_once('MysqlConnector.class.php');
 /*
 	@nom: MysqlEntity
@@ -62,7 +63,7 @@ class MysqlEntity
 	*/
 	public function destroy($debug='false')
 	{
-		$query = 'DROP TABLE IF EXISTS '.$this->TABLE_NAME.';';
+		$query = 'DROP TABLE IF EXISTS '.MYSQL_PREFIX.$this->TABLE_NAME.';';
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = mysql_query($query) or die(mysql_error());
 	}
@@ -76,7 +77,7 @@ class MysqlEntity
 	*/
 	public function truncate($debug='false')
 	{
-			$query = 'TRUNCATE TABLE '.$this->TABLE_NAME.';';
+			$query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 			$myQuery = mysql_query($query) or die(mysql_error());
 	}
@@ -89,7 +90,7 @@ class MysqlEntity
 	* @return Aucun retour
 	*/
 	public function create($debug='false'){
-		$query = 'CREATE TABLE IF NOT EXISTS `'.$this->TABLE_NAME.'` (';
+		$query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'` (';
 
 		$i=false;
 		foreach($this->object_fields as $field=>$type){
@@ -106,7 +107,7 @@ class MysqlEntity
 
 
 	public function massiveInsert($events){
-		$query = 'INSERT INTO `'.$this->TABLE_NAME.'`(';
+		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($type!='key'){
@@ -144,7 +145,7 @@ class MysqlEntity
 	*/
 	public function save(){
 		if(isset($this->id)){
-			$query = 'UPDATE `'.$this->TABLE_NAME.'`';
+			$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
 			$query .= ' SET ';
 
 			$i=false;
@@ -156,7 +157,7 @@ class MysqlEntity
 
 			$query .= ' WHERE `id`="'.$this->id.'";';
 		}else{
-			$query = 'INSERT INTO `'.$this->TABLE_NAME.'`(';
+			$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($i){$query .=',';}else{$i=true;}
@@ -187,7 +188,7 @@ class MysqlEntity
 	* @return Aucun retour
 	*/
 	public function change($columns,$columns2,$operation='=',$debug='false'){
-		$query = 'UPDATE `'.$this->TABLE_NAME.'` SET ';
+		$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
 		$i=false;
 		foreach ($columns as $column=>$value){
 			if($i){$query .=',';}else{$i=true;}
@@ -201,7 +202,7 @@ class MysqlEntity
 			$query .= '`'.$column.'`'.$operation.'"'.$value.'" ';
 			
 		}
-		echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+		//echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		mysql_query($query)or die(mysql_error());
 	}
 
@@ -244,7 +245,7 @@ class MysqlEntity
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 				}
 			}
-			$query = 'SELECT '.$selColumn.' FROM `'.$this->TABLE_NAME.'` '.$whereClause.' ';
+			$query = 'SELECT '.$selColumn.' FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
 			if($order!=null) $query .='ORDER BY '.$order.' ';
 			if($limit!=null) $query .='LIMIT '.$limit.' ';
 			$query .=';';
@@ -318,7 +319,7 @@ class MysqlEntity
 					$whereClause .= '`'.$column.'`="'.$value.'"';
 			}
 		}
-		$query = 'SELECT COUNT(id) FROM '.$this->TABLE_NAME.$whereClause;
+		$query = 'SELECT COUNT(id) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = mysql_query($query) or die(mysql_error());
 		$number = mysql_fetch_array($myQuery);
@@ -343,7 +344,7 @@ class MysqlEntity
 				if($i){$whereClause .=' AND ';}else{$i=true;}
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$value.'"';
 			}
-			$query = 'DELETE FROM `'.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
+			$query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 			mysql_query($query);
 		
