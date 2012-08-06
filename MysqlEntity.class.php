@@ -354,8 +354,10 @@ class MysqlEntity
 		mysql_query($request);
 	}
 	public function customQuery($request){
-	//	mysql_query($request) or die(mysql_error());
-		return mysql_query($request);
+		$result = mysql_query($request);
+		//echo $request;
+		//var_dump(mysql_error());
+		return $result;
 	}
 	
 

@@ -30,16 +30,16 @@ class Folder extends MysqlEntity{
 		$eventManager = new Event();
 		$objects = array();
 		$results = $this->customQuery('SELECT '.$columns.' FROM '.MYSQL_PREFIX.'event INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.'event.unread=1 AND '.MYSQL_PREFIX.'feed.folder = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
-		
-		while($item = mysql_fetch_array($results)){
-			$object = new Event();
-				foreach($object->getObject_fields() as $field=>$type){
-					if(isset($item[$field])) eval('$object->set'.ucFirst($field) .'(html_entity_decode(\''. addslashes($item[$field]).'\'),false);');
-				}
-				$objects[] = $object;
-				unset($object);
+		if($results!=false){
+			while($item = mysql_fetch_array($results)){
+				$object = new Event();
+					foreach($object->getObject_fields() as $field=>$type){
+						if(isset($item[$field])) eval('$object->set'.ucFirst($field) .'(html_entity_decode(\''. addslashes($item[$field]).'\'),false);');
+					}
+					$objects[] = $object;
+					unset($object);
+			}
 		}
-
 		
 		return $objects;
 	}

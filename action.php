@@ -69,9 +69,11 @@ switch ($_['action']){
 
 	case 'readAll':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
-		$eventManager->change(array('unread'=>'0'),array('unread'=>'1'));
+		$whereClause = array();
+		$whereClause['unread'] = '1';
+		if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
+		$eventManager->change(array('unread'=>'0'),$whereClause);
 		header('location: ./index.php');
-
 	break;
 
 	case 'readFolder':

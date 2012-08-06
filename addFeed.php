@@ -39,7 +39,7 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 			<article>
 				
 				
-
+				<?php if(isset($myUser) && $myUser!=false){  ?>
 				<section id="preferenceBloc">
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<h2>Pr&eacute;f&eacute;rences :</h2>
@@ -91,7 +91,7 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 					<button name="installButton">Enregistrer</button>
 					</form>
 				</section>
-
+				<?php } ?>
 
 				<section id="manageFolderBloc">
 					<h2>Gestion des dossiers (<?php echo count($folders);?>) :</h2>

@@ -122,7 +122,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$startArticle = ($page-1)*$articlePerPages;
 						
 
-						$events = $currentFolder->getEvents($startArticle,$articlePerPages,'event.pubdate DESC',$target);
+						$events = $currentFolder->getEvents($startArticle,$articlePerPages,MYSQL_PREFIX.'event.pubdate DESC',$target);
 
 						?>
 						<h1>Dossier : <?php echo $currentFolder->getName(); ?></h1>

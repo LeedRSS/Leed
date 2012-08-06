@@ -5,9 +5,10 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Modification du README pour adaptation a mysql
-- Ajout d'un prefix pour les noms de tables
-
+- Correction : Quand on est pas logué, fatal error de get login sur la page gestion
+- Correction : le clic sur lire tout un flux lisait tous les flux
+- Correction : Le dossiers ne comportant aucun item non lu sont en warning quand ils sont parcourus
+- Correction : Le clic sur un nom de dossier n'affiche plus les evenements non lus
 =======================
 ==== BUGS VALIDES  ====
 =======================
@@ -17,8 +18,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 =====================================
 ==== ECARTS FONCTIONNELS VALIDES ====
 =====================================
-
-- donner un prefixe comme leed_* pour les db uniques
+- il est assez facile pour un robot de surcharger le serveur en pointant régulièrement sur l’url: leed/action.php?action=synchronize (par exemple toute les 10 secondes)
 - Je trouve l'option "shaarli" pas très KiSS compliant.
 C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
 - Au clic avec la molette de souris ou sur le lien de fin de description, l'evenements n'est pas marqué comme lu sous firefox.
@@ -27,6 +27,8 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 ==== SUGGESTIONS VALIDEES ====
 ==============================
 
+- Gibbon : J’ai pas trouvé l’option pour cacher automatiquement les flux lus (peut-être qu’il n’y en a pas).
+- En mode titre only, pouvoir deplier l'article (chargement pas ajax a ce moment la)
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
 - mettre en place la pagination pour les parcours de dossiers

@@ -153,8 +153,10 @@ class Feed extends MysqlEntity{
 	function countUnreadEvents(){
 		$unreads = array();
 		$results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."feed.id FROM ".MYSQL_PREFIX."event INNER JOIN ".MYSQL_PREFIX."feed ON (".MYSQL_PREFIX."event.feed = ".MYSQL_PREFIX."feed.id) WHERE ".MYSQL_PREFIX."event.unread = '1' GROUP BY ".MYSQL_PREFIX."feed.id") ;
-		while($item = mysql_fetch_array($results)){
-			$unreads[$item[1]] = $item[0];
+		if($results!=false){
+			while($item = mysql_fetch_array($results)){
+				$unreads[$item[1]] = $item[0];
+			}
 		}
 		return $unreads;
 	}
@@ -162,10 +164,12 @@ class Feed extends MysqlEntity{
 	function getFeedsPerFolder(){
 		$feeds = array();
 		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
-		while($item = mysql_fetch_array($results)){
-			$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
-			$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
-			$feeds[$item['folder']][$item['id']]['url'] = $item['url'];
+		if($results!=false){
+			while($item = mysql_fetch_array($results)){
+				$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
+				$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
+				$feeds[$item['folder']][$item['id']]['url'] = $item['url'];
+			}
 		}
 		return $feeds;
 	}
