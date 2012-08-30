@@ -162,15 +162,21 @@ class Feed extends MysqlEntity{
 	}
 
 	function getFeedsPerFolder(){
-		$feeds = array();
+		$feedsFolderMap = array();
+		$feedsIdMap = array();
+
 		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
-				$feeds[$item['folder']][$item['id']]['id'] = $item['id'];
-				$feeds[$item['folder']][$item['id']]['name'] = html_entity_decode($item['name']);
-				$feeds[$item['folder']][$item['id']]['url'] = $item['url'];
+				$name = html_entity_decode($item['name']);
+				$feedsIdMap[$item['id']] = $name;
+				$feedsFolderMap[$item['folder']][$item['id']]['id'] = $item['id'];
+				$feedsFolderMap[$item['folder']][$item['id']]['name'] = $name;
+				$feedsFolderMap[$item['folder']][$item['id']]['url'] = $item['url'];
 			}
 		}
+		$feeds['folderMap'] = $feedsFolderMap;
+		$feeds['idMap'] = $feedsIdMap;
 		return $feeds;
 	}
 

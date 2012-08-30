@@ -5,12 +5,8 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Correction : Supression d'un tiret qui se baladait
-- Correction : Cliquer sur le titre d'un item lu l'ouvre (logique) mais ne le marque plus non-lu
-- Ajout : Code de synchronisation aléatoire pour eviter les floods ou attaques eventuelles sur la synchro l’url.
-- Correction : Résolution bugs graphiques mineurs sur les chapeaux d'articles
-- Correction : Le css des balises contenu dans les articles est moins contraint par le css de leed
-- Ajout : Coloration legère du fond d'un article sur deux pour la distinction
+- Ajout : Titre (ou url si titre manquant) du flux rss affiché a la place du libellé "Lien direct vers l'article" afin de savoir sur quel blog on se situe lors de la lecture d'evènement sur la home
+
 
 =======================
 ==== BUGS VALIDES  ====

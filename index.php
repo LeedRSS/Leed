@@ -20,6 +20,10 @@ $shareOption = ($configurationManager->get('plugin_shaarli')=='1'?$configuration
 $unread = $feedManager->countUnreadEvents();
 //recuperation de tous les flux
 $allFeeds = $feedManager->getFeedsPerFolder();
+
+$allFeedsPerFolder = $allFeeds['folderMap'];
+
+
 //recuperation de tous les event nons lu par dossiers
 $allEvents = $eventManager->getEventCountPerFolder();
 
@@ -39,7 +43,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						foreach($folders as $folder){  
 							//on récupere tous les flux lié au dossier
 						  	//$feeds = $folder->getFeeds();
-						  	$feeds = (isset($allFeeds[$folder->getId()])?$allFeeds[$folder->getId()]:array());
+						  	$feeds = (isset($allFeedsPerFolder[$folder->getId()])?$allFeedsPerFolder[$folder->getId()]:array());
 						  	$unreadEventsForFolder = (isset($allEvents[$folder->getId()])?$allEvents[$folder->getId()]:0);
 					?>
 					<!-- DOSSIER -->
@@ -57,7 +61,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					<?php }
 
 					unset($unread);
-					unset($allFeeds);
+					unset($allFeedsPerFolder);
 					unset($folders);
 					 ?>
 				</ul>
@@ -78,7 +82,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 				$articleDisplayDate = $configurationManager->get('articleDisplayDate');
 				$articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 
-				$target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,';
+				$target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
 				if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';
 				if($articleDisplayContent && $articleView!='partial') $target .= MYSQL_PREFIX.'event.content,';
 				if($articleDisplayLink) $target .= MYSQL_PREFIX.'event.link,';
@@ -173,7 +177,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					<!-- TITRE -->
 					<h2 class="articleTitle"><a onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':',false') ?>,'title');" target="_blank" href="<?php echo $event->getLink(); ?>" alt="<?php echo $plainDescription; ?>" title="<?php echo $plainDescription; ?>"><?php echo $event->getTitle(); ?></a> </h2>
 					<!-- DETAILS + OPTIONS -->
-					<h3 class="articleDetails"><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button> <?php } ?> <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(lu/non lu)</span></h3>
+					<h3 class="articleDetails"><?php if ($articleDisplayAuthor){ ?>par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank"><?php echo $allFeeds['idMap'][$event->getFeed()]; ?></a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button> <?php } ?> <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(lu/non lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->
 					<?php if($articleDisplayContent){ ?><p class="articleContent"><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p> <?php } ?>
 				</section>
