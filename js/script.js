@@ -87,7 +87,7 @@ function changeFeedFolder(element,id){
 }
 
 
-function readThis(element,id,hide){
+function readThis(element,id,hide,from){
 	var parent = $(element).parent().parent();
 	if(!parent.hasClass('eventRead')){
 
@@ -105,11 +105,15 @@ function readThis(element,id,hide){
 					  }
 		});
 	}else{
-		parent.removeClass('eventRead');
-	$.ajax({
-				  url: "./action.php?action=unreadContent",
-				  data:{id:id}
-	});
+
+			if(from!='title'){
+			
+				parent.removeClass('eventRead');
+				$.ajax({
+							  url: "./action.php?action=unreadContent",
+							  data:{id:id}
+				});
+			}
 	}
 }
 

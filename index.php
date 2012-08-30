@@ -69,7 +69,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 
 			<article>
 				<!-- ENTETE ARTICLE -->
-				<header>
+				<header class="articleHead">
 			<?php 
 				$articleDisplayContent = $configurationManager->get('articleDisplayContent');
 				$articleView = $configurationManager->get('articleView');
@@ -103,12 +103,13 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
 
 						?>
-						<h1><a target="_blank" href="<?php echo $currentFeed->getWebSite(); ?>"><?php echo $currentFeed->getName(); ?></a></h1>
-						<p><?php echo $currentFeed->getDescription(); ?> <br/> - 
+						<h1 class="articleSection"><a target="_blank" href="<?php echo $currentFeed->getWebSite(); ?>"><?php echo $currentFeed->getName(); ?></a></h1>
+						<div class="clear"></div>
+						<?php echo $currentFeed->getDescription(); ?>  
 							Voir les 
 						   <a href="index.php?action=selectedFeed&feed=<?php echo $_['feed']; ?>&page=<?php echo $page; ?>&order=unread">Non lu</a>
 						 | <a href="index.php?action=selectedFeed&feed=<?php echo $_['feed']; ?>&page=<?php echo $page; ?>&order=older">Plus vieux</a>
-						  en premier</p>
+						  en premier
 						<?php
 
 					break;
@@ -125,7 +126,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$events = $currentFolder->getEvents($startArticle,$articlePerPages,MYSQL_PREFIX.'event.pubdate DESC',$target);
 
 						?>
-						<h1>Dossier : <?php echo $currentFolder->getName(); ?></h1>
+						<h1 class="articleSection">Dossier : <?php echo $currentFolder->getName(); ?></h1>
 						<p>Tous les evenements non lu pour le dossier <?php echo $currentFolder->getName(); ?></p>
 						<?php
 
@@ -140,7 +141,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 
 						$events = $eventManager->loadAllOnlyColumn($target,array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
-						<h1>Articles favoris (<?php echo $numberOfItem; ?>)</h1>
+						<h1 class="articleSection">Articles favoris (<?php echo $numberOfItem; ?>)</h1>
 						<?php
 					break;
 
@@ -153,7 +154,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$startArticle = ($page-1)*$articlePerPages;
 						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>
-						<h1>Non lu (<?php echo $numberOfItem; ?>)</h1>
+						<h1 class="articleSection">Non lu (<?php echo $numberOfItem; ?>)</h1>
 						<?php
 					break;
 				}
@@ -163,19 +164,22 @@ $allEvents = $eventManager->getEventCountPerFolder();
 
 				<?php 
 					$time = $_SERVER['REQUEST_TIME'];
+					$hightlighted = 0;
 					foreach($events as $event){ 
 					$plainDescription = strip_tags($event->getDescription());
 					?>
 				<!-- CORPS ARTICLE -->
-				<section <?php if(!$event->getUnread()){ ?>class="eventRead"<?php } ?> >
+				<section class="<?php if(!$event->getUnread()){ echo 'eventRead '; } echo ($hightlighted%2==0?'eventHightLighted':''); ?>" >
 					<!-- TITRE -->
-					<h2><a onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);" target="_blank" href="<?php echo $event->getLink(); ?>" alt="<?php echo $plainDescription; ?>" title="<?php echo $plainDescription; ?>"><?php echo $event->getTitle(); ?></a> </h2>
+					<h2 class="articleTitle"><a onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':',false') ?>,'title');" target="_blank" href="<?php echo $event->getLink(); ?>" alt="<?php echo $plainDescription; ?>" title="<?php echo $plainDescription; ?>"><?php echo $event->getTitle(); ?></a> </h2>
 					<!-- DETAILS + OPTIONS -->
-					<h3><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button> - <?php } ?> <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(lu/non lu)</span></h3>
+					<h3 class="articleDetails"><?php if ($articleDisplayAuthor){ ?>Par <?php echo $event->getCreator(); } if ($articleDisplayDate){ ?> <?php echo $event->getPubdateWithInstant($time); } if ($articleDisplayLink){ ?> - <a href="<?php echo $event->getLink(); ?>" target="_blank">Lien direct vers l'article</a><?php } if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button> <?php } ?> <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(lu/non lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->
-					<?php if($articleDisplayContent){ ?><p><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p> <?php } ?>
+					<?php if($articleDisplayContent){ ?><p class="articleContent"><?php if ($articleView=='partial'){echo $event->getDescription();}else{echo $event->getContent();} ?></p> <?php } ?>
 				</section>
-				<?php } ?>
+				<?php 
+				$hightlighted++ ;
+				} ?>
 				<!-- PIED DE PAGE DES ARTICLES -->
 				<?php if($pages!=0) { ?><p>Page <?php echo $page; ?>/<?php echo $pages; ?> : <?php for($i=1;$i<$pages+1;$i++){ ?> <a href="index.php?<?php echo 'action='.$action; if($action=='selectedFeed') echo '&feed='.$currentFeed->getId(); if($action=='selectedFolder') echo '&folder='.$currentFolder->getId(); ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a> | <?php } ?> </p> <?php } ?>
 			</article>

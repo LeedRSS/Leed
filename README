@@ -1,5 +1,5 @@
 Application : Leed (Light Feed)
-Version : 1.0 Alpha
+Version : 1.0 Beta
 Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 Dépot SVN : http://hades.idleman.fr/leed
 Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb : les travaux dérivés peuvent être autorisés avec accord de l'auteur
@@ -39,6 +39,33 @@ Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) Nb 
 	Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
 
 Le script est installé, merci d'avoir choisis Leed, l'agrégatteur RSS libre et svelte :p.
+
+==========================
+==	QUESTIONS COURANTES	==
+==========================
+	
+	1. Pourquoi afficher le mot de passe en clair lors de l'installation?
+	---------------------------------------------------------------------
+	J'ai laissé le mot de passe en clair parce que je considère que l'administrateur est un peu malin n'ira pas installer son leed juste au moment ou quelqu'un se trouve derrière lui.
+
+	Or, etant donné qu'il n'y a pas de champs confirmation de mot de passe (que je trouvait inutile pour une action ponctuelle telle que l'installation), il peux être intéressant de voir ce que l'on écrit pour éviter les méprises :)
+
+	nb : le mot de passe est a tout moment crypté en base de données et n'est jamais re-affiché en clair par la suite, seule la saisie d'un nouveaux mot de passe par l'admin est visible.
+
+	A mon sens c'est loin d'être une faille de sécurité, juste une habitude que j'ai dérangée (c'est mon petit côté vicelard) je part du principe que l'admin n'est pas assez idiot pour laisser voir son mot de passe lors de l'installation, mais assez distrait pour faire une faute de frappe. :D
+
+	2.Pourquoi y a t'il des erreurs partout style 'unknow table xxx' lorsque je lance leed?
+	---------------------------------------------------------------------------------------
+	Question bête mais : avez vous pensé à installer le script? Je vous invite à reverifier l'étape 3 de la section installation de ce même README.
+
+	3.Pourquoi y a t'il des erreurs partout style 'permission denied' lorsque je lance leed?
+	---------------------------------------------------------------------------------------
+	Question bête mais : avez vous pensé à configurer les droits sur le script? Je vous invite à reverifier l'étape 2 de la section installation de ce même README. Si l'erreur persiste, tentez avec un chmod 777 sur l'intégralité du dossier et des sous fichiers
+
+	4.Qu'à leed de plus que TinyTinyRSS ou RSSLounge?
+	-------------------------------------------------
+	Rien, il en fait même moins, et c'est d'ailleurs ce qui fait sa force ! 
+	Leed ne peux pas être considéré comme un concurrent de ce genre de scripts, mais si vous tenez à la comparaison, dites vous que leed applique la mentalité KISS (Keep It Simple Stupid) et se cantonne à ce qu'il sait faire, pour le faire mieux et plus vite. 
 
 ================
 == LIBRAIRIES ==

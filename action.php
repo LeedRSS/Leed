@@ -23,8 +23,11 @@ switch ($_['action']){
 		if (ob_get_level() == 0) ob_start();
 		require_once("SimplePie.class.php");
 
+		
 		echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
 		echo str_pad('',4096)."\n";ob_flush();flush();
+
+		if (isset($_['code']) && $configurationManager->get('synchronisationCode')!=null && $_['code'] == $configurationManager->get('synchronisationCode')){
 
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
@@ -61,6 +64,9 @@ switch ($_['action']){
 			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )<br/>';
 		echo str_pad('',4096)."\n";ob_flush();flush();
 
+	}else{
+		echo 'Code de synchronisation incorrect ou non spécifié';
+	}
 
 		ob_end_flush();
 
@@ -192,11 +198,16 @@ switch ($_['action']){
 	break;
 
 	case 'synchronizeForm':
+	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="css/style.css">
-				<a class="button" href="action.php?action=synchronize&format=html">Synchroniser maintenant</a>
+				<a class="button" href="action.php?action=synchronize&format=html&code='.$configurationManager->get('synchronisationCode').'">Synchroniser maintenant</a>
 					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
 				
 			';
+		}else{
+			echo 'Vous devez être connect&eacute; pour acceder &agrave; cette partie.';
+		}
+
 	break;
 
 	case 'changeFolderState':
