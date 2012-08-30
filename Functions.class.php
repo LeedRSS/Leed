@@ -232,9 +232,6 @@ class Functions
 		return $name;
 	}
 
-
-
-
 	public static function makeCookie($name, $value, $expire='') {
 		if($expire == '') {
 			setcookie($name, $value, mktime(0,0,0, date("d"),
@@ -252,7 +249,6 @@ class Functions
 
 	static function wordwrap($str, $width = 75, $break = "\n", $cut = false)
 	{
-
 		$str = html_entity_decode($str);
 		$str =  htmlentities (wordwrap($str,$width,$break,$cut));
 		$str = str_replace('&lt;br/&gt;','<br/>',$str);
@@ -288,20 +284,10 @@ class Functions
 	}
 
 
-	public static function hexaValue($string){
-		
-		$alphabet = array_flip (array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'));
-		$val = 0;
-		$hexVal = 0;
-		for($i=0;$i<strlen($string);$i++){
-			$letter = substr($string,$i,1);
-			if($letter == 'a' || $letter == 'b' || $letter == 'c' || $letter == 'd' || $letter == 'e' || $letter == 'f'  ){
-				$val .=$letter;
-			}
-			$val .= $alphabet[$letter];
-		}
-
-		return '#'.substr($val,0,6);
+	public static function hexaValue($str){
+		$code = dechex(crc32($str));
+		  $code = substr($code, 0, 6);
+		  return $code;
 	}
 	
 	public static function scanRecursiveDir($dir){
@@ -349,6 +335,7 @@ class Functions
 							$newFeed->setDescription($item[0]['description']);
 							$newFeed->setWebsite($item[0]['htmlUrl']);
 							$newFeed->setFolder($folderId);
+							$newFeed->setColor(Functions::hexaValue($item[0]['xmlUrl']));
 							$newFeed->save();
 
 							$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
@@ -387,6 +374,8 @@ class Functions
 			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 		}
+
+
 
 }
 ?>

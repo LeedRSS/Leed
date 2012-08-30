@@ -29,6 +29,7 @@
 			<?php }else{ ?>
 				<span>Identifi&eacute; avec <span><?php echo $myUser->getLogin(); ?></span></span><button onclick="window.location='action.php?action=logout'">D&eacute;connexion</button>
 			<?php } ?>
+			<div class="clear"></div>
 			</div>
 			
 			<nav>

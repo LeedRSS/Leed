@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1');
-	define('VERSION_NAME','Beta (rev 65)');
+	define('VERSION_NAME','Beta (rev 67)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -230,17 +230,17 @@ if(isset($_['installButton'])){
 				<section>
 					<h2>G&eacute;n&eacute;ral</h2>
 					<p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
-					<h3>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
+					<h3 class="articleDetails">Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
 				</section>
 
 				<section>
 					<h2>Base de donn&eacute;es</h2>
 					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
-					<h3>G&eacute;neralement localhost</h3>
+					<h3 class="articleDetails">G&eacute;neralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
 					<p>Mot de passe MySQL : <input type="text" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
-					<h3>Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
+					<h3 class="articleDetails">Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
 					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
 				</section>
 
@@ -261,17 +261,17 @@ if(isset($_['installButton'])){
 				<section>
 					<h2>Pr&eacute;ferences</h2>
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3>Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
+					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
 					<p>Affichage du contenu de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
 					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
-					<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
+					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
 					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers &eacute;venement d'un flux</p>
-					<h3>Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre abse de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
+					<h3 class="articleDetails">Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
 					
 				</section>
 
@@ -279,7 +279,7 @@ if(isset($_['installButton'])){
 					<h2>Options</h2>
 					<p><input onchange="$('.shaarliBlock').slideToggle(200);" type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli<a></p>
 					<p class="shaarliBlock" style="display:none;">Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" name="plugin_shaarli_link"></p>
-					<h3>Nb: cette option affichera un bouton a coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de lien shaarli.</h3>
+					<h3 class="articleDetails">Nb: cette option affichera un bouton a coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de lien shaarli.</h3>
 				</section>
 
 

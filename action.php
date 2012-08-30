@@ -258,6 +258,7 @@ switch ($_['action']){
 				$newFeed->setUrl($_['newUrl']);
 				$newFeed->getInfos();
 				$newFeed->setFolder((isset($_['newUrlCategory'])?$_['newUrlCategory']:1));
+				$newFeed->setColor(Functions::hexaValue($_['newUrl']));
 				$newFeed->save();
 				$newFeed->parse();
 				header('location: ./addFeed.php');

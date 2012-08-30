@@ -300,10 +300,10 @@ header a,header a:hover,header a:visited{
 .loginBloc{
 	background-color: #222222;
     border-radius: 5px 5px 5px 5px;
-    float: left;
-    margin: 15px 20px 0;
+    float: none;
+    margin: 10px 0px 10px;
     padding: 5px;
-    width: 40%;
+    width: 100%;
 }
 .loginBloc input{
 	width:100px;
@@ -322,6 +322,15 @@ header a,header a:hover,header a:visited{
 #main aside ul li ul li:hover{
 	background-color:#333333;
 }
+
+.feedChip{
+	margin-top:9px;
+	float:left;
+	width:10px;
+	height:10px;
+	border-left:10px solid;
+}
+
 
 #main article section.eventRead{
 	opacity:0.4;
@@ -422,6 +431,7 @@ footer a,#main aside a{
     INTERMEDIATE: Menu
    ==================== */
 	
+
 	nav a{
 		float:left;
 		width:27%;
@@ -451,7 +461,13 @@ footer a,#main aside a{
 }
 
 @media only screen and (min-width: 768px) {
+	.loginBloc{
+	   	float: left;
+	   	width: 40%;
+	   	margin: 15px 20px 0;
+   }
 
+ 
 /* ====================
     WIDE: CSS3 Effects
    ==================== */

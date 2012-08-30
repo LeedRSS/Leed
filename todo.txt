@@ -5,8 +5,9 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Ajout : Titre (ou url si titre manquant) du flux rss affiché a la place du libellé "Lien direct vers l'article" afin de savoir sur quel blog on se situe lors de la lecture d'evènement sur la home
-
+- Correction : Le bloc login ne chevauche plus les bouton de menu sur les petites résolutions
+- Correction : Le bloc menu ne fait plus n'importe quoi sur les petites résolutions
+- Ajout : Fake favicon afin de distinguer les flux tout en allegant le temps de chargement (evite d'utiliser des images occasionnants de multiples requetes http)
 
 =======================
 ==== BUGS VALIDES  ====
@@ -29,7 +30,6 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 - Gibbon : J’ai pas trouvé l’option pour cacher automatiquement les flux lus (peut-être qu’il n’y en a pas).
 - En mode titre only, pouvoir deplier l'article (chargement pas ajax a ce moment la)
 - Dans le cas ou la description est trop longue, penser a la tronquer
-- mettre en place la pagination pour les parcours de dossiers
 - il serait judicieux de faire apparaître des couleurs pour simuler des favicons
 
 
