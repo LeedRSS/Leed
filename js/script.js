@@ -71,7 +71,7 @@ function saveRenameFeed(element,feed,url){
 	$(element).html('Renommer');
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFeed(this,'+feed+')');
-	feedNameCase.replaceWith('<a href="'+url+'">'+value+'</a>');
+	feedNameCase.replaceWith('<td><a href="'+url+'">'+value+'</a></td>');
 	$.ajax({
 				  url: "./action.php?action=renameFeed",
 				  data:{id:feed,name:value}

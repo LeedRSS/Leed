@@ -179,7 +179,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					<!-- DETAILS + OPTIONS -->
 					<h3 class="articleDetails">
 						<?php if ($articleDisplayLink){ ?><div class="feedChip" style="border-color: <?php echo '#'.$allFeeds['idMap'][$event->getFeed()]['color']; ?>"></div><a href="<?php echo $event->getLink(); ?>" target="_blank"><?php echo $allFeeds['idMap'][$event->getFeed()]['name']; ?></a>
-						<?php if ($articleDisplayAuthor){ echo 'par '.$event->getCreator(); } if ($articleDisplayDate){ echo $event->getPubdateWithInstant($time); }  } ?>
+						<?php if ($articleDisplayAuthor){ echo 'par '.$event->getCreator().' '; } if ($articleDisplayDate){ echo $event->getPubdateWithInstant($time); }  } ?>
 						<?php if($event->getFavorite()!=1){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $event->getId(); ?>);" >Favoriser</a> <?php }else{ ?> <a class="pointer" onclick="removeFavorite(this,<?php echo $event->getId(); ?>);" >D&eacute;favoriser</a> <?php } ?>
 						<?php if($shareOption!=false){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='<?php echo $shareOption.'/index.php?post='.rawurlencode($event->getLink()).'&title='.$event->getTitle().'&source=bookmarklet' ?>'">Shaare</button> <?php } ?> <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $event->getId(); ?><?php echo ($action=='unreadEvents' || $action==''?',true':'') ?>);">(lu/non lu)</span></h3>
 					<!-- CONTENU/DESCRIPTION -->

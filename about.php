@@ -21,7 +21,6 @@ require_once('constant.php');
 						<li>Nom : Valentin CARRUESCO aka Idleman</li>
 						<li>Mail : <a href="mailto: idleman@idleman.fr">idleman@idleman.fr</a></li>
 						<li>Blog : <a href="http://blog.idleman.fr">blog.idleman.fr</a></li>
-						<li>CV : <a href="http://www.idleman.fr">blog.idleman.fr</a></li>
 				</ul>
 			</aside>
 			
