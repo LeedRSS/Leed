@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1');
-	define('VERSION_NAME','Beta (rev 67)');
+	define('VERSION_NAME','Beta (rev 68)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -110,7 +110,7 @@ if(isset($_['installButton'])){
 	$_SESSION['currentUser'] = serialize($admin);
 	//Ajout des préférences et reglages
 	$root = (substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/');
-	$synchronisationCode = sha1(rand(0,30).time().rand(0,30));
+	$synchronisationCode = substr(sha1(rand(0,30).time().rand(0,30)),0,10);
 
 	$configurationManager->add('root',$root);
 	//$configurationManager->put('view',$_['view']);
@@ -150,7 +150,7 @@ if(isset($_['installButton'])){
 					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> <?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>	#Commande de mise a jour de leed</code>
+					<code>0 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				
@@ -158,7 +158,7 @@ if(isset($_['installButton'])){
 					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> <?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>	#Commande de mise a jour de leed</code>
+					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
 					<p>Cet exemple mettra &agrave; jour vos flux toutes les 5 minutes(conseill&eacute; pour une synchronisation gradu&eacute;e) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				

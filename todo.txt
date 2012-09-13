@@ -5,13 +5,15 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Correction : Le bloc login ne chevauche plus les bouton de menu sur les petites résolutions
-- Correction : Le bloc menu ne fait plus n'importe quoi sur les petites résolutions
-- Ajout : Fake favicon afin de distinguer les flux tout en allegant le temps de chargement (evite d'utiliser des images occasionnants de multiples requetes http)
 
 =======================
 ==== BUGS VALIDES  ====
 =======================
+
+Bug : Le 3ème choix est "Automatique (complet)" au lieu de "Manuel (complet)".
+La modification deux fois d'un même titre de feed merde
+
+Une remarque esthétique: lorsqu'on affiche l'auteur et la date il manque un espace entre les deux. J'en ai ajouté un sur ma version en local, ca serait bien de l'ajouter pour l'avenir. Merci encore, je ne peux plus me passer de leed !
 
 
 =====================================
@@ -31,28 +33,21 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 - En mode titre only, pouvoir deplier l'article (chargement pas ajax a ce moment la)
 - Dans le cas ou la description est trop longue, penser a la tronquer
 - il serait judicieux de faire apparaître des couleurs pour simuler des favicons
-
+- Ajouter un moteur de recherche de feed intégré au formulaire d'ajout de lien direct de feed 
+- Possibilité de classer les flux sur l'accueil par : "Ajourd'hui, A lire plus tard, cette semaine, autres..."
 
 ===================
 ==== A TRAITER ====
 ===================
 
+Encore sur la page About, une petite coquille sur la fiche auteur.
+A l'affichage les 2 liens sont les mêmes :
+Blog : blog.idleman.fr -> renvoie vers blog.idleman.fr
+CV : blog.idleman.fr -> renvoie vers www.idleman.fr
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Deux suggestions:
+- un bouton, ou mieux un raccourci clavier, pour marquer comme lu les flux de la page en cours.
+- pour la navigation par page, simplifier la navigation: un bouton suivant/précédent le nombre de page dispos, et c'est tout. Afficher un lien pour chaque page est un peu lourd visuellement, et peu pratique pour simplement faire défiler les pages
 
 - Tu devrais utiliser le nommage dynamique pour éviter d'utiliser les fonctions eval()
 - Verifier que les connexions a la base sql ne sont pas multiples inutilement
@@ -70,3 +65,15 @@ C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'ex
 
 - Trouver un moyen de manager les favoris sinon ce va être difficile de s'il retrouver
 - Faire une recherche dans les events
+
+Suggestion : Il serait vraiment, vraiment super, de pouvoir sélectionner plusieurs flux à la fois et d'effectuer une action dessus : supprimer, déplacer dans tel catégorie.
+
+Bug : Personnellement, l'import d'un fichier OPML bug au bout de quelques flux :
+Fatal error: Call to undefined method DOMElement::getLineNo() in /homepages/32/d143981242/htdocs/sites/leed/SimplePie.class.php on line 6729
+
+Solution temporaire : supprimer les flux déjà importé du fichier OPML, et recommencer. Je n'avais pas testé si Leed géré la non prise en compte des doublons.
+
+Et au passage, merci pour ce soft :-)
+
+Bug : Pour information, si un jour il y a une FAQ, l'importation d'un fichier OPML provenant de RSS Lounge peut bugguer si jamais il y a des caractères accentués mal formatés. Du genre : &amp;&eacirc;
+La solution : remplacer ce mauvais formatage par de jolis caractères accentués !
