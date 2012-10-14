@@ -5,9 +5,7 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Correction : Arrangement des titres h2 et h3 qui avaient subis une regression dans les préférences
-- Correction : La modification deux fois d'un même titre de feed merde
-- Correction : lorsqu'on affiche l'auteur et la date il manque un espace entre les deux. 
+- Bugs : Correction d'un léger bug sur la pagination
 
 =======================
 ==== BUGS VALIDES  ====
@@ -25,7 +23,6 @@ Pour information, si un jour il y a une FAQ, l'importation d'un fichier OPML pro
 C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
 - Le flux opml s'il n'est pas valide ne génère pas de message d'erreur de l'application
 - Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
-- Supression du CV dans a propos (plus d'actualité)
 
 ==============================
 ==== SUGGESTIONS VALIDEES ====

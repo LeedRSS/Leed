@@ -100,7 +100,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
 						$order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['date']);
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = round($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
 						
 
@@ -123,7 +123,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 						$numberOfItem = $currentFolder->unreadCount();
 
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = round($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
 						
 
@@ -139,7 +139,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					case 'favorites':
 						$numberOfItem = $eventManager->rowCount(array('favorite'=>1));
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = round($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
 
 
@@ -154,7 +154,7 @@ $allEvents = $eventManager->getEventCountPerFolder();
 					default:
 						$numberOfItem = $eventManager->rowCount(array('unread'=>1));
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = round($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
 						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						?>

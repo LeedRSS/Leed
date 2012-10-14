@@ -23,15 +23,16 @@ if($configurationManager->get('articleDisplayAnonymous')=='1' || $myUser!=false 
 			<aside>
 				<h3>Options des flux</h3>
 				<ul>
+						
 						<li class="pointer" onclick="$('#main section').hide();$('#main #addBloc').fadeToggle(200);">+ Ajout d'un flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc').fadeToggle(200);">Gestion des flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageFolderBloc').fadeToggle(200);">Gestion des Dossiers</li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise &agrave; jour manuelle des flux</a></li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Pr&eacute;f&eacute;rences</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise &agrave; jour manuelle des flux</a></li>
-						<li class="pointer" onclick="window.location='action.php?action=purge';">Vider les &eacute;venements</a></li>
+						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les &eacute;venements</a></li>
 				
 				</ul>
 			</aside>
