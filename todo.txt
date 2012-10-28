@@ -5,7 +5,11 @@ Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet
 ==== DERNIER COMMIT ====
 ========================
 
-- Bugs : Correction d'un léger bug sur la pagination
+- Renommage de la page addFeed en settings
+- Inclusion d'un moteur template légèr (RainTpl)
+- Création du skin par défaut "Marigold" identique à l'ancien skin fixe
+- Création du skin d'example "Unseen" bien plus discret et minimaliste pour mater les flux au boulot :p
+- Modification du README -> apport d'astuces & précisions diverses
 
 =======================
 ==== BUGS VALIDES  ====

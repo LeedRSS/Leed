@@ -9,6 +9,7 @@
 session_start();
 $start=microtime(true);
 require_once('constant.php');
+require_once('RainTPL.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
@@ -29,7 +30,25 @@ $userManager = new User();
 $folderManager = new Folder();
 $configurationManager = new Configuration();
 
+
+
+
 $conf = $configurationManager->getAll();
+
+//Instanciation du template
+$tpl = new RainTPL();
+//Definition des dossiers de template
+raintpl::configure("base_url", null );
+raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
+raintpl::configure("cache_dir", "./cache/tmp/" );
+
+$view = '';
+$tpl->assign('myUser',$myUser);
+$tpl->assign('feedManager',$feedManager);
+$tpl->assign('eventManager',$eventManager);
+$tpl->assign('userManager',$userManager);
+$tpl->assign('folderManager',$folderManager);
+$tpl->assign('configurationManager',$configurationManager);
 
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
@@ -39,4 +58,6 @@ $_[$key]=Functions::secure($val);
 foreach($_GET as $key=>$val){
 $_[$key]=Functions::secure($val);
 }
+
+$tpl->assign('_',$_);
 ?>

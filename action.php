@@ -24,7 +24,7 @@ switch ($_['action']){
 		require_once("SimplePie.class.php");
 
 		
-		echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
+		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><ul style="font-family:Verdana;">';
 		echo str_pad('',4096)."\n";ob_flush();flush();
 
 		if (isset($_['code']) && $configurationManager->get('synchronisationCode')!=null && $_['code'] == $configurationManager->get('synchronisationCode')){
@@ -122,14 +122,14 @@ switch ($_['action']){
 		
 
 
-	header('location: ./addFeed.php');
+	header('location: ./settings.php');
 	break;
 
 
 	case 'purge':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$eventManager->truncate();
-		header('location: ./addFeed.php');
+		header('location: ./settings.php');
 	break;
 
 
@@ -190,7 +190,7 @@ switch ($_['action']){
 	
 
 	case 'importForm':
-		echo '<link rel="stylesheet" href="css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
+		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
 					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
 					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p></form>
 				
@@ -199,7 +199,7 @@ switch ($_['action']){
 
 	case 'synchronizeForm':
 	 if(isset($myUser) && $myUser!=false){  
-		echo '<link rel="stylesheet" href="css/style.css">
+		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<a class="button" href="action.php?action=synchronize&format=html&code='.$configurationManager->get('synchronisationCode').'">Synchroniser maintenant</a>
 					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
 				
@@ -220,7 +220,7 @@ switch ($_['action']){
 				if (ob_get_level() == 0) ob_start();
 				ignore_user_abort(true);
 			
-				echo '<link rel="stylesheet" href="css/style.css"><ul style="font-family:Verdana;">';
+				echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><ul style="font-family:Verdana;">';
 				echo str_pad('',4096)."\n";ob_flush();flush();
 				
 
@@ -245,7 +245,7 @@ switch ($_['action']){
 				echo str_pad('',4096)."\n";ob_flush();flush();
 
 				ob_end_flush();
-				//header('location: ./addFeed.php');
+				//header('location: ./settings.php');
 			}
 	break;
 
@@ -261,7 +261,7 @@ switch ($_['action']){
 				$newFeed->setColor(Functions::hexaValue($_['newUrl']));
 				$newFeed->save();
 				$newFeed->parse();
-				header('location: ./addFeed.php');
+				header('location: ./settings.php');
 			}
 	break;
 
@@ -270,7 +270,7 @@ switch ($_['action']){
 		if(isset($_['feed'])){
 			$feedManager->change(array('folder'=>$_['folder']),array('id'=>$_['feed']));
 		}
-		header('location: ./addFeed.php');
+		header('location: ./settings.php');
 	break;
 
 	case 'removeFeed':
@@ -279,7 +279,7 @@ switch ($_['action']){
 			$feedManager->delete(array('id'=>$_['id']));
 			$eventManager->delete(array('feed'=>$_['id']));
 		}
-		header('location: ./addFeed.php');
+		header('location: ./settings.php');
 	break;
 
 	case 'addFolder':
@@ -294,7 +294,7 @@ switch ($_['action']){
 				$folder->save();
 			}
 		}
-		header('location: ./addFeed.php');
+		header('location: ./settings.php');
 	break;
 
 
@@ -319,7 +319,7 @@ switch ($_['action']){
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
 		}
-		header('location: ./addFeed.php');
+		header('location: ./settings.php');
 	break;
 
 	case 'readContent':

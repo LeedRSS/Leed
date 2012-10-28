@@ -33,9 +33,9 @@ $_[$key]=Functions::secure($val);
 
 	<meta name="viewport" content="width=device-width">
 
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="templates/marigolds/css/style.css">
 
-	<script src="js/libs/jqueryAndModernizr.min.js"></script>
+	<script src="templates/marigolds/js/libs/jqueryAndModernizr.min.js"></script>
 </head>
 <body>
 	<div id="header-container">
@@ -63,8 +63,8 @@ if(isset($_['installButton'])){
 
 
 	$constant = "<?php
-	define('VERSION_NUMBER','1');
-	define('VERSION_NAME','Beta (rev 70)');
+	define('VERSION_NUMBER','1.1');
+	define('VERSION_NAME','Beta (rev 71)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -76,6 +76,8 @@ if(isset($_['installButton'])){
 	define('MYSQL_BDD','".$_['mysqlBase']."');
 	//Prefix des noms des tables leed pour les bases de données uniques
 	define('MYSQL_PREFIX','".$_['mysqlPrefix']."');
+	//Theme graphique
+	define('DEFAULT_THEME','marigolds');
 	?>";
 
 	file_put_contents('constant.php', $constant);
@@ -304,6 +306,6 @@ if(isset($_['installButton'])){
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 
-<script src="js/script.js"></script>
+<script src="templates/marigolds/js/script.js"></script>
 </body>
 </html>
