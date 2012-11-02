@@ -157,6 +157,21 @@ header a,header a:hover,header a:visited{
 	padding:30px 0;
 }
 
+#main article a.goTopButton{
+	background-color:#686868;
+	border:0px;
+	color:#ffffff;
+	padding:1px 8px 3px 8px;
+	font-size:13px;
+	font-weight:bold;
+	-moz-border-radius: 0px 0px 5px 5px;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+	line-height:10px;
+	float:right;
+	text-decoration:none;
+}
+
 #main button, .loginBloc button,.button,.readUnreadButton{
 	background-color:#f16529;
 	border:0px;

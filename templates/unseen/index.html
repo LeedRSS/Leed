@@ -25,6 +25,8 @@
 					
 						<!--Pour chaques dossier-->
 						{loop="folders"}
+							{$feeds=""}
+							{$unreadEventsForFolder=""}
 							<!--on récupere tous les flux lié au dossier-->
 						  	{if="isset($allFeedsPerFolder[$value->getId()])"}
 						  		{$feeds=$allFeedsPerFolder[$value->getId()]}

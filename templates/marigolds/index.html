@@ -25,6 +25,7 @@
 					
 						<!--Pour chaques dossier-->
 						{loop="folders"}
+							{$feeds=""}
 							<!--on récupere tous les flux lié au dossier-->
 						  	{if="isset($allFeedsPerFolder[$value->getId()])"}
 						  		{$feeds=$allFeedsPerFolder[$value->getId()]}
@@ -109,6 +110,8 @@
 					{$plainDescription=strip_tags($value->getDescription())}
 						
 					<!-- CORPS ARTICLE -->
+					 <a title="Revenir en haut de page" class="goTopButton" href="#pageTop">˄</a>
+					
 					<section class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
 						<!-- TITRE -->
 						<h2 class="articleTitle">
@@ -134,10 +137,10 @@
 							{/if}
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
 						</h3>
+
 						<!-- CONTENU/DESCRIPTION -->
 						{if="$articleDisplayContent"}
 						<p class="articleContent">
-
 							{if="$articleView=='partial'"}
 								{$value->getDescription()}
 							{else}
@@ -145,10 +148,11 @@
 							{/if}
 						</p> 
 						{/if}
+						
 					</section>
-					 
 					{$hightlighted=$hightlighted+1}
 				{/loop}
+
 				<!-- PIED DE PAGE DES ARTICLES -->
 
 				{if="$pages!=0"}
@@ -157,15 +161,7 @@
 					
 						{loop="pagesArray"}
 			
-							<a href="index.php?action={$action} 
-							{if="$action=='selectedFeed'"} 
-								&feed={$currentFeed->getId()} 
-							{/if} 
-							{if="$action=='selectedFolder'"} 
-								&folder={$currentFolder->getId()}
-							{/if}
-								&page={$value}">{$value}
-							</a> |
+							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$value}">{$value}</a> |
 						
 						{/loop}
 						

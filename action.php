@@ -341,6 +341,7 @@ switch ($_['action']){
 	break;
 	
 	case 'login':
+	
 		if(isset($_['usr'])){
 			$user = $userManager->existAuthToken($_['usr']);
 			if($user==false){

@@ -1,4 +1,4 @@
-<!--
+<?php if(!class_exists('raintpl')){exit;}?><!--
  @nom: settings
  @auteur: Idleman (idleman@idleman.fr)
  @description: Page d'en tête commune à toutes les vues
@@ -16,22 +16,25 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./templates/unseen/././css/style.css">
 </head>
 <body>
-	<a name="pageTop"></a>
+
 	<div id="header-container">
 		<header class="wrapper clearfix">
-			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
+			<a class="logo" href="./index.php">L<i>eed</i></a>
 			
 				<div class="loginBloc">
-			{if="!$myUser"}
+			<?php if( !$myUser ){ ?>
+
 			<form action="action.php?action=login" method="POST">
 					<input type="text" class="miniInput left" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput left" name="password" placeholder="Mot de passe"/> <button class="left">GO!!</button>
 			</form>
-			{else}
-				<span>Identifi&eacute; avec <span>{$myUser->getLogin()}</span></span><button onclick="window.location='action.php?action=logout'">D&eacute;connexion</button>
-			{/if}
+			<?php }else{ ?>
+
+				<span>Identifi&eacute; avec <span><?php echo $myUser->getLogin();?></span></span><button onclick="window.location='action.php?action=logout'">D&eacute;connexion</button>
+			<?php } ?>
+
 			<div class="clear"></div>
 			</div>
 			
@@ -42,6 +45,7 @@
 					<li><a href="settings.php">Gestion</a></li>
 				</ul>
 			</nav>
+			<button class="button" style="margin-top:4px;float:right;margin-right:25px;"  onclick="if(confirm('Tout marquer comme lu pour tous les flux?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
 		</header>
 	</div>
 	<div id="main-container">
