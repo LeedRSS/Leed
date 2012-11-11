@@ -1,84 +1,13 @@
 Cette feuille existe dans l'unique but d'organiser ma petite tête sur le projet et signaler les bugs/suggestions déjà proposés, ne pas tenir compte/supprimer si vous le souhaitez. Idleman
 
+<!> TOUS LES BUGS & SUGGESTIONS SONT MAINTENANT PLACES SUR LE WIKI DE LEED (http://projet.idleman.fr/leed)
 
 ========================
 ==== DERNIER COMMIT ====
 ========================
 
-- Correction d'espaces dans l'url
-- Correction régression : lorsque les catégories sont vides, elles prennent les feed de la catgéorie du dessus
-- Ajout : Boutton revenir en haut de page sur les articles
+- Correction d'un bug graphique sur le boutton retour en haut de page
+- Mise en alignement justifié du contenu des articles
+- Rappel des boutons favoriser & lu/non lu en bas d'articles pour les affichages totals
+- Ajout de caractères spéciaux pour iconiser sans bouffer des requetes (en test, voi si ça passe sous tous les navigateurs récents)
 
-=======================
-==== BUGS VALIDES  ====
-=======================
-
-
-- dans l'arborescence de droite je devrais avoir général de vide car je n'ai rien dedans, automatiquement il m'a ajouté la liste de la catégorie précédente
-
-- Encodage foireux dans les renommages de flux
-- Occasionnel : l'import d'un fichier OPML bug au bout de quelques flux :
-Fatal error: Call to undefined method DOMElement::getLineNo() in /homepages/32/d143981242/htdocs/sites/leed/SimplePie.class.php on line 6729
-Pour information, si un jour il y a une FAQ, l'importation d'un fichier OPML provenant de RSS Lounge peut bugguer si jamais il y a des caractères accentués mal formatés. Du genre : &amp;&eacirc;
-
-=====================================
-==== ECARTS FONCTIONNELS VALIDES ====
-=====================================
-
-- pour la navigation par page, simplifier la navigation: un bouton suivant/précédent le nombre de page dispos, et c'est tout. Afficher un lien pour chaque page est un peu lourd visuellement, et peu pratique pour simplement faire défiler les pages
-
-- Je trouve l'option "shaarli" pas très KiSS compliant.
-C'est une porte ouverte à ajouter une option twitter puis facebook etc... (j'exagère) ==> Il a raison : remplacer module shaarli par plugin generique s'adaptant a tout type d services ou ne rien mettre du tout :).
-- Le flux opml s'il n'est pas valide ne génère pas de message d'erreur de l'application
-- Dans les catégories unread, il serait bien de voir le titre du blog emetteur quelque part
-
-==============================
-==== SUGGESTIONS VALIDEES ====
-==============================
-
-- Ancre remonter vers le haut a placer
-- Raccourcis clavier :
-
-		espace / j 	élément suivant (et l'ouvrir)
-		maj + espace / k 	élément précédent (et l'ouvrir)
-		n 	élément suivant (sans l'ouvrir)
-		p 	élément précédent (sans l'ouvrir)
-		enter ou o 	ouvrir/fermer l'élément sélectionné
-		v 	ouvre l'url de l'élément sélectionné (attention aux l'anti-popup)
-		m 	marque l'élément sélectionné comme lu / non lu
-		ctrl + m 	marque l'ensemble des élément du dossier en cours comme lus
-		s 	marque l'élément sélectionné comme favori / non favori
-		ctrl + s 	supprime le statut favori de tous les élément du dossier en cours (attention aux bétises)
-		ctrl + n 	ajouter un flux (moins pratique que le bookmarklet proposé dans les options)
-		ctrl + r ou F5
-		(Fonctionnalité navigateur) 	Parfois indispensable pour procéder au rafraichissement.
-		Il s'agit de raccourcis gérés par la majorité des navigateurs, RSSlounge n'intervient pas ici.
-
-
-- implémenter un moteur de recherche simple dans Leed pour que je puisse chercher des infos par thème
-
-- Gibbon : J’ai pas trouvé l’option pour cacher automatiquement les flux lus (peut-être qu’il n’y en a pas).
-- En mode titre only, pouvoir deplier l'article (chargement pas ajax a ce moment la)
-- Dans le cas ou la description est trop longue, penser a la tronquer
-- il serait judicieux de faire apparaître des couleurs pour simuler des favicons
-- Ajouter un moteur de recherche de feed intégré au formulaire d'ajout de lien direct de feed 
-- Possibilité de classer les flux sur l'accueil par : "Ajourd'hui, A lire plus tard, cette semaine, autres..."
-- Créer un système de filtre pour permettre aux utilisateurs d'ignorer certaines news (ex: les I/pad/phones & co pour moi)
-- un bouton, ou mieux un raccourci clavier, pour marquer comme lu les flux de la page en cours.
-- pour la navigation par page, simplifier la navigation: un bouton suivant/précédent le nombre de page dispos, et c'est tout. Afficher un lien pour chaque page est un peu lourd visuellement, et peu pratique pour simplement faire défiler les pages
-- Fermer un dossier lors d'une ouverture d'un autre (a configurer dans les prefs).
-- Trouver un moyen de manager les favoris sinon ce va être difficile de s'y retrouver
-
-===================
-==== A TRAITER ====
-===================
-
-- Proposer un .sh d'installation complete du programme + cron automatique
-- Détronquer les flux qui ne comportent que la description courte de l'article
-- Dissocier l'appel du menu de l'appl des flux via ajax pour eviter de recharger inutilement le menu a chaque fois ? (gain de perfs...)
-- proposer un passage à MySQL pour les grands nombres de flux
-- Possibilité de parser a travers un proxy:  Attention car sous GNU/Linux les variables sont Case sensitive il faut en tenir compte avec la fonction getenv.
-- Ajouter des raccourcis touches, imiter rsslounge pour de na perdre les habitudes utilisateurs :http://code.google.com/p/rsslounge/wiki/Shortcuts
-- Pour curl je dirais que ce serait bien de l'avoir en option car parfois on doit désactiver l'option allow_url_fopen et là ton simplexml_load_file est mort ainsi que toute ton appli.
-- Faire une recherche dans les events
-- Il serait vraiment, vraiment super, de pouvoir sélectionner plusieurs flux à la fois et d'effectuer une action dessus : supprimer, déplacer dans tel catégorie.

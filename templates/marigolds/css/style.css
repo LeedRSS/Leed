@@ -158,16 +158,11 @@ header a,header a:hover,header a:visited{
 }
 
 #main article a.goTopButton{
-	background-color:#686868;
+	background-color:#CECECE;
 	border:0px;
 	color:#ffffff;
-	padding:1px 8px 3px 8px;
-	font-size:13px;
-	font-weight:bold;
-	-moz-border-radius: 0px 0px 5px 5px;
-	-webkit-border-radius: 0px 0px 5px 5px;
-	border-radius: 0px 0px 5px 5px;
-	line-height:10px;
+	padding:10px 5px 0px 5px;
+	line-height: 5px;
 	float:right;
 	text-decoration:none;
 }
@@ -241,9 +236,11 @@ header a,header a:hover,header a:visited{
 	color:#ffffff;
 }
 
-#main article header p.articleContent{
-	font-size:11px;
-	margin:0px;
+#main article div.articleContent{
+	
+	margin:10px 0px 0px 0px;
+	text-align: justify;
+	clear:both;
 }
 
 #main article header h1.articleSection{
@@ -297,6 +294,15 @@ header a,header a:hover,header a:visited{
 	background-color:#666666;
 	cursor: pointer;
 }
+
+.favorite:before{
+	content: "✰ ";
+	font-size: 15px;
+    font-weight: bold;
+}
+.favorite{
+	margin-right:10px;
+	}
 
 .importFrame{
 	border:none;

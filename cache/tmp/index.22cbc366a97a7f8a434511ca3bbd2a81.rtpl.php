@@ -137,9 +137,10 @@
 
 						
 					<!-- CORPS ARTICLE -->
-					 <a title="Revenir en haut de page" class="goTopButton" href="#pageTop">˄</a>
+					 
 					
 					<section class="<?php if( !$value1->getUnread() ){ ?> eventRead <?php } ?> <?php echo $hightlighted%2==0?'eventHightLighted':'';?>" >
+						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
 							<a onclick="readThis(this,<?php echo $value1->getId();?>{($action=='unreadEvents' || $action==''?',true':',false') ?&gt;,'title');" target="_blank" href="<?php echo $value1->getLink();?>" alt="<?php echo $plainDescription;?>" title="<?php echo $plainDescription;?>"><?php echo $value1->getTitle();?></a> 
@@ -162,10 +163,10 @@
 								<?php echo $value1->getPubdateWithInstant($time);?> 
 							<?php } ?>
 
-							<?php if( $value1->getFavorite()!=1 ){ ?> -  <a class="pointer" onclick="addFavorite(this,<?php echo $value1->getId();?>);" >Favoriser</a> 
+							<?php if( $value1->getFavorite()!=1 ){ ?> -  <a class="pointer favorite" onclick="addFavorite(this,<?php echo $value1->getId();?>);" >Favoriser</a> 
 							<?php }else{ ?>
 
-							 <a class="pointer" onclick="removeFavorite(this,<?php echo $value1->getId();?>);" >D&eacute;favoriser</a> 
+							 <a class="pointer favorite" onclick="removeFavorite(this,<?php echo $value1->getId();?>);" >D&eacute;favoriser</a> 
 							 <?php } ?>
 
 							<?php if( $shareOption!=false ){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='{$shareOption.'/index.php?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&source=bookmarklet' ?&gt;'">Shaare</button> 
@@ -177,7 +178,7 @@
 						<!-- CONTENU/DESCRIPTION -->
 						<?php if( $articleDisplayContent ){ ?>
 
-						<p class="articleContent">
+						<div class="articleContent">
 							<?php if( $articleView=='partial' ){ ?>
 
 								<?php echo $value1->getDescription();?>
@@ -188,10 +189,33 @@
 
 							<?php } ?>
 
-						</p> 
+						</div> 
 						<?php } ?>
 
 						
+
+						<?php if( $articleView!='partial' ){ ?>
+
+						<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
+						<h3 class="articleDetails">
+							
+							<?php if( $shareOption!=false ){ ?> <button  alt="partager sur shaarli" title="partager sur shaarli" onclick="window.location.href='{$shareOption.'/index.php?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&source=bookmarklet' ?&gt;'">Shaare</button> 
+							<?php } ?>
+
+							 <span class="pointer right readUnreadButton" onclick="readThis(this,<?php echo $value1->getId();?><?php echo $action=='unreadEvents' || $action==''?',true':'';?>);">(lu/non lu)</span>
+							 <?php if( $value1->getFavorite()!=1 ){ ?><a class="right pointer favorite"  onclick="addFavorite(this,<?php echo $value1->getId();?>);" >Favoriser</a> 
+							<?php }else{ ?>
+
+							 <a class="right pointer favorite" onclick="removeFavorite(this,<?php echo $value1->getId();?>);" >D&eacute;favoriser</a>  
+							 <?php } ?>
+
+							 <div class="clear"></div>
+						</h3>
+						<?php } ?>
+
+
+
+
 					</section>
 					<?php $hightlighted=$this->var['hightlighted']=$hightlighted+1;?>
 
