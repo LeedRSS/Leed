@@ -139,7 +139,8 @@
 					<!-- CORPS ARTICLE -->
 					 
 					
-					<section class="<?php if( !$value1->getUnread() ){ ?> eventRead <?php } ?> <?php echo $hightlighted%2==0?'eventHightLighted':'';?>" >
+					<section onclick="targetThisEvent(this);" class="<?php if( $key1==0 ){ ?>eventSelected<?php } ?> <?php if( !$value1->getUnread() ){ ?> eventRead <?php } ?> <?php echo $hightlighted%2==0?'eventHightLighted':'';?>" >
+						<a class="anchor" name="<?php echo $value1->getId();?>">
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">

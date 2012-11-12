@@ -1,3 +1,128 @@
+var isCtrl = false;
+var isMaj = false;
+var keyCode = new Array();
+
+keyCode['shift'] = 16;
+keyCode['ctrl'] = 17;
+keyCode['enter'] = 13;
+keyCode['m'] = 77;
+keyCode['s'] = 83;
+keyCode['n'] = 78;
+keyCode['v'] = 86;
+keyCode['p'] = 80;
+keyCode['k'] = 75;
+keyCode['o'] = 79;
+keyCode['space'] = 32;
+
+$(document).keyup(function (e) {
+if(e.which == keyCode['ctrl']) isCtrl=false;
+if(e.which == keyCode['shift']) isMaj=false;
+}).keydown(function (e) {
+ 
+    if(e.which == keyCode['ctrl']) isCtrl=true;
+    if(e.which == keyCode['shift']) isMaj=true;
+    
+    if($("input:focus").length==0){
+    switch(e.which){
+        case keyCode['m']:
+            if(isCtrl){
+                readAllDisplayedEvents();
+                //marque l'ensemble des élément du dossier en cours comme lus
+            }else{
+                //marque l'élément sélectionné comme lu / non lu
+
+                readTargetEvent();
+            }
+            return false;
+        break;
+        case keyCode['s']:
+            if(isCtrl){
+                //supprime le statut favori de tous les élément du dossier en cours
+                //TODO - unfavorizeAllDisplayedEvents();
+            }else{
+                //marque l'élément sélectionné comme favori / non favori
+                //TODO - switchFavoriteTargetEvent();
+            }
+            return false;
+        break;
+        case keyCode['n']:
+            if(isCtrl){
+                //ajouter un flux
+                //TODO - addFeed();
+            }else{
+                //élément suivant (sans l'ouvrir)
+                targetNextEvent();
+            }
+            return false;
+        break;
+        case keyCode['v']:
+            //ouvre l'url de l'élément sélectionné
+            openTargetEvent();
+            return false;
+        break;
+        case keyCode['p']:
+            //élément précédent (sans l'ouvrir)
+            targetPreviousEvent();
+            return false;
+        break;
+        case keyCode['space']:
+            if(isMaj){
+                //élément précédent (et l'ouvrir)
+                targetPreviousEvent();
+                openTargetEvent();
+            }else{
+                //élément suivant (et l'ouvrir)
+                targetNextEvent();
+                openTargetEvent();
+            }
+            return false;
+        break;
+        case keyCode['k']:
+            //élément précédent (et l'ouvrir)
+            targetPreviousEvent();
+            openTargetEvent();
+            return false;
+        break;
+        case keyCode['o']:
+        case keyCode['enter']:
+            //ouvrir l'élément sélectionné
+            openTargetEvent();
+            return false;
+        break;
+    }
+        }
+});
+
+/* Fonctions de séléctions */
+
+function targetPreviousEvent(){
+	targetThisEvent($('.eventSelected').prev());
+}
+function targetNextEvent(){
+
+	targetThisEvent($('.eventSelected').next());
+}
+
+function targetThisEvent(event){
+	target = $(event);
+	if(target.prop("tagName")=='SECTION'){
+		$('.eventSelected').removeClass('eventSelected');
+		target.addClass('eventSelected');
+		var id = $('.anchor',target).attr('name');
+		window.location = '#'+id;
+	}
+}
+function openTargetEvent(){
+	window.open($('.eventSelected .articleTitle a').attr('href'), '_blank');
+}
+
+function readTargetEvent(){
+	var buttonElement = $('.eventSelected .readUnreadButton');
+	var id = $('.anchor',target).attr('name');
+	readThis(buttonElement,id);
+}
+/* Fonctions de séléctions fin */
+
 function toggleFolder(element,folder){
 	feedBloc = $('ul',$(element).parent().parent());
 

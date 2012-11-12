@@ -362,6 +362,10 @@ header a,header a:hover,header a:visited{
 #main article section.eventHightLighted{
 	background-color: #F9F9F9;
 }
+#main article section.eventSelected{
+	box-shadow: 0 0 20px 0 #C2C2C2;
+	border-top: 3px solid #F16529;
+}
 #feedTable{
 	width:100%;
 }

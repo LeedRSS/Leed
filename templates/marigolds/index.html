@@ -112,7 +112,8 @@
 					<!-- CORPS ARTICLE -->
 					 
 					
-					<section class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
+					<section onclick="targetThisEvent(this);" class="{if="$key==0"}eventSelected{/if} {if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
+						<a class="anchor" name="{$value->getId()}">
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
