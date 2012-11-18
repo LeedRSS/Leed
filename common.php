@@ -50,6 +50,8 @@ $tpl->assign('userManager',$userManager);
 $tpl->assign('folderManager',$folderManager);
 $tpl->assign('configurationManager',$configurationManager);
 
+$tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCode'));
+
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
 foreach($_POST as $key=>$val){

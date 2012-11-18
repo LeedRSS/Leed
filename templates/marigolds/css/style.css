@@ -80,8 +80,8 @@ td { vertical-align: top; }
 body{ font:16px/26px Helvetica, Helvetica Neue, Arial; }
 
 .wrapper{
-	width:90%;
-	margin:0 5%;
+	width:96%;
+	margin:0 2%;
 }
 
 /* ===================
@@ -136,6 +136,11 @@ nav a{
 	font-weight:bold;
 }
 
+nav a.synchronyzeButton{
+	cursor:pointer;
+	font-size:40px;
+}
+
 nav a:hover, nav a:visited{
 	color:#ffffff;
 }
@@ -154,7 +159,7 @@ header a,header a:hover,header a:visited{
    ============== */
 
 #main{
-	padding:30px 0;
+	padding:15px 0;
 }
 
 #main article a.goTopButton{
@@ -232,7 +237,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article header.articleHead{
-	margin-top:10px;
+
 	padding:5px;
 	background-color:#222222;
 	color:#ffffff;
@@ -457,11 +462,12 @@ footer a,#main aside a{
 /* ====================
     INTERMEDIATE: Menu
    ==================== */
-	
+
+		
 
 	nav a{
 		float:left;
-		width:27%;
+		width:20%;
 		margin:0 1.7%;
 		padding:15px 1%;
 		margin-bottom:0;
@@ -494,6 +500,9 @@ footer a,#main aside a{
 	   	margin: 15px 20px 0;
    }
 
+#main{
+		padding:30px 0;
+	}
  
 /* ====================
     WIDE: CSS3 Effects
@@ -525,7 +534,7 @@ footer a,#main aside a{
 
 	#main article{
 		float:left;
-		width:57%;
+		width:64%;
 	}
 		
 	#main aside{
@@ -545,6 +554,9 @@ footer a,#main aside a{
 		margin:0 auto;
 	}
 
+	#main{
+		padding:30px 0;
+	}
 
 }
 
