@@ -208,6 +208,8 @@ header a,header a:hover,header a:visited{
 #main aside a.readFolder{
 	background-color:#222222;
 	margin-left:3px;
+	min-width: 36px;
+    text-align: center;
 }
 
 #main aside ul li h1.folder{

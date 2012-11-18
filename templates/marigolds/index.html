@@ -9,6 +9,7 @@
 
 {if="($configurationManager->get('articleDisplayAnonymous')=='1') || ($myUser!=false)"}
 
+		
 
 		<div id="main" class="wrapper clearfix">
 			<!---------->
@@ -36,7 +37,7 @@
 
 				
 					<!-- DOSSIER -->
-					<li><h1 class="folder"><a alt="Lire les evenements de ce dossier" title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" alt="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >Deplier</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder" alt="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}</h1>
+					<li><h1 class="folder"><a alt="Lire les evenements de ce dossier" title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" alt="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder" alt="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}</h1>
 						<!-- FLUX DU DOSSIER -->
 						<ul {if="!$value->getIsopen()"}style="display:none;"{/if}>
 							 
@@ -112,12 +113,12 @@
 					<!-- CORPS ARTICLE -->
 					 
 					
-					<section onclick="targetThisEvent(this);" class="{if="$key==0"}eventSelected{/if} {if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
-						<a class="anchor" name="{$value->getId()}">
+					<section onclick="targetThisEvent(this);" class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
+						<a class="anchor" name="{$value->getId()}"></a>
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
-							<a onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':',false'},'title');" target="_blank" href="{$value->getLink()}" alt="{$plainDescription}" title="{$plainDescription}">{$value->getTitle()}</a> 
+							<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" alt="{$plainDescription}" title="{$plainDescription}">{$value->getTitle()}</a> 
 						</h2>
 						<!-- DETAILS + OPTIONS -->
 						<h3 class="articleDetails">
@@ -177,13 +178,24 @@
 
 				{if="$pages!=0"}
 					<p>Page {$page}/{$pages} : 
-					
-					
-						{loop="pagesArray"}
-							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$value}">{$value}</a> |
-						{/loop}
-						
 
+						{if="$previousPages>0"}
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$previousPages}"><<</a>
+						{/if}
+						
+						{loop="pagesArray"}
+
+							{if="$page!=$value"}
+							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$value}">{$value}</a> 
+							{else}
+							{$value}
+							{/if}
+							|
+						{/loop}
+
+						{if="$nextPages>0"}
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$nextPages}">>></a>
+						{/if}
 					</p> 
 				{/if}
 

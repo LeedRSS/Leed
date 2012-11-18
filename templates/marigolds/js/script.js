@@ -12,13 +12,21 @@ keyCode['v'] = 86;
 keyCode['p'] = 80;
 keyCode['k'] = 75;
 keyCode['o'] = 79;
+keyCode['j'] = 74;
 keyCode['space'] = 32;
+
+$(document).ready(function(){
+
+	targetThisEvent($('article section:first'));
+
+});
+
 
 $(document).keyup(function (e) {
 if(e.which == keyCode['ctrl']) isCtrl=false;
 if(e.which == keyCode['shift']) isMaj=false;
 }).keydown(function (e) {
- 
+ 	//alert(e.which);
     if(e.which == keyCode['ctrl']) isCtrl=true;
     if(e.which == keyCode['shift']) isMaj=true;
     
@@ -26,33 +34,27 @@ if(e.which == keyCode['shift']) isMaj=false;
     switch(e.which){
         case keyCode['m']:
             if(isCtrl){
+            	//marque l'ensemble des élément affichés comme lus
                 readAllDisplayedEvents();
-                //marque l'ensemble des élément du dossier en cours comme lus
             }else{
                 //marque l'élément sélectionné comme lu / non lu
-
                 readTargetEvent();
             }
             return false;
         break;
+        //marque comme lu et passe à l'événement suivant
+        case keyCode['j']:
+        	readTargetEvent();
+        	targetNextEvent();
+        break;
         case keyCode['s']:
-            if(isCtrl){
-                //supprime le statut favori de tous les élément du dossier en cours
-                //TODO - unfavorizeAllDisplayedEvents();
-            }else{
                 //marque l'élément sélectionné comme favori / non favori
-                //TODO - switchFavoriteTargetEvent();
-            }
+                switchFavoriteTargetEvent();
             return false;
         break;
         case keyCode['n']:
-            if(isCtrl){
-                //ajouter un flux
-                //TODO - addFeed();
-            }else{
-                //élément suivant (sans l'ouvrir)
-                targetNextEvent();
-            }
+            //élément suivant (sans l'ouvrir)
+            targetNextEvent();
             return false;
         break;
         case keyCode['v']:
@@ -121,6 +123,24 @@ function readTargetEvent(){
 	var id = $('.anchor',target).attr('name');
 	readThis(buttonElement,id);
 }
+
+function readAllDisplayedEvents(){
+	$('article section').each(function(i,article){
+		var buttonElement = $('.readUnreadButton',article);
+		var id = $('.anchor',article).attr('name');
+		readThis(buttonElement,id);
+	});
+}
+
+function switchFavoriteTargetEvent(){
+	var id = $('.anchor',target).attr('name');
+	if($('.favorite',target).html()=='Favoriser'){
+		addFavorite($('.favorite',target),id);
+	}else{
+		removeFavorite($('.favorite',target),id);
+	}
+}
+
 /* Fonctions de séléctions fin */
 
 function toggleFolder(element,folder){
@@ -129,7 +149,7 @@ function toggleFolder(element,folder){
 	open = 0;
 	if(feedBloc.css('display')=='none') open = 1;
 	feedBloc.slideToggle(200);
-	
+	$(element).html((!open?'Déplier':'Plier'));
 	$.ajax({
 				  url: "./action.php?action=changeFolderState",
 				  data:{id:folder,isopen:open}
@@ -137,7 +157,7 @@ function toggleFolder(element,folder){
 }
 
 function addFavorite(element,id){
-	$(element).fadeOut(100);
+	$(element).attr('onclick','removeFavorite(this,'+id+');').html('Défavoriser');
 	$.ajax({
 				  url: "./action.php?action=addFavorite",
 				  data:{id:id}
@@ -145,7 +165,7 @@ function addFavorite(element,id){
 }
 
 function removeFavorite(element,id){
-	$(element).fadeOut(100);
+	$(element).attr('onclick','addFavorite(this,'+id+');').html('Favoriser');
 	$.ajax({
 				  url: "./action.php?action=removeFavorite",
 				  data:{id:id}
@@ -212,7 +232,8 @@ function changeFeedFolder(element,id){
 }
 
 
-function readThis(element,id,hide,from){
+function readThis(element,id,from){
+	var hide = ($('#pageTop').html()==''?true:false);
 	var parent = $(element).parent().parent();
 	if(!parent.hasClass('eventRead')){
 

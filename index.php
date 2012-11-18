@@ -4,7 +4,7 @@
  @nom: index
  @auteur: Idleman (idleman@idleman.fr)
  @description:  Page d'accueil et de lecture des flux
- */
+*/
 
 require_once('header.php'); 
 
@@ -116,10 +116,18 @@ $pagesArray = array();
 						$tpl->assign('numberOfItem',$numberOfItem);
 						$tpl->assign('pages',$pages);
 						$tpl->assign('page',$page);
-						for($i=1;$i<$pages+1;$i++){
+
+
+
+						for($i=($page-PAGINATION_SCALE<0?1:$page-PAGINATION_SCALE);$i<($page+PAGINATION_SCALE>$pages+1?$pages+1:$page+PAGINATION_SCALE);$i++){
 							$pagesArray[]=$i;
 						}
+
 						$tpl->assign('pagesArray',$pagesArray);
+
+						$tpl->assign('previousPages',($page-PAGINATION_SCALE<0?-1:$page-PAGINATION_SCALE));
+						$tpl->assign('nextPages',($page+PAGINATION_SCALE>$pages+1?-1:$page+PAGINATION_SCALE));
+
 					break;
 				}
 

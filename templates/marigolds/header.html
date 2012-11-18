@@ -19,7 +19,11 @@
 	<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-	<a name="pageTop"></a>
+	<!-- <!> Balise ayant double utilié :
+	sert de base a javascript pour connaitre l'action courante
+	permet le retour en haut de page -->
+	<a name="pageTop" id="pageTop" class="hidden">{$action}</a>
+	
 	<div id="header-container">
 		<header class="wrapper clearfix">
 			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>

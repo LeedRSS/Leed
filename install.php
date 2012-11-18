@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1.1');
-	define('VERSION_NAME','Beta (rev 76)');
+	define('VERSION_NAME','Beta (rev 77)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -78,6 +78,8 @@ if(isset($_['installButton'])){
 	define('MYSQL_PREFIX','".$_['mysqlPrefix']."');
 	//Theme graphique
 	define('DEFAULT_THEME','marigolds');
+	//Nombre de pages affichées dans la barre de pagination
+	define('PAGINATION_SCALE',5);
 	?>";
 
 	file_put_contents('constant.php', $constant);
