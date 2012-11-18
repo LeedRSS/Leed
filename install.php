@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1.1');
-	define('VERSION_NAME','Beta (rev 75)');
+	define('VERSION_NAME','Beta (rev 76)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -240,7 +240,7 @@ if(isset($_['installButton'])){
 					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
 					<h3 class="articleDetails">G&eacute;neralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
-					<p>Mot de passe MySQL : <input type="text" name="mysqlMdp" value=""></p>
+					<p>Mot de passe MySQL : <input type="password" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3 class="articleDetails">Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
 					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
