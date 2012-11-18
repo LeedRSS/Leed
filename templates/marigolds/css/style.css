@@ -279,6 +279,7 @@ header a,header a:hover,header a:visited{
 }
 #main article section img{
 	max-width: 100%;
+	height: 100%;
 }
 #main aside ul,#main aside ul li ul{
 	padding:0;
