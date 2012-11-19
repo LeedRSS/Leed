@@ -12,12 +12,11 @@ keyCode['v'] = 86;
 keyCode['p'] = 80;
 keyCode['k'] = 75;
 keyCode['o'] = 79;
-keyCode['j'] = 74;
 keyCode['space'] = 32;
 
 $(document).ready(function(){
 
-	targetThisEvent($('article section:first'));
+	targetThisEvent($('article section:first'),true);
 
 });
 
@@ -32,6 +31,7 @@ if(e.which == keyCode['shift']) isMaj=false;
     
     if($("input:focus").length==0){
     switch(e.which){
+    	
         case keyCode['m']:
             if(isCtrl){
             	//marque l'ensemble des élément affichés comme lus
@@ -39,14 +39,11 @@ if(e.which == keyCode['shift']) isMaj=false;
             }else{
                 //marque l'élément sélectionné comme lu / non lu
                 readTargetEvent();
+        		
             }
             return false;
         break;
-        //marque comme lu et passe à l'événement suivant
-        case keyCode['j']:
-        	readTargetEvent();
-        	targetNextEvent();
-        break;
+
         case keyCode['s']:
                 //marque l'élément sélectionné comme favori / non favori
                 switchFavoriteTargetEvent();
@@ -98,20 +95,20 @@ if(e.which == keyCode['shift']) isMaj=false;
 /* Fonctions de séléctions */
 
 function targetPreviousEvent(){
-	targetThisEvent($('.eventSelected').prev());
+	targetThisEvent($('.eventSelected').prev(),true);
 }
 function targetNextEvent(){
 
-	targetThisEvent($('.eventSelected').next());
+	targetThisEvent($('.eventSelected').next(),true);
 }
 
-function targetThisEvent(event){
+function targetThisEvent(event,focusOn){
 	target = $(event);
 	if(target.prop("tagName")=='SECTION'){
 		$('.eventSelected').removeClass('eventSelected');
 		target.addClass('eventSelected');
 		var id = $('.anchor',target).attr('name');
-		window.location = '#'+id;
+		if(focusOn)window.location = '#'+id;
 	}
 }
 function openTargetEvent(){
@@ -121,7 +118,9 @@ function openTargetEvent(){
 function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $('.anchor',target).attr('name');
+	targetThisEvent($('.eventSelected').next(),true);
 	readThis(buttonElement,id);
+
 }
 
 function readAllDisplayedEvents(){
