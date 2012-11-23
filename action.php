@@ -6,18 +6,13 @@
  @description: Page de gestoin des evenements non liés a une vue particulière (appels ajax, requetes sans resultats etc...)
  */
 
-set_time_limit(0);
+if(!ini_get('safe_mode')) @set_time_limit(0);
 require_once("common.php");
 
 
 
 //Execution du code en fonction de l'action
 switch ($_['action']){
-
-
-	case 'sandbox':
-		var_dump($configurationManager->populate());
-	break;
 
 	case 'synchronize':
 		if (ob_get_level() == 0) ob_start();
@@ -308,7 +303,7 @@ switch ($_['action']){
 	case 'renameFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$feedManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
+			$feedManager->change(array('name'=>utf8_encode(html_entity_decode($_['name']))),array('id'=>$_['id']));
 		}
 	break;
 

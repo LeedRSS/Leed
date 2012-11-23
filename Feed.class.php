@@ -55,14 +55,14 @@ class Feed extends MysqlEntity{
 		$eventManager = new Event();
 			
 		$nonParsedEvents = array();
+		$iEvents = 0;
 		foreach($items as $item){
-
-				//Deffinition du GUID : 
+			
+				//Definition du GUID : 
 			
 				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($item->get_id())));
 				
-
-				if($alreadyParsed==0){
+				if($alreadyParsed==0 && $iEvents<100){
 					$event = new Event();
 					$event->setGuid($item->get_id());
 					$event->setTitle($item->get_title());
@@ -84,11 +84,16 @@ class Feed extends MysqlEntity{
 					$event->setUnread(1);
 					$nonParsedEvents[] = $event;
 					unset($event);
+					$iEvents++;
 				}
-
+			
+			
 		}
 
-			if(count($nonParsedEvents)!=0) $eventManager->massiveInsert($nonParsedEvents);
+			if(count($nonParsedEvents)!=0) {
+
+				$eventManager->massiveInsert($nonParsedEvents);
+			}
 
 			$result = true;
 				

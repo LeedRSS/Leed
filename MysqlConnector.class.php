@@ -16,6 +16,7 @@ class MysqlConnector
 	private $bdd;
 	private $port;
 	public $debug=0;
+	private $connection = null;
 	public static $instance = null;
 	
 	private function __construct(){
@@ -43,8 +44,8 @@ class MysqlConnector
 
 	
 	public function connect(){
-		$connexion = mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
-		mysql_select_db(MYSQL_BDD,$connexion);
+		$this->connection = mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
+		mysql_select_db(MYSQL_BDD,$this->connection);
 	}
 	
 

@@ -33,14 +33,8 @@ if(e.which == keyCode['shift']) isMaj=false;
     switch(e.which){
     	
         case keyCode['m']:
-            if(isCtrl){
-            	//marque l'ensemble des élément affichés comme lus
-                readAllDisplayedEvents();
-            }else{
                 //marque l'élément sélectionné comme lu / non lu
                 readTargetEvent();
-        		
-            }
             return false;
         break;
 
@@ -200,6 +194,7 @@ function saveRenameFolder(element,folder){
 function renameFeed(element,feed){
 	var feedLine = $(element).parent().parent();
 	var feedNameCase = $('td:first a',feedLine);
+	var feedUrlCase = $('td:first span',feedLine).html();
 	var url = feedNameCase.attr('href');
 	var value = feedNameCase.html();
 	$(element).html('Enregistrer');

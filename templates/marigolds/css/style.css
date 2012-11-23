@@ -406,11 +406,20 @@ footer a,#main aside a{
 #main article section{
 	border-bottom:1px dashed #cecece;
 	padding:5px;
+	overflow: hidden;
 }
 
 #main aside{
 	color:#ffffff;
 	padding:0px 2% 10px;
+}
+
+.underlink{
+	font-size:9px;
+	color:#222222;
+	display:block;
+	line-height: 9px;
+	margin-bottom: 10px;
 }
 
 #footer-container footer p,#footer-container footer{

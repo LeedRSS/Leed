@@ -311,6 +311,8 @@ class Functions
 			$folderManager = new Folder();
 			$feedManager = new Feed();
 			$report= '';
+
+			
 			foreach($level as $item){
 					if(isset($item->outline[0])){
 						$folder = $folderManager->load(array('name'=>$item['text']));
@@ -330,7 +332,9 @@ class Functions
 						$newFeed = (!$newFeed?new Feed():$newFeed);
 
 						if($newFeed->getId()==''){
-							$newFeed->setName($item[0]['text']);
+							$feedName = (isset($item[0]['text'])?$item[0]['text']:$item[0]['title']);
+
+							$newFeed->setName($feedName);
 							$newFeed->setUrl($item[0]['xmlUrl']);
 							$newFeed->setDescription($item[0]['description']);
 							$newFeed->setWebsite($item[0]['htmlUrl']);
@@ -339,7 +343,7 @@ class Functions
 							$newFeed->save();
 
 							$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
-							$parseResult = '[FLUX] Parsage du flux '.$item[0]['text'].': '.($newFeed->parse()?'OK':'NOK')."\n";
+							$parseResult = '[FLUX] Parsage du flux '.$newFeed->getName().': '.($newFeed->parse()?'OK':'NOK')."\n";
 							$report.= $parseResult;
 							echo '<li>'.$parseResult.'</li>';
 						}else{

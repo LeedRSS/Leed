@@ -107,6 +107,8 @@ class MysqlEntity
 
 
 	public function massiveInsert($events){
+
+
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
@@ -117,21 +119,26 @@ class MysqlEntity
 			}
 			$query .=') select';
 			$u = false;
+
+			
 			foreach($events as $event){
-				if($u){$query .=' union select ';}else{$u=true;}
 				
-				$i=false;
-				foreach($event->object_fields as $field=>$type){
-					if($type!='key'){
-						if($i){$query .=',';}else{$i=true;}
-						$query .='"'.eval('return htmlentities($event->'.$field.');').'"';
+					if($u){$query .=' union select ';}else{$u=true;}
+					
+					$i=false;
+					foreach($event->object_fields as $field=>$type){
+						if($type!='key'){
+							if($i){$query .=',';}else{$i=true;}
+							$query .='"'.eval('return htmlentities($event->'.$field.');').'"';
+						}
 					}
-				}
 				
+			
 			}
 
 			$query .=';';
-		//echo '<i>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>';
+
+		
 		mysql_query($query) or die(mysql_error());
 
 	}

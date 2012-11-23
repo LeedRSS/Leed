@@ -51,7 +51,7 @@
 						<h2>Synchronisation</h2>
 						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
 						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
-						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
+						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
 					</section>
 
 					<section>
@@ -98,7 +98,7 @@
 					<table id="feedTable">
 						
 						{loop="$folders"}
-						<tr><td>{$value->getName()}</td><td><button onclick="renameFolder(this,{$value->getId()})">Renommer</button></td><td>{if="$value->getId()!='1'"}<button onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&id={$value->getId()}'">Supprimer</button>{/if}</td></tr>
+						<tr><td>{$value->getName()}</td><td><button onclick="renameFolder(this,{$value->getId()})">Renommer</button></td><td>{if="$value->getId()!='1'"}<button onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>{/if}</td></tr>
 						{/loop}
 					</table>
 
@@ -123,17 +123,16 @@
 							{if="count($feeds)!=0"}
 							{loop="$feedsForFolder"}
 								<tr>
-
-
-
-									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{$value2->getName()}</a></td>
-									<td><select onchange="changeFeedFolder(this,{$value2->getId()});">
-										{loop="$folders"}
-											<option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
-										{/loop}
-									</select></td>
+									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{$value2->getName()}</a><span class="underlink">{$value2->getUrl()}</span></td>
+									<td>
+										<select onchange="changeFeedFolder(this,{$value2->getId()});">
+											{loop="$folders"}
+												<option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
+											{/loop}
+										</select>
+									</td>
 									<td><button onclick="renameFeed(this,{$value2->getId()})">Renommer</button></td>
-									<td><button onclick="window.location='action.php?action=removeFeed&id={$value2->getId()}'">Supprimer</button></td></tr>
+									<td><button onclick="if(confirm('Etes vous sûr de vouloir supprimer ce flux?')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">Supprimer</button></td></tr>
 							{/loop}
 							{/if}
 						</table>

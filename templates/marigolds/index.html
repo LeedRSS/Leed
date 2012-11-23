@@ -37,17 +37,17 @@
 
 				
 					<!-- DOSSIER -->
-					<li><h1 class="folder"><a alt="Lire les evenements de ce dossier" title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" alt="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder" alt="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}</h1>
+					<li><h1 class="folder"><a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}</h1>
 						<!-- FLUX DU DOSSIER -->
 						<ul {if="!$value->getIsopen()"}style="display:none;"{/if}>
 							 
 								{if="count($feeds)!=0"}
 									{loop="feeds"}
 										<li> 
-											<div class="feedChip" style="border-color: #{$value2['color']}"></div> <a href="index.php?action=selectedFeed&feed={$value2['id']}" alt="{$value2['url']}" title="{$value2['url']}">{$value2['name']} </a>
+											<div class="feedChip" style="border-color: #{$value2['color']}"></div> <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{$value2['name']} </a>
 
 											{if="isset($unread[$value2['id']])"}  
-											<button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&feed={$value2['id']}';">
+											<button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
 												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}
@@ -82,8 +82,8 @@
 					<div class="clear"></div>
 						{$currentFeed->getDescription()}  
 							Voir les 
-					<a href="index.php?action=selectedFeed&feed={$_['feed']}&page={$page}&order=unread">Non lu</a> | 
-					<a href="index.php?action=selectedFeed&feed={$_['feed']}&page={$page}&order=older">Plus vieux</a> en premier
+					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">Non lu</a> | 
+					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">Plus vieux</a> en premier
 				{/if}
 				
 				{if="$action=='selectedFolder'"}
@@ -118,7 +118,7 @@
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
-							<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" alt="{$plainDescription}" title="{$plainDescription}">{$value->getTitle()}</a> 
+							<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a> 
 						</h2>
 						<!-- DETAILS + OPTIONS -->
 						<h3 class="articleDetails">
@@ -136,7 +136,7 @@
 							{else}
 							 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >D&eacute;favoriser</a> 
 							 {/if}
-							{if="$shareOption!=false"} <a alt="partager sur shaarli" title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&source=bookmarklet'}">Shaare</a>
+							{if="$shareOption!=false"} <a title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&amp;source=bookmarklet'}">Shaare</a>
 							{/if}
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
 						</h3>
@@ -157,7 +157,7 @@
 						<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
 						<h3 class="articleDetails">
 							
-							{if="$shareOption!=false"} <a alt="partager sur shaarli" title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&source=bookmarklet'}">Shaare</a> 
+							{if="$shareOption!=false"} <a title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&amp;title='.$value->getTitle().'&amp;source=bookmarklet'}">Shaare</a> 
 							{/if}
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
 							 {if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
@@ -180,13 +180,13 @@
 					<p>Page {$page}/{$pages} : 
 
 						{if="$previousPages>0"}
-						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$previousPages}"><<</a>
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$previousPages}"><<</a>
 						{/if}
 						
 						{loop="pagesArray"}
 
 							{if="$page!=$value"}
-							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$value}">{$value}</a> 
+							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$value}">{$value}</a> 
 							{else}
 							{$value}
 							{/if}
@@ -194,7 +194,7 @@
 						{/loop}
 
 						{if="$nextPages>0"}
-						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&folder={$currentFolder->getId()}{/if}&page={$nextPages}">>></a>
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$nextPages}">>></a>
 						{/if}
 					</p> 
 				{/if}
