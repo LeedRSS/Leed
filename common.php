@@ -62,4 +62,5 @@ $_[$key]=Functions::secure($val);
 }
 
 $tpl->assign('_',$_);
+$tpl->assign('action','');
 ?>

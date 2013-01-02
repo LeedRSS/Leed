@@ -360,11 +360,20 @@ header a,header a:hover,header a:visited{
 	border-left:10px solid;
 }
 
+#main article section {
+	 
+}
 
-#main article section.eventRead{
-	opacity:0.4;
-	-moz-opacity : 0.4;
-    -ms-filter: "alpha(opacity=40)";
+#main article section.eventRead .readUnreadButton {
+	/*opacity:0.8;
+	-moz-opacity : 0.8;
+    -ms-filter: "alpha(opacity=80)";
+ 	*/
+ 	background-color: #222222;
+}
+
+#main article section.eventRead,#main article section.eventHightLighted.eventRead{
+	background-color: #EBEBEB
 }
 
 #main article section.eventHightLighted{
@@ -381,7 +390,11 @@ header a,header a:hover,header a:visited{
 	width:70%;
 }
 
-#addBloc,#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#manageFolderBloc,#synchronizeBloc{
+#addBloc{
+	margin-left: 40px;
+}
+
+#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#synchronizeBloc{
 	display:none;
 }
 .pointer{
@@ -617,4 +630,7 @@ footer a,#main aside a{
 }
 .hidden{
 	display:none;
+}
+.nochip{
+	list-style-type: none;
 }

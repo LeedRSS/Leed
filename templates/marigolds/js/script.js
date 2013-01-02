@@ -166,24 +166,24 @@ function removeFavorite(element,id){
 }
 
 function renameFolder(element,folder){
-	var folderLine = $(element).parent().parent();
-	var folderNameCase = $('td:first',folderLine);
+	var folderLine = $(element).parent();
+	var folderNameCase = $('span',folderLine);
 	var value = folderNameCase.html();
 	$(element).html('Enregistrer');
 	$(element).attr('style','background-color:#0C87C9;');
 	$(element).attr('onclick','saveRenameFolder(this,'+folder+')');
-	folderNameCase.replaceWith('<td><input type="text" name="folderName" value="'+value+'"/></td>');
+	folderNameCase.replaceWith('<span><input type="text" name="folderName" value="'+value+'"/></span>');
 }
 
 
 function saveRenameFolder(element,folder){
-	var folderLine = $(element).parent().parent();
-	var folderNameCase = $('td:first',folderLine);
+	var folderLine = $(element).parent();
+	var folderNameCase = $('span',folderLine);
 	var value = $('input',folderNameCase).val();
 	$(element).html('Renommer');
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFolder(this,'+folder+')');
-	folderNameCase.replaceWith('<td>'+value+'</td>');
+	folderNameCase.replaceWith('<span>'+value+'</span>');
 	$.ajax({
 				  url: "./action.php?action=renameFolder",
 				  data:{id:folder,name:value}
