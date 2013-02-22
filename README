@@ -7,14 +7,14 @@ Leed (contraction de Light Feed) est un agrégatteur RSS libre d'utilisation, gr
 - Version : 1.1 Beta
 - Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 - Page du projet : http://projet.idleman.fr/leed
-- Licence : CC by-nc-nd (http://creativecommons.org/licenses/by-nc-nd/2.0/fr/) 
-- Nb : les travaux dérivés peuvent être autorisés avec accord de l'auteur
+- Licence : CC by-nc (http://creativecommons.org/licenses/by-nc/2.0/fr/) 
+
 
 
 Présentation
 ====
 
-  Leed (contraction de Light Feed) est un agrégatteur RSS libre d'utilisation, gratuit et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
+Leed (contraction de Light Feed) est un agrégatteur RSS libre d'utilisation, gratuit et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 	
 Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche synchronisée (Cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacuns des flux suivis.
 
