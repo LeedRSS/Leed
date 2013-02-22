@@ -72,6 +72,7 @@ $pagesArray = array();
 							$pagesArray[]=$i;
 						}
 
+						$tpl->assign('order',(isset($_['order'])?$_['order']:''));
 						$tpl->assign('pagesArray',$pagesArray);
 						$tpl->assign('previousPages',($page-PAGINATION_SCALE<0?-1:$page-PAGINATION_SCALE));
 						$tpl->assign('nextPages',($page+PAGINATION_SCALE>$pages+1?-1:$page+PAGINATION_SCALE));

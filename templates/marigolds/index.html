@@ -89,7 +89,7 @@
 				{if="$action=='selectedFolder'"}
 				<!-- AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER -->		
 					<h1 class="articleSection">Dossier : {$currentFolder->getName()}</h1>
-					<p>Tous les evenements non lu pour le dossier {$currentFolder->getName()}</p>
+					<p>Tous les &eacute;v&eacute;nements non lus pour le dossier {$currentFolder->getName()}</p>
 				{/if}
 				
 				{if="$action=='favorites'"}
@@ -115,7 +115,7 @@
 					
 					<section onclick="targetThisEvent(this);" class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
 						<a class="anchor" name="{$value->getId()}"></a>
-						<a title="Revenir en haut de page" class="goTopButton" href="#pageTop">ˆ</a>
+						<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
 							<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a> 
@@ -180,13 +180,13 @@
 					<p>Page {$page}/{$pages} : 
 
 						{if="$previousPages>0"}
-						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$previousPages}"><<</a>
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$previousPages}{if="$order!=''"}&amp;order={$order}{/if}"><<</a>
 						{/if}
 						
 						{loop="pagesArray"}
 
 							{if="$page!=$value"}
-							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$value}">{$value}</a> 
+							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$value}{if="$order!=''"}&amp;order={$order}{/if}">{$value}</a> 
 							{else}
 							{$value}
 							{/if}
@@ -194,7 +194,7 @@
 						{/loop}
 
 						{if="$nextPages>0"}
-						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$nextPages}">>></a>
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$nextPages}{if="$order!=''"}&amp;order={$order}{/if}">>></a>
 						{/if}
 					</p> 
 				{/if}

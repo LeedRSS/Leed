@@ -43,6 +43,9 @@ class Feed extends MysqlEntity{
 		
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
+
+		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
+
 		$feed->init();
 		$feed->handle_content_type();
 
