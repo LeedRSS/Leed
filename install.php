@@ -64,7 +64,7 @@ if(isset($_['installButton'])){
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1.1');
-	define('VERSION_NAME','Beta (rev 87)');
+	define('VERSION_NAME','Beta (rev 88)');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -258,7 +258,7 @@ if(isset($_['installButton'])){
 				<section>
 					<h2>Synchronisation</h2>
 					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
-					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'all&eacute;ger la charge serveur et d'&eacute;viter les timeouts intempestifs mais n&eacute;cessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
 					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
 				</section>
 

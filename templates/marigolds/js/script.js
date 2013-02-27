@@ -112,8 +112,11 @@ function openTargetEvent(){
 function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $('.anchor',target).attr('name');
-	targetThisEvent($('.eventSelected').next(),true);
-	readThis(buttonElement,id);
+	readThis(buttonElement,id,null,function(){
+		targetThisEvent($('.eventSelected').next(),true);
+	});
+	
+	
 
 }
 
@@ -226,13 +229,15 @@ function changeFeedFolder(element,id){
 }
 
 
-function readThis(element,id,from){
+function readThis(element,id,from,callback){
 	var hide = ($('#pageTop').html()==''?true:false);
 	var parent = $(element).parent().parent();
 	if(!parent.hasClass('eventRead')){
 
 		if(hide){ 
-					  		parent.fadeOut(200); 
+					  		parent.fadeOut(200,function(){
+					  			if(null!=callback) callback();
+					  		}); 
 					  	}else{ 
 					  		parent.addClass('eventRead');
 					  	}
@@ -255,6 +260,7 @@ function readThis(element,id,from){
 				});
 			}
 	}
+	
 }
 
 //synchronisation manuelle lancée depuis le boutton du menu

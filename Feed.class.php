@@ -8,7 +8,7 @@
 
 class Feed extends MysqlEntity{
 
-	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$color;
+	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
 	protected $TABLE_NAME = 'feed';
 	protected $CLASS_NAME = 'Feed';
 	protected $object_fields = 
@@ -19,7 +19,6 @@ class Feed extends MysqlEntity{
 		'website'=>'longstring',
 		'url'=>'longstring',
 		'lastupdate'=>'string',
-		'color'=>'string',
 		'folder'=>'integer'
 	);
 
@@ -174,17 +173,17 @@ class Feed extends MysqlEntity{
 		$feedsFolderMap = array();
 		$feedsIdMap = array();
 
-		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.color   AS color, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
+		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
 				$name = html_entity_decode($item['name']);
 				$feedsIdMap[$item['id']]['name'] = $name;
-				$feedsIdMap[$item['id']]['color'] = $item['color'];
+				
 
 				$feedsFolderMap[$item['folder']][$item['id']]['id'] = $item['id'];
 				$feedsFolderMap[$item['folder']][$item['id']]['name'] = $name;
 				$feedsFolderMap[$item['folder']][$item['id']]['url'] = $item['url'];
-				$feedsFolderMap[$item['folder']][$item['id']]['color'] = $item['color'];
+				
 			}
 		}
 		$feeds['folderMap'] = $feedsFolderMap;
@@ -209,13 +208,7 @@ class Feed extends MysqlEntity{
 		$this->lastupdate = $lastupdate;
 	}
 	
-	function getColor(){
-		return $this->color;
-	}
 
-	function setColor($color){
-		 $this->color = $color;
-	}
 
 }
 

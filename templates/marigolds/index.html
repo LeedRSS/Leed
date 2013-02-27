@@ -44,7 +44,7 @@
 								{if="count($feeds)!=0"}
 									{loop="feeds"}
 										<li> 
-											<div class="feedChip" style="border-color: #{$value2['color']}"></div> <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{$value2['name']} </a>
+											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{$value2['name']} </a>
 
 											{if="isset($unread[$value2['id']])"}  
 											<button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
@@ -123,7 +123,7 @@
 						<!-- DETAILS + OPTIONS -->
 						<h3 class="articleDetails">
 							{if="$articleDisplayLink"}
-								<div class="feedChip" style="border-color: #{$allFeeds['idMap'][$value->getFeed()]['color']}"></div><a href="{$value->getLink()}" target="_blank">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
+								<a href="{$value->getLink()}" target="_blank">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
 							{/if}
 							{if="$articleDisplayAuthor"}
 							 par {$value->getCreator()}

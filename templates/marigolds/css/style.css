@@ -281,6 +281,10 @@ header a,header a:hover,header a:visited{
 	max-width: 100%;
 	height: auto;
 }
+#main article section embed,#main article section iframe{
+	max-width: 100%;
+
+}
 #main aside ul,#main aside ul li ul{
 	padding:0;
 	margin:0;
