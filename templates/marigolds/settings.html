@@ -129,7 +129,7 @@
 					
 					{$feedsForFolder=$value->getFeeds()}
 						
-					<li>
+					<li>{if="$value->getId()==1"}<a name="defaultFolder"></a>{/if}
 						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
 
 						<button  onclick="renameFolder(this,{$value->getId()})">Renommer</button>

@@ -339,7 +339,6 @@ class Functions
 							$newFeed->setDescription($item[0]['description']);
 							$newFeed->setWebsite($item[0]['htmlUrl']);
 							$newFeed->setFolder($folderId);
-							$newFeed->setColor(Functions::hexaValue($item[0]['xmlUrl']));
 							$newFeed->save();
 
 							$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
