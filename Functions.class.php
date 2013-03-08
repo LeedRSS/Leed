@@ -20,8 +20,8 @@ class Functions
 	 */
 
 	public static function secure($var,$level = 1){
-		$var = htmlentities($var, ENT_QUOTES, "UTF-8");
-		if($level<1)$var = mysql_escape_string($var);
+		$var = htmlspecialchars($var, ENT_QUOTES, "UTF-8");
+		if($level<1)$var = mysql_real_escape_string($var);
 		if($level<2)$var = addslashes($var);
 		return $var;
 	}

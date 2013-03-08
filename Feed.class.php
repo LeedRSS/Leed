@@ -41,12 +41,15 @@ class Feed extends MysqlEntity{
 
 		
 		$feed = new SimplePie();
+		
+
 		$feed->set_feed_url($this->url);
 
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 
 		$feed->init();
 		$feed->handle_content_type();
+		
 
 		if($this->name=='') $this->name = $feed->get_title();
 		if($this->name=='') $this->name = $this->url;
@@ -62,18 +65,18 @@ class Feed extends MysqlEntity{
 			
 				//Definition du GUID : 
 			
-				$alreadyParsed = $eventManager->rowCount(array('guid'=>htmlentities($item->get_id())));
+				$alreadyParsed = $eventManager->rowCount(array('guid'=>$this->secure($item->get_id(), 'guid')));
 				
 				if($alreadyParsed==0 && $iEvents<100){
 					$event = new Event();
 					$event->setGuid($item->get_id());
-					$event->setTitle($item->get_title());
+					$event->setTitle(html_entity_decode($item->get_title(), ENT_COMPAT, 'UTF-8'));
 					$event->setPubdate($item->get_date());
 					$event->setCreator( (is_object($item->get_author())?$item->get_author()->name:'Anonyme') );
 				
 					$event->setLink($item->get_permalink());
-					$event->setContent($item->get_content());
-					$event->setDescription($item->get_description());
+					$event->setContent(html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8'));
+					$event->setDescription(html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8'));
 					
 					if(trim($event->getDescription())=='')
 						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
@@ -117,11 +120,11 @@ class Feed extends MysqlEntity{
 	}
 
 	function getDescription(){
-		return stripslashes($this->description);
+		return $this->description;
 	}
 
 	function setDescription($description){
-		$this->description = html_entity_decode($description);
+		$this->description = $description;
 	}
 	function getWebSite(){
 		return $this->website;
@@ -148,7 +151,7 @@ class Feed extends MysqlEntity{
 	}
 
 	function setName($name){
-		$this->name = html_entity_decode($name);
+		$this->name = $name;
 	}
 
 
@@ -176,7 +179,7 @@ class Feed extends MysqlEntity{
 		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
-				$name = html_entity_decode($item['name']);
+				$name = $item['name'];
 				$feedsIdMap[$item['id']]['name'] = $name;
 				
 

@@ -302,14 +302,14 @@ switch ($_['action']){
 	case 'renameFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$feedManager->change(array('name'=>utf8_encode(html_entity_decode($_['name']))),array('id'=>$_['id']));
+			$feedManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
 		}
 	break;
 
 	case 'removeFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$eventManager->customExecute('DELETE FROM '.MYSQL_PREFIX.'event WHERE '.MYSQL_PREFIX.'event.feed in (SELECT '.MYSQL_PREFIX.'feed.id FROM '.MYSQL_PREFIX.'feed WHERE '.MYSQL_PREFIX.'feed.folder ='.$_['id'].') ;');
+			$eventManager->customExecute('DELETE FROM '.MYSQL_PREFIX.'event WHERE '.MYSQL_PREFIX.'event.feed in (SELECT '.MYSQL_PREFIX.'feed.id FROM '.MYSQL_PREFIX.'feed WHERE '.MYSQL_PREFIX.'feed.folder ='.intval($_['id']).') ;');
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
 		}

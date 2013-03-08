@@ -73,13 +73,11 @@ class Event extends MysqlEntity{
 	}
 
 	function getDescription(){
-		// return utf8_encode($this->description);
 		return $this->description;
 	}
 
 	function setDescription($description,$encoding = true){
-		$this->description =  str_replace('’','\'',$description);
-		if($encoding)$this->description = utf8_decode($this->description);
+		$this->description = $description;
 	}
 
 	function getPubdate($format=false){
@@ -127,13 +125,11 @@ class Event extends MysqlEntity{
 	}
 
 	function getContent(){
-		//return utf8_encode($this->content);
 		return $this->content;
 	}
 
 	function setContent($content,$encoding=true){
-		$this->content = str_replace('’','\'',$content);
-		if($encoding)$this->content = utf8_decode($this->content);
+		$this->content = $content;
 	}
 
 

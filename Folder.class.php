@@ -34,7 +34,8 @@ class Folder extends MysqlEntity{
 			while($item = mysql_fetch_array($results)){
 				$object = new Event();
 					foreach($object->getObject_fields() as $field=>$type){
-						if(isset($item[$field])) eval('$object->set'.ucFirst($field) .'(html_entity_decode(\''. addslashes($item[$field]).'\'),false);');
+						$setter = 'set'.ucFirst($field);
+						if(isset($item[$field])) $object->$setter($item[$field]);
 					}
 					$objects[] = $object;
 					unset($object);
