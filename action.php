@@ -94,7 +94,7 @@ switch ($_['action']){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 
 
-			//Ajout des préférences et reglages
+			//Ajout des préférences et réglages
 			$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 			//$configurationManager->put('view',$_['view']);
 			$configurationManager->put('articleView',$_['articleView']);
