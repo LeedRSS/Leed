@@ -119,7 +119,7 @@ $pagesArray = array();
 
 					break;
 
-					/* AFFICHAGE DES EVENEMENTS NON LU (COMPORTEMENT PAR DEFAUT) */
+					/* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
 					case 'unreadEvents':
 					default:
 						$numberOfItem = $eventManager->rowCount(array('unread'=>1));
