@@ -133,31 +133,8 @@ switch ($_['action']){
 			/** Export **/
 			/*********************/
 			if(isset($_POST['exportButton'])){
-				$feeds = $feedManager->populate('name');
-				$folders = $folderManager->loadAll(array('parent'=>-1),'name');
-				$xmlStream = '<?xml version="1.0" encoding="utf-8"?>
-	<opml version="2.0">
-		<head>
-			<title>Leed export</title>
-			<ownerName>Leed</ownerName>
-			<ownerEmail>idleman@idleman.fr</ownerEmail>
-			<dateCreated>'.date('D, d M Y H:i:s').'+0000</dateCreated>
-		</head>
-		<body>';
-
-				$xmlStream .= Functions::recursiveExportOutline($folders);
-				// foreach($folders as $folder){
-				// 	$feeds = $folder->getFeeds();
-				// 	$xmlStream .='<outline text="'.$folder->getName().'" title="'.$folder->getName().'" icon="">'."\n";
-				// 		foreach($feeds as $feed){
-				// 			$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getDescription().'" title="'.$feed->getName().'" description="'.$feed->getDescription().'" />'."\n";
-				// 		}
-				// 	$xmlStream .= '			</outline>';
-				// }
-				
-		$xmlStream .= '</body>
-	</opml>';
-
+				$opml = new Opml();
+				$xmlStream = $opml->export();
 
 				header('Content-Description: File Transfer');
 			    header('Content-Type: application/octet-stream');
@@ -179,7 +156,6 @@ switch ($_['action']){
 			    ob_clean();
 			    flush();
 			    echo $xmlStream;
-
 			}
 	break;
 	

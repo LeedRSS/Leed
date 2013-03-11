@@ -17,6 +17,7 @@ class_exists('Functions') or require_once('Functions.class.php');
 class_exists('User') or require_once('User.class.php');
 class_exists('Folder') or require_once('Folder.class.php');
 class_exists('Configuration') or require_once('Configuration.class.php');
+class_exists('Opml') or require_once('Opml.class.php');
 
 //error_reporting(E_ALL);
 

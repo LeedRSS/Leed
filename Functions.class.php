@@ -355,24 +355,6 @@ class Functions
 			return $report;
 		}
 
-
-		public static function recursiveExportOutline($folders){
-			$xmlStream = '';
-			foreach($folders as $folder){
-					$feeds = $folder->getFeeds();
-					$childFolders = $folder->getFolders();
-					$xmlStream .='<outline text="'.Functions::stripAccents(strip_tags($folder->getName())).'" title="'.Functions::stripAccents(strip_tags($folder->getName())).'" icon="">'."\n";
-					$xmlStream .= Functions::recursiveExportOutline($childFolders);
-						foreach($feeds as $feed){
-							$xmlStream .= '				<outline xmlUrl="'.$feed->getUrl().'" htmlUrl="'.$feed->getWebsite().'" text="'.$feed->getWebsite().'" title="'.$feed->getWebsite().'" description="'.$feed->getWebsite().'" />'."\n";
-						}
-					
-					$xmlStream .= '			</outline>';
-					
-			}
-			return $xmlStream;
-		}
-
 		function stripAccents($string){
 			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüıÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜİ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
