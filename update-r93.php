@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 /**
  *  met à jour la BDD de la rev92 à la rev 93
  *  Leed doit déjà être installé
+ *  auteur : alefburzmali
  */
 
 ob_start();
