@@ -89,7 +89,7 @@
 				{if="$action=='selectedFolder'"}
 				<!-- AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER -->		
 					<h1 class="articleSection">Dossier : {$currentFolder->getName()}</h1>
-					<p>Tous les &eacute;v&eacute;nements non lus pour le dossier {$currentFolder->getName()}</p>
+					<p>Tous les événements non lus pour le dossier {$currentFolder->getName()}</p>
 				{/if}
 				
 				{if="$action=='favorites'"}
@@ -134,7 +134,7 @@
 							{/if}
 							{if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
 							{else}
-							 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >D&eacute;favoriser</a> 
+							 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a> 
 							 {/if}
 							{if="$shareOption!=false"} <a title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&amp;source=bookmarklet'}">Shaare</a>
 							{/if}
@@ -162,7 +162,7 @@
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
 							 {if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
 							{else}
-							 <a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >D&eacute;favoriser</a>  
+							 <a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  
 							 {/if}
 							 <div class="clear"></div>
 						</h3>
@@ -208,8 +208,8 @@
 {else}
 	<div id="main" class="wrapper clearfix">
 		<article>
-				<h3>Vous devez &ecirc;tre connect&eacute; pour consulter vos flux </h3>
-				<p>Si vous &ecirc;tes administrateur, vous pouvez r&eacute;gler les droits de visualisation dans la partie administration.</p>
+				<h3>Vous devez être connecté pour consulter vos flux </h3>
+				<p>Si vous êtes administrateur, vous pouvez régler les droits de visualisation dans la partie administration.</p>
 		</article>
 	</div>
 {/if}

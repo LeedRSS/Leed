@@ -3,7 +3,7 @@
 /*
 	@nom: mysql
 	@auteur: Idleman (idleman@idleman.fr)
-	@date de création: 
+	@date de crÃ©ation: 
 	@description: Classe de gestion des connexions Mysql
 */
 
@@ -77,7 +77,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de récuperation de l'attribut hote de la classe Mysql
+	* MÃ©thode de rÃ©cuperation de l'attribut hote de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -89,7 +89,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de définition de l'attribut hote de la classe Mysql
+	* MÃ©thode de dÃ©finition de l'attribut hote de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <Attribute> $hote
@@ -101,7 +101,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de récuperation de l'attribut login de la classe Mysql
+	* MÃ©thode de rÃ©cuperation de l'attribut login de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -113,7 +113,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de définition de l'attribut login de la classe Mysql
+	* MÃ©thode de dÃ©finition de l'attribut login de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <Attribute> $login
@@ -125,7 +125,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de récuperation de l'attribut mdp de la classe Mysql
+	* MÃ©thode de rÃ©cuperation de l'attribut mdp de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -137,7 +137,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de définition de l'attribut mdp de la classe Mysql
+	* MÃ©thode de dÃ©finition de l'attribut mdp de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <Attribute> $mdp
@@ -149,7 +149,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de récuperation de l'attribut bdd de la classe Mysql
+	* MÃ©thode de rÃ©cuperation de l'attribut bdd de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -161,7 +161,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de définition de l'attribut bdd de la classe Mysql
+	* MÃ©thode de dÃ©finition de l'attribut bdd de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <Attribute> $bdd
@@ -173,7 +173,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de récuperation de l'attribut port de la classe Mysql
+	* MÃ©thode de rÃ©cuperation de l'attribut port de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -185,7 +185,7 @@ class MysqlConnector
 	}
 
 	/**
-	* Méthode de définition de l'attribut port de la classe Mysql
+	* MÃ©thode de dÃ©finition de l'attribut port de la classe Mysql
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <Attribute> $port

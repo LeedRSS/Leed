@@ -145,31 +145,31 @@ if(isset($_['installButton'])){
 
 	 <article style="width:100%;">
 				<header>
-					<h1>Installation de Leed termin&eacute;e</h1>
-					<p>L'installation de Leed est termin&eacute;e!!</p>
+					<h1>Installation de Leed terminée</h1>
+					<p>L'installation de Leed est terminée!!</p>
 
 					
 					
 					<?php if ($_['synchronisationType']=='auto'){ ?>
-					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
+					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
 					<code>0 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra &agrave; jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
+					<p>Cet exemple mettra à jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				
 					<?php }else if ($_['synchronisationType']=='graduate'){ ?>
-					<p>N'oubliez pas de mettre en place le CRON adapt&eacute; pour que vos flux se mettent &agrave; jour, exemple :</p>
+					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
 					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra &agrave; jour vos flux toutes les 5 minutes(conseill&eacute; pour une synchronisation gradu&eacute;e) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
+					<p>Cet exemple mettra à jour vos flux toutes les 5 minutes(conseillé pour une synchronisation graduée) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
 	 				
 
 					<?php }  ?>
 
-					<p><h3>Important ! </h3>N'oubliez pas de supprimer la <b>page install.php</b> par mesure de s&eacute;curit&eacute;</p>
+					<p><h3>Important ! </h3>N'oubliez pas de supprimer la <b>page install.php</b> par mesure de sécurité</p>
 	 				<p>Cliquez <a style="color:#F16529;" href="index.php">ici</a> pour acceder au script</p>
 	 <?php
 }else{
@@ -184,35 +184,35 @@ if(isset($_['installButton'])){
 						if(!is_writable('./')){
 							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 775 -R '.str_replace(basename(__FILE__),'',__FILE__).')';
 						}else{
-							$test['Succ&egrave;s'][]='Permissions sur le dossier courant : OK';
+							$test['Succès'][]='Permissions sur le dossier courant : OK';
 						}
 
 						if (!@function_exists('file_get_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{
-							 $test['Succ&egrave;s'][] = 'Fonction requise "file_get_contents" : OK';	
+							 $test['Succès'][] = 'Fonction requise "file_get_contents" : OK';	
 						}
 						if (!@function_exists('file_put_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{
-							 $test['Succ&egrave;s'][] = 'Fonction requise "file_put_contents" : OK';	
+							 $test['Succès'][] = 'Fonction requise "file_put_contents" : OK';	
 						}
 						if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
 						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
 						}else{
-						 $test['Succ&egrave;s'][] = 'Compabilit&eacute; de version PHP ('.PHP_VERSION.') : OK';	
+						 $test['Succès'][] = 'Compabilité de version PHP ('.PHP_VERSION.') : OK';	
 						}
 
 						// if (!@extension_loaded('sqlite3')){
-						//  $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activ&eacute;e sur votre serveur, merci de bien vouloir l\'installer';
+						//  $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activée sur votre serveur, merci de bien vouloir l\'installer';
 						// }else{
-						//  $test['Succ&egrave;s'][] = 'Extension Sqlite3 : OK';	
+						//  $test['Succès'][] = 'Extension Sqlite3 : OK';	
 						// }
 
 						if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
-							$test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activ&eacute;,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
+							$test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activé,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
 						}else{
-							$test['Succ&egrave;s'][] = 'Gestion du timeout : OK';
+							$test['Succès'][] = 'Gestion du timeout : OK';
 						}
 
 						foreach($test as $type=>$messages){
@@ -227,24 +227,24 @@ if(isset($_['installButton'])){
 			<article>
 				<header>
 					<h1>Installation de Leed</h1>
-					<p>Merci de prendre quelques instants pour v&eacute;rifier les infos ci dessous :</p>
+					<p>Merci de prendre quelques instants pour vérifier les infos ci dessous :</p>
 				
 				</header>
 			
 				<section>
-					<h2>G&eacute;n&eacute;ral</h2>
+					<h2>Général</h2>
 					<p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
 					<h3 class="articleDetails">Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
 				</section>
 
 				<section>
-					<h2>Base de donn&eacute;es</h2>
+					<h2>Base de données</h2>
 					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
-					<h3 class="articleDetails">G&eacute;neralement localhost</h3>
+					<h3 class="articleDetails">Géneralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
 					<p>Mot de passe MySQL : <input type="password" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
-					<h3 class="articleDetails">Nom de la base de donn&eacute;es vou&eacute;e &agrave; Leed (&agrave; cr&eacute;er avant d'installer leed)</h3>
+					<h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
 					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
 				</section>
 
@@ -257,15 +257,15 @@ if(isset($_['installButton'])){
 
 				<section>
 					<h2>Synchronisation</h2>
-					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
-					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'all&eacute;ger la charge serveur et d'&eacute;viter les timeouts intempestifs mais n&eacute;cessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
-					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 				</section>
 
 				<section>
-					<h2>Pr&eacute;ferences</h2>
+					<h2>Préferences</h2>
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
+					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
@@ -273,9 +273,9 @@ if(isset($_['installButton'])){
 					<p>Affichage du contenu de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
 					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
 					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
-					<p>Cat&eacute;gorie par defaut: <input type="text" value="General" name="category"></p>
-					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers &eacute;venement d'un flux</p>
-					<h3 class="articleDetails">Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
+					<p>Catégorie par defaut: <input type="text" value="General" name="category"></p>
+					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers évenement d'un flux</p>
+					<h3 class="articleDetails">Nb: Plus il y aura d'évenements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos évenements marqués comme favoris ne seront jamais supprimés</h3>
 					
 				</section>
 
@@ -291,7 +291,7 @@ if(isset($_['installButton'])){
 			</article>
 	</form>		
 	<?php }else{ ?>
-	<p>Il vous manque des pr&eacute;requis pour continuer l'installation, r&eacute;f&eacute;rez vous au panneau de droite.</p>
+	<p>Il vous manque des prérequis pour continuer l'installation, référez vous au panneau de droite.</p>
 	<?php }?>		
 	<?php } ?>
 		</div> <!-- #main -->

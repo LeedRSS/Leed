@@ -43,7 +43,7 @@ switch ($_['action']){
 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}	
 			
-			echo count($feeds).' Flux &agrave; synchroniser...<br/>';
+			echo count($feeds).' Flux à synchroniser...<br/>';
 			echo str_pad('',4096)."\n";ob_flush();flush();
 		foreach ($feeds as $feed) {
 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...<br/>';
@@ -53,7 +53,7 @@ switch ($_['action']){
 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...<br/>';
 			echo str_pad('',4096)."\n";ob_flush();flush();
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') termin&eacute;<br/>';
+			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') terminé<br/>';
 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}
 			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )<br/>';
@@ -163,7 +163,7 @@ switch ($_['action']){
 	case 'importForm':
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
 					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
-					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p></form>
+					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p></form>
 				
 			';
 	break;
@@ -172,11 +172,11 @@ switch ($_['action']){
 	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<a class="button" href="action.php?action=synchronize&format=html&code='.$configurationManager->get('synchronisationCode').'">Synchroniser maintenant</a>
-					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un caf&eacute; :).</p>
+					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 				
 			';
 		}else{
-			echo 'Vous devez être connect&eacute; pour acceder &agrave; cette partie.';
+			echo 'Vous devez être connecté pour acceder à cette partie.';
 		}
 
 	break;

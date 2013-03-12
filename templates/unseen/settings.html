@@ -17,12 +17,12 @@
 						<li class="pointer" onclick="$('#main section').hide();$('#main #addBloc').fadeToggle(200);">+ Ajout d'un flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc').fadeToggle(200);">Gestion des flux</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #manageFolderBloc').fadeToggle(200);">Gestion des Dossiers</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise &agrave; jour manuelle des flux</a></li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Pr&eacute;f&eacute;rences</li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les &eacute;venements</a></li>
+						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les évenements</a></li>
 				</ul>
 			</aside>
 			
@@ -32,9 +32,9 @@
 				{if="(isset($myUser)) && ($myUser!=false)"}
 				<section id="preferenceBloc">
 					<form method="POST" action="action.php?action=updateConfiguration">
-					<h2>Pr&eacute;f&eacute;rences :</h2>
+					<h2>Préférences :</h2>
 					<section>
-						<h2>G&eacute;n&eacute;ral</h2>
+						<h2>Général</h2>
 						<p>Racine du projet : <input type="text" name="root" value="{$configurationManager->get('root')}"></p>
 						<h3>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
 					</section>
@@ -49,16 +49,16 @@
 
 					<section>
 						<h2>Synchronisation</h2>
-						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise &agrave; jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapproch&eacute;s</p>
-						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" name="synchronisationType"> <strong>Automatique (gradu&eacute;) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise &agrave; jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
-						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises &agrave; jour depuis l'espace administration.</p>
+						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
+						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alleger la charge serveur et d'eviter els timeout intempestif mais necessiteun appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					</section>
 
 					<section>
 						{if="$myUser!=false"}
-						<h2>Pr&eacute;ferences</h2>
+						<h2>Préferences</h2>
 						<p>Autoriser la lecture anonyme: <input type="radio"    {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" name="articleDisplayAnonymous">Oui <input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" name="articleDisplayAnonymous">Non</p>
-						<h3>Nb: si vous choisissez cette option, les utilisateurs non authentifi&eacute; pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
+						<h3>Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
 						<p>Nombre d'articles par pages: <input type="text" value="{$configurationManager->get('articlePerPages')}" name="articlePerPages"></p>
 						<p>Affichage du lien direct de l'article: <input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" name="articleDisplayLink">Oui <input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" name="articleDisplayLink">Non</p>
 						<p>Affichage de la date de l'article: <input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" name="articleDisplayDate">Oui <input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" name="articleDisplayDate">Non</p>
@@ -66,8 +66,8 @@
 						<p>Affichage du contenu de l'article: <input type="radio"  {if="$articleDisplayContent=='1'"} checked="checked" {/if} value="1" name="articleDisplayContent">Oui <input type="radio" {if="$articleDisplayContent=='0'"} checked="checked" {/if} value="0" name="articleDisplayContent">Non</p>
 						<p>Type d'affichage du contenu: <input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" name="articleView">Partiel <input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" name="articleView">Complet</p>
 						<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
-						<p>Conserver les <input type="text" value="{$configurationManager->get('feedMaxEvents')}" name="feedMaxEvents"> derniers &eacute;venement d'un flux</p>
-						<h3>Nb: Plus il y aura d'&eacute;venements &agrave; conserver, plus votre abse de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos &eacute;venements marqu&eacute;s comme favoris ne seront jamais supprim&eacute;s</h3>
+						<p>Conserver les <input type="text" value="{$configurationManager->get('feedMaxEvents')}" name="feedMaxEvents"> derniers évenement d'un flux</p>
+						<h3>Nb: Plus il y aura d'évenements à conserver, plus votre abse de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos évenements marqués comme favoris ne seront jamais supprimés</h3>
 					
 					</section>
 
@@ -82,7 +82,7 @@
 					<button name="installButton">Enregistrer</button>
 					</form>
 					{else}
-					<p>Vous devez &eacute;tre connect&eacute; pour voir le bookmarklet.</p>
+					<p>Vous devez étre connecté pour voir le bookmarklet.</p>
 					{/if}
 				</section>
 			{/if}
@@ -155,7 +155,7 @@
 					{if="$myUser!=false"}
 					<a class="button" href='javascript:document.location="{$configurationManager->get('root')}action.php?action=login&newUrl="+escape(document.location)+"&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'>+ Ajouter à Leed</a>
 					{else}
-					<p>Vous devez &eacute;tre connect&eacute; pour voir le bookmarklet.</p>
+					<p>Vous devez étre connecté pour voir le bookmarklet.</p>
 					{/if}
 				</section>
 				
@@ -197,8 +197,8 @@
 {else}
 	<div id="main" class="wrapper clearfix">
 		<article>
-				<h3>Vous devez &ecirc;tre connect&eacute; pour consulter vos flux </h3>
-				<p>Si vous &ecirc;tes administrateur, vous pouvez r&eacute;gler les droits de visualisation dans la partie administration.</p>
+				<h3>Vous devez être connecté pour consulter vos flux </h3>
+				<p>Si vous êtes administrateur, vous pouvez régler les droits de visualisation dans la partie administration.</p>
 		</article>
 	</div>
 
