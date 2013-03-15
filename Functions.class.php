@@ -283,6 +283,24 @@ class Functions
 		return $return;
 	}
 
+	public static function convertFileSize($bytes, $to='mo')
+	{
+	    switch($to)
+	    {
+	        case 'ko':
+	                return round(($bytes / 1024), 2);
+	            break;
+
+	        case 'mo':
+	                return round(($bytes / 1024)/1024, 2);
+	            break;
+	       
+	        case 'go':
+	                return round(($bytes / 1024)/1024/1024, 2);
+	            break;
+	    }
+	}
+
 
 	public static function hexaValue($str){
 		$code = dechex(crc32($str));
