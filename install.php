@@ -273,9 +273,9 @@ if(isset($_['installButton'])){
 					<p>Affichage du contenu de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
 					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
 					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
-					<p>Catégorie par defaut: <input type="text" value="General" name="category"></p>
-					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers évenement d'un flux</p>
-					<h3 class="articleDetails">Nb: Plus il y aura d'évenements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers evenements maximums pour conserver une performance correcte.<br>Notez que vos évenements marqués comme favoris ne seront jamais supprimés</h3>
+					<p>Catégorie par defaut: <input type="text" value="Géneral" name="category"></p>
+					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers événement d'un flux</p>
+					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés</h3>
 					
 				</section>
 
@@ -283,7 +283,7 @@ if(isset($_['installButton'])){
 					<h2>Options</h2>
 					<p><input onchange="$('.shaarliBlock').slideToggle(200);" type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli<a></p>
 					<p class="shaarliBlock" style="display:none;">Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" name="plugin_shaarli_link"></p>
-					<h3 class="articleDetails">Nb: cette option affichera un bouton a coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de lien shaarli.</h3>
+					<h3 class="articleDetails">Nb: cette option affichera un bouton à coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de liens shaarli.</h3>
 				</section>
 
 

@@ -21,7 +21,7 @@
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les évenements</a></li>
+						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 						
 				</ul>
 			</aside>
@@ -43,13 +43,13 @@
 						<h2>Utilisateur</h2>
 						<p>Identifiant : <input type="text" name="login" value="{$myUser->getLogin()}"></p>
 						<p>Mot de passe : <input type="text" name="password" value=""></p>
-						<h3>Laissez le champs vide si vous ne souhaitez pas changer le mot de passe</h3>
+						<h3>Laissez le champ vide si vous ne souhaitez pas changer le mot de passe</h3>
 					
 					</section>
 
 					<section>
 						<h2>Synchronisation</h2>
-						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
+						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
 						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
 						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					
@@ -70,7 +70,7 @@
 						<p>Type d'affichage du contenu: <input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" name="articleView">Partiel <input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" name="articleView">Complet</p>
 						<h3>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 						<p>Conserver les <input type="text" value="{$configurationManager->get('feedMaxEvents')}" name="feedMaxEvents"> derniers événements d'un flux</p>
-						<h3>Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés</h3>
+						<h3>Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés</h3>
 					
 					</section>
 
@@ -78,14 +78,14 @@
 						<h2>Options</h2>
 						<p><input onchange="$('.shaarliBlock').slideToggle(200);" {if="$configurationManager->get('plugin_shaarli')=='1'"} checked="checked" {/if} type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli</a></p>
 						<p class="shaarliBlock" {if="$configurationManager->get('plugin_shaarli')!='1'"}style="display:none;"{/if}>Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" value="{$configurationManager->get('plugin_shaarli_link')}" name="plugin_shaarli_link"></p>
-						<h3>Nb: cette option affichera un bouton à côté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de lien shaarli.</h3>
+						<h3>Nb: cette option affichera un bouton à côté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de liens shaarli.</h3>
 					</section>
 
 
 					<button name="installButton">Enregistrer</button>
 					</form>
 					{else}
-					<p>Vous devez étre connecté pour voir le bookmarklet.</p>
+					<p>Vous devez être connecté pour voir le bookmarklet.</p>
 					{/if}
 				</section>
 			{/if}
@@ -171,12 +171,12 @@
 				
 				<section id="bookBloc">
 					<h2>Utiliser le bookmarklet :</h2>
-					<p>Vous pouvez ajout le bookmaklet ci dessus a votre naviguateur pour vous inscrire plus rapidemment au flux :</p>
+					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
 					{if="$myUser!=false"}
 					
 					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ Ajouter à Leed</a>
 					{else}
-					<p>Vous devez étre connecté pour voir le bookmarklet.</p>
+					<p>Vous devez être connecté pour voir le bookmarklet.</p>
 					{/if}
 				</section>
 				
