@@ -88,8 +88,13 @@ body{ font:16px/26px Helvetica, Helvetica Neue, Arial; }
     ALL: Orange Theme
    =================== */
 
+html, body { position: relative; height: 100%; }
+.global-wrapper {
+    min-height: 100%;
+    position: relative;
+}
 #header-container{ border-bottom: 5px solid #e44d26; }
-#footer-container{ border-top:    5px solid #e44d26; }
+#footer-container{ position: absolute; width: 100%; bottom: 0; border-top:    5px solid #e44d26; }
 #main aside      { border-top:    5px solid #e44d26; }
 
 #header-container,
