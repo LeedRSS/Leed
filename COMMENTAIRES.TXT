@@ -1,0 +1,116 @@
+Ce fichier regroupe les commentaires, maintenant de façon synthétique. Certains rapports sont dépréciés car lié à l'un des templates buggés. Ce sera nettoyé plus tard, je n'ai fait que trier les rapports.
+
+Note : chez Idleman, les bugs sont signalés ici, [http://projet.idleman.fr/leed/?page=Bugs%20&%20suggestions]. Je n'en tiens pas compte ici pour ne pas être influencé.
+
+==== Synchronisation des flux ====
+* Une mise à jour directe depuis un flux en particulier, si on est en attente d'un nouvel article serait bien.
+* Avoir un retour clair sur la bonne formation des XMLs des flux, les erreurs 404, etc.
+* Réduire la taille de la police du log de synchronisation.
+* Crontab: ajout de "--no-check-certificate" et la recommandation d'utiliser "127.0.0.1" si "GnuTLS: A TLS warning alert has been received.". But wget v1.14. http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=686837
+* Prévoir un verrouillage pendant la synchro afin que ça ne reboucle pas. Prévoir aussi une levée du verrou en cas de besoin.
+* Un rafraîchissement automatique qui ne perturberait pas une lecture encours mais qui montrerait les nouveaux articless. Mieux, ça les ajouterait divinement bien autour de l'article en cours de lecture. Ou alors, ça proposerait une icone de rafraichissement qui ferait le boulot quand l'utilisateur le décide, même au prix de la perte de la position dans la page.
+En fait, ce serait un mode "en ligne"/"hors ligne". Quand l'application n'est pas connecté, c'est la màj par défaut, disons toutes les 6 heures. Quand l'appli est connectée, soit on est en ligne soit hors ligne ; dans ce dernier cas, pas de mise à jour. De plus / ou bien on pourrait demander à l'appli de ne rien faire tant qu'il reste plus de X articles non-lus.
+* Un moyen de synchroniser la liste des flux avec un programme en dur, voire même l'état lu des articles.
+* Des logs complets et historisés sur les téléchargements des flux et le résultat (succès, echec, code d'erreur).
+* Le fichier de log contient des lignes avec plein d'espaces superflus.
+* Pourquoi la sortie de màj des flux utilise str_pad('',4096) ?
+* Ne màj que quand c'est nécessaire. Idéalement, il faudrait que chaque flux se mette à jour quand on l'examine. Et aussi, que tout se mette à jour juste avant d'ouvrir Leed. Le cron pourrait ne faire que des màj le jour, ou bien que quand l'appli est ouverte. Par exemple, elle ping le serveur régulièrement et déclenche les mises à jour, disons toutes les dix minutes. Une fois que l'utilisateur ne touche plus trop, màj toutes les heures.
+* La màj des flux (global, dossier ou flux) devrait se faire en tâche de fond, sans interaction avec la lecture. Idéalement, un témoin serait présent afin d'indiquer quand la màj se fait (avec une couleur pour déterminer l'étendue de la màj: global, dossier, flux ?). En fait, la màj serait un processus indépendant de la lecture.
+* Rendre indépendants les rapatriements des RSS, de sorte à ce que le plantage de l'un ne nuise pas à l'autre. Remonter l'information de plantage/réussite.
+* Rendre apte et documenter l'accès via un webcron. Celui-ci soit lancerait l'url, soit basculerait un interrupteur. Le cron local lançant la màj (avec contrôle par verrou).
+* Détecter les articles en doubles (suite à une màj ou autre) et les indiquer/fusionner/supprimer ?
+* Le RSS de "Arrêt sur image" n'affiche pas correctement le "ê" : http://www.arretsurimages.net/tous-les-contenus.rss
+* La simple correction du mauvais caractère du fil "arrêt sur image" n'est pas prise en compte. Le remplacement complet, oui. Remettre le "ê" remet l'erreur.
+* Un mauvais flux (http://pressstartbutton.fr/index.php?format=feed&type=rss) a fait planté la màj. Aucun nouvel article alors que mon autre lecteur RSS les voyait.
+* Mauvais flux ? http://edukado.net/ext/rss/(...code...)
+* lié avec le soucis de mon certificat sûrement, la màj manuelle ne fonctionne pas mais rien dans le log
+Nettoyer les logs des <br/> espaces de bourrage : cat cron.log | sed -r 's#(<br/>)?\s+$##' | grep -v '^$'
+* C'est arrivé au moins une fois : la màj automatique (toutes les demi-heures, a tourné cette nuit) n'a pas téléchargé certains articles du Shaarli de Sebsauvage. En demandant une màj manuelle, j'ai récupéré 50 références non lues (et pas téléchargées avant).
+* Certains caractères spéciaux sont sortis tels quels. Exemples : L'apostrophe non-droite, l'espace insécable (&nbsp;). Ils devraient être convertis et/ou interprétés avant l'affichage. Exemple de problème, le code source montre "&amp;#039;" au lieu de "&#039;" qui aurait donné la bonne apostrophe.
+* Pouvoir réinitialiser un flux, en cas de soucis de dev ou de bug dans le flux.
+* La chaîne "C:\windows\system32" se transforme visuellement en "C:windowssystem32".
+
+
+==== Gestion des flux ====
+* Pouvoir modifier/copier le lien du flux RSS.
+* Pouvoir reordonner les dossiers et les flux qui s'y trouvent.
+* Sur les abonnements du type "flux de commentaires" (qui reste à implémenter...), marquer automatiquement déjà lu toutes les entrées non-lues moins récentes qu'un commentaire récent. Ex: un fil de discussion contient des sujets "Re: la réponse à la question". Il y a eu cinq réponses, donc cinq articles. J'ai besoin (à configurer ?) soit de la réponse la plus vieille, soit la plus récente non-lue. Les autres sont à marquer déjà lu automatiquement.
+* Plutôt que des dossiers, classer les flux par tags. L'affichage se ferait via un filtre/recherche sur les tags voulus, voire sur une recherche texte plain sur le contenu, titre, ou tag. À la limite, un seul champ de recherche à la Google, avec des commandes optionnelles comme "flux rss tags:fr,shaarli" seraient au top.
+* Lorsqu'on suit un fil de commentaires, prévoir un formatage/traitement adapté aux commentaires. Certains flux RSS sont jetables. Prévoir une suppression rapide des flux, voire une expiration/suppression automatique/suggerée au bout d'un certain temps.
+* Un lien JS rapide pour ajouter un flux RSS. Voire même, différencier un flux RSS stable (il faudra sélectionner sa catégorie ou ses tags) d'un flux de commentaires.
+* Impossible de supprimer le dossier "général", même s'il est vide.
+* Dans certains cas, le lien pour ajouter un RSS à partir d'une page web ne fonctionne pas. Ex : https://trac.torproject.org/projects/tor/ticket/8277?format=rss
+* Quand on utilise le lien JS pour ajouter un flux, il est mis dans "général". Chez moi, cette catégorie est au milieu. On a l'impression que rien n'a été fait puisque la page affiche le haut d'abord.
+* Pouvoir choisr par flux, par dossier, par tag (si implémenté) quels flux sont exposables publiquement ou pas. Certains flux sont liés à une clé liée à un abonnement payant, qu'il ne faut pas divulguer. Voire même une clé vers un flux RSS confidentiel.
+* Un moyen de lier deux flux : un est celui des articles habituels, l'autre est celui des commentaires de l'articles. Le flux de commentaires est géré comme tel, voir plus haut.
+
+==== Affichage des flux ====
+* Pouvoir interdire (le mieux : par flux, catégorie ou tout) les connexions initiées depuis le navigateur et à l'initiative du flux RSS visionné. Lutte contre le traçage.
+* Limiter la taille des images.
+
+==== Consultation ====
+* Ouvrir à la fois un nouvel onglet (en tâche de fond) et marquer le flux comme lu.
+* Une recherche sur les titres des flux, sur les titres des articles et dans les articles. Merci Père Noël.
+* Mettre un bouton "lu/non-lu" en bas des articles prévisualisés, ainsi quand on les a lus on peut les marquer comme tels de suite. Par contre, peut-être ne pas en mettre si l'article est court.
+* Un bouton pour aller à l'article suivant/précédent.
+* Un mode de visionnage article par article, avec un moyen de retirer de la vue l'article en cours pour passer au suivant. Global, par dossier ou par flux. Avec un passage au flux suivant si tout est lu. Ou pas.
+* Dans une vue avec des articles de plusieurs flux, pouvoir trier par ordre chronologique (le cas actuel) mais aussi d'abord par flux, dossier et chronologique. Par exemple, dans la vue globale ne trier que par flux puis chronologiquement ; les dossiers ne sont pas pris en compte, ou alors en tant que dernier critère de tri (en supposant que deux dates sont identiques si elles appartiennent au même quart d'heure ou heure...)
+* Limiter la longueur des articles en permettant de "lire plus", ce qui alongerait la taille de la <div> de l'article.
+* Faire en sorte d'avoir à cliquer/presser une touche le moins possible en phase de parcours rapide des articles. Par exemple, les liens "lus" pourraient se trouver à une position absolue ou être liée à un raccourci clavier.
+* Une étape de préselection des articles à lire. On parcours les articles et on fait comme pour les ouvrir dans le navigateurs, sauf qu'on les a sélectionné pour la lecture ultérieure (case à cocher ?). Ensuite, on va dans la zone où il n'y a que les articles intéressants et il n'y a plus qu'à lire ou ouvrir le navigateur pour certains d'entre eux. Prévoir la possibilité d'auto-valider certains tags, dossiers (cf amélioration filtrage sur tags).
+* Possibilité de n'avoir qu'un aperçu et d'ouvrir un article dans un nouvel onglet. Mais ce serait encore dans Leed, simplement dans une fenêtre dédiée à ça. Ensuite, on pourrait ouvrir l'article depuis le site web émetteur.
+* Pouvoir, à n'importe quel endroit sur un (long) article le marquer lu/non-lu. Clic droit ? Option dans un div qui suit ?
+* Le bouton "Déplier" reste "Déplier" même si c'est déjà déplié et que le clic suivant var replier le flux. On devrait le remplacer par l'icone classique de dépliage (+).
+* Le bouton deconnexion est vraiment trop proche des menus.
+* "favoriser un article" n'a pas le sens correct.
+* Dans l'affichage général, passer "lu" un article l'enlève de la file. Mais dans un dossier, il est simplement grisé. Il faudrait un truc pour avoir le choix entre le griser et le retirer de la vue.
+* Dans la vue globale, quand il y a plusieurs pages, le numéro de la page courante reste un hyperlien et n'est pas mis en évidence.
+* L'aperçu du texte quand on survole le lien du flux, pendant une consultation, contient beaucoup trop de texte. Il contient tout le texte, je suppose.
+* Cliquer, sur la droite, sur le nombre d'articles disponibles dans un dossier permet de les marquer tous comme lus. Il faudrait qu'il soit évident qu'il faut cliquer là pour faire ça.
+* Le lien de partage avec Shaarli ne fait rien
+* Le bouton "Lu/Non lu" ne fait rien quand je suis sur le RSS de Bouletcorp : http://www.bouletcorp.com/feed/  (affiche des grandes images)
+* Il manque lss dates quand on visualise à partir d'un dossier. Et c'est trié par ordre chronologique plutôt que anti-chronologique.
+* À partir de la page "Accueil", cliquer sur "page 2" ne fonctionne pas.
+* Dans la vue générale, je vois "par Anonyme".
+* Quand on est dans un dossier et qu'il y a plusieurs pages (et que tout sur la page 1 est lu), cliquer sur "2" ramène sur la vue globale. Un début de réponse : le lien dans le navigateur est "action=selectedFeed  &feed=1  &page=2", espaces y compris !
+* À vérifier. Quand la connexion a expiré et que je marque "lus" des articles, ces choix ne sont pas retenus et sont perdus à la reconnexion. Virifier la variable d'envrionnement session.gc_maxlifetime. Dans tous les cas, faire survivre la session tant que l'utilisateur ou l'admin n'a pas décidé de déconnecter.
+* Dans le template "greeder", il ne me semble pas possible d'afficher les articles déjà lus.
+* Quand il y a plusieurs pages d'articles, cliquer sur un numéro de page n'affichera pas forcément la page voulue. Par exemple, il y a deux page à afficher et on est page 1. On vient de marque lu toute la page 1, cliquer sur page 2 amènera une page vide. En effet, il n'y a maintenant que de quoi afficher une seule page ; il aurait fallu cliquer à nouveau sur "1". C'est plus simple de cliquer sur "Accueil" pour recharger la page "1".
+* Trier les articles par ordre chronologique, les plus anciens d'abord. En particulier quand on écume des commentaires, on les lit dans le bon ordre.
+* Vu que la largeur des articles est fixe et limitée par le menu à droit, pourquoi ne pas rendre ce menu fixe ce qui permet de changer de catégorie à tout moment ?
+* Idée : pour tout affichage, montrer d'abord les non-lus classés entre eux par ordre chronologique puis montrer les lus également classés entre eux par ordre chronologique.
+
+==== Administration ====
+* Pouvoir remettre à zéro le login/pass
+* Pouvoir garder une connexion éternelle. (ne pas avoir à se connecter / reconnecter)
+* Gérer plusieurs comptes utilisateurs et mutualiser les téléchargements des mises à jour.
+* Gérer plusieurs profils, par compte, afin de n'afficher que les flux sur un thème en particulier. Cela permettrait de ne pas alourdir l'affichage, et dans le cas d'un accès public de pouvoir présenter plusieurs thématiques.
+* robots.txt est incomplet. D'ailleurs, pourquoi envisager de bloquer si on peut laisser l'accès public ?
+* À quoi sert "Vider les événements" ?
+* Le texte d'explication est trop petit dans la configuration.
+* le mot de passe est protégé dans la configuration mais il n'est pas demandé deux fois.
+* Peut-être un mot sur la façon de changer de thème dans la configuration ?
+* Lorsque le login/pass n'est pas bon, revenir sur la page de départ ou bien proposer un lien vers cette page de départ.
+* Désactiver le login/pass (si accès contrôlé par d'autres moyens, si serveur web que local, etc.). Vérifier l'authentification faite par le serveur web. Authentifier via une chaîne spécifique ajoutée dans les en-têtes du navigateur. Filtrer/authentifier par IP.
+* Intégrer/ajouter un service d'archivage : en équilibrant les contraintes de disponibilité/taille des archives, stocker tout ce qui est possible pour une consultation même lorsque le flux n'est plus visible sur le site ou caché dans Leed. Voire même, mutualiser la base de données des flux entre plusieurs comptes utilisateurs. La màj n'est faite que globalement, la màj des utilisateurs déclenchant une demande de màj future. Les utilisateurs ne voient pas les màj ultérieures avant de les avoir demandées. Les statuts lus/favoris ne sont (normalement) pas partagés. En allant plus loin, il serait possible de monter un réseau P2P de synchro des flux RSS, de type autoblog. Dans le cadre d'un service multiutilisateur, ça récupère les flux tant que quelqu'un y est abonné. Voire même, continue après un délai de grâce tandis que certains seraient systématiquement mis à jour, même sans abonné.
+* Séparer le stockage des contenus des flux RSS, de l'historique des articles et des interactions avec l'utilisateur (favoris, lu, tags, etc.)
+
+==== Code source ====
+* Encodage des fichiers sources pas UTF-8.
+* L'application peut se découper (j'ignore si c'est fait à cette heure, je n'ai pas audité le code) en plusieurs modules : La consultation, la mise à jour des flux, la gestion/administration.
+* Le fichier "install.php" devrait contrôler si l'installation s'est déjà faite. Dans ce cas, un message indiquant ce qu'il faut faire pour déclencher l'installation, ou bien une simple redirection vers la page d'index. Ou alors, c'est la page d'index qui inclut la page d'install lorsque c'est nécessaire. Tout ça permet d'éviter d'avoir à supprimer un fichier et perturber la gestion des versions.
+* Dépôt [http://hades.idleman.fr/leed] référencé dans le "À propos" est obsolète. Devrait être [http://projet.idleman.fr/leed.svn].
+* Fautes: "parsage des flux", "supression", "evenements"
+* Pas de nom spécifique au cookie de session. Conflit potentiel avec d'autres programmes. Pas de chemin spécifié.
+* Mot de passe condensé avec un simple sha1(). Utilisation redondante du sha1(). Dans le template aussi, il y a le sha1().
+* Faille de sécurité : le token permet de faire des essais à volonté de login/pass, et donc de mot de passe si on connait le login. Il suffit de comparer le résultat de sha1(sha1(password))+login au token usr contenu dans le lien rapide JS.
+* Timezone bloquée sur "Europe/Paris".
+* Combinaisons de require_once() et class_exists() superflus, puisque require_once() veille à n'inclure qu'une fois chaque fichier.
+* Version de Leed pas indiquée dans le useragent.
+* Des tests ($myUser==false) un peut partout au lieu du début des fichiers.
+* Prévoir l'application en plusieurs langues.
+* j'ai vu "pubdate" et "pubDate" : souci de casse ?
+* Parvenir à mutualiser un seul déploiement du source pour servir plusieurs noms de domaines et sous-répertoires. Cela permettrait de ne déployer/màj qu'une seule fois, de créer le répertoire/domaine d'accès et de séparer la configuration et les données du code source.
+* "templates/marigolds/css" dans "actions.php" : il ne devrait pas y avoir une dépendance à un template en particulier.
+* ($myUser==false) partout dans le code (actions.php/ImportFeed par ex.) alors que ça devrait être fait au tout début de l'exécution des pages. Autre exemple, la page [http://localhost/leed/settings.php] est accessible sans connexion. On est refoulé uniquement au moment de faire une action.
+* La page "404.html" contient un lien vers Google. Idem pour jquery qui est pris de Google dans "install.php". On devrait l'intégrer en tant que vendor. Leed en lui-même devrait éviter les accès externes autres que ce pour quoi il est conçu.

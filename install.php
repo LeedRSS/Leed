@@ -242,7 +242,7 @@ if(isset($_['installButton'])){
 					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
 					<h3 class="articleDetails">Géneralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
-					<p>Mot de passe MySQL : <input type="password" name="mysqlMdp" value=""></p>
+					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
 					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
@@ -252,7 +252,7 @@ if(isset($_['installButton'])){
 				<section>
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur: <input type="text" name="login" placeholder="Identifiant"></p>
-					<p>Mot de passe de l'administrateur: <input type="text" name="password" placeholder="Mot de passe"></p>
+					<p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"></p>
 				</section>
 
 				<section>
