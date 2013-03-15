@@ -79,11 +79,59 @@ class Opml  {
 		return $xmlStream;
 	}
 
+	public function _import($folder, $folderId=1){
+		$folderManager = new Folder();
+		$feedManager = new Feed();
+		foreach($folder as $item) {
+			if (isset($item->outline[0])) { // un dossier
+				$folder = $folderManager->load(array('name'=>$item['text']));
+				$folder = (!$folder?new Folder():$folder);
+				$folder->setName($item['text']);
+				$folder->setParent(($folderId==1?-1:$folderId));
+				$folder->setIsopen(0);
+				if($folder->getId()=='') $folder->save();
+				$this->_import($item->outline,$folder->getId());
+			} else { // un flux
+				$newFeed = $feedManager->load(array('url'=>$item[0]['xmlUrl']));
+				$newFeed = (!$newFeed?new Feed():$newFeed);
+				if($newFeed->getId()=='') {
+					/* Ne télécharge pas à nouveau le même lien, même s'il est
+					   dans un autre dossier. */
+					$feedName = (isset($item[0]['text'])?$item[0]['text']:$item[0]['title']);
+					$newFeed->setName($feedName);
+					$newFeed->setUrl($item[0]['xmlUrl']);
+					$newFeed->setDescription($item[0]['description']);
+					$newFeed->setWebsite($item[0]['htmlUrl']);
+					$newFeed->setFolder($folderId);
+					$newFeed->save();
+					/* $newFeed->parse();
+					   À faire plus tard : c'est lent, peut lever des erreurs
+					   et c'est à factoriser avec la mise à jour manuelle.
+					*/
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Importe les flux.
 	 */
 	function import() {
-		throw new Exception('À faire.');
+		require_once("SimplePie.class.php");
+		$fichier = $_FILES['newImport']['tmp_name'];
+		$internalErrors = libxml_use_internal_errors(true);
+		$xml = @simplexml_load_file($fichier);
+		libxml_use_internal_errors($internalErrors);
+		$sortie = '';
+		foreach (libxml_get_errors() as $error) {
+			$sortie.="<p>$error</p>\n";
+		}
+		Controler le contenu du XML ensuite !
+		libxml_clear_errors();
+		if (empty($xml)) {
+			throw new RuntimeException("Fichier invalide! $sortie");
+		}
+		$this->_import($xml->body->outline);
 	}
 
 }

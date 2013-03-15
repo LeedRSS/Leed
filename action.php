@@ -187,37 +187,16 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
-				require_once("SimplePie.class.php");
-				if (ob_get_level() == 0) ob_start();
-				ignore_user_abort(true);
-			
-				echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><ul style="font-family:Verdana;">';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				
-
-				if($myUser==false) exit('Vous devez vous connecter pour cette action.');
-				if(isset($_POST['importButton'])){
-			
-				echo '<li>Lecture du fichier OPML...</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
-				$report = 'Import de flux depart : '.date('d/m/Y H:i:s')."\n";
-				echo '<li>Parsage recursif du fichier OPML...</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				$report .= Functions::recursiveImportXmlOutline($xml->body->outline,1);
-				$report .= 'Import de flux fin : '.date('d/m/Y H:i:s')."\n";
-				echo '<li>Création des logs d\'imports....</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				file_put_contents('./logs/Import du '.date('d-m-Y').'.log', $report ,FILE_APPEND);
-				echo '<li>Import des flux terminé ( '.number_format(microtime(true)-$start,3).' secondes ).</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-
-				echo '</ul>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-
-				ob_end_flush();
-				//header('location: ./settings.php');
-			}
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(!isset($_POST['importButton'])) break;
+		$réponse = "L'import s'est déroulé sans problème.";
+		try {
+			$opml = new Opml();
+			$opml->import($_FILES['newImport']['tmp_name']);
+		} catch (Exception $e) {
+			$réponse = $e->getMessage();
+		}
+		echo "<a href='settings.php' target='_parent'>$réponse</a>";
 	break;
 
 	
