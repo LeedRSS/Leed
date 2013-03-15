@@ -83,10 +83,12 @@ class Opml  {
 		$folderManager = new Folder();
 		$feedManager = new Feed();
 		foreach($folder as $item) {
+			// Cela varie selon les implémentations d'OPML.
+			$feedName = $item['text'] ? 'text' : 'title';
 			if (isset($item->outline[0])) { // un dossier
-				$folder = $folderManager->load(array('name'=>$item['text']));
+				$folder = $folderManager->load(array('name'=>$item[$feedName]));
 				$folder = (!$folder?new Folder():$folder);
-				$folder->setName($item['text']);
+				$folder->setName($item[$feedName]);
 				$folder->setParent(($folderId==1?-1:$folderId));
 				$folder->setIsopen(0);
 				if($folder->getId()=='') $folder->save();
@@ -97,8 +99,7 @@ class Opml  {
 				if($newFeed->getId()=='') {
 					/* Ne télécharge pas à nouveau le même lien, même s'il est
 					   dans un autre dossier. */
-					$feedName = (isset($item[0]['text'])?$item[0]['text']:$item[0]['title']);
-					$newFeed->setName($feedName);
+					$newFeed->setName($item[0][$feedName]);
 					$newFeed->setUrl($item[0]['xmlUrl']);
 					$newFeed->setDescription($item[0]['description']);
 					$newFeed->setWebsite($item[0]['htmlUrl']);
