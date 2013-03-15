@@ -314,15 +314,17 @@ class Functions
 
 			
 			foreach($level as $item){
+                    // thanks to OPML specs lamers
+                    $feedName = ( $item['text'] ? 'text' : 'title' );
 					if(isset($item->outline[0])){
-						$folder = $folderManager->load(array('name'=>$item['text']));
+						$folder = $folderManager->load(array('name'=>$item[$feedName]));
 						$folder = (!$folder?new Folder():$folder);
-						$folder->setName($item['text']);
+						$folder->setName($item[$feedName]);
 						$folder->setParent(($folderId==1?-1:$folderId));
 						$folder->setIsopen(0);
 						if($folder->getId()== '') $folder->save();
-						$report.= '[DOSSIER] Creation '.$item['text']."\n";
-						echo '<li>[DOSSIER] Creation '.$item['text'].'</li>';
+						$report.= '[DOSSIER] Creation '.$item[$feedName]."\n";
+						echo '<li>[DOSSIER] Creation '.$item[$feedName].'</li>';
 						echo str_pad('',4096)."\n";ob_flush();flush();
 						$report.= Functions::recursiveImportXmlOutline($item->outline,$folder->getId())."\n";
 					}else{
@@ -332,22 +334,20 @@ class Functions
 						$newFeed = (!$newFeed?new Feed():$newFeed);
 
 						if($newFeed->getId()==''){
-							$feedName = (isset($item[0]['text'])?$item[0]['text']:$item[0]['title']);
-
-							$newFeed->setName($feedName);
+							$newFeed->setName($item[0][$feedName]);
 							$newFeed->setUrl($item[0]['xmlUrl']);
 							$newFeed->setDescription($item[0]['description']);
 							$newFeed->setWebsite($item[0]['htmlUrl']);
 							$newFeed->setFolder($folderId);
 							$newFeed->save();
 
-							$report.= '[FLUX] Creation '.$item[0]['text']."... \n";
+							$report.= '[FLUX] Creation '.$item[0][$feedName]."... \n";
 							$parseResult = '[FLUX] Parsage du flux '.$newFeed->getName().': '.($newFeed->parse()?'OK':'NOK')."\n";
 							$report.= $parseResult;
 							echo '<li>'.$parseResult.'</li>';
 						}else{
-							$report.= '[FLUX] '.$item[0]['text'].' deja existant, aucune action...'."\n";
-							echo '<li>Flux '.$item[0]['text'].' deja existant, aucune action...</li>';
+							$report.= '[FLUX] '.$item[0][$feedName].' deja existant, aucune action...'."\n";
+							echo '<li>Flux '.$item[0][$feedName].' deja existant, aucune action...</li>';
 						}
 						echo str_pad('',4096)."\n";ob_flush();flush();
 					}
