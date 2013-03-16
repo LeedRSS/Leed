@@ -79,10 +79,10 @@ class Feed extends MysqlEntity{
 
 					//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
 					$enclosure = $item->get_enclosure(); 
-					if($enclosure!=null){
+					if($enclosure!=null && $enclosure->link!=''){
 						$enclosureName = substr($enclosure->link,strrpos($enclosure->link, '/')+1,strlen($enclosure->link));
 						$enclosureName = substr($enclosureName,0,strpos($enclosureName, '?'));
-						$enclosure .='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosure->handler).', '.Functions::convertFileSize($enclosure->length).' Mo)</span>';
+						$enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosure->handler).', '.Functions::convertFileSize($enclosure->length).' Mo)</span>';
 					}else{
 						$enclosure = '';
 					}
