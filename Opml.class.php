@@ -10,6 +10,9 @@ require_once("common.php");
  
 class Opml  {
 
+	/** liens déjà connus, déjà abonnés, au moment de l'importation. */
+	public $déjàConnus = array();
+
 	/**
 	 * Met à jour les données des flux.
 	 */
@@ -105,10 +108,12 @@ class Opml  {
 					$newFeed->setWebsite($item[0]['htmlUrl']);
 					$newFeed->setFolder($folderId);
 					$newFeed->save();
-					/* $newFeed->parse();
-					   À faire plus tard : c'est lent, peut lever des erreurs
-					   et c'est à factoriser avec la mise à jour manuelle.
-					*/
+					// $newFeed->parse();
+				} else {
+					$this->déjàConnus[]= (object) array(
+						'description' => $item[0]['description'],
+						'xmlUrl' => $item[0]['xmlUrl']
+					);
 				}
 			}
 		}
@@ -122,17 +127,16 @@ class Opml  {
 		$fichier = $_FILES['newImport']['tmp_name'];
 		$internalErrors = libxml_use_internal_errors(true);
 		$xml = @simplexml_load_file($fichier);
-		libxml_use_internal_errors($internalErrors);
-		$sortie = '';
+		$sortieErreur = array();
 		foreach (libxml_get_errors() as $error) {
-			$sortie.="<p>$error</p>\n";
+			$sortieErreur []= "{$error->message} (line {$error->line})";
 		}
-		Controler le contenu du XML ensuite !
 		libxml_clear_errors();
-		if (empty($xml)) {
-			throw new RuntimeException("Fichier invalide! $sortie");
+		libxml_use_internal_errors($internalErrors);
+		if (!empty($xml) && empty($sortieErreur)) {
+			$this->_import($xml->body->outline);
 		}
-		$this->_import($xml->body->outline);
+		return $sortieErreur;
 	}
 
 }

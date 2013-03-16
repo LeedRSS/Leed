@@ -189,14 +189,36 @@ switch ($_['action']){
 	case 'importFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
-		$réponse = "L'import s'est déroulé sans problème.";
-		try {
-			$opml = new Opml();
-			$opml->import($_FILES['newImport']['tmp_name']);
-		} catch (Exception $e) {
-			$réponse = $e->getMessage();
+		$opml = new Opml();
+		$sortieErreurs = $opml->import($_FILES['newImport']['tmp_name']);
+		if (empty($sortieErreurs)) {
+			echo "<h3>L'import s'est déroulé sans problème.</h3>\n";
+		} else {
+			echo "<h3>Erreurs à l'importation!</h3>\n";
+			foreach($sortieErreurs as $ligne) {
+				echo "<p>$ligne</p>\n";
+			}
 		}
-		echo "<a href='settings.php' target='_parent'>$réponse</a>";
+		if (!empty($opml->déjàConnus)) {
+			echo "<p>Certains flux étaient déjà connus, ils n'ont pas été réimportés ni mis à jour :</p>\n<ul>\n";
+			foreach($opml->déjàConnus as $déjàConnu) {
+				foreach($déjàConnu as &$elt) $elt = htmlspecialchars($elt);
+				$maxLength = 80;
+				$délimiteur = '...';
+				if (strlen($déjàConnu->description)>$maxLength) {
+					$déjàConnu->description =
+						substr($déjàConnu->description, 0,
+							$maxLength-strlen($délimiteur)
+						).$délimiteur;
+				}
+				echo "<li><a target='_parent' href='{$déjàConnu->xmlUrl}'>{$déjàConnu->description}</a></li>\n";
+			}
+			echo "</ul>\n";
+		}
+		if (empty($sortieErreurs)) {
+			echo "<p>Vous pouvez maintenant mettre à jour manuellement les flux.</p>\n";
+		}
+		echo "<a href='settings.php' target='_parent'>Retour au menu.</a>\n";
 	break;
 
 	
