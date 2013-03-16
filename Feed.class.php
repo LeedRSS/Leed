@@ -47,7 +47,9 @@ class Feed extends MysqlEntity{
 
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 
-		$feed->init();
+		$feed->init(); // advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
+		// You probably want to check if $feed->error; isn't NULL after https://github.com/ldleman/Leed/blob/master/Feed.class.php#L50
+
 		$feed->handle_content_type();
 		
 
