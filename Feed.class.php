@@ -75,9 +75,24 @@ class Feed extends MysqlEntity{
 					$event->setCreator( (is_object($item->get_author())?$item->get_author()->name:'Anonyme') );
 				
 					$event->setLink($item->get_permalink());
-					$event->setContent(html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8'));
-					$event->setDescription(html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8'));
 					
+
+					//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
+					$enclosure = $item->get_enclosure(); 
+					if($enclosure!=null){
+						$enclosureName = substr($enclosure->link,strrpos($enclosure->link, '/')+1,strlen($enclosure->link));
+						$enclosureName = substr($enclosureName,0,strpos($enclosureName, '?'));
+						$enclosure .='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosure->handler).', '.Functions::convertFileSize($enclosure->length).' Mo)</span>';
+					}else{
+						$enclosure = '';
+					}
+
+
+
+					$event->setContent(html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
+					$event->setDescription(html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
+					
+				
 					if(trim($event->getDescription())=='')
 						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
 					

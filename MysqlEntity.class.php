@@ -4,9 +4,9 @@ require_once('MysqlConnector.class.php');
 /*
 	@nom: MysqlEntity
 	@auteur: Valentin CARRUESCO (valentincarruesco@yahoo.fr)
-	@date de création: 16/04/2012 02:34:15
-	@description: Classe parent de tous les modèles (classe entitées) liées a la base de donnée,
-	 cette classe est configuré pour agir avec une base MySQL, mais il est possible de redefinir ses codes SQL pour l'adapter à un autre SGBD sans affecter 
+	@date de crÃ©ation: 16/04/2012 02:34:15
+	@description: Classe parent de tous les modÃ¨les (classe entitÃ©es) liÃ©es a la base de donnÃ©e,
+	 cette classe est configurÃ© pour agir avec une base MySQL, mais il est possible de redefinir ses codes SQL pour l'adapter Ã  un autre SGBD sans affecter 
 	 le reste du code du projet.
 
 */
@@ -45,12 +45,12 @@ class MysqlEntity
 	}
 	
 	/**
-	 * Protège une variable pour MySQL
+	 * ProtÃ¨ge une variable pour MySQL
 	 */
 	protected function secure($value, $field){
 		$type = false;
 		
-		// ce champ n'existe pas : on le considère comme une chaîne de caractères
+		// ce champ n'existe pas : on le considÃ¨re comme une chaÃ®ne de caractÃ¨res
 		if (isset($this->object_fields[$field]))
 			$type = $this->object_fields[$field];
 		
@@ -83,7 +83,7 @@ class MysqlEntity
 	// GESTION SQL
 
 	/**
-	* Methode de suppression de l'entité
+	* Methode de suppression de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <String> $debug=false active le debug mode (0 ou 1)
@@ -97,7 +97,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Methode de nettoyage de l'entité
+	* Methode de nettoyage de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <String> $debug=false active le debug mode (0 ou 1)
@@ -111,7 +111,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Methode de creation de l'entité
+	* Methode de creation de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <String> $debug=false active le debug mode (0 ou 1)
@@ -174,7 +174,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Methode d'insertion ou de modifications d'elements de l'entité
+	* Methode d'insertion ou de modifications d'elements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param  Aucun
@@ -215,7 +215,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Méthode de modification d'éléments de l'entité
+	* MÃ©thode de modification d'Ã©lÃ©ments de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes=>$valeurs
@@ -244,7 +244,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Méthode de selection de tous les elements de l'entité
+	* MÃ©thode de selection de tous les elements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <String> $ordre=null
@@ -258,7 +258,7 @@ class MysqlEntity
 	}
 
 	/**
-	* Méthode de selection multiple d'elements de l'entité
+	* MÃ©thode de selection multiple d'elements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes (WHERE)
@@ -309,14 +309,14 @@ class MysqlEntity
 
 
 	/**
-	* Méthode de selection unique d'élements de l'entité
+	* MÃ©thode de selection unique d'Ã©lements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes (WHERE)
 	* @param <Array> $valeurs (WHERE)
 	* @param <String> $operation="=" definis le type d'operateur pour la requete select
 	* @param <String> $debug=false active le debug mode (0 ou 1)
-	* @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
+	* @return <Entity> $Entity ou false si aucun objet n'est trouvÃ© en base
 	*/
 	public function load($columns,$operation='=',$debug=false){
 		$objects = $this->loadAll($columns,null,1,$operation,$debug);
@@ -325,25 +325,25 @@ class MysqlEntity
 	}
 
 	/**
-	* Méthode de selection unique d'élements de l'entité
+	* MÃ©thode de selection unique d'Ã©lements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes (WHERE)
 	* @param <Array> $valeurs (WHERE)
 	* @param <String> $operation="=" definis le type d'operateur pour la requete select
 	* @param <String> $debug=false active le debug mode (0 ou 1)
-	* @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
+	* @return <Entity> $Entity ou false si aucun objet n'est trouvÃ© en base
 	*/
 	public function getById($id,$operation='=',$debug=false){
 		return $this->load(array('id'=>$id),$operation,$debug);
 	}
 
 	/**
-	* Methode de comptage des éléments de l'entité
+	* Methode de comptage des Ã©lÃ©ments de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <String> $debug=false active le debug mode (0 ou 1)
-	* @return<Integer> nombre de ligne dans l'entité'
+	* @return<Integer> nombre de ligne dans l'entitÃ©'
 	*/
 	public function rowCount($columns=null)
 	{
@@ -364,7 +364,7 @@ class MysqlEntity
 	}	
 	
 	/**
-	* Méthode de supression d'elements de l'entité
+	* MÃ©thode de supression d'elements de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes (WHERE)
@@ -400,7 +400,7 @@ class MysqlEntity
 
 	// ACCESSEURS
 		/**
-	* Méthode de récuperation de l'attribut debug de l'entité
+	* MÃ©thode de rÃ©cuperation de l'attribut debug de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param Aucun
@@ -412,7 +412,7 @@ class MysqlEntity
 	}
 	
 	/**
-	* Méthode de définition de l'attribut debug de l'entité
+	* MÃ©thode de dÃ©finition de l'attribut debug de l'entitÃ©
 	* @author Valentin CARRUESCO
 	* @category Accesseur
 	* @param <boolean> $debug 
