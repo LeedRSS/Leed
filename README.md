@@ -8,7 +8,7 @@ Cet agrégateur peux s'installer sur votre propre serveur et fonctionne avec un 
 - Application : Leed (Light Feed)
 - Version : 1.1 Beta
 - Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
-- Page du projet : http://dizplay.idleman.fr/pages/project?project=18
+- Page du projet : http://projet.idleman.fr/leed
 - Licence : CC by-nc-sa (http://creativecommons.org/licenses/by-nc-sa/2.0/fr/) 
 
 
