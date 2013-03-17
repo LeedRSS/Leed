@@ -8,13 +8,18 @@
 
 session_start(); 
 require_once('Functions.class.php');
-$_ = array();
-foreach($_POST as $key=>$val){
-$_[$key]=Functions::secure($val);
+$_ = array_merge($_GET, $_POST);
+$whiteList = array(
+	/* La liste blanche recense les variables ne devant pas être passées via
+	   la sécurisation, mais simplement échappées pour Php. */
+	'mysqlHost', 'mysqlLogin', 'mysqlMdp', 'mysqlBase', 'mysqlPrefix',
+);
+foreach($_ as $key=>&$val){
+ $val = in_array($key, $whiteList)
+	? str_replace("'", "\'", $val)
+	: Functions::secure($val);
 }
-foreach($_GET as $key=>$val){
-$_[$key]=Functions::secure($val);
-}
+
 ?>
 
 
