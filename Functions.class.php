@@ -283,22 +283,17 @@ class Functions
 		return $return;
 	}
 
-	public static function convertFileSize($bytes, $to='mo')
+	public static function convertFileSize($bytes)
 	{
-	    switch($to)
-	    {
-	        case 'ko':
-	                return round(($bytes / 1024), 2);
-	            break;
-
-	        case 'mo':
-	                return round(($bytes / 1024)/1024, 2);
-	            break;
-	       
-	        case 'go':
-	                return round(($bytes / 1024)/1024/1024, 2);
-	            break;
-	    }
+		 if($bytes<1024){
+		 	return round(($bytes / 1024), 2).' o';
+		 }elseif(1024<$bytes && $bytes<1048576){
+		 	return round(($bytes / 1024), 2).' ko';
+		 }elseif(1048576<$bytes && $bytes<1073741824){
+		 	return round(($bytes / 1024)/1024, 2).' Mo';
+		 }elseif(1073741824<$bytes){
+		 	return round(($bytes / 1024)/1024/1024, 2).' Go';
+		 }
 	}
 
 

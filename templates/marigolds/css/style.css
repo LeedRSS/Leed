@@ -279,21 +279,18 @@ header a,header a:hover,header a:visited{
 }
 
 #main article div.articleContent .enclosure{
-	padding:5px;
-	border:1px solid #F16529;
 	color:#F16529;
-	margin:5px;
 	display:block;
 	font-size: 10px;
 }
 #main article div.articleContent .enclosure h1{
 	color:#222222;
-	margin:0 0 5px 0;
+	margin:5px 0 0 0;
 	font-weight: bold;
 	font-size: 12px;
 }
 #main article div.articleContent .enclosure a{
-	padding:5px;
+	
 	color:#F16529;
 	font-size: 10px;
 }
