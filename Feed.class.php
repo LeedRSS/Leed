@@ -86,6 +86,7 @@ class Feed extends MysqlEntity{
 					}else{
 						$enclosure = '';
 					}
+					$enclosure = ''; // Désactive cette fonctionnalité, pas utile la plupart du temps.
 
 
 
