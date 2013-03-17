@@ -21,6 +21,7 @@
 						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
+						<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins installés</li>
 						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 						
 				</ul>
@@ -164,7 +165,30 @@
 
 
 				
+				<section id="pluginBloc">
+					<h2>Plugins :</h2>
+					<p>Voiçi la liste des plugins installés :</p>
+					{if="$myUser!=false"}
 
+					<ul class="pluginList">
+					{loop="$plugins"}
+					<li>
+						<ul>
+							<li><h4>Nom: </h4>{$value->getName()}</li>
+							<li><h4>Auteur: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
+							<li><h4>Licence: </h4>{$value->getLicence()}</li>
+							<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
+							<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+							<li>{$value->getDescription()}</li>
+						</ul>
+					</li>
+					{/loop}
+					</ul>
+
+					{else}
+					<p>Vous devez être connecté pour voir les plugins.</p>
+					{/if}
+				</section>
 
 				
 

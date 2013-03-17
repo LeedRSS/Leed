@@ -423,7 +423,7 @@ header a,header a:hover,header a:visited{
 	margin-left: 40px;
 }
 
-#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#synchronizeBloc{
+#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#synchronizeBloc,#pluginBloc{
 	display:none;
 }
 .pointer{
@@ -483,6 +483,27 @@ footer a,#main aside a{
 	font-weight:bold;
 	text-decoration:none;
 }
+
+#pluginBloc li,#pluginBloc ul{
+	list-style-type: none;
+	margin: 0px;
+	padding:0px;
+}
+#pluginBloc ul li{
+	padding:5px 0 5px 0;
+	border-bottom: 1px dotted #cecece;
+	margin:0 0 5px 0;
+}
+#pluginBloc ul li ul li{
+	padding: 0;
+	border-bottom: none;
+	margin:0;
+}
+#pluginBloc ul li ul li h4,#pluginBloc ul li ul li code{
+	display:inline;
+}
+
+
 
 /* ===============
     ALL: IE Fixes
