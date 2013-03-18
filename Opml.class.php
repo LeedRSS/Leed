@@ -11,12 +11,12 @@ require_once("common.php");
 class Opml  {
 
 	/** liens déjà connus, déjà abonnés, au moment de l'importation. */
-	public $déjàConnus = array();
+	public $alreadyKnowns = array();
 
 	/**
 	 * Met à jour les données des flux.
 	 */
-	function _update() {
+	protected function update() {
 		global $feedManager, $folderManager;
 		$this->feeds = $feedManager->populate('name');
 		$this->folders = $folderManager->loadAll(array('parent'=>-1),'name');
@@ -25,30 +25,32 @@ class Opml  {
 	/**
 	 * Convertit les caractères qui interfèrent avec le XML
 	 */
-	function _pourXml($string) {
+	protected function escapeXml($string) {
 		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
 	 * Exporte récursivement les flux.
 	 */
-	function _export($folders, $niveauIndent=0) {
-		$_ = ''; for($i=0;$i<$niveauIndent;$i++) $_.="\t";
+	protected function exportRecursive($folders, $identLevel=0) {
+		$_ = ''; for($i=0;$i<$identLevel;$i++) $_.="\t";
 		$xmlStream = '';
 		foreach($folders as $folder) {
 			// Pas utilisé, vu qu'il n'y a qu'un seul niveau de dossiers.
-  			$xmlStream .= $this->_export($folder->getFolders(), $niveauIndent+1);
+  			$xmlStream .= $this->exportRecursive(
+				$folder->getFolders(), $identLevel+1
+			);
 			$feeds = $folder->getFeeds();
 			if (empty($feeds)) continue;
-			$text = $this->_pourXml($folder->getName());
-			$title = $this->_pourXml($folder->getName());
+			$text = $this->escapeXml($folder->getName());
+			$title = $this->escapeXml($folder->getName());
 			$xmlStream .= "{$_}<outline text='$text' title='$title' icon=''>\n";
 			foreach($feeds as $feed){
-				$url = $this->_pourXml($feed->getUrl());
-				$website = $this->_pourXml($feed->getWebsite());
-				$title = $this->_pourXml($feed->getName());
+				$url = $this->escapeXml($feed->getUrl());
+				$website = $this->escapeXml($feed->getWebsite());
+				$title = $this->escapeXml($feed->getName());
 				$text = $title;
-				$description = $this->_pourXml($feed->getDescription());
+				$description = $this->escapeXml($feed->getDescription());
 				$xmlStream .= "{$_}{$_}<outline "
 				."xmlUrl='$url' "
 				."htmlUrl='$website' "
@@ -66,7 +68,7 @@ class Opml  {
 	 * Exporte l'ensemble des flux et sort les en-têtes.
 	 */
 	function export() {
-		$this->_update();
+		$this->update();
 		$date = date('D, d M Y H:i:s O');
 		$xmlStream = "<?xml version='1.0' encoding='utf-8'?>
 <opml version='2.0'>
@@ -77,12 +79,12 @@ class Opml  {
 		<dateCreated>$date</dateCreated>
 	</head>
 	<body>\n";
-		$xmlStream .= $this->_export($this->folders, 2);
+		$xmlStream .= $this->exportRecursive($this->folders, 2);
 		$xmlStream .= "\t</body>\n</opml>\n";
 		return $xmlStream;
 	}
 
-	public function _import($folder, $folderId=1){
+	protected function importRec($folder, $folderId=1){
 		$folderManager = new Folder();
 		$feedManager = new Feed();
 		foreach($folder as $item) {
@@ -95,7 +97,7 @@ class Opml  {
 				$folder->setParent(($folderId==1?-1:$folderId));
 				$folder->setIsopen(0);
 				if($folder->getId()=='') $folder->save();
-				$this->_import($item->outline,$folder->getId());
+				$this->importRec($item->outline,$folder->getId());
 			} else { // un flux
 				$newFeed = $feedManager->load(array('url'=>$item[0]['xmlUrl']));
 				$newFeed = (!$newFeed?new Feed():$newFeed);
@@ -110,7 +112,7 @@ class Opml  {
 					$newFeed->save();
 					// $newFeed->parse();
 				} else {
-					$this->déjàConnus[]= (object) array(
+					$this->alreadyKnowns[]= (object) array(
 						'description' => $item[0]['description'],
 						'xmlUrl' => $item[0]['xmlUrl']
 					);
@@ -124,19 +126,19 @@ class Opml  {
 	 */
 	function import() {
 		require_once("SimplePie.class.php");
-		$fichier = $_FILES['newImport']['tmp_name'];
+		$file = $_FILES['newImport']['tmp_name'];
 		$internalErrors = libxml_use_internal_errors(true);
-		$xml = @simplexml_load_file($fichier);
-		$sortieErreur = array();
+		$xml = @simplexml_load_file($file);
+		$errorOutput = array();
 		foreach (libxml_get_errors() as $error) {
-			$sortieErreur []= "{$error->message} (line {$error->line})";
+			$errorOutput []= "{$error->message} (line {$error->line})";
 		}
 		libxml_clear_errors();
 		libxml_use_internal_errors($internalErrors);
-		if (!empty($xml) && empty($sortieErreur)) {
-			$this->_import($xml->body->outline);
+		if (!empty($xml) && empty($errorOutput)) {
+			$this->importRec($xml->body->outline);
 		}
-		return $sortieErreur;
+		return $errorOutput;
 	}
 
 }

@@ -190,32 +190,34 @@ switch ($_['action']){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
-		$sortieErreurs = $opml->import($_FILES['newImport']['tmp_name']);
-		if (empty($sortieErreurs)) {
+		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		if (empty($errorOutput)) {
 			echo "<h3>L'import s'est déroulé sans problème.</h3>\n";
 		} else {
 			echo "<h3>Erreurs à l'importation!</h3>\n";
-			foreach($sortieErreurs as $ligne) {
-				echo "<p>$ligne</p>\n";
+			foreach($errorOutput as $line) {
+				echo "<p>$line</p>\n";
 			}
 		}
-		if (!empty($opml->déjàConnus)) {
-			echo "<p>Certains flux étaient déjà connus, ils n'ont pas été réimportés ni mis à jour :</p>\n<ul>\n";
-			foreach($opml->déjàConnus as $déjàConnu) {
-				foreach($déjàConnu as &$elt) $elt = htmlspecialchars($elt);
+		if (!empty($opml->alreadyKnowns)) {
+			echo "<p>Certains flux étaient déjà connus, ils n'ont pas été "
+				."réimportés ni mis à jour :</p>\n<ul>\n";
+			foreach($opml->alreadyKnowns as $alreadyKnown) {
+				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
 				$maxLength = 80;
-				$délimiteur = '...';
-				if (strlen($déjàConnu->description)>$maxLength) {
-					$déjàConnu->description =
-						substr($déjàConnu->description, 0,
-							$maxLength-strlen($délimiteur)
-						).$délimiteur;
+				$delimiter = '...';
+				if (strlen($alreadyKnown->description)>$maxLength) {
+					$alreadyKnown->description =
+						substr($alreadyKnown->description, 0,
+							$maxLength-strlen($delimiter)
+						).$delimiter;
 				}
-				echo "<li><a target='_parent' href='{$déjàConnu->xmlUrl}'>{$déjàConnu->description}</a></li>\n";
+				echo "<li><a target='_parent' href='{$alreadyKnown->xmlUrl}'>"
+					."{$alreadyKnown->description}</a></li>\n";
 			}
 			echo "</ul>\n";
 		}
-		if (empty($sortieErreurs)) {
+		if (empty($errorOutput)) {
 			echo "<p>Vous pouvez maintenant mettre à jour manuellement les flux.</p>\n";
 		}
 		echo "<a href='settings.php' target='_parent'>Retour au menu.</a>\n";
