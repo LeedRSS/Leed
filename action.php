@@ -201,7 +201,7 @@ switch ($_['action']){
 		}
 		if (!empty($opml->alreadyKnowns)) {
 			echo "<p>Certains flux étaient déjà connus, ils n'ont pas été "
-				."réimportés ni mis à jour :</p>\n<ul>\n";
+				."réimportés ni mis à jour&nbsp;:</p>\n<ul>\n";
 			foreach($opml->alreadyKnowns as $alreadyKnown) {
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
 				$maxLength = 80;
@@ -217,10 +217,15 @@ switch ($_['action']){
 			}
 			echo "</ul>\n";
 		}
-		if (empty($errorOutput)) {
-			echo "<p>Vous pouvez maintenant mettre à jour manuellement les flux.</p>\n";
-		}
-		echo "<a href='settings.php' target='_parent'>Retour au menu.</a>\n";
+		$syncCode = $configurationManager->get('synchronisationCode');
+		assert('!empty($syncCode)');
+		$syncLink = "action.php?action=synchronize&format=html&code=$syncCode";
+		echo "<p>";
+		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
+			."↺</a>";
+		echo "<a href='$syncLink'>Vous pouvez maintenant mettre à jour"
+			."manuellement les flux.</a>";
+		echo "<p>\n";
 	break;
 
 	
