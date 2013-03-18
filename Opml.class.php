@@ -10,7 +10,7 @@ require_once("common.php");
  
 class Opml  {
 
-	/** liens déjà connus, déjà abonnés, au moment de l'importation. */
+	// liens déjà connus, déjà abonnés, au moment de l'importation
 	public $alreadyKnowns = array();
 
 	/**
