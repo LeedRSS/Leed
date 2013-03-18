@@ -144,7 +144,7 @@ $pagesArray = array();
 					break;
 				}
 
-				Functions::callHook("pre_display_events", array(&$events));
+				Plugin::callHook("pre_display_events", array(&$events));
 				$tpl->assign('events',$events);
 				$tpl->assign('time',$_SERVER['REQUEST_TIME']);
 				$tpl->assign('hightlighted',0);

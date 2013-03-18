@@ -44,6 +44,7 @@
 								{if="count($feeds)!=0"}
 									{loop="feeds"}
 										<li> 
+											{function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}
 											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{$value2['name']} </a>
 
 											{if="isset($unread[$value2['id']])"}  
@@ -51,6 +52,7 @@
 												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}
+											{function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
 										</li>
 									{/loop}
 								{/if}

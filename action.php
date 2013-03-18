@@ -343,7 +343,9 @@ switch ($_['action']){
 	break;
 	
 	default:
-		exit('0');
+		require_once("SimplePie.class.php");
+		Plugin::callHook("post_action_case", array(&$_));
+		//exit('0');
 	break;
 }
 

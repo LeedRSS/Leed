@@ -368,36 +368,23 @@ class Functions
 			return $report;
 		}
 
-		function stripAccents($string){
+		public static function stripAccents($string){
 			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 		}
 
 
-		// Création de la fonction addHook() qui servira à l'enregistrement d'un nouveau Hook dans notre tableau de fonctions  
-		// $hookName est le nom de notre hook  
-		// $functionName est le nom de la fonction qui sera appelée lors de ce hook  
-		function addHook($hookName, $functionName) {  
-		    // Enregistrement du nom de la fonction dans le tableau qui sera lu lors de l'appel du Hook $hookName  
-		    $GLOBALS['hooks'][$hookName][] = $functionName;  
-		} 
-
-		// Création de la fonction callHook() qui permet d'appeler les fonctions enregistrées à un Hook donné.  
-		// $hookName est le nom du Hook  
-		// $hookArguments est un array qui contiendra tous les arguments à envoyer à notre fonction  
-		function callHook($hookName, $hookArguments) {  
-		    // On regarde si des fonctions sont enregistrées à notre Hook  
-		    if(isset($GLOBALS['hooks'][$hookName])) { 
-		        // Si oui, on va appeler nos fonctions une à une avec call_user_func_array() 
-		        foreach($GLOBALS['hooks'][$hookName] as $functionName) {  
-		            call_user_func_array($functionName, $hookArguments);  
-		        }  
-		        return true;  
-		    }  
-		    else {  
-		        return false;  
-		    }  
-} 
+		public static function relativePath($from, $to, $ps = '/')
+		{
+		  $arFrom = explode($ps, rtrim($from, $ps));
+		  $arTo = explode($ps, rtrim($to, $ps));
+		  while(count($arFrom) && count($arTo) && ($arFrom[0] == $arTo[0]))
+		  {
+		    array_shift($arFrom);
+		    array_shift($arTo);
+		  }
+		  return str_pad("", count($arFrom) * 3, '..'.$ps).implode($ps, $arTo);
+		}
 
 }
 ?>
