@@ -12,11 +12,11 @@ class Functions
 	public $debug=0;
 	const CRYPTKEY = 'zr_e65$^vg41^948e*586"';
 	/**
-	 * Securise la variable utilisateur entrée en parametre
+	 * Securise la variable utilisateur entrÃ©e en parametre
 	 * @author Valentin
-	 * @param<String> variable a sécuriser
+	 * @param<String> variable a sÃ©curiser
 	 * @param<Integer> niveau de securisation
-	 * @return<String> variable securisée
+	 * @return<String> variable securisÃ©e
 	 */
 
 	public static function secure($var,$level = 1){
@@ -29,7 +29,7 @@ class Functions
 
 	/**
 	 * Return l'environnement/serveur sur lequel on se situe, permet de changer les
-	 * connexions bdd en fonction de la dev, la préprod ou la prod
+	 * connexions bdd en fonction de la dev, la prÃ©prod ou la prod
 	 */
 	public static function whereImI(){
 
@@ -98,7 +98,7 @@ class Functions
 
 
 	/**
-	 * Convertis la chaine passée en timestamp quel que soit sont format
+	 * Convertis la chaine passÃ©e en timestamp quel que soit sont format
 	 * (prend en charge les formats type dd-mm-yyy , dd/mm/yyy, yyyy/mm/ddd...)
 	 */
 	public static function toTime($string){
@@ -136,11 +136,11 @@ class Functions
 	}
 
 	/**
-	 * Retourne une version tronquée au bout de $limit caracteres de la chaine fournie
+	 * Retourne une version tronquÃ©e au bout de $limit caracteres de la chaine fournie
 	 * @author Valentin
 	 * @param<String> message a tronquer
 	 * @param<Integer> limite de caracteres
-	 * @return<String> chaine tronquée
+	 * @return<String> chaine tronquÃ©e
 	 */
 	public static function truncate($msg,$limit){
 		$msg = utf8_encode(html_entity_decode($msg));
@@ -176,7 +176,7 @@ class Functions
 	}
 
 	/**
-	 * Définis si la chaine passée en parametre est une url ou non
+	 * DÃ©finis si la chaine passÃ©e en parametre est une url ou non
 	 */
 	public static function isUrl($url){
 		$return =false;
@@ -187,7 +187,7 @@ class Functions
 	}
 
 	/**
-	 * Définis si la chaine passée en parametre est une couleur héxadécimale ou non
+	 * DÃ©finis si la chaine passÃ©e en parametre est une couleur hÃ©xadÃ©cimale ou non
 	 */
 	public static function isColor($color){
 		$return =false;
@@ -198,7 +198,7 @@ class Functions
 	}
 
 	/**
-	 * Définis si la chaine passée en parametre est un mail ou non
+	 * DÃ©finis si la chaine passÃ©e en parametre est un mail ou non
 	 */
 	public static function isMail($mail){
 		$return =false;
@@ -209,7 +209,7 @@ class Functions
 	}
 
 	/**
-	 * Définis si la chaine passée en parametre est une IP ou non
+	 * DÃ©finis si la chaine passÃ©e en parametre est une IP ou non
 	 */
 	public static function isIp($ip){
 		$return =false;
@@ -283,6 +283,19 @@ class Functions
 		return $return;
 	}
 
+	public static function convertFileSize($bytes)
+	{
+		 if($bytes<1024){
+		 	return round(($bytes / 1024), 2).' o';
+		 }elseif(1024<$bytes && $bytes<1048576){
+		 	return round(($bytes / 1024), 2).' ko';
+		 }elseif(1048576<$bytes && $bytes<1073741824){
+		 	return round(($bytes / 1024)/1024, 2).' Mo';
+		 }elseif(1073741824<$bytes){
+		 	return round(($bytes / 1024)/1024/1024, 2).' Go';
+		 }
+	}
+
 
 	public static function hexaValue($str){
 		$code = dechex(crc32($str));
@@ -306,7 +319,7 @@ class Functions
 	}
 
 		function stripAccents($string){
-			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
+			return strtr(html_entity_decode($string),'Ã Ã¡Ã¢Ã£Ã¤Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã±Ã²Ã³Ã´ÃµÃ¶Ã¹ÃºÃ»Ã¼Ã½Ã¿Ã€ÃÃ‚ÃƒÃ„Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃŽÃÃ‘Ã’Ã“Ã”Ã•Ã–Ã™ÃšÃ›ÃœÃ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 		}
 

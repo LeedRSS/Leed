@@ -176,7 +176,7 @@ switch ($_['action']){
 				
 			';
 		}else{
-			echo 'Vous devez être connecté pour acceder à cette partie.';
+			echo 'Vous devez être connecté pour accéder à cette partie.';
 		}
 
 	break;
