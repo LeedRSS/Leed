@@ -189,6 +189,13 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
+		echo "
+			<style>
+				a {
+					color:#F16529;
+				}
+			</style>
+\n";
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
