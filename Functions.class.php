@@ -318,56 +318,6 @@ class Functions
 		return $allFiles;
 	}
 
-
-
-		public static function recursiveImportXmlOutline($level,$folderId){
-			$folderManager = new Folder();
-			$feedManager = new Feed();
-			$report= '';
-
-			
-			foreach($level as $item){
-                    // Cela varie selon les implémentations d'OPML.
-                    $feedName = ( $item['text'] ? 'text' : 'title' );
-					if(isset($item->outline[0])){
-						$folder = $folderManager->load(array('name'=>$item[$feedName]));
-						$folder = (!$folder?new Folder():$folder);
-						$folder->setName($item[$feedName]);
-						$folder->setParent(($folderId==1?-1:$folderId));
-						$folder->setIsopen(0);
-						if($folder->getId()== '') $folder->save();
-						$report.= '[DOSSIER] Creation '.$item[$feedName]."\n";
-						echo '<li>[DOSSIER] Creation '.$item[$feedName].'</li>';
-						echo str_pad('',4096)."\n";ob_flush();flush();
-						$report.= Functions::recursiveImportXmlOutline($item->outline,$folder->getId())."\n";
-					}else{
-					
-
-						$newFeed = $feedManager->load(array('url'=>$item[0]['xmlUrl']));
-						$newFeed = (!$newFeed?new Feed():$newFeed);
-
-						if($newFeed->getId()==''){
-							$newFeed->setName($item[0][$feedName]);
-							$newFeed->setUrl($item[0]['xmlUrl']);
-							$newFeed->setDescription($item[0]['description']);
-							$newFeed->setWebsite($item[0]['htmlUrl']);
-							$newFeed->setFolder($folderId);
-							$newFeed->save();
-
-							$report.= '[FLUX] Creation '.$item[0][$feedName]."... \n";
-							$parseResult = '[FLUX] Parsage du flux '.$newFeed->getName().': '.($newFeed->parse()?'OK':'NOK')."\n";
-							$report.= $parseResult;
-							echo '<li>'.$parseResult.'</li>';
-						}else{
-							$report.= '[FLUX] '.$item[0][$feedName].' deja existant, aucune action...'."\n";
-							echo '<li>Flux '.$item[0][$feedName].' deja existant, aucune action...</li>';
-						}
-						echo str_pad('',4096)."\n";ob_flush();flush();
-					}
-			}
-			return $report;
-		}
-
 		function stripAccents($string){
 			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
