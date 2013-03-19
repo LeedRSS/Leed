@@ -187,37 +187,45 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
-				require_once("SimplePie.class.php");
-				if (ob_get_level() == 0) ob_start();
-				ignore_user_abort(true);
-			
-				echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><ul style="font-family:Verdana;">';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				
-
-				if($myUser==false) exit('Vous devez vous connecter pour cette action.');
-				if(isset($_POST['importButton'])){
-			
-				echo '<li>Lecture du fichier OPML...</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				$xml = simplexml_load_file($_FILES['newImport']['tmp_name']);
-				$report = 'Import de flux depart : '.date('d/m/Y H:i:s')."\n";
-				echo '<li>Parsage recursif du fichier OPML...</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				$report .= Functions::recursiveImportXmlOutline($xml->body->outline,1);
-				$report .= 'Import de flux fin : '.date('d/m/Y H:i:s')."\n";
-				echo '<li>Création des logs d\'imports....</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-				file_put_contents('./logs/Import du '.date('d-m-Y').'.log', $report ,FILE_APPEND);
-				echo '<li>Import des flux terminé ( '.number_format(microtime(true)-$start,3).' secondes ).</li>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-
-				echo '</ul>';
-				echo str_pad('',4096)."\n";ob_flush();flush();
-
-				ob_end_flush();
-				//header('location: ./settings.php');
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if(!isset($_POST['importButton'])) break;
+		$opml = new Opml();
+		echo "<h3>Importation</h3><p>En cours...</p>\n";
+		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		if (empty($errorOutput)) {
+			echo "<p style='color:blue'>L'import s'est déroulé sans problème.</p>\n";
+		} else {
+			echo "<p style='color:red'>Erreurs à l'importation!</p>\n";
+			foreach($errorOutput as $line) {
+				echo "<p>$line</p>\n";
 			}
+		}
+		if (!empty($opml->alreadyKnowns)) {
+			echo "<h3>Certains flux étaient déjà connus, ils n'ont pas été "
+				."réimportés&nbsp;:</h3>\n<ul>\n";
+			foreach($opml->alreadyKnowns as $alreadyKnown) {
+				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
+				$maxLength = 80;
+				$delimiter = '...';
+				if (strlen($alreadyKnown->description)>$maxLength) {
+					$alreadyKnown->description =
+						substr($alreadyKnown->description, 0,
+							$maxLength-strlen($delimiter)
+						).$delimiter;
+				}
+				echo "<li><a target='_parent' href='{$alreadyKnown->xmlUrl}'>"
+					."{$alreadyKnown->description}</a></li>\n";
+			}
+			echo "</ul>\n";
+		}
+		$syncCode = $configurationManager->get('synchronisationCode');
+		assert('!empty($syncCode)');
+		$syncLink = "action.php?action=synchronize&format=html&code=$syncCode";
+		echo "<p>";
+		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
+			."↺</a>";
+		echo "<a href='$syncLink'>Cliquez ici pour synchroniser vos flux importés.</a>";
+		echo "<p>\n";
 	break;
 
 	
