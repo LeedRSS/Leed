@@ -15,55 +15,20 @@ require_once("common.php");
 switch ($_['action']){
 
 	case 'synchronize':
-		if (ob_get_level() == 0) ob_start();
-		require_once("SimplePie.class.php");
-
-		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">'
-			.'<ul style="font-family:Verdana;">';
-// 		echo str_pad('',4096)."\n";ob_flush();flush();
-
-		if (!isset($_['code'])
-			|| $configurationManager->get('synchronisationCode')==null
-			|| $_['code'] != $configurationManager->get('synchronisationCode')
-		) {
-			echo 'Code de synchronisation incorrect ou non spécifié';
-// 			ob_flush();
-			exit();
-		}
-
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
-
-// 		echo '<h3>Synchronisation du '.date('d/m/Y H:i:s').'</h3>';
-// 		echo '<hr/>';
-// 		echo str_pad('',4096)."\n";ob_flush();flush();
-
-		if($synchronisationType=='graduate'){
+		if('graduate'==$synchronisationType){
+			// sélectionne les 10 plus vieux flux
 			$feeds = $feedManager->loadAll(null,'lastupdate','10');
-// 			echo 'Type gradué...<br/>';
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}else{
+			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
-// 			echo 'Type complet...<br/>';
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}	
-			
-// 		echo count($feeds).' Flux à synchroniser...<br/>';
-// 		echo str_pad('',4096)."\n";ob_flush();flush();
 		foreach ($feeds as $feed) {
-// 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...<br/>';
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
 			$feed->parse();
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
-// 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...<br/>';
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
-// 			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') terminé<br/>';
-// 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}
-// 			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )<br/>';
-// 		echo str_pad('',4096)."\n";ob_flush();flush();
-// 		ob_end_flush();
 
 	break;
 
