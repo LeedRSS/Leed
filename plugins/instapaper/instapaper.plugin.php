@@ -14,5 +14,5 @@ function instapaper_plugin_updateTitle(&$events){
 }
 
 // Ajout de la fonction au Hook situé avant l'affichage des évenements
-Plugin::addHook("pre_display_events", "instapaper_plugin_updateTitle");  
+Plugin::addHook("index_post_treatment", "instapaper_plugin_updateTitle");  
 ?>

@@ -1,0 +1,8 @@
+.favicon{
+	width:16px;
+	height:16px;
+	border-radius: 3px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}

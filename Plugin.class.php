@@ -37,19 +37,19 @@ class Plugin{
 			    if(preg_match("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $match))
 					$plugin->setMail(strtolower($match[2]));
 			    
-			    if(preg_match("#@name\s(.+)\r#", $fileLines, $match))
+			    if(preg_match("#@name\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setName($match[1]);
 			    
-			    if(preg_match("#@licence\s(.+)\r#", $fileLines, $match))
+			    if(preg_match("#@licence\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setLicence($match[1]);
 			    
-			    if(preg_match("#@version\s(.+)\r#", $fileLines, $match))
+			    if(preg_match("#@version\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setVersion($match[1]);
 			    
-			    if(preg_match("#@link\s(.+)\r#", $fileLines, $match))
+			    if(preg_match("#@link\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setLink(trim($match[1]));
 			    
-			    if(preg_match("#@description\s(.+)\r#", $fileLines, $match))
+			    if(preg_match("#@description\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setDescription(trim($match[1]));
 			     
 
@@ -78,6 +78,12 @@ class Plugin{
 		        }  
 		    }    
 		    return $return;
+		}
+
+
+		public static function path(){
+			$bt =  debug_backtrace();
+			return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/'; 
 		}
 
 		function addJs($js) {  

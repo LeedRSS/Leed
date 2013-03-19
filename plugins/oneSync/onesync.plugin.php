@@ -30,5 +30,5 @@ Plugin::addCss("/css/style.css");
 Plugin::addJs("/js/main.js"); 
 // Ajout de la fonction au Hook situé avant l'affichage des liens de flux
 Plugin::addHook("menu_post_feed_link", "OneSync_plugin_AddButton");  
-Plugin::addHook("post_action_case", "OneSync_plugin_SynchronyzeOne"); 
+Plugin::addHook("action_post_case", "OneSync_plugin_SynchronyzeOne"); 
 ?>
