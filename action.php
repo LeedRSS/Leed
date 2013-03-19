@@ -190,18 +190,19 @@ switch ($_['action']){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
+		echo "<h3>Importation</h3><p>En cours...</p>\n";
 		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
 		if (empty($errorOutput)) {
-			echo "<h3>L'import s'est déroulé sans problème.</h3>\n";
+			echo "<p style='color:blue'>L'import s'est déroulé sans problème.</p>\n";
 		} else {
-			echo "<h3>Erreurs à l'importation!</h3>\n";
+			echo "<p style='color:red'>Erreurs à l'importation!</p>\n";
 			foreach($errorOutput as $line) {
 				echo "<p>$line</p>\n";
 			}
 		}
 		if (!empty($opml->alreadyKnowns)) {
-			echo "<p>Certains flux étaient déjà connus, ils n'ont pas été "
-				."réimportés ni mis à jour&nbsp;:</p>\n<ul>\n";
+			echo "<h3>Certains flux étaient déjà connus, ils n'ont pas été "
+				."réimportés&nbsp;:</h3>\n<ul>\n";
 			foreach($opml->alreadyKnowns as $alreadyKnown) {
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
 				$maxLength = 80;
@@ -223,8 +224,7 @@ switch ($_['action']){
 		echo "<p>";
 		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
 			."↺</a>";
-		echo "<a href='$syncLink'>Vous pouvez maintenant mettre à jour"
-			."manuellement les flux.</a>";
+		echo "<a href='$syncLink'>Cliquez ici pour synchroniser vos flux importés.</a>";
 		echo "<p>\n";
 	break;
 
