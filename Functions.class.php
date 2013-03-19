@@ -10,7 +10,7 @@ class Functions
 {
 	private $id;
 	public $debug=0;
-	const CRYPTKEY = 'zr_e65$^vg41^948e*586"';
+
 	/**
 	 * Securise la variable utilisateur entrée en parametre
 	 * @author Valentin
@@ -262,26 +262,7 @@ class Functions
 		fclose($fichier);
 	}
 
-	public static function crypt($string,$key=Functions::CRYPTKEY){
-		$key = sha1($key);
-		$return = '';
-		for ($i = 0; $i<strlen($string); $i++) {
-			$kc = substr($key, ($i%strlen($key)) - 1, 1);
-			$return .= chr(ord($string{$i})+ord($kc));
-		}
-		return base64_encode($return);
-	}
 
-	public static function decrypt($string,$key=Functions::CRYPTKEY){
-		$key = sha1($key);
-		$return = '';
-		$string = base64_decode($string);
-		for ($i = 0; $i<strlen($string); $i++) {
-			$kc = substr($key, ($i%strlen($key)) - 1, 1);
-			$return .= chr(ord($string{$i})-ord($kc));
-		}
-		return $return;
-	}
 
 	public static function convertFileSize($bytes)
 	{
