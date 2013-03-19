@@ -15,7 +15,19 @@ require_once("common.php");
 switch ($_['action']){
 
 	case 'synchronize':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		/* Idée à garder pour forcer la sortie. À mettre dans une lib ?
+		http://php.net/manual/fr/function.flush.php
+	    @apache_setenv('no-gzip', 1);
+		@ini_set('zlib.output_compression', 0);
+		@ini_set('implicit_flush', 1);
+		for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
+		ob_implicit_flush(1);
+		*/		
+		/* Vérifier que le client est autorisé à lancer la synchronisation :
+		- via ligne de commande,
+		- via compte connecté,
+		- via clé API.
+		*/
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
@@ -27,6 +39,7 @@ switch ($_['action']){
 		}	
 		foreach ($feeds as $feed) {
 			$feed->parse();
+			echo '<p>- '.$feed->getName()."</p>\n";
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
 		}
 

@@ -52,7 +52,7 @@ class Feed extends MysqlEntity{
 		$feed->init(); // advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
 		// You probably want to check if $feed->error; isn't NULL after https://github.com/ldleman/Leed/blob/master/Feed.class.php#L50
 
-		$feed->handle_content_type();
+		$feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
 		
 
 		if($this->name=='') $this->name = $feed->get_title();
