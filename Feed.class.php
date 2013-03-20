@@ -40,20 +40,12 @@ class Feed extends MysqlEntity{
 	}
 
 	function parse(){
-
-		
 		$feed = new SimplePie();
-		
-
 		$feed->set_feed_url($this->url);
-
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
-
 		$feed->init(); // advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
 		// You probably want to check if $feed->error; isn't NULL after https://github.com/ldleman/Leed/blob/master/Feed.class.php#L50
-
 		$feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
-		
 
 		if($this->name=='') $this->name = $feed->get_title();
 		if($this->name=='') $this->name = $this->url;
@@ -63,72 +55,80 @@ class Feed extends MysqlEntity{
 		$items = $feed->get_items();
 		$eventManager = new Event();
 			
-		$nonParsedEvents = array();
+		$events = array();
 		$iEvents = 0;
 		foreach($items as $item){
-			
-				//Definition du GUID : 
-			
-				$alreadyParsed = $eventManager->rowCount(array('guid'=>$this->secure($item->get_id(), 'guid')));
-				
-				if($alreadyParsed==0 && $iEvents<100){
-					$event = new Event();
-					$event->setGuid($item->get_id());
-					$event->setTitle(html_entity_decode($item->get_title(), ENT_COMPAT, 'UTF-8'));
-					$event->setPubdate($item->get_date());
-					$event->setCreator( (is_object($item->get_author())?$item->get_author()->name:'Anonyme') );
-				
-					$event->setLink($item->get_permalink());
-					
+			// Ne retient que les 100 premiers éléments de flux.
+			if ($iEvents++>=100) break;
 
-					//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
-					$enclosure = $item->get_enclosure(); 
-					if($enclosure!=null && $enclosure->link!=''){
-						
-						$enclosureName = substr($enclosure->link,strrpos($enclosure->link, '/')+1,strlen($enclosure->link));
-						$enclosureArgs = strpos($enclosureName, '?');
-						if($enclosureArgs!==false) $enclosureName = substr($enclosureName,0,$enclosureArgs);
-						$enclosureFormat = (isset($enclosure->handler)?$enclosure->handler:substr($enclosureName,strrpos($enclosureName,'.')+1));
-					
-						$enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span>';
-					}else{
-						$enclosure = '';
-					}
+			// Si le guid existe déjà, on évite de le reparcourir.
+			$alreadyParsed = $eventManager->rowCount(
+				array('guid'=> $item->get_id())
+			);
+			if ($alreadyParsed!=0) continue;
 
+			// Initialisation des informations de l'événement (élt. de flux)
+			$event = new Event();
+			$event->setGuid($item->get_id());
+// 			error_log('(56a7ezr) get_title()='.$item->get_title());
+			$event->setTitle($item->get_title());
+			$event->setPubdate($item->get_date());
+			$event->setCreator(
+				/*@TODO: la décision d'appeler "Anonyme" l'absence d'auteur
+				devrait être prise au moment de l'affichage. */
+				is_null($item->get_author())
+					? 'Anonyme'
+					: $item->get_author()->name
+			);
+			$event->setLink($item->get_permalink());
 
+			//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
+			$enclosure = $item->get_enclosure();
+			if($enclosure!=null && $enclosure->link!=''){
+				$enclosureName = substr(
+					$enclosure->link,
+					strrpos($enclosure->link, '/')+1,
+					strlen($enclosure->link)
+				);
+				$enclosureArgs = strpos($enclosureName, '?');
+				if($enclosureArgs!==false)
+					$enclosureName = substr($enclosureName,0,$enclosureArgs);
+				$enclosureFormat = isset($enclosure->handler)
+					? $enclosure->handler
+					: substr($enclosureName, strrpos($enclosureName,'.')+1);
 
-					$event->setContent(html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
-					$event->setDescription(html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
-					
-				
-					if(trim($event->getDescription())=='')
-						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
-					
-					if(trim($event->getContent())=='')
-						$event->setContent($event->getDescription());
-					
-					$event->setCategory($item->get_category());
-					$event->setFeed($this->id);
-					$event->setUnread(1);
-					$nonParsedEvents[] = $event;
-					unset($event);
-					$iEvents++;
-				}
-			
-			
-		}
-
-			if(count($nonParsedEvents)!=0) {
-
-				$eventManager->massiveInsert($nonParsedEvents);
+				$enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span>';
+			}else{
+				$enclosure = '';
 			}
 
-			$result = true;
-				
-		
-			$this->lastupdate = $_SERVER['REQUEST_TIME'];
-			$this->save();
-			return $result;
+			$event->setContent(
+				html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8')
+				.html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8')
+			);
+			$event->setDescription(
+				html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8')
+				.html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8')
+			);
+			if(trim($event->getDescription())=='')
+				$event->setDescription(
+					substr($event->getContent(),0,300)
+					.'…<br><a href="'.$event->getLink()
+					.'">Lire la suite de l\'article</a>'
+				);
+			if(trim($event->getContent())=='')
+				$event->setContent($event->getDescription());
+
+			$event->setCategory($item->get_category());
+			$event->setFeed($this->id);
+			$event->setUnread(1);
+			$events[] = $event;
+		}
+
+		$this->massiveInsert($events);
+		$this->lastupdate = $_SERVER['REQUEST_TIME'];
+		$this->save();
+		return true;
 	}
 
 
