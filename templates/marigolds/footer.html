@@ -9,6 +9,7 @@
 	<div id="footer-container">
 		<footer class="wrapper">
 			<p>Leed "Light Feed" fabuleux agrégateur exécuté en {$executionTime} secondes par <a target="_blank" href="http://blog.idleman.fr">Idleman</a> | <a href="about.php">A propos</a></p>
+			{function="Plugin::callHook("footer_post_copyright", array(&$myUser))"}
 		</footer>
 	</div>
 

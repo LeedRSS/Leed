@@ -21,6 +21,7 @@
 	<div id="header-container">
 		<header class="wrapper clearfix">
 			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
+			{function="Plugin::callHook("header_post_logo", array(&$myUser))"}
 			<div class="loginBloc">
 			{if="!$myUser"}
 			<form action="action.php?action=login" method="POST">
@@ -38,6 +39,7 @@
 					<li><a href="index.php?action=favorites">Favoris</a></li>
 					<li><a href="settings.php">Gestion</a></li>
 					<li><a class="synchronyzeButton" title="Lancer une synchro manuelle" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
+					{function="Plugin::callHook("navigate_post_link", array(&$myUser))"}
 				</ul>
 			</nav>
 		</header>
