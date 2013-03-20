@@ -15,14 +15,14 @@ require_once("common.php");
 switch ($_['action']){
 
 	case 'synchronize':
-		/* Idée à garder pour forcer la sortie. À mettre dans une lib ?
+		//* Idée à garder pour forcer la sortie. À mettre dans une lib ?
 		http://php.net/manual/fr/function.flush.php
 	    @apache_setenv('no-gzip', 1);
 		@ini_set('zlib.output_compression', 0);
 		@ini_set('implicit_flush', 1);
 		for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
 		ob_implicit_flush(1);
-		*/		
+		/**/		
 		/* Vérifier que le client est autorisé à lancer la synchronisation :
 		- via ligne de commande,
 		- via compte connecté,
@@ -178,7 +178,11 @@ switch ($_['action']){
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
 		echo "<h3>Importation</h3><p>En cours...</p>\n";
-		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		try {
+			$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		} catch (Exception $e) {
+			$errorOutput = array($e->getMessage());
+		}
 		if (empty($errorOutput)) {
 			echo "<p style='color:blue'>L'import s'est déroulé sans problème.</p>\n";
 		} else {
@@ -194,14 +198,14 @@ switch ($_['action']){
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
 				$maxLength = 80;
 				$delimiter = '...';
-				if (strlen($alreadyKnown->description)>$maxLength) {
-					$alreadyKnown->description =
-						substr($alreadyKnown->description, 0,
+				if (strlen($alreadyKnown->feedName)>$maxLength) {
+					$alreadyKnown->feedName =
+						substr($alreadyKnown->feedName, 0,
 							$maxLength-strlen($delimiter)
 						).$delimiter;
 				}
 				echo "<li><a target='_parent' href='{$alreadyKnown->xmlUrl}'>"
-					."{$alreadyKnown->description}</a></li>\n";
+					."{$alreadyKnown->feedName}</a></li>\n";
 			}
 			echo "</ul>\n";
 		}

@@ -113,8 +113,9 @@ class Opml  {
 					// $newFeed->parse();
 				} else {
 					$this->alreadyKnowns[]= (object) array(
-						'description' => $item[0]['description'],
-						'xmlUrl' => $item[0]['xmlUrl']
+						'description' => $newFeed->getDescription(),
+						'feedName' => $newFeed->getName(),
+						'xmlUrl' => $newFeed->getUrl()
 					);
 				}
 			}
