@@ -7,6 +7,7 @@
  */
 
 session_start();
+mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');

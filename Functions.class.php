@@ -143,15 +143,14 @@ class Functions
 	 * @return<String> chaine tronquée
 	 */
 	public static function truncate($msg,$limit){
-		$msg = utf8_encode(html_entity_decode($msg));
-		if(strlen($msg)>$limit){
-			$nb=$limit-3 ;
-			$fin='...' ;
+		if(mb_strlen($msg)>$limit){
+			$fin='…' ;
+			$nb=$limit-mb_strlen($fin) ;
 		}else{
 			$nb=strlen($msg);
 			$fin='';
 		}
-		return substr($msg, 0, $nb).$fin;
+		return mb_substr($msg, 0, $nb).$fin;
 	}
 
 
@@ -298,13 +297,6 @@ class Functions
 		}
 		return $allFiles;
 	}
-
-		function stripAccents($string){
-			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
-		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-		}
-
-
 
 }
 ?>
