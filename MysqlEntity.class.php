@@ -93,7 +93,8 @@ class MysqlEntity
 	{
 		$query = 'DROP TABLE IF EXISTS '.MYSQL_PREFIX.$this->TABLE_NAME.';';
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		$myQuery = mysql_query($query) or die(mysql_error());
+		$myQuery = mysql_query($query);
+		if (FALSE===$myQuery) throw new Exception(mysql_error());
 	}
 
 	/**
@@ -107,7 +108,8 @@ class MysqlEntity
 	{
 			$query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-			$myQuery = mysql_query($query) or die(mysql_error());
+			$myQuery = mysql_query($query);
+			if (FALSE===$myQuery) throw new Exception(mysql_error());
 	}
 
 	/**
@@ -132,7 +134,8 @@ class MysqlEntity
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
 		;';
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		$myQuery = mysql_query($query) or die(mysql_error());
+		$myQuery = mysql_query($query);
+		if (FALSE===$myQuery) throw new Exception(mysql_error());
 	}
 
 
@@ -169,8 +172,8 @@ class MysqlEntity
 			$query .=';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		
-		mysql_query($query) or die(mysql_error());
-
+		mysql_query($query);
+		if (FALSE===$query) throw new Exception(mysql_error());
 	}
 
 	/**
@@ -210,7 +213,8 @@ class MysqlEntity
 			$query .=');';
 		}
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		mysql_query($query)or die(mysql_error());
+		mysql_query($query);
+		if (FALSE===$query) throw new Exception(mysql_error());
 		$this->id =  (!isset($this->id)?mysql_insert_id():$this->id);
 	}
 
@@ -240,7 +244,8 @@ class MysqlEntity
 			
 		}
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		mysql_query($query)or die(mysql_error());
+		mysql_query($query);
+		if (FALSE===$query) throw new Exception(mysql_error());
 	}
 
 	/**
@@ -288,7 +293,8 @@ class MysqlEntity
 			$query .=';';
 
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-			$execQuery = mysql_query($query) or die(mysql_error());
+			$execQuery = mysql_query($query);
+			if (FALSE===$execQuery) throw new Exception(mysql_error());
 			while($queryReturn = mysql_fetch_assoc($execQuery)){
 
 				$object = new $this->CLASS_NAME();
@@ -358,7 +364,8 @@ class MysqlEntity
 		}
 		$query = 'SELECT COUNT(id) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		$myQuery = mysql_query($query) or die(mysql_error());
+		$myQuery = mysql_query($query);
+		if (FALSE===$myQuery) throw new Exception(mysql_error());
 		$number = mysql_fetch_array($myQuery);
 		return $number[0];
 	}	
