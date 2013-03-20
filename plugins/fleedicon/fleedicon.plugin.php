@@ -9,16 +9,17 @@
 */
 
 function fleedicon_plugin_AddFavicon(&$feed){
+	if(!file_exists(Plugin::path().'favicons/'))mkdir(Plugin::path().'favicons/');
 	$iconPath = Plugin::path().'favicons/'.$feed['id'].'.png';
 	if(!file_exists($iconPath)){
 		$url = $feed['url'];
 		if (strpos($url, 'http://')!==false) $url.= 'http://'.$url;
-		if(preg_match("#http\:\/\/([a-zA-Z-0-9\.\-]+)\/#", $url, $match)){
-			file_put_contents($iconPath,file_get_contents('http://www.google.com/s2/favicons?domain='.$match[1]),FILE_APPEND);
+		if(preg_match("#http(s)?\:\/\/([a-zA-Z-0-9\.\-]+)\/#", $url, $match)){
+			file_put_contents($iconPath,file_get_contents('http://g.etfv.co/'.'http'.$match[1].'://'.$match[2]),FILE_APPEND);
 		}
 	}
 
-	echo '<img class="favicon" src="'.$iconPath.'"/> ';
+	echo '<div class="favicon"><img src="'.$iconPath.'"/></div>';
 }
 
 
