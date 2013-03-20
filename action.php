@@ -196,16 +196,9 @@ switch ($_['action']){
 				."réimportés&nbsp;:</h3>\n<ul>\n";
 			foreach($opml->alreadyKnowns as $alreadyKnown) {
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
-				$maxLength = 80;
-				$delimiter = '...';
-				if (strlen($alreadyKnown->feedName)>$maxLength) {
-					$alreadyKnown->feedName =
-						substr($alreadyKnown->feedName, 0,
-							$maxLength-strlen($delimiter)
-						).$delimiter;
-				}
+				$text = Functions::truncate($alreadyKnown->feedName, 60);
 				echo "<li><a target='_parent' href='{$alreadyKnown->xmlUrl}'>"
-					."{$alreadyKnown->feedName}</a></li>\n";
+					."{$text}</a></li>\n";
 			}
 			echo "</ul>\n";
 		}
