@@ -310,8 +310,10 @@ switch ($_['action']){
 	break;
 
 	case 'readContent':
-		$event = $eventManager->load(array('id'=>$_['id']));
-		if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
+		if(isset($_['id'])){
+			$event = $eventManager->load(array('id'=>$_['id']));
+			if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
+		}
 	break;
 
 	case 'unreadContent':

@@ -89,11 +89,11 @@ if(e.which == keyCode['shift']) isMaj=false;
 /* Fonctions de séléctions */
 
 function targetPreviousEvent(){
-	targetThisEvent($('.eventSelected').prev(),true);
+	targetThisEvent($('.eventSelected').prev(':visible'),true);
 }
 function targetNextEvent(){
 
-	targetThisEvent($('.eventSelected').next(),true);
+	targetThisEvent($('.eventSelected').next(':visible'),true);
 }
 
 function targetThisEvent(event,focusOn){
