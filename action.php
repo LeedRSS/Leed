@@ -10,7 +10,7 @@ if(!ini_get('safe_mode')) @set_time_limit(0);
 require_once("common.php");
 
 
-Plugin::callHook("action_pre_case", array(&$_));
+Plugin::callHook("action_pre_case", array(&$_,$myUser));
 
 //Execution du code en fonction de l'action
 switch ($_['action']){
@@ -358,7 +358,7 @@ switch ($_['action']){
 	
 	default:
 		require_once("SimplePie.class.php");
-		Plugin::callHook("action_post_case", array(&$_));
+		Plugin::callHook("action_post_case", array(&$_,$myUser));
 		//exit('0');
 	break;
 }

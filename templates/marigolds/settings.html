@@ -10,23 +10,24 @@
 
 
 		<div id="main" class="wrapper clearfix">
-			<aside>
-				<h3>Options des flux</h3>
-				<ul>
-						
-						
-						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc,#main #manageBloc section').fadeToggle(200);">Gestion des flux</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins installés</li>
-						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
-						{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
-				</ul>
-			</aside>
-			
+			<div id="menuBar">
+				<aside>
+					<h3>Options des flux</h3>
+					<ul>
+							
+							
+							<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc,#main #manageBloc section').fadeToggle(200);">Gestion des flux</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins installés</li>
+							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
+							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
+					</ul>
+				</aside>
+			</div>
 			<article>
 				
 				

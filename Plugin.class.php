@@ -109,9 +109,12 @@ class Plugin{
 
 		function callHook($hookName, $hookArguments) {  
 			//echo '<div style="display:inline;background-color:#CC47CB;padding:3px;border:5px solid #9F1A9E;border-radius:5px;color:#ffffff;font-size:15px;">'.$hookName.'</div>';
+		   
 		    if(isset($GLOBALS['hooks'][$hookName])) { 
+
 		        foreach($GLOBALS['hooks'][$hookName] as $functionName) {  
 		            call_user_func_array($functionName, $hookArguments);  
+		           
 		        }  
 		    }  
 		} 
@@ -204,23 +207,30 @@ class Plugin{
 
 	function enabled($pluginUid){
 		$plugins = Plugin::getAll();
+
 		foreach($plugins as $plugin){
 			if($plugin->getUid()==$pluginUid){
-				
-				echo rename($plugin->getPath(),str_replace('.plugin.disabled.php', '.plugin.enabled.php', $plugin->getPath()));
+				rename($plugin->getPath(),str_replace('.plugin.disabled.php', '.plugin.enabled.php', $plugin->getPath()));
+				$install = dirname($plugin->getPath()).'/install.php';
+				if(file_exists($install))require_once($install);
 			}
 		}
-		Plugin::callHook("plugin_enabled", array($pluginUid));
+		
 	}
 	function disabled($pluginUid){
 		$plugins = Plugin::getAll();
 		foreach($plugins as $plugin){
 			if($plugin->getUid()==$pluginUid){
 				rename($plugin->getPath(),str_replace('.plugin.enabled.php', '.plugin.disabled.php', $plugin->getPath()));
+				$uninstall = dirname($plugin->getPath()).'/uninstall.php';
+				if(file_exists($uninstall))require_once($uninstall);
 			}
 		}
-		Plugin::callHook("plugin_enabled", array($pluginUid));
+		
 	}
+
+
+
 
 }
 

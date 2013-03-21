@@ -454,6 +454,7 @@ footer a,#main aside a{
 #main aside{
 	color:#ffffff;
 	padding:0px 2% 10px;
+	margin-bottom: 10px;
 }
 
 .underlink{
@@ -610,9 +611,9 @@ footer a,#main aside a{
 		width:64%;
 	}
 		
-	#main aside{
+	#main #menuBar{
 		float:right;
-		width:28%;
+		width:32%;
 	}
 }
 

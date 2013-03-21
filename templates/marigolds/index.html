@@ -16,6 +16,9 @@
 			<!-- MENU -->
 			<!--      -->
 
+			
+			<div id="menuBar">
+				{function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
 			<aside>
 				<!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
 				<h3 class="left">Flux</h3> <button style="margin: 20px 10px;" onclick="if(confirm('Tout marquer comme lu pour tous les flux?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
@@ -74,6 +77,8 @@
 				</ul>
 			</aside>
 
+			{function="Plugin::callHook("menu_post_folder_menu", array(&$myUser))"}
+			</div>
 			<!--          -->
 			<!-- ARTICLES -->
 			<!--          -->
