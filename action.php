@@ -335,6 +335,19 @@ switch ($_['action']){
 	
 	break;
 
+	case 'changePluginState':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		
+		if($_['state']=='0'){
+			Plugin::enabled($_['plugin']);
+
+		}else{
+			Plugin::disabled($_['plugin']);
+		}
+		header('location: ./settings.php#pluginBloc');
+	break;
+	
+
 	
 	case 'logout':
 		$_SESSION = array();

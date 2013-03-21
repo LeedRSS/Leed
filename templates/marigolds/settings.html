@@ -180,6 +180,7 @@
 							<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
 							<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
 							<li>{$value->getDescription()}</li>
+							<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?"Activer":"Désactiver"}</a></li>
 						</ul>
 					</li>
 					{/loop}

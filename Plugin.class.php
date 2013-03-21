@@ -8,14 +8,14 @@
 
 class Plugin{
 	const FOLDER = '/plugins';
-	protected $name,$author,$mail,$link,$licence,$path,$description,$version;
+	protected $name,$author,$mail,$link,$licence,$path,$description,$version,$state;
 
 	function __construct(){
 		
 	}
 
 	static function includeAll(){
-		$pluginFiles = Plugin::getFiles();
+		$pluginFiles = Plugin::getFiles(true);
 		if(is_array($pluginFiles)) {   
 			foreach($pluginFiles as $pluginFile) {  
 				include $pluginFile;  
@@ -52,7 +52,12 @@ class Plugin{
 			    if(preg_match("#@description\s(.+)[\r\n]#", $fileLines, $match))
 			     	$plugin->setDescription(trim($match[1]));
 			     
-
+			    if(strpos($pluginFile,'.plugin.enabled.php')!==false){
+			    	$plugin->setState(1);
+			    }else{
+			    	$plugin->setState(0);
+			    }
+			    $plugin->setPath($pluginFile);
 				$plugins[]=$plugin;
 			}  
 		}
@@ -111,8 +116,10 @@ class Plugin{
 		    }  
 		} 
 
-	static function getFiles(){
-		return glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.php');
+	static function getFiles($onlyActivated=false){
+		$files = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.enabled.php');
+		if(!$onlyActivated)$files = array_merge($files,glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php'));
+		return $files;
 	}
 
 	function getName(){
@@ -180,7 +187,40 @@ class Plugin{
 		$this->version = $version;
 	}
 
+	function getState(){
+		return $this->state;
+	}
 
+	function setState($state){
+		$this->state = $state;
+	}
+
+	function getUid(){
+		$pathInfo = explode('/',$this->getPath()); 
+		$count = count($pathInfo);
+		$name = $pathInfo[$count-1];
+		return $pathInfo[$count -2].'-'.substr($name,0,strpos($name,'.'));
+	}
+
+	function enabled($pluginUid){
+		$plugins = Plugin::getAll();
+		foreach($plugins as $plugin){
+			if($plugin->getUid()==$pluginUid){
+				
+				echo rename($plugin->getPath(),str_replace('.plugin.disabled.php', '.plugin.enabled.php', $plugin->getPath()));
+			}
+		}
+		Plugin::callHook("plugin_enabled", array($pluginUid));
+	}
+	function disabled($pluginUid){
+		$plugins = Plugin::getAll();
+		foreach($plugins as $plugin){
+			if($plugin->getUid()==$pluginUid){
+				rename($plugin->getPath(),str_replace('.plugin.enabled.php', '.plugin.disabled.php', $plugin->getPath()));
+			}
+		}
+		Plugin::callHook("plugin_enabled", array($pluginUid));
+	}
 
 }
 
