@@ -189,22 +189,21 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
-		echo "
-			<style>
-				a {
-					color:#F16529;
-				}
-			</style>
-\n";
+		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
+		<style>
+		a{
+			color: #F16529;
+		}
+		</style>';
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
 		echo "<h3>Importation</h3><p>En cours...</p>\n";
 		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
 		if (empty($errorOutput)) {
-			echo "<p style='color:blue'>L'import s'est déroulé sans problème.</p>\n";
+			echo "<p>L'import s'est déroulé sans problème.</p>\n";
 		} else {
-			echo "<p style='color:red'>Erreurs à l'importation!</p>\n";
+			echo "<p>Erreurs à l'importation!</p>\n";
 			foreach($errorOutput as $line) {
 				echo "<p>$line</p>\n";
 			}
