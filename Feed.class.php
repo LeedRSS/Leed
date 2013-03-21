@@ -121,7 +121,7 @@ class Feed extends MysqlEntity{
 			$events[] = $event;
 		}
 
-		$this->massiveInsert($events);
+		$eventManager->massiveInsert($events);
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
 		$this->save();
 		return true;
