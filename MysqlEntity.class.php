@@ -171,8 +171,8 @@ class MysqlEntity
 			$query .=';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		
-		mysql_query($query);
-		if (FALSE===$query) throw new Exception(mysql_error());
+		$result = mysql_query($query);
+		if (FALSE===$result) throw new Exception(mysql_error());
 	}
 
 	/**

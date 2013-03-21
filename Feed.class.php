@@ -39,6 +39,10 @@ class Feed extends MysqlEntity{
 		}
 	}
 
+	/*@TODO: déporter au niveau de l'affichage des décisions telles qu'indiquer
+	"Anonyme" quand il n'y a pas d'auteur ou bien fournir un extrait quand il
+	n'y a pas de description. De même pour les médias. */
+
 	function parse(){
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
@@ -70,12 +74,9 @@ class Feed extends MysqlEntity{
 			// Initialisation des informations de l'événement (élt. de flux)
 			$event = new Event();
 			$event->setGuid($item->get_id());
-// 			error_log('(56a7ezr) get_title()='.$item->get_title());
 			$event->setTitle($item->get_title());
 			$event->setPubdate($item->get_date());
 			$event->setCreator(
-				/*@TODO: la décision d'appeler "Anonyme" l'absence d'auteur
-				devrait être prise au moment de l'affichage. */
 				is_null($item->get_author())
 					? 'Anonyme'
 					: $item->get_author()->name
