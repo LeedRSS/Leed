@@ -95,9 +95,9 @@ class Feed extends MysqlEntity{
 
 
 
-					$event->setContent(html_entity_decode($item->get_content(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
-					$event->setDescription(html_entity_decode($item->get_description(), ENT_COMPAT, 'UTF-8').html_entity_decode($enclosure, ENT_COMPAT, 'UTF-8'));
 					
+					$event->setContent($item->get_content().$enclosure);
+					$event->setDescription($item->get_description().$enclosure);	
 				
 					if(trim($event->getDescription())=='')
 						$event->setDescription(substr($event->getContent(),0,300).'...<br><a href="'.$event->getLink().'">Lire la suite de l\'article</a>');
