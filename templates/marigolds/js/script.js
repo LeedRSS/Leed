@@ -17,6 +17,11 @@ keyCode['space'] = 32;
 $(document).ready(function(){
 
 	targetThisEvent($('article section:first'),true);
+	if($("input[name='articleDisplayContent']").length > 0){
+		$("input[name='articleDisplayContent']").click(function(){
+			toggleArticleView();
+		});
+	}
 
 });
 
@@ -272,4 +277,10 @@ function synchronize(code){
 	}else{
 		alert('Vous devez être connecté pour synchroniser vos flux');
 	}
+}
+
+// Active ou desactive inputs type affichage des events
+function toggleArticleView(){
+	var element = $("input[name=articleView]");
+	element.prop("disabled",!element.prop("disabled"));
 }
