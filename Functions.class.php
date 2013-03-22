@@ -302,6 +302,8 @@ class Functions
 		Source : http://php.net/manual/fr/function.flush.php
 	*/
 	public static function triggerDirectOutput() {
+		// La ligne de commande n'en a pas besoin.
+		if ('cli'==php_sapi_name()) return;
 		@apache_setenv('no-gzip', 1);
 		@ini_set('zlib.output_compression', 0);
 		@ini_set('implicit_flush', 1);

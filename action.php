@@ -9,32 +9,56 @@
 if(!ini_get('safe_mode')) @set_time_limit(0);
 require_once("common.php");
 
+///@TODO: déplacer dans common.php?
+$commandLine = 'cli'==php_sapi_name();
 
+if ($commandLine) {
+	$action = 'commandLine';
+} else {
+	$action = @$_['action'];
+}
+///@TODO: pourquoi ne pas refuser l'accès dès le début ?
+$syncCode = $configurationManager->get('synchronisationCode');
 
 //Execution du code en fonction de l'action
-switch ($_['action']){
-
+switch ($action){
+	case 'commandLine':
 	case 'synchronize':
-		Functions::triggerDirectOutput();
-	
-		/**/		
-		/* Vérifier que le client est autorisé à lancer la synchronisation :
-		- via ligne de commande,
-		- via compte connecté,
-		- via clé API.
+		/**@TODO: (peut-être)
+		- verrouiller la màj, du moins empêcher deux mises à jour concurrentes
+		  de se marcher dessus.
+		- possibilité de rendre le log cli moins verbeux, voire silencieux tant
+		  qu'il n'y a pas d'erreur.
+		- un log cli aussi pour l'accès cron via http.
+		- rendre moins moche les sorties textes avec les cas cli/non-cli. Mais
+		  d'abord attendre la stabilisation du rendu, l'interfaçage avec les
+		  templates.
+		- paralléliser les flux
+		- mode détaché optionnel : un processus/cron attend l'ordre de màj
 		*/
+	
+		// Au moins une méthode d'authentification doit fonctionner
+		switch(true) {
+			case false!=$myUser:
+			case @$_['code'] == $syncCode:
+			case $commandLine:
+				break;
+			default:
+				die('Vous devez vous connecter pour cette action.');
+		}
+		Functions::triggerDirectOutput();
+				
 		// On ne devrait pas mettre de style ici.
-		echo "
-			<style>
-				dd {
-					margin-bottom: 1em;
-				}
-				a {
-					color:#F16529;
-				}
-			</style>
-\n";
-		
+		if (!$commandLine)
+			echo "
+				<style>
+					dd {
+						margin-bottom: 1em;
+					}
+					a {
+						color:#F16529;
+					}
+				</style>\n";
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
@@ -44,7 +68,7 @@ switch ($_['action']){
 			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
 		}
-		echo "<dl>\n";
+		if (!$commandLine) echo "<dl>\n";
 		$nbErrors = 0;
 		$nbOk = 0;
 		$nbTotal = 0;
@@ -62,22 +86,38 @@ switch ($_['action']){
 			}
 			$feedName = $feed->getName();
 			$feedUrl = $feed->getUrl();
-			echo "<dt><a {$style} href='{$feedUrl}'>{$feedName}</a></dt>\n";
-			foreach($errors as $error) {
-				echo "<dd>$error</dd>\n";
+			if ($commandLine) {
+				echo date('d/m/Y H:i:s')." $feedName\n";
+				echo "$feedUrl\n";
+			} else {
+				echo "<dt><a {$style} href='{$feedUrl}'>{$feedName}</a></dt>\n";
 			}
+			foreach($errors as $error) {
+				if ($commandLine)
+					echo "$error\n";
+				else
+					echo "<dd>$error</dd>\n";
+			}
+			if ($commandLine) echo "\n";
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
 		}
 		assert('$nbTotal==$nbOk+$nbErrors');
-		echo "</dl>\n";
-		echo "<div id='syncSummary'\n";
-		echo "<p>Synchronisation terminée.</p>\n";
-		echo "<ul>\n";
-		echo "<li>{$nbErrors} erreur(s)\n";
-		echo "<li>{$nbOk} bon(s)\n";
-		echo "<li>{$nbTotal} au total\n";
-		echo "</ul>\n";
-		echo "</div>\n";
+		if ($commandLine) {
+			echo "Synchronisation terminée\n";
+			echo "\t{$nbErrors}\terreur(s)\n";
+			echo "\t{$nbOk}\tbon(s)\n";
+			echo "\t{$nbTotal}\tau total\n";
+		} else {
+			echo "</dl>\n";
+			echo "<div id='syncSummary'\n";
+			echo "<p>Synchronisation terminée.</p>\n";
+			echo "<ul>\n";
+			echo "<li>{$nbErrors} erreur(s)\n";
+			echo "<li>{$nbOk} bon(s)\n";
+			echo "<li>{$nbTotal} au total\n";
+			echo "</ul>\n";
+			echo "</div>\n";
+		}
 	break;
 
 
