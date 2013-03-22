@@ -41,7 +41,11 @@ class Feed extends MysqlEntity{
 
 	/*@TODO: déporter au niveau de l'affichage des décisions telles qu'indiquer
 	"Anonyme" quand il n'y a pas d'auteur ou bien fournir un extrait quand il
-	n'y a pas de description. De même pour les médias. */
+	n'y a pas de description. De même pour les médias.
+	@TODO: SimplePie remplace "é" par "&eacute;", il ne devrait pas le faire.
+	J'ai testé set_stupidly_fast(true) sans succès.
+	Il encadre les descriptions avec <div>, absents dans le source du flux.
+	*/
 
 	function parse(){
 		$feed = new SimplePie();
