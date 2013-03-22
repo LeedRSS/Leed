@@ -10,14 +10,10 @@ session_start();
 $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
-class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
-class_exists('Feed') or require_once('Feed.class.php');
-class_exists('Event') or require_once('Event.class.php');
-class_exists('Functions') or require_once('Functions.class.php');
-class_exists('User') or require_once('User.class.php');
-class_exists('Folder') or require_once('Folder.class.php');
-class_exists('Configuration') or require_once('Configuration.class.php');
-class_exists('Opml') or require_once('Opml.class.php');
+
+function __autoload($class_name) {
+    require_once ucfirst($class_name) . '.class.php';
+}
 
 //error_reporting(E_ALL);
 
