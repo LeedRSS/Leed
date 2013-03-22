@@ -14,7 +14,7 @@ class Plugin{
 		
 	}
 
-	static function includeAll(){
+	public static function includeAll(){
 		$pluginFiles = Plugin::getFiles(true);
 		if(is_array($pluginFiles)) {   
 			foreach($pluginFiles as $pluginFile) {  
@@ -23,7 +23,7 @@ class Plugin{
 		}  
 	}
 
-	static function getAll(){
+	public static function getAll(){
 		$pluginFiles = Plugin::getFiles(); 
 		$plugins = array();
 		if(is_array($pluginFiles)) {   
@@ -61,21 +61,25 @@ class Plugin{
 				$plugins[]=$plugin;
 			}  
 		}
+
+		usort($plugins, "Plugin::sortPlugin");
+
 		return $plugins;
 	}
 
+	
 
-		function addHook($hookName, $functionName) {  
+		public static function addHook($hookName, $functionName) {  
 		    $GLOBALS['hooks'][$hookName][] = $functionName;  
 		} 
 
-		function addCss($css) {  
+		public static function addCss($css) {  
 			$bt =  debug_backtrace();
 			$path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$css));
 		    $GLOBALS['hooks']['css_files'][] = $path;  
 		}
 
-		function callCss() {  
+		public static function callCss(){
 			$return='';
 		    if(isset($GLOBALS['hooks']['css_files'])) { 
 		        foreach($GLOBALS['hooks']['css_files'] as $css_file) {  
@@ -91,13 +95,13 @@ class Plugin{
 			return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/'; 
 		}
 
-		function addJs($js) {  
+		public static function addJs($js) {  
 			$bt =  debug_backtrace();
 			$path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$js));
 		    $GLOBALS['hooks']['js_files'][] = $path;  
 		}
 
-		function callJs() {  
+		public static function callJs(){
 			$return='';
 		    if(isset($GLOBALS['hooks']['js_files'])) { 
 		        foreach($GLOBALS['hooks']['js_files'] as $js_file) {  
@@ -107,19 +111,16 @@ class Plugin{
 		    return $return;
 		}
 
-		function callHook($hookName, $hookArguments) {  
+		public static function callHook($hookName, $hookArguments) {  
 			//echo '<div style="display:inline;background-color:#CC47CB;padding:3px;border:5px solid #9F1A9E;border-radius:5px;color:#ffffff;font-size:15px;">'.$hookName.'</div>';
-		   
 		    if(isset($GLOBALS['hooks'][$hookName])) { 
-
 		        foreach($GLOBALS['hooks'][$hookName] as $functionName) {  
 		            call_user_func_array($functionName, $hookArguments);  
-		           
 		        }  
 		    }  
 		} 
 
-	static function getFiles($onlyActivated=false){
+	public static function getFiles($onlyActivated=false){
 		$files = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.enabled.php');
 		if(!$onlyActivated)$files = array_merge($files,glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php'));
 		return $files;
@@ -205,7 +206,7 @@ class Plugin{
 		return $pathInfo[$count -2].'-'.substr($name,0,strpos($name,'.'));
 	}
 
-	function enabled($pluginUid){
+	public static function enabled($pluginUid){
 		$plugins = Plugin::getAll();
 
 		foreach($plugins as $plugin){
@@ -217,7 +218,7 @@ class Plugin{
 		}
 		
 	}
-	function disabled($pluginUid){
+	public static function disabled($pluginUid){
 		$plugins = Plugin::getAll();
 		foreach($plugins as $plugin){
 			if($plugin->getUid()==$pluginUid){
@@ -229,7 +230,12 @@ class Plugin{
 		
 	}
 
-
+	static function sortPlugin($a, $b){
+		if ($a->getName() == $b->getName()) 
+        return 0;
+	    
+	    return ($a->getName() < $b->getName()) ? -1 : 1;
+	}
 
 
 }
