@@ -213,12 +213,12 @@ function renameFeed(element,feed){
 
 function saveRenameFeed(element,feed,url){
 	var feedLine = $(element).parent().parent();
-	var feedNameCase = $('td:first',feedLine);
-	var value = $('input',feedNameCase).val();
+	var feedNameCase = $('td:first input',feedLine);
+	var value = feedNameCase.val();
 	$(element).html('Renommer');
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFeed(this,'+feed+')');
-	feedNameCase.replaceWith('<td><a href="'+url+'">'+value+'</a></td>');
+	feedNameCase.replaceWith('<a href="'+url+'">'+value+'</a>');
 	$.ajax({
 				  url: "./action.php?action=renameFeed",
 				  data:{id:feed,name:value}
