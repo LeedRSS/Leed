@@ -24,6 +24,8 @@ class Feed extends MysqlEntity{
 		'folder'=>'integer'
 	);
 
+	protected $error = '';
+	
 	function __construct($name=null,$url=null){
 		$this->name = $name;
 		$this->url = $url;
@@ -39,6 +41,8 @@ class Feed extends MysqlEntity{
 		}
 	}
 
+	function getError() { return $this->error; }
+	
 	/*@TODO: déporter au niveau de l'affichage des décisions telles qu'indiquer
 	"Anonyme" quand il n'y a pas d'auteur ou bien fournir un extrait quand il
 	n'y a pas de description. De même pour les médias.
@@ -51,7 +55,12 @@ class Feed extends MysqlEntity{
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
-		$feed->init(); // advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
+		if (!$feed->init()) {
+			$this->error = $feed->error;
+			return false;
+		}
+
+		// advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
 		// You probably want to check if $feed->error; isn't NULL after https://github.com/ldleman/Leed/blob/master/Feed.class.php#L50
 		$feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
 

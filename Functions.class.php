@@ -298,5 +298,16 @@ class Functions
 		return $allFiles;
 	}
 
+	/** Permet la sortie directe de texte à l'écran, sans tampon.
+		Source : http://php.net/manual/fr/function.flush.php
+	*/
+	public static function triggerDirectOutput() {
+		@apache_setenv('no-gzip', 1);
+		@ini_set('zlib.output_compression', 0);
+		@ini_set('implicit_flush', 1);
+		for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
+		ob_implicit_flush(1);
+	}
+
 }
 ?>

@@ -15,19 +15,26 @@ require_once("common.php");
 switch ($_['action']){
 
 	case 'synchronize':
-		//* Idée à garder pour forcer la sortie. À mettre dans une lib ?
-		http://php.net/manual/fr/function.flush.php
-	    @apache_setenv('no-gzip', 1);
-		@ini_set('zlib.output_compression', 0);
-		@ini_set('implicit_flush', 1);
-		for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
-		ob_implicit_flush(1);
+		Functions::triggerDirectOutput();
+	
 		/**/		
 		/* Vérifier que le client est autorisé à lancer la synchronisation :
 		- via ligne de commande,
 		- via compte connecté,
 		- via clé API.
 		*/
+		// On ne devrait pas mettre de style ici.
+		echo "
+			<style>
+				dd {
+					margin-bottom: 1em;
+				}
+				a {
+					color:#F16529;
+				}
+			</style>
+\n";
+		
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
@@ -36,13 +43,41 @@ switch ($_['action']){
 		}else{
 			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
-		}	
+		}
+		echo "<dl>\n";
+		$nbErrors = 0;
+		$nbOk = 0;
+		$nbTotal = 0;
 		foreach ($feeds as $feed) {
-			$feed->parse();
-			echo '<p>- '.$feed->getName()."</p>\n";
+			$nbTotal++;
+			if ($feed->parse()) { // It's ok
+				$errors = array();
+				$style = '';
+				$nbOk++;
+			} else {
+				// tableau au cas où il arrive plusieurs erreurs
+				$errors = array($feed->getError());
+				$style = 'style="font-weight:bold" ';
+				$nbErrors++;
+			}
+			$feedName = $feed->getName();
+			$feedUrl = $feed->getUrl();
+			echo "<dt><a {$style} href='{$feedUrl}'>{$feedName}</a></dt>\n";
+			foreach($errors as $error) {
+				echo "<dd>$error</dd>\n";
+			}
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
 		}
-
+		assert('$nbTotal==$nbOk+$nbErrors');
+		echo "</dl>\n";
+		echo "<div id='syncSummary'\n";
+		echo "<p>Synchronisation terminée.</p>\n";
+		echo "<ul>\n";
+		echo "<li>{$nbErrors} erreur(s)\n";
+		echo "<li>{$nbOk} bon(s)\n";
+		echo "<li>{$nbTotal} au total\n";
+		echo "</ul>\n";
+		echo "</div>\n";
 	break;
 
 
@@ -167,6 +202,7 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
+		// On ne devrait pas mettre de style ici.
 		echo "
 			<style>
 				a {
