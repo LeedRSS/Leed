@@ -125,7 +125,51 @@ class Event extends MysqlEntity{
 	}
 
 	function getContent(){
-		return $this->content;
+		
+		$tags_to_encode = array('code', 'pre');
+		
+		foreach ($tags_to_encode as $tag) {
+			$this->parseTagEntities($tag, $tags_to_encode);
+		}
+		
+		return $this->content; 
+	}	
+	
+	function parseTagEntities($tag, $tags_to_ignore) {
+		$segments = preg_split('/(<\/?' . $tag . '>)/', $this->content, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$depth = 0;
+		foreach ($segments as &$segment) {
+			if ($segment == '<' . $tag . '>') {
+				$depth++;
+			} else if ($depth > 0 && $segment == '</' . $tag . '>') {
+				$depth--;
+			}
+			if (!in_array($segment, array('<' . $tag . '>', '</' . $tag . '>')) && $depth > 0) {
+				
+				// Gestion de l'imbrication des tags
+				
+				//Remplacement temporaire des tags ouvrant / fermant à ignorer
+				foreach ($tags_to_ignore as $tag_ignored) {
+					$segment = str_replace('<' . $tag_ignored . '>', '[[[' . $tag_ignored . ']]]', $segment);
+					$segment = str_replace('</' . $tag_ignored . '>', '[[[/' . $tag_ignored . ']]]', $segment);
+				}
+				
+				// Entités HTML sur les chevrons des balises situés dans le tag à parser
+				$segment = str_replace(
+					array('<', '>'), 
+					array('&lt;', '&gt;'),
+					$segment
+				);
+				
+				// Rétablissement des tags ouvrant / fermant à ignorer
+				foreach ($tags_to_ignore as $tag_ignored) {
+					$segment = str_replace('[[[' . $tag_ignored . ']]]', '<' . $tag_ignored . '>', $segment);
+					$segment = str_replace('[[[/' . $tag_ignored . ']]]', '</' . $tag_ignored . '>', $segment);
+				}
+			}
+		}
+
+		$this->content = implode($segments);
 	}
 
 	function setContent($content,$encoding=true){
@@ -162,5 +206,4 @@ class Event extends MysqlEntity{
 	}
 
 }
-
 ?>
