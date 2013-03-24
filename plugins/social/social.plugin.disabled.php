@@ -14,5 +14,5 @@ function Social_plugin_AddButton(&$link){
 }
 
 // Ajout de la fonction au Hook situé avant l'affichage des évenements
-Plugin::addHook("post_event_content", "Social_plugin_AddButton");  
+Plugin::addHook("event_post_top_options", "Social_plugin_AddButton");  
 ?>
