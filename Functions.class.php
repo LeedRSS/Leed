@@ -143,7 +143,7 @@ class Functions
 	 * @return<String> chaine tronquée
 	 */
 	public static function truncate($msg,$limit){
-		$msg = utf8_encode(html_entity_decode($msg));
+		$msg = html_entity_decode($msg);
 		if(strlen($msg)>$limit){
 			$nb=$limit-3 ;
 			$fin='...' ;
