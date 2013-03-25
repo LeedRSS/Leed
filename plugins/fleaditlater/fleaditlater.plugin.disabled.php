@@ -9,7 +9,12 @@
 */
 
 function fleaditlater_plugin_AddButton(&$event){
-	echo '<div  onclick="fleadItLater('.$event->getId().',\'add\',this);" class="fleaditLaterButton">Lire + Tard</div>';
+	$eventId = $event->getId();
+	$count = mysql_query('SELECT COUNT(id) FROM '.MYSQL_PREFIX.'plugin_feaditlater WHERE event='.$eventId);
+	$count = mysql_fetch_row($count);
+	if(!$count[0]){
+		echo '<div  onclick="fleadItLater('.$eventId.',\'add\',this);" class="fleaditLaterButton">Lire + Tard</div>';
+	}
 }
 
 function fleaditlater_plugin_displayEvents(&$myUser){
