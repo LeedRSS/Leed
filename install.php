@@ -43,6 +43,7 @@ foreach($_ as $key=>&$val){
 	<script src="templates/marigolds/js/libs/jqueryAndModernizr.min.js"></script>
 </head>
 <body>
+<div class="global-wrapper">
 	<div id="header-container">
 		<header class="wrapper clearfix">
 			<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
@@ -309,6 +310,7 @@ if(isset($_['installButton'])){
 			<p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
 		</footer>
 	</div>
+</div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
