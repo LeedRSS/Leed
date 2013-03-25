@@ -6832,6 +6832,7 @@ class SimplePie_File
 			{
 				$this->method = SIMPLEPIE_FILE_SOURCE_REMOTE | SIMPLEPIE_FILE_SOURCE_CURL;
 				$fp = curl_init();
+
 				$headers2 = array();
 				foreach ($headers as $key => $value)
 				{
@@ -6849,6 +6850,7 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_REFERER, $url);
 				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
+				curl_setopt($fp, CURLOPT_SSL_VERIFYPEER, false); /* AJOUT LEED GESTION HTTPS */
 				if (!ini_get('open_basedir') && !ini_get('safe_mode') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
 				{
 					curl_setopt($fp, CURLOPT_FOLLOWLOCATION, 1);

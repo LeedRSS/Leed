@@ -17,6 +17,11 @@ keyCode['space'] = 32;
 $(document).ready(function(){
 
 	targetThisEvent($('article section:first'),true);
+	if($("input[name='articleDisplayContent']").length > 0){
+		$("input[name='articleDisplayContent']").click(function(){
+			toggleArticleView();
+		});
+	}
 
 });
 
@@ -89,11 +94,11 @@ if(e.which == keyCode['shift']) isMaj=false;
 /* Fonctions de séléctions */
 
 function targetPreviousEvent(){
-	targetThisEvent($('.eventSelected').prev(),true);
+	targetThisEvent($('.eventSelected').prev(':visible'),true);
 }
 function targetNextEvent(){
 
-	targetThisEvent($('.eventSelected').next(),true);
+	targetThisEvent($('.eventSelected').next(':visible'),true);
 }
 
 function targetThisEvent(event,focusOn){
@@ -208,12 +213,12 @@ function renameFeed(element,feed){
 
 function saveRenameFeed(element,feed,url){
 	var feedLine = $(element).parent().parent();
-	var feedNameCase = $('td:first',feedLine);
-	var value = $('input',feedNameCase).val();
+	var feedNameCase = $('td:first input',feedLine);
+	var value = feedNameCase.val();
 	$(element).html('Renommer');
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFeed(this,'+feed+')');
-	feedNameCase.replaceWith('<td><a href="'+url+'">'+value+'</a></td>');
+	feedNameCase.replaceWith('<a href="'+url+'">'+value+'</a>');
 	$.ajax({
 				  url: "./action.php?action=renameFeed",
 				  data:{id:feed,name:value}
@@ -272,4 +277,10 @@ function synchronize(code){
 	}else{
 		alert('Vous devez être connecté pour synchroniser vos flux');
 	}
+}
+
+// Active ou desactive inputs type affichage des events
+function toggleArticleView(){
+	var element = $("input[name=articleView]");
+	element.prop("disabled",!element.prop("disabled"));
 }

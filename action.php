@@ -216,9 +216,14 @@ switch ($action){
 
 	case 'importForm':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
-		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
+		echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
+				<body style="height:auto;">
+					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
 					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
-					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p></form>
+					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
+					</form>
+				</body>
+			</html>
 				
 			';
 	break;
@@ -260,9 +265,9 @@ switch ($action){
 			$errorOutput = array($e->getMessage());
 		}
 		if (empty($errorOutput)) {
-			echo "<p style='color:blue'>L'import s'est déroulé sans problème.</p>\n";
+			echo "<p>L'import s'est déroulé sans problème.</p>\n";
 		} else {
-			echo "<p style='color:red'>Erreurs à l'importation!</p>\n";
+			echo "<p>Erreurs à l'importation!</p>\n";
 			foreach($errorOutput as $line) {
 				echo "<p>$line</p>\n";
 			}
@@ -361,8 +366,10 @@ switch ($action){
 	break;
 
 	case 'readContent':
-		$event = $eventManager->load(array('id'=>$_['id']));
-		if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
+		if(isset($_['id'])){
+			$event = $eventManager->load(array('id'=>$_['id']));
+			if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
+		}
 	break;
 
 	case 'unreadContent':

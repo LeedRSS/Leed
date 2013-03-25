@@ -52,14 +52,14 @@ svg:not(:root) { overflow: hidden; }
 figure { margin: 0; }
 
 form { margin: 0; }
-fieldset { border: 0; margin: 0; padding: 0; }
+fieldset { border: 1px solid #CCCCCC; margin: 0; padding: 5px; }
 label { cursor: pointer; }
-legend { border: 0; *margin-left: -7px; padding: 0; white-space: normal; }
+legend { border: 0; *margin-left: -7px; padding: 5px; white-space: normal; }
 button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
 button, input { line-height: normal; }
 button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; *overflow: visible; }
 button[disabled], input[disabled] { cursor: default; }
-input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; *width: 13px; *height: 13px; }
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; margin: 0 5px 0 10px; padding: 0; *width: 13px; *height: 13px; }
 input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
 input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
 button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
@@ -184,9 +184,11 @@ header a,header a:hover,header a:visited{
 	padding:3px 8px 3px 8px;
 	font-size:10px;
 	font-weight:bold;
-	-moz-border-radius: 30px;
-	-webkit-border-radius: 30px;
-	border-radius: 30px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	min-width: 35px;
+	text-align: center;
 }
 
 .readUnreadButton{
@@ -210,8 +212,9 @@ header a,header a:hover,header a:visited{
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	min-width:20px;
+	min-width:55px;
 	display:block;
+	text-align: center;
 	float:right;
 }
 
@@ -411,7 +414,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article section.eventHightLighted{
-	background-color: #F9F9F9;
+	background-color: #F1F1F1;
 }
 #main article section.eventSelected{
 	box-shadow: 0 0 20px 0 #C2C2C2;
@@ -458,7 +461,7 @@ footer a,#main aside a{
 
 #main aside{
 	color:#ffffff;
-	padding:0px 2% 10px;
+	padding:0px 1% 10px;
 }
 
 .underlink{
@@ -591,7 +594,7 @@ footer a,#main aside a{
 
 	#main article{
 		float:left;
-		width:64%;
+		width:67%;
 	}
 		
 	#main aside{

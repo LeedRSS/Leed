@@ -147,7 +147,7 @@ class Functions
 			$fin='…' ;
 			$nb=$limit-mb_strlen($fin) ;
 		}else{
-			$nb=strlen($msg);
+			$nb=mb_strlen($msg);
 			$fin='';
 		}
 		return mb_substr($msg, 0, $nb).$fin;
