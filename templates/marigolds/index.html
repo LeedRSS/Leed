@@ -44,10 +44,10 @@
 								{if="count($feeds)!=0"}
 									{loop="feeds"}
 										<li> 
-											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{$value2['name']} </a>
+											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
 
 											{if="isset($unread[$value2['id']])"}  
-											<button style="margin-left:10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
 												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}

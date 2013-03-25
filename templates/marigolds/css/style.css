@@ -184,9 +184,11 @@ header a,header a:hover,header a:visited{
 	padding:3px 8px 3px 8px;
 	font-size:10px;
 	font-weight:bold;
-	-moz-border-radius: 30px;
-	-webkit-border-radius: 30px;
-	border-radius: 30px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	min-width: 35px;
+	text-align: center;
 }
 
 .readUnreadButton{
@@ -210,8 +212,9 @@ header a,header a:hover,header a:visited{
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	min-width:20px;
+	min-width:55px;
 	display:block;
+	text-align: center;
 	float:right;
 }
 
@@ -458,7 +461,7 @@ footer a,#main aside a{
 
 #main aside{
 	color:#ffffff;
-	padding:0px 2% 10px;
+	padding:0px 1% 10px;
 }
 
 .underlink{
@@ -591,7 +594,7 @@ footer a,#main aside a{
 
 	#main article{
 		float:left;
-		width:64%;
+		width:67%;
 	}
 		
 	#main aside{
