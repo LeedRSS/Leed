@@ -299,7 +299,7 @@ switch ($_['action']){
 	case 'renameFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$feedManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
+			$feedManager->change(array('name'=>$_['name'],'url'=>$_['url']),array('id'=>$_['id']));
 		}
 	break;
 
