@@ -16,10 +16,13 @@
 			<!-- MENU -->
 			<!--      -->
 
+			
+			<div id="menuBar">
+				{function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
 			<aside>
 				<!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
 				<h3 class="left">Flux</h3> <button style="margin: 20px 10px;" onclick="if(confirm('Tout marquer comme lu pour tous les flux?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
-				
+				{function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
 				<ul class="clear">
 					
 						
@@ -34,23 +37,28 @@
 						  	{if="isset($allEvents[$value->getId()])"}
 						  		{$unreadEventsForFolder=$allEvents[$value->getId()]}
 						  	{/if}
-
 				
 					<!-- DOSSIER -->
-					<li><h1 class="folder"><a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}</h1>
+					<li>
+
+						<h1 class="folder">
+							{function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
+							<a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}
+							{function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
+						</h1>
 						<!-- FLUX DU DOSSIER -->
 						<ul {if="!$value->getIsopen()"}style="display:none;"{/if}>
 							 
 								{if="count($feeds)!=0"}
 									{loop="feeds"}
 										<li> 
-											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
-
+											{function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
 											{if="isset($unread[$value2['id']])"}  
 											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
 												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}
+											{function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
 										</li>
 									{/loop}
 								{/if}
@@ -66,6 +74,8 @@
 				</ul>
 			</aside>
 
+			{function="Plugin::callHook("menu_post_folder_menu", array(&$myUser))"}
+			</div>
 			<!--          -->
 			<!-- ARTICLES -->
 			<!--          -->
@@ -118,10 +128,13 @@
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
+							{function="Plugin::callHook("event_pre_title", array(&$value))"}
 							<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a> 
+							{function="Plugin::callHook("event_post_title", array(&$value))"}
 						</h2>
 						<!-- DETAILS + OPTIONS -->
 						<h3 class="articleDetails">
+							{function="Plugin::callHook("event_pre_top_options", array(&$value))"}
 							{if="$articleDisplayLink"}
 								<a href="{$value->getLink()}" target="_blank">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
 							{/if}
@@ -139,15 +152,20 @@
 							{if="$shareOption!=false"} <a title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&title='.$value->getTitle().'&amp;source=bookmarklet'}">Shaare</a>
 							{/if}
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
+							 {function="Plugin::callHook("event_post_top_options", array(&$value))"}
 						</h3>
 
 						<!-- CONTENU/DESCRIPTION -->
 						{if="$articleDisplayContent"}
 						<div class="articleContent">
 							{if="$articleView=='partial'"}
+								{function="Plugin::callHook("event_pre_description", array(&$value))"}
 								{$value->getDescription()}
+								{function="Plugin::callHook("event_post_description", array(&$value))"}
 							{else}
+								{function="Plugin::callHook("event_pre_content", array(&$value))"}
 								{$value->getContent()}
+								{function="Plugin::callHook("event_post_content", array(&$value))"}
 							{/if}
 						</div> 
 						{/if}
@@ -156,7 +174,7 @@
 						{if="$articleView!='partial'"}
 						<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
 						<h3 class="articleDetails">
-							
+							{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
 							{if="$shareOption!=false"} <a title="partager sur shaarli" target="_blank" href="{$shareOption.'/?post='.rawurlencode($value->getLink()).'&amp;title='.$value->getTitle().'&amp;source=bookmarklet'}">Shaare</a> 
 							{/if}
 							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
@@ -165,6 +183,7 @@
 							 <a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  
 							 {/if}
 							 <div class="clear"></div>
+							 {function="Plugin::callHook("event_post_bottom_options", array(&$value))"}
 						</h3>
 						{/if}
 

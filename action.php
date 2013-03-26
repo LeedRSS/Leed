@@ -10,6 +10,7 @@ if(!ini_get('safe_mode')) @set_time_limit(0);
 require_once("common.php");
 
 
+Plugin::callHook("action_pre_case", array(&$_,$myUser));
 
 //Execution du code en fonction de l'action
 switch ($_['action']){
@@ -359,6 +360,19 @@ switch ($_['action']){
 	
 	break;
 
+	case 'changePluginState':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		
+		if($_['state']=='0'){
+			Plugin::enabled($_['plugin']);
+
+		}else{
+			Plugin::disabled($_['plugin']);
+		}
+		header('location: ./settings.php#pluginBloc');
+	break;
+	
+
 	
 	case 'logout':
 		$_SESSION = array();
@@ -368,7 +382,9 @@ switch ($_['action']){
 	break;
 	
 	default:
-		exit('0');
+		require_once("SimplePie.class.php");
+		Plugin::callHook("action_post_case", array(&$_,$myUser));
+		//exit('0');
 	break;
 }
 
