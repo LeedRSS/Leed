@@ -131,8 +131,6 @@ if(isset($_['installButton'])){
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
 	$configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
-	$configurationManager->add('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
-	$configurationManager->add('plugin_shaarli_link',$_['plugin_shaarli_link']);
 	$configurationManager->add('synchronisationType',$_['synchronisationType']);
 	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 	
@@ -285,12 +283,7 @@ if(isset($_['installButton'])){
 					
 				</section>
 
-				<section>
-					<h2>Options</h2>
-					<p><input onchange="$('.shaarliBlock').slideToggle(200);" type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli<a></p>
-					<p class="shaarliBlock" style="display:none;">Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" name="plugin_shaarli_link"></p>
-					<h3 class="articleDetails">Nb: cette option affichera un bouton à coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de liens shaarli.</h3>
-				</section>
+	
 
 
 				<button name="installButton">Lancer l'installation</button>

@@ -104,12 +104,7 @@
 					
 					</section>
 
-					<section>
-						<h2>Options</h2>
-						<p><input onchange="$('.shaarliBlock').slideToggle(200);" {if="$configurationManager->get('plugin_shaarli')=='1'"} checked="checked" {/if} type="checkbox" id="plugin_shaarli" name="plugin_shaarli" /> <label for="plugin_shaarli">Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli</a></label></p>
-						<p class="shaarliBlock" {if="$configurationManager->get('plugin_shaarli')!='1'"}style="display:none;"{/if}><label for="plugin_shaarli_link">Lien vers votre shaarli :</label> <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" value="{$configurationManager->get('plugin_shaarli_link')}" id="plugin_shaarli_link" name="plugin_shaarli_link" /></p>
-						<h3>Nb: cette option affichera un bouton à côté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de liens shaarli.</h3>
-					</section>
+			
 
 
 					<button name="installButton">Enregistrer</button>
