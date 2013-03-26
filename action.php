@@ -19,6 +19,7 @@ if ($commandLine) {
 }
 ///@TODO: pourquoi ne pas refuser l'accès dès le début ?
 $syncCode = $configurationManager->get('synchronisationCode');
+Plugin::callHook("action_pre_case", array(&$_,$myUser));
 
 //Execution du code en fonction de l'action
 switch ($action){
@@ -351,7 +352,7 @@ switch ($action){
 	case 'renameFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$feedManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
+			$feedManager->change(array('name'=>$_['name'],'url'=>$_['url']),array('id'=>$_['id']));
 		}
 	break;
 
@@ -411,6 +412,19 @@ switch ($action){
 	
 	break;
 
+	case 'changePluginState':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		
+		if($_['state']=='0'){
+			Plugin::enabled($_['plugin']);
+
+		}else{
+			Plugin::disabled($_['plugin']);
+		}
+		header('location: ./settings.php#pluginBloc');
+	break;
+	
+
 	
 	case 'logout':
 		$_SESSION = array();
@@ -420,7 +434,9 @@ switch ($action){
 	break;
 	
 	default:
-		exit('0');
+		require_once("SimplePie.class.php");
+		Plugin::callHook("action_post_case", array(&$_,$myUser));
+		//exit('0');
 	break;
 }
 

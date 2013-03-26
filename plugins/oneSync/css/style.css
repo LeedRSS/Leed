@@ -1,0 +1,9 @@
+.onsyncButton{
+	background-color: #11ABC6;
+    border: 0 none;
+    border-radius: 30px 30px 30px 30px;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 8px;
+}

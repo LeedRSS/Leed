@@ -10,22 +10,24 @@
 
 
 		<div id="main" class="wrapper clearfix">
-			<aside>
-				<h3>Options des flux</h3>
-				<ul>
-						
-						
-						<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc,#main #manageBloc section').fadeToggle(200);">Gestion des flux</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
-						<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-						<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
-						
-				</ul>
-			</aside>
-			
+			<div id="menuBar">
+				<aside>
+					<h3>Options des flux</h3>
+					<ul>
+							
+							
+							<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc,#main #manageBloc section').fadeToggle(200);">Gestion des flux</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins disponibles</li>
+							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
+							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
+					</ul>
+				</aside>
+			</div>
 			<article>
 				
 				
@@ -192,7 +194,31 @@
 
 
 				
+				<section id="pluginBloc">
+					<h2>Plugins :</h2>
+					<p>Voiçi la liste des plugins installés :</p>
+					{if="$myUser!=false"}
 
+					<ul class="pluginList">
+					{loop="$plugins"}
+					<li>
+						<ul>
+							<li><h4>Nom: </h4>{$value->getName()}</li>
+							<li><h4>Auteur: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
+							<li><h4>Licence: </h4>{$value->getLicence()}</li>
+							<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
+							<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+							<li>{$value->getDescription()}</li>
+							<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?"Activer":"Désactiver"}</a></li>
+						</ul>
+					</li>
+					{/loop}
+					</ul>
+
+					{else}
+					<p>Vous devez être connecté pour voir les plugins.</p>
+					{/if}
+				</section>
 
 				
 
@@ -218,7 +244,7 @@
 					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
 				</section>
 
-				
+				{function="Plugin::callHook("setting_post_section", array(&$myUser))"}
 				
 				<form action="action.php?action=exportFeed" method="POST">
 				<section id="exportBloc">

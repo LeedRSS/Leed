@@ -1,0 +1,20 @@
+
+.fleaditLaterButton {
+	 background-color: #F16529;
+    border: 0 none;
+    border-radius: 30px 30px 30px 30px;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 5px 5px 5px 5px;
+    line-height: 20px;
+    cursor: pointer;
+     float: right;
+     margin-right: 5px;
+}
+
+
+#main aside.fleaditLaterMenu{
+	background-color: #3C3C3C;
+}

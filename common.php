@@ -11,6 +11,7 @@ mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
+class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
@@ -19,6 +20,7 @@ class_exists('User') or require_once('User.class.php');
 class_exists('Folder') or require_once('Folder.class.php');
 class_exists('Configuration') or require_once('Configuration.class.php');
 class_exists('Opml') or require_once('Opml.class.php');
+
 
 //error_reporting(E_ALL);
 
@@ -65,4 +67,8 @@ $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 
 $tpl->assign('_',$_);
 $tpl->assign('action','');
+
+//Inclusion des plugins  
+Plugin::includeAll();
+
 ?>

@@ -8,6 +8,9 @@
 
 require_once('header.php'); 
 
+
+Plugin::callHook("index_pre_treatment", array(&$_));
+
 //Récuperation de l'action (affichage) demandée
 $action = (isset($_['action'])?$_['action']:'');
 $tpl->assign('action',$action);
@@ -144,6 +147,7 @@ $pagesArray = array();
 					break;
 				}
 
+				Plugin::callHook("index_post_treatment", array(&$events));
 				$tpl->assign('events',$events);
 				$tpl->assign('time',$_SERVER['REQUEST_TIME']);
 				$tpl->assign('hightlighted',0);

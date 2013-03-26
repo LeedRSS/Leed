@@ -17,7 +17,7 @@ keyCode['space'] = 32;
 $(document).ready(function(){
 
 	targetThisEvent($('article section:first'),true);
-	if($("input[name='articleDisplayContent']").length > 0){
+	if($("input[name='articleDisplayContent']").length){
 		$("input[name='articleDisplayContent']").click(function(){
 			toggleArticleView();
 		});
@@ -202,30 +202,33 @@ function saveRenameFolder(element,folder){
 function renameFeed(element,feed){
 	var feedLine = $(element).parent().parent();
 	var feedNameCase = $('td:first a',feedLine);
-	var feedUrlCase = $('td:first span',feedLine).html();
+	var feedNameValue = feedNameCase.html();
+	var feedUrlCase = $('td:first span',feedLine);
+	var feedUrlValue = feedUrlCase.html();
 	var url = feedNameCase.attr('href');
-	var value = feedNameCase.html();
 	$(element).html('Enregistrer');
 	$(element).attr('style','background-color:#0C87C9;');
 	$(element).attr('onclick','saveRenameFeed(this,'+feed+',"'+url+'")');
-	feedNameCase.replaceWith('<input type="text" name="feedName" value="'+value+'"/>');
+	feedNameCase.replaceWith('<input type="text" name="feedName" value="'+feedNameValue+'" size="25" />');
+	feedUrlCase.replaceWith('<input type="text" name="feedUrl" value="'+feedUrlValue+'" size="25" />');
 }
 
 function saveRenameFeed(element,feed,url){
 	var feedLine = $(element).parent().parent();
-	var feedNameCase = $('td:first input',feedLine);
-	var value = feedNameCase.val();
+	var feedNameCase = $('td:first input[name="feedName"]',feedLine);
+	var feedNameValue = feedNameCase.val();
+	var feedUrlCase = $('td:first input[name="feedUrl"]',feedLine);
+	var feedUrlValue = feedUrlCase.val();
 	$(element).html('Renommer');
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFeed(this,'+feed+')');
-	feedNameCase.replaceWith('<a href="'+url+'">'+value+'</a>');
+	feedNameCase.replaceWith('<a href="'+url+'">'+feedNameValue+'</a>');
+	feedUrlCase.replaceWith('<span class="underlink">'+feedUrlValue+'</span>');
 	$.ajax({
 				  url: "./action.php?action=renameFeed",
-				  data:{id:feed,name:value}
+				  data:{id:feed,name:feedNameValue,url:feedUrlValue}
 	});
 }
-
-
 
 
 function changeFeedFolder(element,id){
