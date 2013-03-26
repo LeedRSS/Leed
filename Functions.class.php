@@ -247,7 +247,7 @@ class Functions
 		unset($_COOKIE[$name]);
 	}
 
-	static function wordwrap($str, $width = 75, $break = "\n", $cut = false)
+	public static function wordwrap($str, $width = 75, $break = "\n", $cut = false)
 	{
 		$str = html_entity_decode($str);
 		$str =  htmlentities (wordwrap($str,$width,$break,$cut));
@@ -299,7 +299,7 @@ class Functions
 		return $allFiles;
 	}
 
-		function stripAccents($string){
+	public static function stripAccents($string){
 			return strtr(html_entity_decode($string),'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ',
 		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
 		}
