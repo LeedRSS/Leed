@@ -416,7 +416,8 @@ header a,header a:hover,header a:visited{
 #main article section.eventHightLighted{
 	background-color: #F1F1F1;
 }
-#main article section.eventSelected{
+#main article section.eventSelected,
+.settings article > section{
 	box-shadow: 0 0 20px 0 #C2C2C2;
 	border-top: 3px solid #F16529;
 }
@@ -431,7 +432,7 @@ header a,header a:hover,header a:visited{
 	margin-left: 40px;
 }
 
-#exportBloc,#importBloc,#bookBloc,#preferenceBloc,#synchronizeBloc,#pluginBloc{
+.settings section:not(:first-child){
 	display:none;
 }
 .pointer{
