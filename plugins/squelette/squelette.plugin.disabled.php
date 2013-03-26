@@ -5,7 +5,7 @@
 @link http://site.de.l.auteur.fr
 @licence Ma Licence
 @version 1.0.0
-@description Le plugin Squelette est un plugin d'exemple pour les créateurs de nouveaux plugins Leed
+@description Le plugin Squelette est un plugin d'exemple pour les créateurs de nouveaux plugins Leed, il ne fait rien de particulier
 */
 
 

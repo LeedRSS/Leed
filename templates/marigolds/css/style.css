@@ -461,12 +461,8 @@ footer a,#main aside a{
 
 #main aside{
 	color:#ffffff;
-<<<<<<< HEAD
 	padding:0px 1% 10px;
-=======
-	padding:0px 2% 10px;
 	margin-bottom: 10px;
->>>>>>> plugin-system
 }
 
 .underlink{
@@ -626,6 +622,9 @@ footer a,#main aside a{
 	#main #menuBar{
 		float:right;
 		width:32%;
+	}
+	#main #menuBar aside{
+		padding:5px;
 	}
 }
 

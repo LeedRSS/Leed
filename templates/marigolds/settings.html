@@ -22,7 +22,7 @@
 							<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
 							<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
 							<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins installés</li>
+							<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins disponibles</li>
 							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
