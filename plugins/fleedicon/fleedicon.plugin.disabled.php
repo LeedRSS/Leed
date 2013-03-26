@@ -5,7 +5,7 @@
 @link http://blog.idleman.fr
 @licence CC by nc sa http://creativecommons.org/licenses/by-nc-sa/2.0/fr/
 @version 1.0.0
-@description Le plugin Fleedicon ajoute un favicon à gauche de chaques flux
+@description Le plugin Fleedicon ajoute un favicon à gauche de chaque flux
 */
 
 function fleedicon_plugin_AddFavicon(&$feed){

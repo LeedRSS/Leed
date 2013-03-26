@@ -5,7 +5,7 @@
 @link http://blog.idleman.fr
 @licence CC by nc sa http://creativecommons.org/licenses/by-nc-sa/2.0/fr/
 @version 1.0.0
-@description Le plugin OneSync ajout un bouton à coté de chaques flux afin de synchroniser uniquement ce flux
+@description Le plugin OneSync ajout un bouton à coté de chaque flux afin de synchroniser uniquement ce flux
 */
 
 function OneSync_plugin_AddButton(&$feed){
