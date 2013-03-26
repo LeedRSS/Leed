@@ -9,7 +9,7 @@
 {if="($configurationManager->get('articleDisplayAnonymous')=='1') || ($myUser!=false)"}
 
 
-		<div id="main" class="wrapper clearfix">
+		<div id="main" class="wrapper clearfix settings">
 			<div id="menuBar">
 				<aside>
 					<h3>Options des flux</h3>
@@ -29,8 +29,78 @@
 				</aside>
 			</div>
 			<article>
+
+
+			<section id="manageBloc">
+
+					<h2>Gestion des flux :</h2>
+
+					<form action="action.php?action=addFeed" method="POST">
+				<section id="addBloc">
+					<h3>Ajout d'un flux</h3>
+					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
+					 <select name="newUrlCategory">
+						{loop="$folders"}
+							<option {if="$value->getId()==1"}selected="selected"{/if} value="{$value->getId()}">{$value->getName()}</option>
+						{/loop}
+					</select>
+					 <button>Ajouter</button></p>
 				
-				
+				</section>
+				</form>
+
+				<section id="addBloc">
+				<h3>Ajout d'un dossier</h3>
+			
+					<form method="POST" action="action.php?action=addFolder">
+						Nouveau dossier <input type="text" name="newFolder"> <button>Ajouter</button>
+					</form>
+					
+				</section>
+
+					<ul class="clear nochip">
+				    {$feedsForFolder=""}
+					{loop="$folders"}  
+					
+					{$feedsForFolder=$value->getFeeds()}
+						
+					<li>{if="$value->getId()==1"}<a name="defaultFolder"></a>{/if}
+						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
+
+						<button  onclick="renameFolder(this,{$value->getId()})">Renommer</button>
+						{if="$value->getId()!='1'"}
+						<button  onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>
+						{/if}
+						
+<div class="clear"></div>
+						</h1>
+<div class="clear"></div>
+						<table  style="width:100%;">
+							{if="count($feeds)!=0"}
+							{loop="$feedsForFolder"}
+								<tr>
+									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><span class="underlink">{$value2->getUrl()}</span></td>
+									<td>
+										<select onchange="changeFeedFolder(this,{$value2->getId()});">
+											{loop="$folders"}
+												<option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
+											{/loop}
+										</select>
+									</td>
+									<td><button onclick="renameFeed(this,{$value2->getId()})">Renommer</button></td>
+									<td><button onclick="if(confirm('Etes vous sûr de vouloir supprimer ce flux?')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">Supprimer</button></td></tr>
+							{/loop}
+							{/if}
+						</table>
+					</li>
+					{/loop}
+				</ul>
+				</section>
+
+				<section id="synchronizeBloc">
+					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
+				</section>
+
 				{if="(isset($myUser)) && ($myUser!=false)"}
 				<section id="preferenceBloc">
 					<form method="POST" action="action.php?action=updateConfiguration">
@@ -116,77 +186,29 @@
 			{/if}
 
 
+				<section id="importBloc">
+					 <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
+				</section>
 
-
-
-
-
-			<section id="manageBloc">
-
-					<h2>Gestion des flux :</h2>
-
-					<form action="action.php?action=addFeed" method="POST">
-				<section id="addBloc">
-					<h3>Ajout d'un flux</h3>
-					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
-					 <select name="newUrlCategory">
-						{loop="$folders"}
-							<option {if="$value->getId()==1"}selected="selected"{/if} value="{$value->getId()}">{$value->getName()}</option>
-						{/loop}
-					</select>
-					 <button>Ajouter</button></p>
 				
-				</section>
-				</form>
-
-				<section id="addBloc">
-				<h3>Ajout d'un dossier</h3>
-			
-					<form method="POST" action="action.php?action=addFolder">
-						Nouveau dossier <input type="text" name="newFolder"> <button>Ajouter</button>
+				<section id="exportBloc">
+					<form action="action.php?action=exportFeed" method="POST">
+						<h2>Exporter les flux au format opml</h2>
+						<p>Fichier OPML : <button name="exportButton">Exporter</button></p>
 					</form>
-					
 				</section>
-
-					<ul class="clear nochip">
-				    {$feedsForFolder=""}
-					{loop="$folders"}  
+				
+				<section id="bookBloc">
+					<h2>Utiliser le bookmarklet :</h2>
+					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
+					{if="$myUser!=false"}
 					
-					{$feedsForFolder=$value->getFeeds()}
-						
-					<li>{if="$value->getId()==1"}<a name="defaultFolder"></a>{/if}
-						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
-
-						<button  onclick="renameFolder(this,{$value->getId()})">Renommer</button>
-						{if="$value->getId()!='1'"}
-						<button  onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>
-						{/if}
-						
-<div class="clear"></div>
-						</h1>
-<div class="clear"></div>
-						<table  style="width:100%;">
-							{if="count($feeds)!=0"}
-							{loop="$feedsForFolder"}
-								<tr>
-									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><span class="underlink">{$value2->getUrl()}</span></td>
-									<td>
-										<select onchange="changeFeedFolder(this,{$value2->getId()});">
-											{loop="$folders"}
-												<option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
-											{/loop}
-										</select>
-									</td>
-									<td><button onclick="renameFeed(this,{$value2->getId()})">Renommer</button></td>
-									<td><button onclick="if(confirm('Etes vous sûr de vouloir supprimer ce flux?')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">Supprimer</button></td></tr>
-							{/loop}
-							{/if}
-						</table>
-					</li>
-					{/loop}
-				</ul>
+					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ Ajouter à Leed</a>
+					{else}
+					<p>Vous devez être connecté pour voir le bookmarklet.</p>
+					{/if}
 				</section>
-
+				
 
 				
 				<section id="pluginBloc">
@@ -218,35 +240,7 @@
 				
 
 				
-				<section id="bookBloc">
-					<h2>Utiliser le bookmarklet :</h2>
-					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
-					{if="$myUser!=false"}
-					
-					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ Ajouter à Leed</a>
-					{else}
-					<p>Vous devez être connecté pour voir le bookmarklet.</p>
-					{/if}
-				</section>
-				
-
-				
-				<section id="importBloc">
-					 <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
-				</section>
-
-				<section id="synchronizeBloc">
-					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
-				</section>
-
 				{function="Plugin::callHook("setting_post_section", array(&$myUser))"}
-				
-				<form action="action.php?action=exportFeed" method="POST">
-				<section id="exportBloc">
-					<h2>Exporter les flux au format opml</h2>
-					<p>Fichier OPML : <button name="exportButton">Exporter</button></p>
-				</section>
-				</form>
 			</article>
 			
 			
