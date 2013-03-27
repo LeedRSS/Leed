@@ -261,15 +261,15 @@ if(isset($_['installButton'])){
 
 				<section>
 					<h2>Synchronisation</h2>
-					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
-					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 				</section>
 
 				<section>
 					<h2>Préferences</h2>
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
+					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
@@ -279,7 +279,7 @@ if(isset($_['installButton'])){
 					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Catégorie par defaut: <input type="text" value="Géneral" name="category"></p>
 					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers événement d'un flux</p>
-					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés</h3>
+					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
 					
 				</section>
 
