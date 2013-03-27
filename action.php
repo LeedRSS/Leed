@@ -35,7 +35,7 @@ switch ($_['action']){
 			echo str_pad('',4096)."\n";ob_flush();flush();
 
 		if($synchronisationType=='graduate'){
-			$feeds = $feedManager->loadAll(null,'lastupdate','10');
+			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
 			echo 'Type gradué...<br/>';
 			echo str_pad('',4096)."\n";ob_flush();flush();
 		}else{
