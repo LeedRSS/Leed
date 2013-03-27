@@ -90,7 +90,7 @@ class Feed extends MysqlEntity{
 			$event->setTitle($item->get_title());
 			$event->setPubdate($item->get_date());
 			$event->setCreator(
-				is_null($item->get_author())
+				''==$item->get_author()
 					? 'Anonyme'
 					: $item->get_author()->name
 			);

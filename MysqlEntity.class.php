@@ -139,7 +139,6 @@ class MysqlEntity
 	}
 
 
-	///@TODO: la méthode est spécifique à Event. Devrait y être déplacée.
 	public function massiveInsert($events){
 		if (empty($events)) return;
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';

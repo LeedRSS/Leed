@@ -18,26 +18,13 @@ if ($commandLine) {
 	$action = @$_['action'];
 }
 ///@TODO: pourquoi ne pas refuser l'accès dès le début ?
-$syncCode = $configurationManager->get('synchronisationCode');
 Plugin::callHook("action_pre_case", array(&$_,$myUser));
 
 //Execution du code en fonction de l'action
 switch ($action){
 	case 'commandLine':
 	case 'synchronize':
-		/**@TODO: (peut-être)
-		- verrouiller la màj, du moins empêcher deux mises à jour concurrentes
-		  de se marcher dessus.
-		- possibilité de rendre le log cli moins verbeux, voire silencieux tant
-		  qu'il n'y a pas d'erreur.
-		- un log cli aussi pour l'accès cron via http.
-		- rendre moins moche les sorties textes avec les cas cli/non-cli. Mais
-		  d'abord attendre la stabilisation du rendu, l'interfaçage avec les
-		  templates.
-		- paralléliser les flux
-		- mode détaché optionnel : un processus/cron attend l'ordre de màj
-		*/
-	
+		$syncCode = $configurationManager->get('synchronisationCode');
 		// Au moins une méthode d'authentification doit fonctionner
 		switch(true) {
 			case false!=$myUser:
@@ -65,17 +52,33 @@ switch ($action){
 		if('graduate'==$synchronisationType){
 			// sélectionne les 10 plus vieux flux
 			$feeds = $feedManager->loadAll(null,'lastupdate','10');
+			$syncTypeStr = 'Synchronisation graduée…';
 		}else{
 			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
+			$syncTypeStr = 'Synchronisation complète…';
 		}
-		if (!$commandLine) echo "<dl>\n";
+
+		
+		$currentDate = date('d/m/Y H:i:s');
+		if (!$commandLine) {
+			echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
+			echo "<dl>\n";
+		} else {
+			echo "{$syncTypeStr}\t{$currentDate}\n";
+		}
 		$nbErrors = 0;
 		$nbOk = 0;
 		$nbTotal = 0;
+		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
 		foreach ($feeds as $feed) {
 			$nbTotal++;
-			if ($feed->parse()) { // It's ok
+			$startLocal = microtime(true);
+			$parseOk = $feed->parse();
+			$parseTime = microtime(true)-$startLocal;
+			$localTotal += $parseTime;
+			$parseTimeStr = number_format($parseTime, 3);
+			if ($parseOk) { // It's ok
 				$errors = array();
 				$style = '';
 				$nbOk++;
@@ -85,13 +88,13 @@ switch ($action){
 				$style = 'style="font-weight:bold" ';
 				$nbErrors++;
 			}
-			$feedName = $feed->getName();
-			$feedUrl = $feed->getUrl();
+			$feedName = Functions::truncate($feed->getName(),30);
+			$feedUrl = Functions::truncate($feed->getUrl(),30);
 			if ($commandLine) {
-				echo date('d/m/Y H:i:s')." $feedName\n";
-				echo "$feedUrl\n";
+				echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
+				echo "{$feedName}\t{$feedUrl}\n";
 			} else {
-				echo "<dt><a {$style} href='{$feedUrl}'>{$feedName}</a></dt>\n";
+				echo "<dt><a {$style} href='{$feedUrl}'><strong>{$parseTimeStr}s</strong>&nbsp;&nbsp; {$feedName}</a></dt>\n";
 			}
 			foreach($errors as $error) {
 				if ($commandLine)
@@ -99,15 +102,20 @@ switch ($action){
 				else
 					echo "<dd>$error</dd>\n";
 			}
-			if ($commandLine) echo "\n";
+// 			if ($commandLine) echo "\n";
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
 		}
 		assert('$nbTotal==$nbOk+$nbErrors');
+		$totalTime = microtime(true)-$start;
+		assert('$totalTime>=$localTotal');
+		$totalTimeStr = number_format($totalTime, 3);
+		$currentDate = date('d/m/Y H:i:s');
 		if ($commandLine) {
-			echo "Synchronisation terminée\n";
 			echo "\t{$nbErrors}\terreur(s)\n";
 			echo "\t{$nbOk}\tbon(s)\n";
 			echo "\t{$nbTotal}\tau total\n";
+			echo "\t$currentDate\n";
+			echo "\t{$totalTimeStr}\tseconde(s)\n";
 		} else {
 			echo "</dl>\n";
 			echo "<div id='syncSummary'\n";
@@ -116,6 +124,7 @@ switch ($action){
 			echo "<li>{$nbErrors} erreur(s)\n";
 			echo "<li>{$nbOk} bon(s)\n";
 			echo "<li>{$nbTotal} au total\n";
+			echo "<li>{$totalTimeStr}\tseconde(s)\n";
 			echo "</ul>\n";
 			echo "</div>\n";
 		}
@@ -232,7 +241,7 @@ switch ($action){
 	case 'synchronizeForm':
 	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
-				<a class="button" href="action.php?action=synchronize&format=html&code='.$configurationManager->get('synchronisationCode').'">Synchroniser maintenant</a>
+				<a class="button" href="action.php?action=synchronize">Synchroniser maintenant</a>
 					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 				
 			';
@@ -284,9 +293,7 @@ switch ($action){
 			}
 			echo "</ul>\n";
 		}
-		$syncCode = $configurationManager->get('synchronisationCode');
-		assert('!empty($syncCode)');
-		$syncLink = "action.php?action=synchronize&format=html&code=$syncCode";
+		$syncLink = "action.php?action=synchronize&format=html";
 		echo "<p>";
 		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
 			."↺</a>";
