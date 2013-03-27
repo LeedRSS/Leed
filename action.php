@@ -24,15 +24,16 @@ Plugin::callHook("action_pre_case", array(&$_,$myUser));
 switch ($action){
 	case 'commandLine':
 	case 'synchronize':
+		require_once("SimplePie.class.php");
 		$syncCode = $configurationManager->get('synchronisationCode');
-		// Au moins une méthode d'authentification doit fonctionner
-		switch(true) {
-			case false!=$myUser:
-			case @$_['code'] == $syncCode:
-			case $commandLine:
-				break;
-			default:
-				die('Vous devez vous connecter pour cette action.');
+		if (   false==$myUser
+			&& !$commandLine
+			&& !(isset($_['code'])
+				&& $configurationManager->get('synchronisationCode')!=null
+				&& $_['code']==$configurationManager->get('synchronisationCode')
+			)
+		{
+			die('Vous devez vous connecter pour cette action.');
 		}
 		Functions::triggerDirectOutput();
 				

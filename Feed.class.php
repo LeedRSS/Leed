@@ -6,8 +6,6 @@
  @description: Classe de gestion des flux RSS/ATOM
  */
 
-require_once("SimplePie.class.php");
- 
 class Feed extends MysqlEntity{
 
 	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
