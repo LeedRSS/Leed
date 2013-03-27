@@ -32,7 +32,7 @@ switch ($action){
 				&& $configurationManager->get('synchronisationCode')!=null
 				&& $_['code']==$configurationManager->get('synchronisationCode')
 			)
-		{
+		) {
 			die('Vous devez vous connecter pour cette action.');
 		}
 		Functions::triggerDirectOutput();
