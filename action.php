@@ -52,7 +52,7 @@ switch ($action){
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
 			// sélectionne les 10 plus vieux flux
-			$feeds = $feedManager->loadAll(null,'lastupdate','10');
+			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
 			$syncTypeStr = 'Synchronisation graduée…';
 		}else{
 			// sélectionne tous les flux, triés par le nom
@@ -169,8 +169,6 @@ switch ($action){
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
 			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
-			$configurationManager->put('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
-			$configurationManager->put('plugin_shaarli_link',$_['plugin_shaarli_link']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
 			$configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
 

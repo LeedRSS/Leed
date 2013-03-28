@@ -16,8 +16,6 @@ $action = (isset($_['action'])?$_['action']:'');
 $tpl->assign('action',$action);
 //Récuperation des dossiers de flux par ordre de nom
 $tpl->assign('folders',$folderManager->populate('name'));
-//Récuperation du chemin vers shaarli si le plugin shaarli est activé
-$tpl->assign('shareOption',($configurationManager->get('plugin_shaarli')=='1'?$configurationManager->get('plugin_shaarli_link'):false));  
 //Recuperation de tous les non Lu
 $tpl->assign('unread',$feedManager->countUnreadEvents());
 //recuperation de tous les flux

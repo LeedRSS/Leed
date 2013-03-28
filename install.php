@@ -69,8 +69,8 @@ if(isset($_['installButton'])){
 
 
 	$constant = "<?php
-	define('VERSION_NUMBER','1.1');
-	define('VERSION_NAME','Beta (rev 89)');
+	define('VERSION_NUMBER','1.5');
+	define('VERSION_NAME','Beta');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
 	define('MYSQL_HOST','".$_['mysqlHost']."'); 
@@ -86,6 +86,8 @@ if(isset($_['installButton'])){
 	define('DEFAULT_THEME','marigolds');
 	//Nombre de pages affichées dans la barre de pagination
 	define('PAGINATION_SCALE',5);
+	//Nombre de flux mis à jour lors de la synchronisation graduée
+	define('SYNC_GRAD_COUNT',10);	
 	?>";
 
 	file_put_contents('constant.php', $constant);
@@ -131,8 +133,6 @@ if(isset($_['installButton'])){
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
 	$configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
-	$configurationManager->add('plugin_shaarli',(isset($_['plugin_shaarli']) && $_['plugin_shaarli']=='on'?1:0));
-	$configurationManager->add('plugin_shaarli_link',$_['plugin_shaarli_link']);
 	$configurationManager->add('synchronisationType',$_['synchronisationType']);
 	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 	
@@ -263,15 +263,15 @@ if(isset($_['installButton'])){
 
 				<section>
 					<h2>Synchronisation</h2>
-					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
-					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 				</section>
 
 				<section>
 					<h2>Préferences</h2>
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu)</h3>
+					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
@@ -281,16 +281,11 @@ if(isset($_['installButton'])){
 					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Catégorie par defaut: <input type="text" value="Géneral" name="category"></p>
 					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers événement d'un flux</p>
-					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés</h3>
+					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
 					
 				</section>
 
-				<section>
-					<h2>Options</h2>
-					<p><input onchange="$('.shaarliBlock').slideToggle(200);" type="checkbox" name="plugin_shaarli"> Activer le partage direct avec <a target="_blank" href="http://sebsauvage.net/wiki/doku.php?id=php:shaarli">shaarli<a></p>
-					<p class="shaarliBlock" style="display:none;">Lien vers votre shaarli: <input style="width:100%;" type="text" placeholder="http://mon.domaine.com/shaarli/" name="plugin_shaarli_link"></p>
-					<h3 class="articleDetails">Nb: cette option affichera un bouton à coté de chaque news pour vous proposer de la partager/stocker sur le gestionnaire de liens shaarli.</h3>
-				</section>
+	
 
 
 				<button name="installButton">Lancer l'installation</button>
