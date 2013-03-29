@@ -30,6 +30,10 @@ class Feed extends MysqlEntity{
 		parent::__construct();
 	}
 
+	/** @TODO: ne faire qu'un seul chargement avec SimplePie et récupérer les
+	même informations. Mettre le chargement en cache au moins d'une méthode
+	loadLeed() qui ne chargera qu'une seule fois. Voire même en déclenchement
+	retardé, au dernier moment. */
 	function getInfos(){
 		$xml = @simplexml_load_file($this->url);
 		if($xml!=false){
@@ -49,7 +53,9 @@ class Feed extends MysqlEntity{
 	Il encadre les descriptions avec <div>, absents dans le source du flux.
 	*/
 
-	function parse(){
+	function parse($checkDuplicate=false){
+		// N'ajoute pas, ni ne sauve, un flux déjà connu.
+		if ($checkDuplicate && $this->yetKnown($this->url)) return false;
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
@@ -134,7 +140,7 @@ class Feed extends MysqlEntity{
 
 		$eventManager->massiveInsert($events);
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
-		$this->save();
+		$this->save(); /// @TODO: save() à faire systématiquement ?
 		return true;
 	}
 
@@ -247,8 +253,13 @@ class Feed extends MysqlEntity{
 	function setLastupdate($lastupdate){
 		$this->lastupdate = $lastupdate;
 	}
-	
 
+
+	/** @returns vrai si l'url est déjà connue .*/
+	protected function yetKnown($url) {
+		$list = $this->load(array('url' => $url));
+		return $list!==false;
+	}
 
 }
 
