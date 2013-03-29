@@ -122,6 +122,7 @@ class Plugin{
 
 	public static function getFiles($onlyActivated=false){
 		$files = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.enabled.php');
+		if (!is_array($files)) $files = array();
 		if(!$onlyActivated)$files = array_merge($files,glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php'));
 		return $files;
 	}
