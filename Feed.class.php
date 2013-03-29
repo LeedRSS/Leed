@@ -51,11 +51,13 @@ class Feed extends MysqlEntity{
 	@TODO: SimplePie remplace "é" par "&eacute;", il ne devrait pas le faire.
 	J'ai testé set_stupidly_fast(true) sans succès.
 	Il encadre les descriptions avec <div>, absents dans le source du flux.
+	@TODO: la vérification de doublon est sous la responsabilité de l'appelant.
+	Il serait peut-être utile de faire une méthode add() qui vérifie, plante si
+	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
+	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
 
-	function parse($checkDuplicate=false){
-		// N'ajoute pas, ni ne sauve, un flux déjà connu.
-		if ($checkDuplicate && $this->yetKnown($this->url)) return false;
+	function parse(){
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
@@ -255,10 +257,9 @@ class Feed extends MysqlEntity{
 	}
 
 
-	/** @returns vrai si l'url est déjà connue .*/
-	protected function yetKnown($url) {
-		$list = $this->load(array('url' => $url));
-		return $list!==false;
+	/** @returns vrai si l'url n'est pas déjà connue .*/
+	function notRegistered() {
+		return $this->rowCount(array('url' => $this->url)) == 0;
 	}
 
 }

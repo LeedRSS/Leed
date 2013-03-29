@@ -307,10 +307,13 @@ switch ($action){
 			if(!isset($_['newUrl'])) break;
 			$newFeed = new Feed();
 			$newFeed->setUrl($_['newUrl']);
-			$newFeed->getInfos();
-			$newFeed->setFolder((isset($_['newUrlCategory'])?$_['newUrlCategory']:1));
-			if (!$newFeed->parse(true)) {
+			if ($newFeed->notRegistered()) {
 				///@TODO: avertir l'utilisateur du doublon non ajouté
+				$newFeed->getInfos();
+				$newFeed->setFolder(
+					(isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
+				);
+				$newFeed->parse(true);
 			}
  			header('location: ./settings.php#defaultFolder');
 	break;
