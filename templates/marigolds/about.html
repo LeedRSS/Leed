@@ -44,9 +44,9 @@
 						<li>2. Placez le projet dans votre répertoire web et appliquez une permission chmod 777 sur le dossier et son contenu</li>
 						<li>3. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez le instructions.</li>
 						<li>4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité</li>
-						<li>5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize ex : <br/>
+						<li>5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize&code=VotreCodeDeSynchronisation (le code est disponible dans les préférences) ex : <br/>
 
-						<code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron http://127.0.0.1/leed/action.php?action=synchronize</code><br/>
+						<code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron "http://127.0.0.1/leed/action.php?action=synchronize&code=VotreCodeDeSynchronisation"</code><br/>
 
 						Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
 						<li>6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p.</li>
