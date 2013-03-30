@@ -213,10 +213,13 @@
 				
 				<section id="pluginBloc">
 					<h2>Plugins :</h2>
+					<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a href="https://github.com/ldleman/Leed-market/tree/master/Marigolds">sur le Leed Market</a></p>
 					<p>Voiçi la liste des plugins installés :</p>
 					{if="$myUser!=false"}
-
 					<ul class="pluginList">
+					{if="count($plugins)==0"}
+					Aucun plugin n'est installé pour le moment
+					{else}
 					{loop="$plugins"}
 					<li>
 						<ul>
@@ -230,6 +233,7 @@
 						</ul>
 					</li>
 					{/loop}
+					{/if}
 					</ul>
 
 					{else}

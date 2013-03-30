@@ -149,15 +149,20 @@ class Feed extends MysqlEntity{
 
 	function removeOldEvents($maxEvent){
 		$eventManager = new Event();
-		$limit = $eventManager->rowCount(array('feed'=>$this->id))-$maxEvent;
-		$limit = $limit>0 ? $limit : 0;
+		$nbLines = $eventManager->rowCount(array(
+			'feed'=>$this->id,
+ 			'unread'=>0,
+			'favorite'=>0,
+		));
+		$limit = $nbLines - $maxEvent;
+		if ($limit<=0) return;
 		$tableEvent = '`'.MYSQL_PREFIX."event`";
 		$query = "
 			DELETE FROM {$tableEvent}
-			WHERE feed={$this->id} AND favorite!=1
+			WHERE feed={$this->id} AND favorite!=1 AND unread!=1
 			ORDER BY pubDate ASC LIMIT {$limit}
 		";
-		if ($limit>0) $this->customExecute($query);
+		$this->customExecute($query);
 	}
 	
 	function setId($id){
