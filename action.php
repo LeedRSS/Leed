@@ -314,6 +314,7 @@ switch ($action){
 				$newFeed->setFolder(
 					(isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
 				);
+				$newFeed->save();
 				$newFeed->parse(true);
 			}
  			header('location: ./settings.php#defaultFolder');
