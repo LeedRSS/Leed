@@ -67,6 +67,19 @@ foreach($_ as $key=>&$val){
 
 if(isset($_['installButton'])){
 
+	if (!Functions::testDb(
+		$_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
+	)) {
+		///@TODO: faire un retour plus intelligible + tests dans le common.php
+		echo "<p>Connexion à la base de donnnées impossible :</p>";
+		echo "<ul>\n";
+		echo "<li>host: {$_['mysqlHost']}\n";
+		echo "<li>login: {$_['mysqlLogin']}\n";
+		echo "<li>password: {$_['mysqlMdp']}\n";
+		echo "<li>database: {$_['mysqlBase']}\n";
+		echo "</ul><p><a href=''>Relancer l'installation</a></p>\n";
+		die();
+	}
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1.5');
