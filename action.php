@@ -90,10 +90,11 @@ switch ($action){
 				$nbErrors++;
 			}
 			$feedName = Functions::truncate($feed->getName(),30);
-			$feedUrl = Functions::truncate($feed->getUrl(),30);
+			$feedUrl = $feed->getUrl();
+			$feedUrlTxt = Functions::truncate($feedUrl, 30);
 			if ($commandLine) {
 				echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
-				echo "{$feedName}\t{$feedUrl}\n";
+				echo "{$feedName}\t{$feedUrlTxt}\n";
 			} else {
 				echo "<dt><a {$style} href='{$feedUrl}'><strong>{$parseTimeStr}s</strong>&nbsp;&nbsp; {$feedName}</a></dt>\n";
 			}
