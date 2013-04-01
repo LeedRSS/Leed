@@ -58,6 +58,15 @@ class Feed extends MysqlEntity{
 	*/
 
 	function parse(){
+		if (empty($this->id) || 0 == $this->id) {
+			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
+			parse() sans avoir appelé save() pour un nouveau flux.
+			@TODO: un create() pour un nouveau flux ? */
+			$msg = 'Empty or null id for a feed! '
+				  .'See '.__FILE__.' on line '.__LINE__;
+			error_log($msg, E_USER_ERROR);
+			die($msg); // Arrêt, sinon création événements sans flux associé.
+		}
 		$feed = new SimplePie();
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
@@ -142,7 +151,7 @@ class Feed extends MysqlEntity{
 
 		$eventManager->massiveInsert($events);
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
-		$this->save(); /// @TODO: save() à faire systématiquement ?
+		$this->save();
 		return true;
 	}
 
