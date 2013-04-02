@@ -9,63 +9,127 @@
 if(!ini_get('safe_mode')) @set_time_limit(0);
 require_once("common.php");
 
+///@TODO: déplacer dans common.php?
+$commandLine = 'cli'==php_sapi_name();
 
+if ($commandLine) {
+	$action = 'commandLine';
+} else {
+	$action = @$_['action'];
+}
+///@TODO: pourquoi ne pas refuser l'accès dès le début ?
 Plugin::callHook("action_pre_case", array(&$_,$myUser));
 
 //Execution du code en fonction de l'action
-switch ($_['action']){
-
+switch ($action){
+	case 'commandLine':
 	case 'synchronize':
-		if (ob_get_level() == 0) ob_start();
 		require_once("SimplePie.class.php");
-
-		
-		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css"><ul style="font-family:Verdana;">';
-		echo str_pad('',4096)."\n";ob_flush();flush();
-
-		if (isset($_['code']) && $configurationManager->get('synchronisationCode')!=null && $_['code'] == $configurationManager->get('synchronisationCode')){
-
+		$syncCode = $configurationManager->get('synchronisationCode');
+		if (   false==$myUser
+			&& !$commandLine
+			&& !(isset($_['code'])
+				&& $configurationManager->get('synchronisationCode')!=null
+				&& $_['code']==$configurationManager->get('synchronisationCode')
+			)
+		) {
+			die('Vous devez vous connecter pour cette action.');
+		}
+		Functions::triggerDirectOutput();
+				
+		// On ne devrait pas mettre de style ici.
+		if (!$commandLine)
+			echo "
+				<style>
+					dd {
+						margin-bottom: 1em;
+					}
+					a {
+						color:#F16529;
+					}
+				</style>\n";
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
+		if('graduate'==$synchronisationType){
+			// sélectionne les 10 plus vieux flux
+			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
+			$syncTypeStr = 'Synchronisation graduée…';
+		}else{
+			// sélectionne tous les flux, triés par le nom
+			$feeds = $feedManager->populate('name');
+			$syncTypeStr = 'Synchronisation complète…';
+		}
 
 		
-
-			echo '<h3>Synchronisation du '.date('d/m/Y H:i:s').'</h3>';
-			echo '<hr/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-
-		if($synchronisationType=='graduate'){
-			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
-			echo 'Type gradué...<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-		}else{
-			$feeds = $feedManager->populate('name');
-			echo 'Type complet...<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-		}	
-			
-			echo count($feeds).' Flux à synchroniser...<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-		foreach ($feeds as $feed) {
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') parsage des flux...<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-			$feed->parse();
-			echo str_pad('',4096)."\n";ob_flush();flush();
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') supression des vieux evenements...<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
-			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
-			echo date('H:i:s').' - Flux '.$feed->getName().' ('.$feed->getUrl().') terminé<br/>';
-			echo str_pad('',4096)."\n";ob_flush();flush();
+		$currentDate = date('d/m/Y H:i:s');
+		if (!$commandLine) {
+			echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
+			echo "<dl>\n";
+		} else {
+			echo "{$syncTypeStr}\t{$currentDate}\n";
 		}
-			echo date('H:i:s').' - Synchronisation terminée ( '.number_format(microtime(true)-$start,3).' secondes )<br/>';
-		echo str_pad('',4096)."\n";ob_flush();flush();
-
-	}else{
-		echo 'Code de synchronisation incorrect ou non spécifié';
-	}
-
-		ob_end_flush();
-
+		$nbErrors = 0;
+		$nbOk = 0;
+		$nbTotal = 0;
+		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+		foreach ($feeds as $feed) {
+			$nbTotal++;
+			$startLocal = microtime(true);
+			$parseOk = $feed->parse();
+			$parseTime = microtime(true)-$startLocal;
+			$localTotal += $parseTime;
+			$parseTimeStr = number_format($parseTime, 3);
+			if ($parseOk) { // It's ok
+				$errors = array();
+				$style = '';
+				$nbOk++;
+			} else {
+				// tableau au cas où il arrive plusieurs erreurs
+				$errors = array($feed->getError());
+				$style = 'style="font-weight:bold" ';
+				$nbErrors++;
+			}
+			$feedName = Functions::truncate($feed->getName(),30);
+			$feedUrl = $feed->getUrl();
+			$feedUrlTxt = Functions::truncate($feedUrl, 30);
+			if ($commandLine) {
+				echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
+				echo "{$feedName}\t{$feedUrlTxt}\n";
+			} else {
+				echo "<dt><a {$style} href='{$feedUrl}'><strong>{$parseTimeStr}s</strong>&nbsp;&nbsp; {$feedName}</a></dt>\n";
+			}
+			foreach($errors as $error) {
+				if ($commandLine)
+					echo "$error\n";
+				else
+					echo "<dd>$error</dd>\n";
+			}
+// 			if ($commandLine) echo "\n";
+			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
+		}
+		assert('$nbTotal==$nbOk+$nbErrors');
+		$totalTime = microtime(true)-$start;
+		assert('$totalTime>=$localTotal');
+		$totalTimeStr = number_format($totalTime, 3);
+		$currentDate = date('d/m/Y H:i:s');
+		if ($commandLine) {
+			echo "\t{$nbErrors}\terreur(s)\n";
+			echo "\t{$nbOk}\tbon(s)\n";
+			echo "\t{$nbTotal}\tau total\n";
+			echo "\t$currentDate\n";
+			echo "\t{$totalTimeStr}\tseconde(s)\n";
+		} else {
+			echo "</dl>\n";
+			echo "<div id='syncSummary'\n";
+			echo "<p>Synchronisation terminée.</p>\n";
+			echo "<ul>\n";
+			echo "<li>{$nbErrors} erreur(s)\n";
+			echo "<li>{$nbOk} bon(s)\n";
+			echo "<li>{$nbTotal} au total\n";
+			echo "<li>{$totalTimeStr}\tseconde(s)\n";
+			echo "</ul>\n";
+			echo "</div>\n";
+		}
 	break;
 
 
@@ -177,7 +241,7 @@ switch ($_['action']){
 	case 'synchronizeForm':
 	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
-				<a class="button" href="action.php?action=synchronize&format=html&code='.$configurationManager->get('synchronisationCode').'">Synchroniser maintenant</a>
+				<a class="button" href="action.php?action=synchronize">Synchroniser maintenant</a>
 					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 				
 			';
@@ -193,17 +257,23 @@ switch ($_['action']){
 	break;
 
 	case 'importFeed':
-		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
-		<style>
-		a{
-			color: #F16529;
-		}
-		</style>';
+		// On ne devrait pas mettre de style ici.
+		echo "
+			<style>
+				a {
+					color:#F16529;
+				}
+			</style>
+\n";
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
 		echo "<h3>Importation</h3><p>En cours...</p>\n";
-		$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		try {
+			$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
+		} catch (Exception $e) {
+			$errorOutput = array($e->getMessage());
+		}
 		if (empty($errorOutput)) {
 			echo "<p>L'import s'est déroulé sans problème.</p>\n";
 		} else {
@@ -217,22 +287,13 @@ switch ($_['action']){
 				."réimportés&nbsp;:</h3>\n<ul>\n";
 			foreach($opml->alreadyKnowns as $alreadyKnown) {
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
-				$maxLength = 80;
-				$delimiter = '...';
-				if (strlen($alreadyKnown->description)>$maxLength) {
-					$alreadyKnown->description =
-						substr($alreadyKnown->description, 0,
-							$maxLength-strlen($delimiter)
-						).$delimiter;
-				}
+				$text = Functions::truncate($alreadyKnown->feedName, 60);
 				echo "<li><a target='_parent' href='{$alreadyKnown->xmlUrl}'>"
-					."{$alreadyKnown->description}</a></li>\n";
+					."{$text}</a></li>\n";
 			}
 			echo "</ul>\n";
 		}
-		$syncCode = $configurationManager->get('synchronisationCode');
-		assert('!empty($syncCode)');
-		$syncLink = "action.php?action=synchronize&format=html&code=$syncCode";
+		$syncLink = "action.php?action=synchronize&format=html";
 		echo "<p>";
 		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
 			."↺</a>";
@@ -242,17 +303,21 @@ switch ($_['action']){
 
 	
 	case 'addFeed':
-			require_once("SimplePie.class.php");
 			if($myUser==false) exit('Vous devez vous connecter pour cette action.');
-			if(isset($_['newUrl'])){
-				$newFeed = new Feed();
-				$newFeed->setUrl($_['newUrl']);
+			require_once("SimplePie.class.php");
+			if(!isset($_['newUrl'])) break;
+			$newFeed = new Feed();
+			$newFeed->setUrl($_['newUrl']);
+			if ($newFeed->notRegistered()) {
+				///@TODO: avertir l'utilisateur du doublon non ajouté
 				$newFeed->getInfos();
-				$newFeed->setFolder((isset($_['newUrlCategory'])?$_['newUrlCategory']:1));
+				$newFeed->setFolder(
+					(isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
+				);
 				$newFeed->save();
-				$newFeed->parse();
-				header('location: ./settings.php#defaultFolder');
+				$newFeed->parse(true);
 			}
+ 			header('location: ./settings.php#defaultFolder');
 	break;
 
 	case 'changeFeedFolder':
