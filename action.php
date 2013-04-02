@@ -286,12 +286,29 @@ switch ($action){
 
 	case 'importFeed':
 		// On ne devrait pas mettre de style ici.
-		echo "
+		echo "<html>
 			<style>
 				a {
 					color:#F16529;
 				}
-			</style>
+
+				html,body{
+						font-family:Verdana;
+						font-size: 11px;
+				}
+				.error{
+						background-color:#C94141;
+						color:#ffffff;
+						padding:5px;
+						border-radius:5px;
+						margin:10px 0px 10px 0px;
+						box-shadow: 0 0 3px 0 #810000;
+					}
+				.error a{
+						color:#ffffff;
+				}
+				</style>
+			</style><body>
 \n";
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
@@ -305,10 +322,11 @@ switch ($action){
 		if (empty($errorOutput)) {
 			echo "<p>L'import s'est déroulé sans problème.</p>\n";
 		} else {
-			echo "<p>Erreurs à l'importation!</p>\n";
+			echo "<div class='error'>Erreurs à l'importation!\n";
 			foreach($errorOutput as $line) {
 				echo "<p>$line</p>\n";
 			}
+			echo "</div>";
 		}
 		if (!empty($opml->alreadyKnowns)) {
 			echo "<h3>Certains flux étaient déjà connus, ils n'ont pas été "
@@ -326,7 +344,7 @@ switch ($action){
 		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
 			."↺</a>";
 		echo "<a href='$syncLink'>Cliquez ici pour synchroniser vos flux importés.</a>";
-		echo "<p>\n";
+		echo "<p></body></html>\n";
 	break;
 
 	
