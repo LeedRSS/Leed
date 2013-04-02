@@ -136,10 +136,8 @@ class MysqlEntity
 	}
 
 
-
 	public function massiveInsert($events){
-
-
+		if (empty($events)) return;
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
@@ -170,7 +168,6 @@ class MysqlEntity
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		
 		$this->customQuery($query);
-
 	}
 
 	/**
