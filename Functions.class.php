@@ -321,5 +321,26 @@ class Functions
 		return str_pad("", count($arFrom) * 3, '..'.$ps).implode($ps, $arTo);
 	}
 	
+
+
+	/**
+	* Méthode de test de connexion.
+	* @return true si ok
+	* @param server
+	* @param login
+	* @param pass
+	* @param db facultatif, si précisé alors tente de la séléctionner
+	*/
+	public static function testDb($server, $login, $pass, $db=null) {
+		/* Méthode hors des classes dédiées aux BDD afin de supporter le moins
+		   de dépendances possibles. En particulier, pas besoin que le fichier
+		   de configuration existe. */
+		$link = mysql_connect($server, $login, $pass);
+		if (false===$link) return false;
+		if (!is_null($db) && false===mysql_select_db($db, $link)) return false;
+		mysql_close($link);
+		return true;
+	}
+		
 }
 ?>

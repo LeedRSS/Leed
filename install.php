@@ -67,6 +67,19 @@ foreach($_ as $key=>&$val){
 
 if(isset($_['installButton'])){
 
+	if (!Functions::testDb(
+		$_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
+	)) {
+		///@TODO: faire un retour plus intelligible + tests dans le common.php
+		echo "<p>Connexion à la base de donnnées impossible :</p>";
+		echo "<ul>\n";
+		echo "<li>host: {$_['mysqlHost']}\n";
+		echo "<li>login: {$_['mysqlLogin']}\n";
+		echo "<li>password: {$_['mysqlMdp']}\n";
+		echo "<li>database: {$_['mysqlBase']}\n";
+		echo "</ul><p><a href=''>Relancer l'installation</a></p>\n";
+		die();
+	}
 
 	$constant = "<?php
 	define('VERSION_NUMBER','1.5');
@@ -152,7 +165,7 @@ if(isset($_['installButton'])){
 	 <article style="width:100%;">
 				<header>
 					<h1>Installation de Leed terminée</h1>
-					<p>L'installation de Leed est terminée!!</p>
+					<p>L'installation de Leed est terminée !!</p>
 
 					
 					
@@ -160,17 +173,17 @@ if(isset($_['installButton'])){
 					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
+					<code>0 * * * * wget --no-check-certificate -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra à jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
+					<p>Cet exemple mettra à jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "cron.log" dans votre dossier leed</p>
 	 				
 					<?php }else if ($_['synchronisationType']=='graduate'){ ?>
 					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
 					<code>sudo crontab -e</code>
 					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
+					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget --no-check-certificate -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
 					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra à jour vos flux toutes les 5 minutes(conseillé pour une synchronisation graduée) et ajoutera le rapport de mise a jour sous le nom "logsCron" dans votre dossier leed</p>
+					<p>Cet exemple mettra à jour vos flux toutes les 5 minutes(conseillé pour une synchronisation graduée) et ajoutera le rapport de mise a jour sous le nom "cron.log" dans votre dossier leed</p>
 	 				
 
 					<?php }  ?>
@@ -188,7 +201,7 @@ if(isset($_['installButton'])){
 						<?php 
 
 						if(!is_writable('./')){
-							$test['Erreur'][]='Ecriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tous le dossier (sudo chmod 775 -R '.str_replace(basename(__FILE__),'',__FILE__).')';
+							$test['Erreur'][]='Écriture impossible dans le repertoire Leed, veuillez ajouter les permissions en ecriture sur tout le dossier (sudo chmod 775 -R '.str_replace(basename(__FILE__),'',__FILE__).')';
 						}else{
 							$test['Succès'][]='Permissions sur le dossier courant : OK';
 						}
@@ -263,16 +276,16 @@ if(isset($_['installButton'])){
 
 				<section>
 					<h2>Synchronisation</h2>
-					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une foix de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
-					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) :</strong> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
-					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) :</strong> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
+					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) : </strong>Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
+					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) : </strong>Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 				</section>
 
 				<section>
 					<h2>Préferences</h2>
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifié pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
-					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
+					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
+					<p>Nombre d'articles par page : <input type="text" value="5" name="articlePerPages"></p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
