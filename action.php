@@ -40,14 +40,33 @@ switch ($action){
 		// On ne devrait pas mettre de style ici.
 		if (!$commandLine)
 			echo "
+				<html>
 				<style>
 					dd {
-						margin-bottom: 1em;
+						margin: 1em;
 					}
+	
 					a {
 						color:#F16529;
 					}
-				</style>\n";
+					html,body{
+						font-family:Verdana;
+						font-size: 11px;
+					}
+					.error{
+						background-color:#C94141;
+						color:#ffffff;
+						padding:5px;
+						border-radius:5px;
+						margin:10px 0px 10px 0px;
+						box-shadow: 0 0 3px 0 #810000;
+					}
+					.error a{
+						color:#ffffff;
+					}
+				</style>
+				<body>
+				\n";
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
@@ -81,12 +100,12 @@ switch ($action){
 			$parseTimeStr = number_format($parseTime, 3);
 			if ($parseOk) { // It's ok
 				$errors = array();
-				$style = '';
+
 				$nbOk++;
 			} else {
 				// tableau au cas où il arrive plusieurs erreurs
 				$errors = array($feed->getError());
-				$style = 'style="font-weight:bold" ';
+
 				$nbErrors++;
 			}
 			$feedName = Functions::truncate($feed->getName(),30);
@@ -96,7 +115,10 @@ switch ($action){
 				echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
 				echo "{$feedName}\t{$feedUrlTxt}\n";
 			} else {
-				echo "<dt><a {$style} href='{$feedUrl}'><strong>{$parseTimeStr}s</strong>&nbsp;&nbsp; {$feedName}</a></dt>\n";
+
+				if (!$parseOk) echo '<div class="error">';
+				echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+				
 			}
 			foreach($errors as $error) {
 				if ($commandLine)
@@ -104,6 +126,7 @@ switch ($action){
 				else
 					echo "<dd>$error</dd>\n";
 			}
+			if (!$parseOk) echo '</div>';
 // 			if ($commandLine) echo "\n";
 			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
 		}
@@ -130,6 +153,11 @@ switch ($action){
 			echo "</ul>\n";
 			echo "</div>\n";
 		}
+
+		if (!$commandLine) {
+			echo '</body></html>';
+		}
+
 	break;
 
 
