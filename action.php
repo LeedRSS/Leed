@@ -53,11 +53,11 @@ switch ($action){
 		if('graduate'==$synchronisationType){
 			// sélectionne les 10 plus vieux flux
 			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
-			$syncTypeStr = 'Synchronisation graduée…';
+			$syncTypeStr = 'Type de synchronisation : Synchronisation graduée…';
 		}else{
 			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
-			$syncTypeStr = 'Synchronisation complète…';
+			$syncTypeStr = 'Type de synchronisation : Synchronisation complète…';
 		}
 
 		
