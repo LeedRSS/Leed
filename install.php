@@ -193,7 +193,7 @@ if(isset($_['installButton'])){
 	 <?php
 }else{
 ?>
-
+<div id="menuBar">
 			<aside>
 				<h3 class="left">Verifications</h3> 
 				<ul class="clear" style="margin:0">
@@ -241,7 +241,7 @@ if(isset($_['installButton'])){
 						<?php } ?>
 				</ul>
 			</aside>
-
+</div>
 	<?php  if(!isset($test['Erreur'])){ ?>		
 	<form action="install.php" method="POST">
 			<article>
