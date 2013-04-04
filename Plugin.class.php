@@ -90,7 +90,6 @@ class Plugin{
 		}
 		
 		public static function addLink($rel, $link) {  
-			$bt =  debug_backtrace();
 		    $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
 		}
 
