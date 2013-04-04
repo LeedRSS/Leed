@@ -6,6 +6,10 @@
  @description:  Page d'installation du script (a supprimer après installation)
  */
 
+if (file_exists('constant.php')) {
+	die('Leed est déjà configuré. Supprimez ou renommez le fichier de configuration.');
+}
+
 session_start(); 
 require_once('Functions.class.php');
 $_ = array_merge($_GET, $_POST);
