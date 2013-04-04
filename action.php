@@ -353,7 +353,7 @@ switch ($action){
 			require_once("SimplePie.class.php");
 			if(!isset($_['newUrl'])) break;
 			$newFeed = new Feed();
-			$newFeed->setUrl($_['newUrl']);
+			$newFeed->setUrl(Functions::clean_url($_['newUrl']));
 			if ($newFeed->notRegistered()) {
 				///@TODO: avertir l'utilisateur du doublon non ajouté
 				$newFeed->getInfos();
@@ -409,7 +409,7 @@ switch ($action){
 	case 'renameFeed':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id'])){
-			$feedManager->change(array('name'=>$_['name'],'url'=>$_['url']),array('id'=>$_['id']));
+			$feedManager->change(array('name'=>$_['name'],'url'=>Functions::clean_url($_['url'])),array('id'=>$_['id']));
 		}
 	break;
 

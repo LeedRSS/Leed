@@ -322,6 +322,13 @@ class Functions
 	}
 	
 
+	// Nettoyage de l'url avant la mise en base
+	public static function clean_url( $url ) {
+		$url = str_replace('&amp;', '&', $url);
+		return $url;
+	}
+
+
 
 	/**
 	* Méthode de test de connexion.
