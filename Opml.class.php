@@ -44,8 +44,7 @@ class Opml  {
 			$feeds = $folder->getFeeds();
 			if (empty($feeds)) continue;
 			$text = $this->escapeXml($folder->getName());
-			$title = $this->escapeXml($folder->getName());
-			$xmlStream .= "{$__}<outline text='$text' title='$title' icon=''>\n";
+			$xmlStream .= "{$__}<outline text=\"$text\">\n";
 			foreach($feeds as $feed){
 				$url = $this->escapeXml($feed->getUrl());
 				$website = $this->escapeXml($feed->getWebsite());
@@ -53,12 +52,13 @@ class Opml  {
 				$text = $title;
 				$description = $this->escapeXml($feed->getDescription());
 				$xmlStream .= "{$__}{$_}<outline "
-				."xmlUrl='$url' "
-				."htmlUrl='$website' "
-				."text='$text' "
-				."title='$title' "
-				."description='$description' "
-				." />\n";
+				."type=\"rss\" "
+				."xmlUrl=\"$url\" "
+				."htmlUrl=\"$website\" "
+				."text=\"$text\" "
+				."title=\"$title\" "
+				."description=\"$description\""
+				."/>\n";
 			}
 			$xmlStream .= "{$__}</outline>\n";
 		}
