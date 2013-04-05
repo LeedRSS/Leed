@@ -33,7 +33,8 @@ class Opml  {
 	 * Exporte récursivement les flux.
 	 */
 	protected function exportRecursive($folders, $identLevel=0) {
-		$_ = ''; for($i=0;$i<$identLevel;$i++) $_.="\t";
+		$_ = '  ';
+		$__ = ''; for($i=0;$i<$identLevel;$i++) $__.=$_;
 		$xmlStream = '';
 		foreach($folders as $folder) {
 			// Pas utilisé, vu qu'il n'y a qu'un seul niveau de dossiers.
@@ -44,14 +45,14 @@ class Opml  {
 			if (empty($feeds)) continue;
 			$text = $this->escapeXml($folder->getName());
 			$title = $this->escapeXml($folder->getName());
-			$xmlStream .= "{$_}<outline text='$text' title='$title' icon=''>\n";
+			$xmlStream .= "{$__}<outline text='$text' title='$title' icon=''>\n";
 			foreach($feeds as $feed){
 				$url = $this->escapeXml($feed->getUrl());
 				$website = $this->escapeXml($feed->getWebsite());
 				$title = $this->escapeXml($feed->getName());
 				$text = $title;
 				$description = $this->escapeXml($feed->getDescription());
-				$xmlStream .= "{$_}{$_}<outline "
+				$xmlStream .= "{$__}{$_}<outline "
 				."xmlUrl='$url' "
 				."htmlUrl='$website' "
 				."text='$text' "
@@ -59,7 +60,7 @@ class Opml  {
 				."description='$description' "
 				." />\n";
 			}
-			$xmlStream .= "{$_}</outline>\n";
+			$xmlStream .= "{$__}</outline>\n";
 		}
 		return $xmlStream;
 	}
@@ -70,17 +71,17 @@ class Opml  {
 	function export() {
 		$this->update();
 		$date = date('D, d M Y H:i:s O');
-		$xmlStream = "<?xml version='1.0' encoding='utf-8'?>
-<opml version='2.0'>
-	<head>
-		<title>Leed export</title>
-		<ownerName>Leed</ownerName>
-		<ownerEmail>idleman@idleman.fr</ownerEmail>
-		<dateCreated>$date</dateCreated>
-	</head>
-	<body>\n";
+		$xmlStream = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<opml version=\"2.0\">
+  <head>
+    <title>Leed export</title>
+    <ownerName>Leed</ownerName>
+    <ownerEmail>idleman@idleman.fr</ownerEmail>
+    <dateCreated>$date</dateCreated>
+  </head>
+  <body>\n";
 		$xmlStream .= $this->exportRecursive($this->folders, 2);
-		$xmlStream .= "\t</body>\n</opml>\n";
+		$xmlStream .= "  </body>\n</opml>\n";
 		return $xmlStream;
 	}
 
