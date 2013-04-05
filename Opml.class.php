@@ -26,7 +26,27 @@ class Opml  {
 	 * Convertit les caractères qui interfèrent avec le XML
 	 */
 	protected function escapeXml($string) {
-		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+		/** Les entités sont utiles pour deux raisons : encodage et
+		échappement. L'encodage n'est pas un problème, l'application travaille
+		nativement avec Unicode. L'échappement dans XML impose d'échapper les
+		esperluettes (&) et les guillemets. Ces derniers sont utilisés comme
+		séparateur de chaine. Les simples cotes restent intactes.
+		* On retire toutes les entités de sorte à obtenir une chaîne totalement
+		  en UTF-8. Elle peut alors contenir des & et des ", nocifs pour XML.
+		* On échappe les caractères & et " de sorte à ce que le contenu dans le
+		  XML soit correct. On suppose qu'à la lecture, cet échappement est
+		  annulé.
+		* Accessoirement, on remplace les espaces non signifiants par une seule
+		  espace. C'est le cas des retours chariots physiques, non
+		  interprétables.
+		*/		
+		// Retire toutes les entités, &amp; &eacute; etc.
+		$string = html_entity_decode($string, ENT_COMPAT, 'UTF-8' );
+		// Remet les entités HTML comme &amp; mais ne touche pas aux accents.
+ 		$string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
+ 		// Supprime les blancs non signifiants comme les sauts de ligne.
+ 		$string = preg_replace('/\s+/', ' ', $string);
+		return $string;
 	}
 
 	/**
