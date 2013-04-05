@@ -72,6 +72,8 @@ class Feed extends MysqlEntity{
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 		if (!$feed->init()) {
 			$this->error = $feed->error;
+			$this->lastupdate = $_SERVER['REQUEST_TIME'];
+			$this->save();
 			return false;
 		}
 
