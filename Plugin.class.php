@@ -88,7 +88,20 @@ class Plugin{
 		    }    
 		    return $return;
 		}
+		
+		public static function addLink($rel, $link) {  
+		    $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
+		}
 
+		public static function callLink(){
+			$return='';
+		    if(isset($GLOBALS['hooks']['head_link'])) { 
+		        foreach($GLOBALS['hooks']['head_link'] as $head_link) {  
+		            $return .='<link rel="'.$head_link['rel'].'" href="'.$head_link['link'].'" />'."\n";
+		        }
+		    }
+		    return $return;
+		}
 
 		public static function path(){
 			$bt =  debug_backtrace();
