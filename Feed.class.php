@@ -56,7 +56,6 @@ class Feed extends MysqlEntity{
 	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
 	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
-
 	function parse(){
 		if (empty($this->id) || 0 == $this->id) {
 			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
@@ -77,8 +76,6 @@ class Feed extends MysqlEntity{
 			return false;
 		}
 
-		// advice from xrogaan (https://github.com/ldleman/Leed/issues/4)
-		// You probably want to check if $feed->error; isn't NULL after https://github.com/ldleman/Leed/blob/master/Feed.class.php#L50
 		$feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
 
 		if($this->name=='') $this->name = $feed->get_title();
@@ -255,7 +252,6 @@ class Feed extends MysqlEntity{
 		return $feeds;
 	}
 
-
 	function getFolder(){
 		return $this->folder;
 	}
@@ -271,7 +267,6 @@ class Feed extends MysqlEntity{
 	function setLastupdate($lastupdate){
 		$this->lastupdate = $lastupdate;
 	}
-
 
 	/** @returns vrai si l'url n'est pas déjà connue .*/
 	function notRegistered() {
