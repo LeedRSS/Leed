@@ -101,7 +101,7 @@ class Event extends MysqlEntity{
 	}
 
 	function setPubdate($pubdate){
-		$this->pubdate = strtotime($pubdate);
+		$this->pubdate = (is_numeric($pubdate)?$pubdate:strtotime($pubdate));
 	}
 
 	function getLink(){
