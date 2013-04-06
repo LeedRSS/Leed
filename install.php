@@ -150,6 +150,7 @@ if(isset($_['installButton'])){
 	$configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
 	$configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
 	$configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
+	$configurationManager->add('articleDisplayTri',$_['articleDisplayTri']);
 	$configurationManager->add('synchronisationType',$_['synchronisationType']);
 	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 	
@@ -291,6 +292,7 @@ if(isset($_['installButton'])){
 					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
 					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
 					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
+					<p>Affichage des articles les plus récents en premier : <input type="radio" checked="checked" value="1" name="articleDisplayTri">Oui <input type="radio" value="0" name="articleDisplayTri">Non</p>
 					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
 					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
 					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
