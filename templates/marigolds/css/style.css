@@ -432,7 +432,7 @@ header a,header a:hover,header a:visited{
 	margin-left: 40px;
 }
 
-.settings section:not(:first-child){
+.settings article > section:not(:first-child){
 	display:none;
 }
 .pointer{
