@@ -364,7 +364,7 @@ switch ($action){
 				$newFeed->save();
 				$newFeed->parse(true);
 			}
- 			header('location: ./settings.php#defaultFolder');
+ 			header('location: ./settings.php#manageBloc');
 	break;
 
 	case 'changeFeedFolder':
