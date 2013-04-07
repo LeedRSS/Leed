@@ -304,7 +304,13 @@ class Functions
 	public static function triggerDirectOutput() {
 		// La ligne de commande n'en a pas besoin.
 		if ('cli'==php_sapi_name()) return;
-		@apache_setenv('no-gzip', 1);
+		if (function_exists('apache_setenv')) {
+			/* Selon l'hébergeur la fonction peut être désactivée. Alors Php
+			   arrête le programme avec l'erreur :
+			   "PHP Fatal error:  Call to undefined function apache_setenv()".
+			*/
+			@apache_setenv('no-gzip', 1);
+		}
 		@ini_set('zlib.output_compression', 0);
 		@ini_set('implicit_flush', 1);
 		for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
