@@ -181,6 +181,7 @@ header a,header a:hover,header a:visited{
 	background-color:#f16529;
 	border:0px;
 	color:#ffffff;
+	text-decoration:none;
 	padding:3px 8px 3px 8px;
 	font-size:10px;
 	font-weight:bold;
@@ -275,11 +276,11 @@ header a,header a:hover,header a:visited{
 	color: #ffffff;
 	cursor: pointer;
 }
-#main article section h2.articleTitle, #preferenceBloc h2{
+#main article section h2.articleTitle, .preferenceBloc h2{
 	margin-bottom:5px;
 	font-size:1.1em;
 }
-#main article section h3.articleDetails, #preferenceBloc h3{
+#main article section h3.articleDetails, .preferenceBloc h3{
 	font-size:10px;
 	font-weight:normal;
 	color:#939393;
@@ -428,13 +429,18 @@ header a,header a:hover,header a:visited{
 	width:70%;
 }
 
-#addBloc{
+.addBloc{
 	margin-left: 40px;
+}
+
+#main.settings aside a {
+	font-size: 16px;
 }
 
 .settings article > section:not(:first-child){
 	display:none;
 }
+
 .pointer{
 	cursor:pointer;
 }
@@ -494,22 +500,22 @@ footer a,#main aside a{
 	text-decoration:none;
 }
 
-#pluginBloc li,#pluginBloc ul{
+.pluginBloc li,.pluginBloc ul{
 	list-style-type: none;
 	margin: 0px;
 	padding:0px;
 }
-#pluginBloc ul li{
+.pluginBloc ul li{
 	padding:5px 0 5px 0;
 	border-bottom: 1px dotted #cecece;
 	margin:0 0 5px 0;
 }
-#pluginBloc ul li ul li{
+.pluginBloc ul li ul li{
 	padding: 0;
 	border-bottom: none;
 	margin:0;
 }
-#pluginBloc ul li ul li h4,#pluginBloc ul li ul li code{
+.pluginBloc ul li ul li h4,.pluginBloc ul li ul li code{
 	display:inline;
 }
 
