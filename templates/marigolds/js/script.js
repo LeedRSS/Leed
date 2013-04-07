@@ -295,9 +295,9 @@ function readThis(element,id,from,callback){
 //synchronisation manuelle lancée depuis le boutton du menu
 function synchronize(code){
 	if(code!=''){
-	$('article').html('<section>'+
-	'<iframe class="importFrame" src="action.php?action=synchronize&format=html&code='+code+'" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>'+
-	'</section>');
+			$('article').prepend('<section>'+
+			'<iframe class="importFrame" src="action.php?action=synchronize&format=html&code='+code+'" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>'+
+			'</section>');
 	}else{
 		alert('Vous devez être connecté pour synchroniser vos flux');
 	}
