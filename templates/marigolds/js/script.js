@@ -16,11 +16,32 @@ keyCode['space'] = 32;
 
 $(document).ready(function(){
 
-	targetThisEvent($('article section:first'),true);
-	if($("input[name='articleDisplayContent']").length){
-		$("input[name='articleDisplayContent']").click(function(){
-			toggleArticleView();
-		});
+	// Page settings
+	if($('.settings').length){
+
+		// Gestion affichage partiel ou complet en fonction de affichage du contenu
+		if($("input[name='articleDisplayContent']").length){
+			$("input[name='articleDisplayContent']").click(function(){
+				toggleArticleView();
+			});
+		}
+
+		// Si nom du bloc en hash dans url
+		var hash=window.location.hash;
+		if(hash.length){
+			toggleBlocks(hash);
+		}
+
+		// Affichage des differents blocs apres clic sur le menu
+		$('.toggle').click(function(){
+				toggleBlocks($(this).attr("href"));
+			}
+		);
+
+	}else{
+
+		targetThisEvent($('article section:first'),true);
+
 	}
 
 });
@@ -106,7 +127,7 @@ function targetThisEvent(event,focusOn){
 	if(target.prop("tagName")=='SECTION'){
 		$('.eventSelected').removeClass('eventSelected');
 		target.addClass('eventSelected');
-		var id = $('.anchor',target).attr('name');
+		var id = target.attr('id');
 		if(focusOn)window.location = '#'+id;
 	}
 }
@@ -286,4 +307,10 @@ function synchronize(code){
 function toggleArticleView(){
 	var element = $("input[name=articleView]");
 	element.prop("disabled",!element.prop("disabled"));
+}
+
+// Disparition block et affichage block clique
+function toggleBlocks(target){
+	target=target.substring(1);
+	$('#main article > section').hide();$('.'+target).fadeToggle(200);
 }

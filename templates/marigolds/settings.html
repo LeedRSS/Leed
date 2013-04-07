@@ -16,13 +16,13 @@
 					<ul>
 							
 							
-							<li class="pointer" onclick="$('#main section').hide();$('#main #manageBloc,#main #manageBloc section').fadeToggle(200);">Gestion des flux</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #synchronizeBloc').fadeToggle(200);">Mise à jour manuelle des flux</a></li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #preferenceBloc,#main #preferenceBloc section').fadeToggle(200);">Préférences</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #importBloc').fadeToggle(200);">Import</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #exportBloc').fadeToggle(200);">Export</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #bookBloc').fadeToggle(200);">Bookmarklet</li>
-							<li class="pointer" onclick="$('#main section').hide();$('#main #pluginBloc,#main #pluginBloc section').fadeToggle(200);">Plugins disponibles</li>
+							<li><a class="toggle" href="#manageBloc">Gestion des flux</a></li>
+							<li><a class="toggle" href="#synchronizeBloc">Mise à jour manuelle des flux</a></li>
+							<li><a class="toggle" href="#preferenceBloc">Préférences</a></li>
+							<li><a class="toggle" href="#importBloc">Import</a></li>
+							<li><a class="toggle" href="#exportBloc">Export</a></li>
+							<li><a class="toggle" href="#bookBloc">Bookmarklet</a></li>
+							<li><a class="toggle" href="#pluginBloc">Plugins disponibles</a></li>
 							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tout les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
@@ -31,12 +31,12 @@
 			<article>
 
 
-			<section id="manageBloc">
+			<section class="manageBloc">
 
 					<h2>Gestion des flux :</h2>
 
 					<form action="action.php?action=addFeed" method="POST">
-				<section id="addBloc">
+				<section class="addBloc">
 					<h3>Ajout d'un flux</h3>
 					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
 					 <select name="newUrlCategory">
@@ -49,7 +49,7 @@
 				</section>
 				</form>
 
-				<section id="addBloc">
+				<section class="addBloc">
 				<h3>Ajout d'un dossier</h3>
 			
 					<form method="POST" action="action.php?action=addFolder">
@@ -97,12 +97,12 @@
 				</ul>
 				</section>
 
-				<section id="synchronizeBloc">
+				<section class="synchronizeBloc">
 					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
 				</section>
 
 				{if="(isset($myUser)) && ($myUser!=false)"}
-				<section id="preferenceBloc">
+				<section class="preferenceBloc">
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<h2>Préférences :</h2>
 					<section>
@@ -186,19 +186,19 @@
 			{/if}
 
 
-				<section id="importBloc">
+				<section class="importBloc">
 					 <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
 
 				
-				<section id="exportBloc">
+				<section class="exportBloc">
 					<form action="action.php?action=exportFeed" method="POST">
 						<h2>Exporter les flux au format opml</h2>
 						<p>Fichier OPML : <button name="exportButton">Exporter</button></p>
 					</form>
 				</section>
 				
-				<section id="bookBloc">
+				<section class="bookBloc">
 					<h2>Utiliser le bookmarklet :</h2>
 					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
 					{if="$myUser!=false"}
@@ -211,14 +211,14 @@
 				
 
 				
-				<section id="pluginBloc">
+				<section class="pluginBloc">
 					<h2>Plugins :</h2>
-					<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a href="https://github.com/ldleman/Leed-market/tree/master/Marigolds">sur le Leed Market</a></p>
-					<p>Voiçi la liste des plugins installés :</p>
+					<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a href="https://github.com/ldleman/Leed-market/tree/master/Marigolds">sur le Leed Market</a>.</p>
+					<p>Voici la liste des plugins installés :</p>
 					{if="$myUser!=false"}
 					<ul class="pluginList">
 					{if="count($plugins)==0"}
-					Aucun plugin n'est installé pour le moment
+					Aucun plugin n'est installé pour le moment.
 					{else}
 					{loop="$plugins"}
 					<li>
