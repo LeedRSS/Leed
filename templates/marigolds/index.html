@@ -155,33 +155,32 @@
 
 						<!-- CONTENU/DESCRIPTION -->
 						{if="$articleDisplayContent"}
-						<div class="articleContent">
-							{if="$articleView=='partial'"}
-								{function="Plugin::callHook("event_pre_description", array(&$value))"}
-								{$value->getDescription()}
-								{function="Plugin::callHook("event_post_description", array(&$value))"}
-							{else}
-								{function="Plugin::callHook("event_pre_content", array(&$value))"}
-								{$value->getContent()}
-								{function="Plugin::callHook("event_post_content", array(&$value))"}
-							{/if}
-						</div> 
-						{/if}
-						
-
-						{if="$articleView!='partial'"}
-						<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
-						<h3 class="articleDetails">
-							{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
+							<div class="articleContent">
+								{if="$articleView=='partial'"}
+									{function="Plugin::callHook("event_pre_description", array(&$value))"}
+									{$value->getDescription()}
+									{function="Plugin::callHook("event_post_description", array(&$value))"}
+								{else}
+									{function="Plugin::callHook("event_pre_content", array(&$value))"}
+									{$value->getContent()}
+									{function="Plugin::callHook("event_post_content", array(&$value))"}
+								{/if}
+							</div> 
 							
-							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
-							 {if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
-							{else}
-							 <a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  
-							 {/if}
-							 <div class="clear"></div>
-							 {function="Plugin::callHook("event_post_bottom_options", array(&$value))"}
-						</h3>
+							{if="$articleView!='partial'"}
+							<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
+							<h3 class="articleDetails">
+								{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
+							
+								<span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
+								{if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
+								{else}
+							 	<a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  
+							 	{/if}
+							 	<div class="clear"></div>
+							 	{function="Plugin::callHook("event_post_bottom_options", array(&$value))"}
+							</h3>
+							{/if}
 						{/if}
 
 
