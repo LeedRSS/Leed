@@ -123,8 +123,7 @@
 					<!-- CORPS ARTICLE -->
 					 
 					
-					<section onclick="targetThisEvent(this);" class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
-						<a class="anchor" name="{$value->getId()}"></a>
+					<section id="{$value->getId()}" onclick="targetThisEvent(this);" class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
