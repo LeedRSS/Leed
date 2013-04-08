@@ -298,7 +298,7 @@ if(isset($_['installButton'])){
 					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
 					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
 					<p>Catégorie par defaut: <input type="text" value="Géneral" name="category"></p>
-					<p>Conserver les <input type="text" value="30" name="feedMaxEvents"> derniers événement d'un flux</p>
+					<p>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événement d'un flux</p>
 					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
 					
 				</section>

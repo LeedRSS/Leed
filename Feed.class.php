@@ -156,6 +156,13 @@ class Feed extends MysqlEntity{
 
 
 	function removeOldEvents($maxEvent){
+		/* Ignore la configuration feedMaxEvents. Le nombre est notablement plus
+		grand que le nombre d'article téléchargé. Règle temporairement le bug
+		de résurection d'articles supprimés mais encore présents dans le flux
+		du fournisseur.
+		Première étape de la résolution du bug #109.
+		*/
+		$maxEvent = 300;
 		$eventManager = new Event();
 		$nbLines = $eventManager->rowCount(array(
 			'feed'=>$this->id,
