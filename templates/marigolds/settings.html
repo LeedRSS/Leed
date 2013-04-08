@@ -158,6 +158,11 @@
 							<input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">Non</label>
 						</fieldset>
 						<fieldset>
+							<legend>Afficher les articles les plus récent en premier</legend>
+							<input type="radio" {if="$articleDisplaySort"} checked="checked" {/if} value="1" id="articleDisplaySortYes" name="articleDisplaySort" /><label for="articleDisplaySortYes">Oui</label>
+							<input type="radio" {if="!$articleDisplaySort"} checked="checked" {/if} value="0" id="articleDisplaySortNo" name="articleDisplaySort" /><label for="articleDisplaySortNo">Non</label>
+						</fieldset>
+						<fieldset>
 							<legend>Affichage du contenu de l'article</legend>
 							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='1'"} checked="checked" {/if} value="1" id="articleDisplayContentYes" name="articleDisplayContent" /><label for="articleDisplayContentYes">Oui</label>
 							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='0'"} checked="checked" {/if} value="0" id="articleDisplayContentNo" name="articleDisplayContent" /><label for="articleDisplayContentNo">Non</label>
