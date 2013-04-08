@@ -286,6 +286,11 @@ header a,header a:hover,header a:visited{
 	color:#939393;
 	margin:0px;
 }
+#main article section .articleDetails .readUnreadButton,
+#main article section .articleDetails .readUnreadButton:hover
+{
+	color: #FFF;
+}
 
 #main article div.articleContent .enclosure{
 	color:#F16529;

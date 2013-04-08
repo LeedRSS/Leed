@@ -123,7 +123,7 @@
 					<!-- CORPS ARTICLE -->
 					 
 					
-					<section id="{$value->getId()}" onclick="targetThisEvent(this);" class="{if="!$value->getUnread()"} eventRead {/if} {$hightlighted%2==0?'eventHightLighted':''}" >
+					<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}" >
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 						<!-- TITRE -->
 						<h2 class="articleTitle">
@@ -149,7 +149,7 @@
 							 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a> 
 							 {/if}
 							
-							 <span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
+							 <a class="pointer right readUnreadButton">(lu/non lu)</a>
 							 {function="Plugin::callHook("event_post_top_options", array(&$value))"}
 						</h3>
 
@@ -172,7 +172,7 @@
 							<h3 class="articleDetails">
 								{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
 							
-								<span class="pointer right readUnreadButton" onclick="readThis(this,{$value->getId()}{$action=='unreadEvents' || $action==''?',true':''});">(lu/non lu)</span>
+								<a class="pointer right readUnreadButton">(lu/non lu)</a>
 								{if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
 								{else}
 							 	<a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  

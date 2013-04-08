@@ -42,6 +42,16 @@ $(document).ready(function(){
 
 		targetThisEvent($('article section:first'),true);
 
+		$('article section').click(function(event){
+			var target = event.target;
+			var id = this.id;
+			if($(target).hasClass('readUnreadButton')){
+				buttonAction(target,id);
+			}else{
+				targetThisEvent(this);
+			}
+		});
+
 	}
 
 });
@@ -137,25 +147,22 @@ function openTargetEvent(){
 
 function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
-	var id = $('.anchor',target).attr('name');
+	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
 		targetThisEvent($('.eventSelected').next(),true);
 	});
-	
-	
-
 }
 
 function readAllDisplayedEvents(){
 	$('article section').each(function(i,article){
 		var buttonElement = $('.readUnreadButton',article);
-		var id = $('.anchor',article).attr('name');
+		var id = $('.anchor',article).attr('id');
 		readThis(buttonElement,id);
 	});
 }
 
 function switchFavoriteTargetEvent(){
-	var id = $('.anchor',target).attr('name');
+	var id = $(target).attr('id');
 	if($('.favorite',target).html()=='Favoriser'){
 		addFavorite($('.favorite',target),id);
 	}else{
@@ -261,15 +268,21 @@ function changeFeedFolder(element,id){
 function readThis(element,id,from,callback){
 	var hide = ($('#pageTop').html()==''?true:false);
 	var parent = $(element).parent().parent();
+	var nextEvent = $('#'+id).next();
 	if(!parent.hasClass('eventRead')){
 
 		if(hide){ 
-					  		parent.fadeOut(200,function(){
-					  			if(null!=callback) callback();
-					  		}); 
-					  	}else{ 
-					  		parent.addClass('eventRead');
-					  	}
+			parent.fadeOut(200,function(){
+				if(callback){
+					callback();
+				}else{
+					targetThisEvent(nextEvent,true);
+				}
+			}); 
+		}else{ 
+			parent.addClass('eventRead');
+			targetThisEvent(nextEvent,true);
+		}
 		
 		$.ajax({
 					  url: "./action.php?action=readContent",
@@ -313,4 +326,14 @@ function toggleArticleView(){
 function toggleBlocks(target){
 	target=target.substring(1);
 	$('#main article > section').hide();$('.'+target).fadeToggle(200);
+}
+
+function buttonAction(target,id){
+	// Check unreadEvent
+	if($('#pageTop').html()){
+		var from=true;
+	}else{
+		var from='';
+	}
+	readThis(target,id,from);
 }
