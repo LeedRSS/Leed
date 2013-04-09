@@ -18,6 +18,7 @@ $tpl->assign('articleDisplayLink', $configurationManager->get('articleDisplayLin
 $tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDate')); 
 $tpl->assign('articleDisplayAuthor', $configurationManager->get('articleDisplayAuthor'));
 $tpl->assign('articleDisplaySort', $configurationManager->get('articleDisplaySort'));
+$tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisplayFolderSort'));
 $tpl->assign('articleDisplayContent', $configurationManager->get('articleDisplayContent')); 
 $tpl->assign('articleView', $configurationManager->get('articleView'));
 //Récuperation des plugins  

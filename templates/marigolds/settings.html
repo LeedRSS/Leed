@@ -143,6 +143,16 @@
 							<input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
 						</fieldset>
 						<fieldset>
+							<legend>Articles les plus récents en premier (sur page d'accueil)</legend>
+							<input type="radio" {if="$articleDisplaySort"} checked="checked" {/if} value="1" id="articleDisplaySortYes" name="articleDisplaySort" /><label for="articleDisplaySortYes">Oui</label>
+							<input type="radio" {if="!$articleDisplaySort"} checked="checked" {/if} value="0" id="articleDisplaySortNo" name="articleDisplaySort" /><label for="articleDisplaySortNo">Non</label>
+						</fieldset>
+						<fieldset>
+							<legend>Articles les plus récents en premier (sur les dossiers)</legend>
+							<input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortYes">Oui</label>
+							<input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSorttNo" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortNo">Non</label>
+						</fieldset>
+						<fieldset>
 							<legend>Affichage du lien direct de l'article</legend>
 							<input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="articleDisplayLink" /><label for="articleDisplayLinkYes">Oui</label>
 							<input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="articleDisplayLink" /><label for="articleDisplayLinkNo">Non</label>
@@ -156,11 +166,6 @@
 							<legend>Affichage de l'auteur de l'article</legend>
 							<input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="articleDisplayAuthor" /><label for="articleDisplayAuthorYes">Oui</label>
 							<input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">Non</label>
-						</fieldset>
-						<fieldset>
-							<legend>Afficher les articles les plus récent en premier</legend>
-							<input type="radio" {if="$articleDisplaySort"} checked="checked" {/if} value="1" id="articleDisplaySortYes" name="articleDisplaySort" /><label for="articleDisplaySortYes">Oui</label>
-							<input type="radio" {if="!$articleDisplaySort"} checked="checked" {/if} value="0" id="articleDisplaySortNo" name="articleDisplaySort" /><label for="articleDisplaySortNo">Non</label>
 						</fieldset>
 						<fieldset>
 							<legend>Affichage du contenu de l'article</legend>

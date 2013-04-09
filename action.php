@@ -199,6 +199,7 @@ switch ($action){
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
 			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);			
 			$configurationManager->put('articleDisplaySort',$_['articleDisplaySort']);
+			$configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
 			$configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
 
