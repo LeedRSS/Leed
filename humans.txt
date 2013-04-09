@@ -5,8 +5,8 @@
 /* TEAM */
   Creator: Idleman (idleman@idleman.fr)
   Contributors : Sbgodin (christophe.henry@sbgodin.fr)
-  			     Simounet (contact@simounet.net)
-  			     Alef-Burzmali (thomas.fargeix@burzmali.com)
+                 Simounet (contact@simounet.net)
+                 Alef-Burzmali (thomas.fargeix@burzmali.com)
   Site: http://blog.idleman.fr
   Twitter: none
   Location: Nowhere
