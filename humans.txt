@@ -4,7 +4,7 @@
 
 /* TEAM */
   Creator: Idleman (idleman@idleman.fr)
-  Contributors : Sbgodin (christophe.henry@sbgodin.fr)
+  Contributors : Sbgodin (http://sbgodin.fr)
                  Simounet (contact@simounet.net)
                  Alef-Burzmali (thomas.fargeix@burzmali.com)
   Site: http://blog.idleman.fr
