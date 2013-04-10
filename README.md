@@ -38,10 +38,13 @@ Installation
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
 5. [Optionnel] Si vous souhaitez que les mises a jour de flux se fassent automatiquement toutes les heures, mettez en place un cron (avec _crontab -e_ par exemple) :
-``` crontab
+```
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log ↩
+```
+```
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
+
 Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter. Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
 6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p
 
