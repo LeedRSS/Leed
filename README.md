@@ -44,7 +44,6 @@ Installation
 ```
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
-
 Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter. Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
 6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p
 
