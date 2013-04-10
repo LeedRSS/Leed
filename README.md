@@ -37,16 +37,25 @@ Installation
 2. Placez le projet dans votre repertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
-5. [Optionnel] Si vous souhaitez que les mises a jour de flux se fassent automatiquement toutes les heures, mettez en place un cron (avec _crontab -e_ par exemple) :
-```
-0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log ↩
-```
-```
-"http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
-```
-Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter. Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
+5. [Optionnel] Si vous souhaitez que les mises a jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
 6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p
 
+Tâches programmées avec cron
+====
+
+On peut éditer les tâches programmées avec _crontab -e_. Il y a deux façons de mettre à jour les flux. Les exemples qui suivent mettent à jour toutes les heures.
+
+1. En appelant directement Leed. Cette méthode a l'avantage d'être directe et de produire une sortie formatée pour la console mais requiert un accès local :
+``` crontab
+0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
+```
+
+1. En appelant Leed depuis le client web _wget_. Cette méthode nécessite un accès réseau mais a l'avantage de pouvoir être déclenchée à distance. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation :
+```
+0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
+"http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
+```
+ Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
 
 Foire Aux Questions (F.A.Q.)
 ====
