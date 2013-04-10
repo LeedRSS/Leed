@@ -33,7 +33,7 @@ $articlePerPages = $configurationManager->get('articlePerPages');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
-$articleDisplaySort = $configurationManager->get('articleDisplaySort');
+$articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
 $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
 
 $tpl->assign('articleDisplayContent',$configurationManager->get('articleDisplayContent'));
@@ -42,7 +42,7 @@ $tpl->assign('articlePerPages',$configurationManager->get('articlePerPages'));
 $tpl->assign('articleDisplayLink',$configurationManager->get('articleDisplayLink'));
 $tpl->assign('articleDisplayDate',$configurationManager->get('articleDisplayDate'));
 $tpl->assign('articleDisplayAuthor',$configurationManager->get('articleDisplayAuthor'));
-$tpl->assign('articleDisplaySort',$configurationManager->get('articleDisplaySort'));
+$tpl->assign('articleDisplayHomeSort',$configurationManager->get('articleDisplayHomeSort'));
 $tpl->assign('articleDisplayFolderSort',$configurationManager->get('articleDisplayFolderSort'));
 
 $target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
@@ -107,7 +107,7 @@ $pagesArray = array();
 						$page = (isset($_['page'])?$_['page']:1);
 						$pages = ceil($numberOfItem/$articlePerPages); 
 						$startArticle = ($page-1)*$articlePerPages;
-						if($articleDisplaySort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
+						if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
 						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),$order,$startArticle.','.$articlePerPages);
 						$tpl->assign('numberOfItem',$numberOfItem);
 

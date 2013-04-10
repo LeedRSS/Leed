@@ -143,9 +143,9 @@
 							<input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
 						</fieldset>
 						<fieldset>
-							<legend>Articles les plus récents en premier (sur page d'accueil)</legend>
-							<input type="radio" {if="$articleDisplaySort"} checked="checked" {/if} value="1" id="articleDisplaySortYes" name="articleDisplaySort" /><label for="articleDisplaySortYes">Oui</label>
-							<input type="radio" {if="!$articleDisplaySort"} checked="checked" {/if} value="0" id="articleDisplaySortNo" name="articleDisplaySort" /><label for="articleDisplaySortNo">Non</label>
+							<legend>Articles les plus récents en premier (sur la page d'accueil)</legend>
+							<input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortYes">Oui</label>
+							<input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortNo">Non</label>
 						</fieldset>
 						<fieldset>
 							<legend>Articles les plus récents en premier (sur les dossiers)</legend>
