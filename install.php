@@ -43,7 +43,12 @@ foreach($_ as $key=>&$val){
 	<meta name="viewport" content="width=device-width">
 
 	<link rel="stylesheet" href="templates/marigolds/css/style.css">
-
+	<style>
+		code {
+			color:#000;
+			font-size: 1em;
+		}
+	</style>
 	<script src="templates/marigolds/js/libs/jqueryAndModernizr.min.js"></script>
 </head>
 <body>
@@ -164,38 +169,33 @@ if(isset($_['installButton'])){
 	$folder->setParent(-1);
 	$folder->setIsopen(1);
 	$folder->save();
-	
-
+	$dirname = dirname(__FILE__);
+	$logFile = str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__);
+	$wgetUrl = "{$root}action.php?action=synchronize&code={$synchronisationCode}";
 ?>
 
 	 <article style="width:100%;">
-				<header>
-					<h1>Installation de Leed terminée</h1>
-					<p>L'installation de Leed est terminée !!</p>
+		<h2>Mises à jour automatiques</h2>
 
-					
-					
-					<?php if ($_['synchronisationType']=='auto'){ ?>
-					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
-					<code>sudo crontab -e</code>
-					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0 * * * * wget --no-check-certificate -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
-					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra à jour vos flux toutes les heures et ajoutera le rapport de mise a jour sous le nom "cron.log" dans votre dossier leed</p>
-	 				
-					<?php }else if ($_['synchronisationType']=='graduate'){ ?>
-					<p>N'oubliez pas de mettre en place le CRON adapté pour que vos flux se mettent à jour, exemple :</p>
-					<code>sudo crontab -e</code>
-					<p>Dans le fichier qui s'ouvre ajoutez la ligne :</p>
-					<code>0,5,10,15,20,25,30,35,40,45,50,55 * * * * wget --no-check-certificate -q -O <?php echo (str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__)); ?> "<?php echo $root ?>action.php?action=synchronize&code=<?php echo $synchronisationCode; ?>"	#Commande de mise a jour de leed</code>
-					<p>Quittez et sauvegardez le fichier.</p>
-					<p>Cet exemple mettra à jour vos flux toutes les 5 minutes(conseillé pour une synchronisation graduée) et ajoutera le rapport de mise a jour sous le nom "cron.log" dans votre dossier leed</p>
-	 				
+		<h3>Appel direct</h3>
+<p>Cette méthode requiert un accès local. Elle permet de lancer directement la synchronisation. Elle devrait être préférée lorsqu'on dispose d'un accès direct à la ligne de commande de l'hébergement.</p>
 
-					<?php }  ?>
+<code>0 * * * * cd <?php echo $dirname ?> &amp;&amp; php action.php >> logs/cron.log 2>&1</code>
 
-					<p><h3>Important ! </h3>N'oubliez pas de supprimer la <b>page install.php</b> par mesure de sécurité</p>
-	 				<p>Cliquez <a style="color:#F16529;" href="index.php">ici</a> pour acceder au script</p>
+		<h3>Appel réseau</h3>
+<p>Cette méthode nécessite l'accès à Leed en http via la commande <em>wget</em>, par exemple. Cette méthode a l'avantage de pouvoir être déclenchée à distance et sans accès à la ligne de commande. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation qui est disponible dans la configuration :</p>
+
+<code>0 * * * * wget --no-check-certificate --quiet --output-document
+<?php echo $logFile." '".$wgetUrl."'" ?>
+</code>
+
+Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essayer son chemin complet <em>/usr/bin/wget</em>.
+
+		<h3>Planification</h3>
+<p>Dans le cas d'une synchronisation complète, une synchronisation par heure suffit. Pour une synchronisation graduée, les flux sont téléchargés au fur et à mesure. Il vaut mieux lancer plus souvent les mises à jour. Par exemple, toutes les 5 minutes :</p>
+<code>*/5 * * * * wget (...)</code>
+
+		<h3>Cliquez <a style="color:#F16529" href="index.php">ici</a> pour acceder au script</h3>
 	 <?php
 }else{
 ?>
