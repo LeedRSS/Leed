@@ -49,7 +49,11 @@ class Configuration extends MysqlEntity{
 
 	public function put($key,$value){
 		$configurationManager = new Configuration();
-		$configurationManager->change(array('value'=>$value),array('key'=>$key));
+		if (isset($this->confTab[$key])){
+			$configurationManager->change(array('value'=>$value),array('key'=>$key));
+		} else {
+			$configurationManager->add($key,$value);	
+		}
 		$this->confTab[$key] = $value;
 		unset($_SESSION['configuration']);
 	}
