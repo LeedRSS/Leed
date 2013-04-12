@@ -17,8 +17,20 @@ class Plugin{
 	public static function includeAll(){
 		$pluginFiles = Plugin::getFiles(true);
 		if(is_array($pluginFiles)) {   
+		
 			foreach($pluginFiles as $pluginFile) {  
+
+				//Inclusion du coeur de plugin
 				include $pluginFile;  
+				//Gestion des css du plugin en fonction du thème actif
+				$cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
+				$cssDefault = glob(dirname($pluginFile).'/*/default.css');
+				if(isset($cssTheme[0])){
+
+					$GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssTheme[0])); 
+				}else if(isset($cssDefault[0])){
+					$GLOBALS['hooks']['css_files'][] =  Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssDefault[0])); 
+				} 
 			}  
 		}  
 	}
@@ -88,6 +100,8 @@ class Plugin{
 		    }    
 		    return $return;
 		}
+
+
 		
 		public static function addLink($rel, $link) {  
 		    $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
@@ -107,6 +121,7 @@ class Plugin{
 			$bt =  debug_backtrace();
 			return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/'; 
 		}
+
 
 		public static function addJs($js) {  
 			$bt =  debug_backtrace();
@@ -139,6 +154,8 @@ class Plugin{
 		if(!$onlyActivated)$files = array_merge($files,glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php'));
 		return $files;
 	}
+
+
 
 	function getName(){
 		return $this->name;
