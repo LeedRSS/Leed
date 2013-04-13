@@ -1,7 +1,7 @@
 Leed
 ====
 
-Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) libre et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
+Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
@@ -14,7 +14,7 @@ Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un 
 Présentation
 ====
 
-Leed (contraction de Light Feed) est un agrégateur RSS libre et minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
+Leed (contraction de Light Feed) est un agrégateur RSS minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
 Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche programmée (cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacuns des flux suivis.
 
@@ -38,7 +38,7 @@ Installation
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
 5. [Optionnel] Si vous souhaitez que les mises a jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
-6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p
+6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS svelte :p
 
 Tâches programmées avec cron
 ====
