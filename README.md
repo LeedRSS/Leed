@@ -11,11 +11,6 @@ Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un 
 - Page du projet : http://projet.idleman.fr/leed
 - Licence : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
 
-Présentation
-====
-
-Leed (contraction de Light Feed) est un agrégateur RSS minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
-
 Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche programmée (cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacuns des flux suivis.
 
 A noter que Leed est compatible toutes résolutions, sur pc, tablette et smartphone.
@@ -37,7 +32,7 @@ Installation
 2. Placez le projet dans votre repertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
-5. [Optionnel] Si vous souhaitez que les mises a jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
+5. [Optionnel] Si vous souhaitez que les mises à jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
 6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS svelte :p
 
 Tâches programmées avec cron
