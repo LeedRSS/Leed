@@ -57,6 +57,10 @@ Foire Aux Questions (F.A.Q.)
 
 Vous pouvez retrouver la FAQ du projet ici : http://projet.idleman.fr/leed/?page=FAQ
 
+Plugins
+====
+Le dépot [Leed market](https://github.com/ldleman/Leed-market) contient tous les plugins à jour et approuvés officiellement pour le logiciel Leed.
+
 Bibliothèques utilisées
 ==
 
