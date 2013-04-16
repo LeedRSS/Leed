@@ -258,7 +258,7 @@ switch ($action){
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<body style="height:auto;">
-					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data"><h2>Importer les flux au format opml</h2>
+					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
 					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
 					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 					</form>
