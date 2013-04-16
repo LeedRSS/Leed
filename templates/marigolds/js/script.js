@@ -138,7 +138,7 @@ function targetThisEvent(event,focusOn){
 		$('.eventSelected').removeClass('eventSelected');
 		target.addClass('eventSelected');
 		var id = target.attr('id');
-		if(focusOn)window.location = '#'+id;
+		if(id && focusOn)window.location = '#'+id;
 	}
 }
 function openTargetEvent(){
