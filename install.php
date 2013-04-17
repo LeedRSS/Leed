@@ -195,7 +195,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 <p>Dans le cas d'une synchronisation complète, une synchronisation par heure suffit. Pour une synchronisation graduée, les flux sont téléchargés au fur et à mesure. Il vaut mieux lancer plus souvent les mises à jour. Par exemple, toutes les 5 minutes :</p>
 <code>*/5 * * * * wget (...)</code>
 
-		<h3>Cliquez <a style="color:#F16529" href="index.php">ici</a> pour acceder au script</h3>
+		<h3>Cliquez <a style="color:#F16529" href="index.php">ici</a> pour acceder à votre Leed</h3>
 	 <?php
 }else{
 ?>
