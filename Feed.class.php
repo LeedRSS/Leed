@@ -94,7 +94,7 @@ class Feed extends MysqlEntity{
 
 			// Si le guid existe déjà, on évite de le reparcourir.
 			$alreadyParsed = $eventManager->rowCount(
-				array('guid'=> $item->get_id())
+				array('feed'=> $this->id, 'guid'=> $item->get_id())
 			);
 			if ($alreadyParsed!=0) continue;
 

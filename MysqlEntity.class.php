@@ -353,7 +353,7 @@ class MysqlEntity
 					$whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
 			}
 		}
-		$query = 'SELECT COUNT(id) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
+		$query = 'SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 		$number = mysql_fetch_array($myQuery);
