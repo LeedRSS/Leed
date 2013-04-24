@@ -37,6 +37,9 @@ class MysqlEntity
 			case 'boolean':
 				$return = 'INT(1)';
 			break;
+			case 'index':
+				$return = 'KEY';
+			break;
 			default;
 				$return = 'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
 			break;
@@ -65,6 +68,7 @@ class MysqlEntity
 			case 'string':
 			case 'timestamp':
 			case 'longstring':
+			case 'index':
 			default;
 				$return = mysql_real_escape_string((string)$value);
 			break;
@@ -123,8 +127,12 @@ class MysqlEntity
 		$i=false;
 		foreach($this->object_fields as $field=>$type){
 			if($i){$query .=',';}else{$i=true;}
-			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
-			
+			if ($type=='index') {
+				$fieldTab = explode(';',$field,2);
+				$query .= $this->sgbdType($type).' `'.$fieldTab[0].'` (`'.$fieldTab[1].'`)';
+			} else {
+				$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
+			}
 		}
 
 		$query .= ')
