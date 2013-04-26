@@ -24,7 +24,8 @@ class Event extends MysqlEntity{
 		'feed'=>'integer',
 		'unread'=>'integer',
 		'favorite'=>'integer',
-		'pubdate'=>'integer'
+		'pubdate'=>'integer',
+		'indexfeed;feed'=>'index'
 	);
 
 	function __construct($guid=null,$title=null,$description=null,$content=null,$pubdate=null,$link=null,$category=null,$creator=null){
