@@ -127,11 +127,15 @@ class MysqlEntity
 		$i=false;
 		foreach($this->object_fields as $field=>$type){
 			if($i){$query .=',';}else{$i=true;}
-			if ($type=='index') {
-				$fieldTab = explode(';',$field,2);
-				$query .= $this->sgbdType($type).' `'.$fieldTab[0].'` (`'.$fieldTab[1].'`)';
-			} else {
-				$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
+			switch($type){
+				case 'index':
+					//KEY `index_name` (`name`)
+					$fieldTab = explode(';',$field,2);
+					$query .= $this->sgbdType($type).' `'.$fieldTab[0].'` (`'.$fieldTab[1].'`)';
+				break;
+				default:
+					$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
+				break;
 			}
 		}
 
