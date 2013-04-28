@@ -1,6 +1,7 @@
 var isCtrl = false;
 var isMaj = false;
 var keyCode = new Array();
+var isPushed = true;
 
 keyCode['shift'] = 16;
 keyCode['ctrl'] = 17;
@@ -69,14 +70,22 @@ if(e.which == keyCode['shift']) isMaj=false;
     switch(e.which){
     	
         case keyCode['m']:
+        	if (isPushed) {
+                //on bloque les évènements clavier concurrents
+                isPushed = false;
                 //marque l'élément sélectionné comme lu / non lu
                 readTargetEvent();
+            }
             return false;
         break;
 
         case keyCode['s']:
-                //marque l'élément sélectionné comme favori / non favori
-                switchFavoriteTargetEvent();
+        	if (isPushed) {
+        		//on bloque les évènements clavier concurrents
+        		isPushed = false;
+	    		//marque l'élément sélectionné comme favori / non favori
+	            switchFavoriteTargetEvent();
+	    	}
             return false;
         break;
         case keyCode['n']:
@@ -150,6 +159,8 @@ function readTargetEvent(){
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
 		targetThisEvent($('.eventSelected').next(),true);
+		// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+		isPushed = true;
 	});
 }
 
@@ -168,6 +179,8 @@ function switchFavoriteTargetEvent(){
 	}else{
 		removeFavorite($('.favorite',target),id);
 	}
+	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+	isPushed = true;
 }
 
 /* Fonctions de séléctions fin */
