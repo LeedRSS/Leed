@@ -19,8 +19,12 @@ class Feed extends MysqlEntity{
 		'website'=>'longstring',
 		'url'=>'longstring',
 		'lastupdate'=>'string',
-		'folder'=>'integer',
-		'indexfolder;folder'=>'index'
+		'folder'=>'integer'
+	);
+	
+	protected $object_fields_index = 
+	array(
+		'folder'=>'index'
 	);
 
 	protected $error = '';

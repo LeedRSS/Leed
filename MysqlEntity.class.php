@@ -37,9 +37,6 @@ class MysqlEntity
 			case 'boolean':
 				$return = 'INT(1)';
 			break;
-			case 'index':
-				$return = 'KEY';
-			break;
 			default;
 				$return = 'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
 			break;
@@ -68,7 +65,6 @@ class MysqlEntity
 			case 'string':
 			case 'timestamp':
 			case 'longstring':
-			case 'index':
 			default;
 				$return = mysql_real_escape_string((string)$value);
 			break;
@@ -115,6 +111,21 @@ class MysqlEntity
 	}
 
 	/**
+	* Methode d'ajout d'index à l'entité
+	* @author Maël ILLOUZ
+	* @category manipulation SQL
+	* @param 
+	* @return retour d'une liste d'index à inclure lors de la création de l'entité
+	*/
+	public function addIndex(){
+		$query = '';
+		foreach($this->object_fields_index as $field=>$type){
+			$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
+		}
+		return $query;
+	}
+
+	/**
 	* Methode de creation de l'entité
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
@@ -127,18 +138,9 @@ class MysqlEntity
 		$i=false;
 		foreach($this->object_fields as $field=>$type){
 			if($i){$query .=',';}else{$i=true;}
-			switch($type){
-				case 'index':
-					//KEY `index_name` (`name`)
-					$fieldTab = explode(';',$field,2);
-					$query .= $this->sgbdType($type).' `'.$fieldTab[0].'` (`'.$fieldTab[1].'`)';
-				break;
-				default:
-					$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
-				break;
-			}
+			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
 		}
-
+		$query .= $this->addIndex();
 		$query .= ')
 		ENGINE InnoDB,
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
@@ -146,14 +148,13 @@ class MysqlEntity
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 	}
-
-
+	
 	public function massiveInsert($events){
 		if (empty($events)) return;
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
-				if(($type!='key')&&($type!='index')){
+				if($type!='key'){
 					if($i){$query .=',';}else{$i=true;}
 					$query .='`'.$field.'`';
 				}
@@ -167,7 +168,7 @@ class MysqlEntity
 					
 					$i=false;
 					foreach($event->object_fields as $field=>$type){
-						if(($type!='key')&&($type!='index')){
+						if($type!='key'){
 							if($i){$query .=',';}else{$i=true;}
 							$query .='"'.$this->secure($event->$field, $field).'"';
 						}
@@ -196,11 +197,9 @@ class MysqlEntity
 
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
-				if($type!='index'){
-					if($i){$query .=',';}else{$i=true;}
-					$id = $this->$field;
-					$query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
-				}
+				if($i){$query .=',';}else{$i=true;}
+				$id = $this->$field;
+				$query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
 			}
 
 			$query .= ' WHERE `id`="'.$this->id.'";';
@@ -208,18 +207,14 @@ class MysqlEntity
 			$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
-				if($type!='index'){
-					if($i){$query .=',';}else{$i=true;}
-					$query .='`'.$field.'`';
-				}
+				if($i){$query .=',';}else{$i=true;}
+				$query .='`'.$field.'`';
 			}
 			$query .=')VALUES(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
-				if($type!='index'){
-					if($i){$query .=',';}else{$i=true;}
-					$query .='"'.$this->secure($this->$field, $field).'"';
-				}
+				if($i){$query .=',';}else{$i=true;}
+				$query .='"'.$this->secure($this->$field, $field).'"';
 			}
 
 			$query .=');';
@@ -243,19 +238,15 @@ class MysqlEntity
 		$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
 		$i=false;
 		foreach ($columns as $column=>$value){
-			if($type!='index'){
-				if($i){$query .=',';}else{$i=true;}
-				$query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
-			}
+			if($i){$query .=',';}else{$i=true;}
+			$query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
 		}
 		$query .=' WHERE '; 
 
 		$i = false;
 		foreach ($columns2 as $column=>$value){
-			if($type!='index'){
-				if($i){$query .='AND ';}else{$i=true;}
-				$query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
-			}
+			if($i){$query .='AND ';}else{$i=true;}
+			$query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
 		}
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$this->customQuery($query);
@@ -295,7 +286,6 @@ class MysqlEntity
 			$whereClause .= ' WHERE ';
 				$i = false;
 				foreach($columns as $column=>$value){
-
 					if($i){$whereClause .=' AND ';}else{$i=true;}
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
 				}
@@ -311,9 +301,7 @@ class MysqlEntity
 
 				$object = new $this->CLASS_NAME();
 				foreach($this->object_fields as $field=>$type){
-					if($type!='index'){
-						if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
-					}
+					if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
 				}
 				$objects[] = $object;
 				unset($object);

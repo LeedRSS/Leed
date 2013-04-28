@@ -25,9 +25,13 @@ class Event extends MysqlEntity{
 		'unread'=>'integer',
 		'favorite'=>'integer',
 		'pubdate'=>'integer',
-		'indexfeed;feed'=>'index',
-		'indexunread;unread'=>'index',
-		'indexfavorite;favorite'=>'index'
+	);
+
+	protected $object_fields_index = 
+	array(
+		'feed'=>'index',
+		'unread'=>'index',
+		'favorite'=>'index'
 	);
 
 	function __construct($guid=null,$title=null,$description=null,$content=null,$pubdate=null,$link=null,$category=null,$creator=null){
