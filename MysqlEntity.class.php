@@ -111,21 +111,6 @@ class MysqlEntity
 	}
 
 	/**
-	* Methode d'ajout d'index à l'entité
-	* @author Maël ILLOUZ
-	* @category manipulation SQL
-	* @param 
-	* @return retour d'une liste d'index à inclure lors de la création de l'entité
-	*/
-	public function addIndex(){
-		$query = '';
-		foreach($this->object_fields_index as $field=>$type){
-			$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
-		}
-		return $query;
-	}
-
-	/**
 	* Methode de creation de l'entité
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
@@ -139,6 +124,9 @@ class MysqlEntity
 		foreach($this->object_fields as $field=>$type){
 			if($i){$query .=',';}else{$i=true;}
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
+		}
+		foreach($this->object_fields_index as $field=>$type){
+			$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
 		}
 		$query .= $this->addIndex();
 		$query .= ')
