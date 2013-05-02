@@ -125,10 +125,11 @@ class MysqlEntity
 			if($i){$query .=',';}else{$i=true;}
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
 		}
-		foreach($this->object_fields_index as $field=>$type){
-			$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
+		if (isset($this->object_fields_index)){
+			foreach($this->object_fields_index as $field=>$type){
+				$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
+			}
 		}
-		$query .= $this->addIndex();
 		$query .= ')
 		ENGINE InnoDB,
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
