@@ -8,14 +8,15 @@
 
 class User extends MysqlEntity{
 
-	protected $id,$login,$password;
+	protected $id,$login,$password,$prefixDatabase;
 	protected $TABLE_NAME = 'user';
 	protected $CLASS_NAME = 'User';
 	protected $object_fields = 
 	array(
 		'id'=>'key',
 		'login'=>'string',
-		'password'=>'string'
+		'password'=>'string',
+		'prefixDatabase'=>'string'
 	);
 
 	function __construct(){
@@ -66,7 +67,13 @@ class User extends MysqlEntity{
 		return sha1($password);
 	}
 
+	function setPrefixDatabase($prefix){
+		$this->prefixDatabase = $prefix;
+	}
 
+	function getprefixDatabase(){
+		return $this->prefixDatabase;
+	}
 }
 
 ?>

@@ -10,6 +10,29 @@
 							<li>Mail : <a href="mailto: idleman@idleman.fr">idleman@idleman.fr</a></li>
 							<li>Blog : <a href="http://blog.idleman.fr">blog.idleman.fr</a></li>
 					</ul>
+					<h3>Contributeurs</h3>
+					<ul>
+							<li>Nom : Alef-Burzmali</li>
+							<li>Mail : <a href="mailto:thomas.fargeix@burzmali.com">thomas.fargeix@burzmali.com</a></li>
+							<li>&nbsp;</li>
+					</ul>
+
+					<ul>
+							<li>Nom : Maël ILLOUZ</li>
+							<li>Mail : <a href="mailto:cobalt74@gmail.com">mael.illouz@cobestran.com</a></li>
+							<li>Blog : <a href="http://www.cobestran.com">Blog Cobestran.com</a></li>
+							<li>&nbsp;</li>
+					</ul>
+					<ul>
+							<li>Nom : Sbgodin</li>
+							<li>Blog : <a href="http://sbgodin.fr">Blog sbgodin.fr</a></li>
+							<li>&nbsp;</li>
+					</ul>
+					<ul>
+							<li>Nom : Simounet</li>
+							<li>Mail : <a href="mailto:contact@simounet.net">contact@simounet.net</a></li>
+							<li>&nbsp;</li>
+					</ul>
 				</aside>
 			</div>
 			
@@ -46,8 +69,9 @@
 						<li>4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité</li>
 						<li>5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation ex : <br/>
 
-						<code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron "http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation"</code><br/>
-
+						{if="(isset($myUser)) && ($myUser!=false)"}
+						<code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logs/{$myUser->getLogin()}.log "http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation"</code><br/>
+						{/if}
 						Le code de synchronisation est indiqué dans <a href=settings.php#preferenceBloc>Gestion > Préférences</a><br/>
 						Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
 						<li>6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p.</li>

@@ -33,6 +33,8 @@ class Feed extends MysqlEntity{
 		$this->name = $name;
 		$this->url = $url;
 		parent::__construct();
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) { $this->setPrefixTable($myUser->getPrefixDatabase()); }
 	}
 
 	/** @TODO: ne faire qu'un seul chargement avec SimplePie et récupérer les
@@ -169,6 +171,8 @@ class Feed extends MysqlEntity{
 		*/
 		$maxEvent = 300;
 		$eventManager = new Event();
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) { $eventManager->setPrefixTable($myUser->getPrefixDatabase()); }
 		$nbLines = $eventManager->rowCount(array(
 			'feed'=>$this->id,
  			'unread'=>0,
@@ -176,7 +180,7 @@ class Feed extends MysqlEntity{
 		));
 		$limit = $nbLines - $maxEvent;
 		if ($limit<=0) return;
-		$tableEvent = '`'.MYSQL_PREFIX."event`";
+		$tableEvent = '`'.$eventManager->getPrefixTable()."event`";
 		$query = "
 			DELETE FROM {$tableEvent}
 			WHERE feed={$this->id} AND favorite!=1 AND unread!=1
@@ -233,7 +237,9 @@ class Feed extends MysqlEntity{
 
 	function countUnreadEvents(){
 		$unreads = array();
-		$results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."event.feed FROM ".MYSQL_PREFIX."event WHERE ".MYSQL_PREFIX."event.unread = 1 GROUP BY ".MYSQL_PREFIX."event.feed") ;
+		$prefixTable = $this->getPrefixTable();
+
+		$results = Feed::customQuery("SELECT COUNT(".$prefixTable."event.id), ".$prefixTable."event.feed FROM ".$prefixTable."event WHERE ".$prefixTable."event.unread = 1 GROUP BY ".$prefixTable."event.feed") ;
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
 				$unreads[$item[1]] = $item[0];
@@ -246,7 +252,8 @@ class Feed extends MysqlEntity{
 		$feedsFolderMap = array();
 		$feedsIdMap = array();
 
-		$results = Feed::customQuery("SELECT ".MYSQL_PREFIX."feed.name AS name, ".MYSQL_PREFIX."feed.id   AS id, ".MYSQL_PREFIX."feed.url  AS url, ".MYSQL_PREFIX."folder.id AS folder FROM ".MYSQL_PREFIX."feed INNER JOIN ".MYSQL_PREFIX."folder ON ( ".MYSQL_PREFIX."feed.folder = ".MYSQL_PREFIX."folder.id ) ORDER BY ".MYSQL_PREFIX."feed.name ;");
+		$prefixTable = $this->getPrefixTable();
+		$results = Feed::customQuery("SELECT ".$prefixTable."feed.name AS name, ".$prefixTable."feed.id   AS id, ".$prefixTable."feed.url  AS url, ".$prefixTable."folder.id AS folder FROM ".$prefixTable."feed INNER JOIN ".$prefixTable."folder ON ( ".$prefixTable."feed.folder = ".$prefixTable."folder.id ) ORDER BY ".$prefixTable."feed.name ;");
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
 				$name = $item['name'];

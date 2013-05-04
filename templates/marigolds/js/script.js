@@ -1,6 +1,7 @@
 var isCtrl = false;
 var isMaj = false;
 var keyCode = new Array();
+var isPushed = true;
 
 keyCode['shift'] = 16;
 keyCode['ctrl'] = 17;
@@ -69,53 +70,61 @@ if(e.which == keyCode['shift']) isMaj=false;
     switch(e.which){
     	
         case keyCode['m']:
+        	if (isPushed) {
+                //on bloque les évènements clavier concurrents
+                isPushed = false;
                 //marque l'élément sélectionné comme lu / non lu
                 readTargetEvent();
+            }
             return false;
         break;
 
         case keyCode['s']:
-                //marque l'élément sélectionné comme favori / non favori
-                switchFavoriteTargetEvent();
+        	if (isPushed) {
+               	//on bloque les évènements clavier concurrents
+               	isPushed = false;
+	            //marque l'élément sélectionné comme favori / non favori
+	            switchFavoriteTargetEvent();
+	    	}
             return false;
         break;
         case keyCode['n']:
             //élément suivant (sans l'ouvrir)
-            targetNextEvent();
+   	        targetNextEvent();
             return false;
         break;
         case keyCode['v']:
-            //ouvre l'url de l'élément sélectionné
-            openTargetEvent();
+         	//ouvre l'url de l'élément sélectionné
+           	openTargetEvent();
             return false;
         break;
         case keyCode['p']:
             //élément précédent (sans l'ouvrir)
-            targetPreviousEvent();
+   	        targetPreviousEvent();
             return false;
         break;
         case keyCode['space']:
             if(isMaj){
-                //élément précédent (et l'ouvrir)
-                targetPreviousEvent();
-                openTargetEvent();
+               //élément précédent (et l'ouvrir)
+       	       targetPreviousEvent();
+   	           openTargetEvent();
             }else{
-                //élément suivant (et l'ouvrir)
-                targetNextEvent();
-                openTargetEvent();
-            }
+   	            //élément suivant (et l'ouvrir)
+       	        targetNextEvent();
+           	    openTargetEvent();
+           	}
             return false;
         break;
         case keyCode['k']:
-            //élément précédent (et l'ouvrir)
-            targetPreviousEvent();
-            openTargetEvent();
+	        //élément précédent (et l'ouvrir)
+	        targetPreviousEvent();
+           	openTargetEvent();
             return false;
         break;
         case keyCode['o']:
         case keyCode['enter']:
             //ouvrir l'élément sélectionné
-            openTargetEvent();
+	        openTargetEvent();
             return false;
         break;
     }
@@ -150,6 +159,8 @@ function readTargetEvent(){
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
 		targetThisEvent($('.eventSelected').next(),true);
+		// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+		isPushed = true;
 	});
 }
 
@@ -164,10 +175,12 @@ function readAllDisplayedEvents(){
 function switchFavoriteTargetEvent(){
 	var id = $(target).attr('id');
 	if($('.favorite',target).html()=='Favoriser'){
-		addFavorite($('.favorite',target),id);
+		addFavorite($('.favorite',target),id)
 	}else{
-		removeFavorite($('.favorite',target),id);
+		removeFavorite($('.favorite',target),id)
 	}
+	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+	isPushed = true;
 }
 
 /* Fonctions de séléctions fin */
@@ -274,6 +287,7 @@ function readThis(element,id,from,callback){
 		if(hide){ 
 			parent.fadeOut(200,function(){
 				if(callback){
+					//alert(callback);
 					callback();
 				}else{
 					targetThisEvent(nextEvent,true);
@@ -298,7 +312,10 @@ function readThis(element,id,from,callback){
 				parent.removeClass('eventRead');
 				$.ajax({
 							  url: "./action.php?action=unreadContent",
-							  data:{id:id}
+							  data:{id:id},
+							  success:function(msg){
+						  	  if(msg!="") alert('Erreur de lecture : '+msg);
+					  }
 				});
 			}
 	}

@@ -45,12 +45,15 @@ class Event extends MysqlEntity{
 		$this->link = $link;
 		$this->category = $category;
 		parent::__construct();
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) { $this->setPrefixTable($myUser->getPrefixDatabase()); }
 	}
 
 
 	function getEventCountPerFolder(){
 		$events = array();
-		$results = $this->customQuery('SELECT COUNT('.MYSQL_PREFIX.$this->TABLE_NAME.'.id),'.MYSQL_PREFIX.'feed.folder FROM '.MYSQL_PREFIX.$this->TABLE_NAME.' INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.$this->TABLE_NAME.'.unread=1 GROUP BY '.MYSQL_PREFIX.'feed.folder');
+		$prefixTable = $this->getPrefixTable();
+		$results = $this->customQuery('SELECT COUNT('.$prefixTable.$this->TABLE_NAME.'.id),'.$prefixTable.'feed.folder FROM '.$prefixTable.$this->TABLE_NAME.' INNER JOIN '.$prefixTable.'feed ON ('.$prefixTable.'event.feed = '.$prefixTable.'feed.id) WHERE '.$prefixTable.$this->TABLE_NAME.'.unread=1 GROUP BY '.$prefixTable.'feed.folder');
 		while($item = mysql_fetch_array($results)){
 			$events[$item[1]] = $item[0];
 		}

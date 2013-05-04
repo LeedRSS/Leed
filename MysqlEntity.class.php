@@ -15,8 +15,16 @@ class MysqlEntity
 {
 	
 	private $debug = false;
+	private $prefixTable;
+	
+	function setPrefixTable($userPrefixTable){
+		$this->prefixTable = $userPrefixTable;
+	}
 
-		
+	function getPrefixTable(){
+		return $this->prefixTable;
+	}
+	
 	function sgbdType($type){
 		$return = false;
 		switch($type){
@@ -74,6 +82,7 @@ class MysqlEntity
 	
 	public function __construct(){
 		MysqlConnector::getInstance();
+		$this->setPrefixTable(MYSQL_PREFIX);
 	}
 
 	public function __destruct(){
@@ -91,7 +100,7 @@ class MysqlEntity
 	*/
 	public function destroy($debug=false)
 	{
-		$query = 'DROP TABLE IF EXISTS '.MYSQL_PREFIX.$this->TABLE_NAME.';';
+		$query = 'DROP TABLE IF EXISTS '.$this->getPrefixTable().$this->TABLE_NAME.';';
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 	}
@@ -105,7 +114,7 @@ class MysqlEntity
 	*/
 	public function truncate($debug=false)
 	{
-			$query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
+			$query = 'TRUNCATE TABLE '.$this->getPrefixTable().$this->TABLE_NAME.';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 			$myQuery = $this->customQuery($query);
 	}
@@ -118,7 +127,7 @@ class MysqlEntity
 	* @return Aucun retour
 	*/
 	public function create($debug=false){
-		$query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'` (';
+		$query = 'CREATE TABLE IF NOT EXISTS `'.$this->getPrefixTable().$this->TABLE_NAME.'` (';
 
 		$i=false;
 		foreach($this->object_fields as $field=>$type){
@@ -140,7 +149,7 @@ class MysqlEntity
 	
 	public function massiveInsert($events){
 		if (empty($events)) return;
-		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
+		$query = 'INSERT INTO `'.$this->getPrefixTable().$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($type!='key'){
@@ -181,7 +190,7 @@ class MysqlEntity
 	*/
 	public function save(){
 		if(isset($this->id)){
-			$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
+			$query = 'UPDATE `'.$this->getPrefixTable().$this->TABLE_NAME.'`';
 			$query .= ' SET ';
 
 			$i=false;
@@ -193,7 +202,7 @@ class MysqlEntity
 
 			$query .= ' WHERE `id`="'.$this->id.'";';
 		}else{
-			$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
+			$query = 'INSERT INTO `'.$this->getPrefixTable().$this->TABLE_NAME.'`(';
 			$i=false;
 			foreach($this->object_fields as $field=>$type){
 				if($i){$query .=',';}else{$i=true;}
@@ -224,7 +233,7 @@ class MysqlEntity
 	* @return Aucun retour
 	*/
 	public function change($columns,$columns2,$operation='=',$debug=false){
-		$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
+		$query = 'UPDATE `'.$this->getPrefixTable().$this->TABLE_NAME.'` SET ';
 		$i=false;
 		foreach ($columns as $column=>$value){
 			if($i){$query .=',';}else{$i=true;}
@@ -275,11 +284,12 @@ class MysqlEntity
 			$whereClause .= ' WHERE ';
 				$i = false;
 				foreach($columns as $column=>$value){
+
 					if($i){$whereClause .=' AND ';}else{$i=true;}
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
 				}
 			}
-			$query = 'SELECT '.$selColumn.' FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
+			$query = 'SELECT '.$selColumn.' FROM `'.$this->getPrefixTable().$this->TABLE_NAME.'` '.$whereClause.' ';
 			if($order!=null) $query .='ORDER BY '.$order.' ';
 			if($limit!=null) $query .='LIMIT '.$limit.' ';
 			$query .=';';
@@ -353,7 +363,7 @@ class MysqlEntity
 					$whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
 			}
 		}
-		$query = 'SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
+		$query = 'SELECT COUNT(1) FROM '.$this->getPrefixTable().$this->TABLE_NAME.$whereClause;
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 		$number = mysql_fetch_array($myQuery);
@@ -378,7 +388,7 @@ class MysqlEntity
 				if($i){$whereClause .=' AND ';}else{$i=true;}
 				$whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
 			}
-			$query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
+			$query = 'DELETE FROM `'.$this->getPrefixTable().$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 			$this->customQuery($query);
 		
