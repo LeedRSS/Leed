@@ -91,7 +91,7 @@ if(isset($_['installButton'])){
 	}
 
 	$constant = "<?php
-	define('VERSION_NUMBER','1.5');
+	define('VERSION_NUMBER','1.6');
 	define('VERSION_NAME','Beta');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1

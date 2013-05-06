@@ -37,7 +37,6 @@ class User extends MysqlEntity{
 		$userManager = new User();
 		$users = $userManager->populate('id');
 		foreach($users as $user){
-		
 			if(sha1($user->getPassword().$user->getLogin())==$auth) $result = $user;
 		}
 		return $result;
@@ -73,6 +72,25 @@ class User extends MysqlEntity{
 
 	function getprefixDatabase(){
 		return $this->prefixDatabase;
+	}
+	
+	function getUsersCodeSynchro() {
+		$objects = array();
+		$userManager = new User();
+		$users = $userManager->populate('id');
+		$query = '';
+		$i=false;
+		foreach($users as $user){
+			$prefixTable = $user->getprefixDatabase();
+			if($i){$query.=' UNION ';}else{$i=true;}
+			$query.= 'SELECT '.$user->getId().' as id,\''.$user->getLogin().'\' as login, value FROM '.$prefixTable.'configuration WHERE `Key`=\'synchronisationCode\'';
+		}
+		$result = $this->customQuery($query);
+		while ($row = mysql_fetch_assoc($result)) {
+			$objects[] = $row;
+		}
+		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+		return $objects;
 	}
 }
 

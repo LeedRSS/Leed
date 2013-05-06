@@ -9,7 +9,7 @@
 require_once('header.php'); 
 
 
-$tpl->assign('users',$userManager->populate('id'));
+$tpl->assign('usersCodeSynchro',$userManager->getUsersCodeSynchro());
 $tpl->assign('feeds',$feedManager->populate('name'));
 $tpl->assign('folders',$folderManager->populate('name'));
 $tpl->assign('synchronisationType',$configurationManager->get('synchronisationType'));

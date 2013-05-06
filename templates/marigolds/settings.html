@@ -112,10 +112,12 @@
 						 <h2>Gestion des environnements</h2>
 						 <h3>Liste des utilisateurs</h3>
 							<table>
-							{loop="$users"}
-								<tr><td class="border">{$value->getId()}</td><td class="border"> {$value->getLogin()} </td><td class="border">{if="($value->getId()!=1)"}<form action="action.php?action=delUser" method="POST"><input type="hidden" id="id" name="id" value="{$value->getId()}"><button name="delButton" class="delButton">supprimer</button></form>{/if}</td></tr>
+								<th class="border">ID</th><th class="border">Login</th><th class="border">Code Synchro</th><th class="border">Action</th>
+							{loop="$usersCodeSynchro"}
+								<tr><td class="border">{$value.id}</td><td class="border">{$value.login}</td><td class="border">{$value.value}</td><td class="border">{if="($value.id!=1)"}<form action="action.php?action=delUser" method="POST"><input type="hidden" id="id" name="id" value="{$value.id}"><button name="delButton" class="delButton">supprimer</button></form>{/if}</td></tr>
 							{/loop}
 							</table>
+
 						 <h3>Ajouter un utilisateur</h3>
 						 <form action="action.php?action=addUser" method="POST">
 							<li><label for="login">Identifiant :</label> <input type="text" id="login" name="login" value=""></li>
