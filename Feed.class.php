@@ -21,6 +21,11 @@ class Feed extends MysqlEntity{
 		'lastupdate'=>'string',
 		'folder'=>'integer'
 	);
+	
+	protected $object_fields_index = 
+	array(
+		'folder'=>'index'
+	);
 
 	protected $error = '';
 	
@@ -94,7 +99,7 @@ class Feed extends MysqlEntity{
 
 			// Si le guid existe déjà, on évite de le reparcourir.
 			$alreadyParsed = $eventManager->rowCount(
-				array('guid'=> $item->get_id())
+				array('feed'=> $this->id, 'guid'=> $item->get_id())
 			);
 			if ($alreadyParsed!=0) continue;
 
@@ -228,7 +233,7 @@ class Feed extends MysqlEntity{
 
 	function countUnreadEvents(){
 		$unreads = array();
-		$results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."feed.id FROM ".MYSQL_PREFIX."event INNER JOIN ".MYSQL_PREFIX."feed ON (".MYSQL_PREFIX."event.feed = ".MYSQL_PREFIX."feed.id) WHERE ".MYSQL_PREFIX."event.unread = '1' GROUP BY ".MYSQL_PREFIX."feed.id") ;
+		$results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."event.feed FROM ".MYSQL_PREFIX."event WHERE ".MYSQL_PREFIX."event.unread = 1 GROUP BY ".MYSQL_PREFIX."event.feed") ;
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
 				$unreads[$item[1]] = $item[0];

@@ -124,9 +124,12 @@ class MysqlEntity
 		foreach($this->object_fields as $field=>$type){
 			if($i){$query .=',';}else{$i=true;}
 			$query .='`'.$field.'`  '. $this->sgbdType($type).'  NOT NULL';
-			
 		}
-
+		if (isset($this->object_fields_index)){
+			foreach($this->object_fields_index as $field=>$type){
+				$query .= ',KEY `index'.$field.'` (`'.$field.'`)';
+			}
+		}
 		$query .= ')
 		ENGINE InnoDB,
 		DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
@@ -134,8 +137,7 @@ class MysqlEntity
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 	}
-
-
+	
 	public function massiveInsert($events){
 		if (empty($events)) return;
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
@@ -234,7 +236,6 @@ class MysqlEntity
 		foreach ($columns2 as $column=>$value){
 			if($i){$query .='AND ';}else{$i=true;}
 			$query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
-			
 		}
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$this->customQuery($query);
@@ -274,7 +275,6 @@ class MysqlEntity
 			$whereClause .= ' WHERE ';
 				$i = false;
 				foreach($columns as $column=>$value){
-
 					if($i){$whereClause .=' AND ';}else{$i=true;}
 					$whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
 				}
@@ -353,7 +353,7 @@ class MysqlEntity
 					$whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
 			}
 		}
-		$query = 'SELECT COUNT(id) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
+		$query = 'SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 		$number = mysql_fetch_array($myQuery);
