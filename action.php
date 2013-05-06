@@ -39,34 +39,12 @@ switch ($action){
 				
 		// On ne devrait pas mettre de style ici.
 		if (!$commandLine)
-			echo "
-				<html>
-				<style>
-					dd {
-						margin: 1em;
-					}
-	
-					a {
-						color:#F16529;
-					}
-					html,body{
-						font-family:Verdana;
-						font-size: 11px;
-					}
-					.error{
-						background-color:#C94141;
-						color:#ffffff;
-						padding:5px;
-						border-radius:5px;
-						margin:10px 0px 10px 0px;
-						box-shadow: 0 0 3px 0 #810000;
-					}
-					.error a{
-						color:#ffffff;
-					}
-				</style>
+			echo '<html>
+				<head>
+				<link rel="stylesheet" href="./templates/'.DEFAULT_THEME.'/css/style.css">
+				</head>
 				<body>
-				\n";
+				<div class="sync">';
 		$synchronisationType = $configurationManager->get('synchronisationType');
 		$maxEvents = $configurationManager->get('feedMaxEvents');
 		if('graduate'==$synchronisationType){
@@ -116,7 +94,7 @@ switch ($action){
 				echo "{$feedName}\t{$feedUrlTxt}\n";
 			} else {
 
-				if (!$parseOk) echo '<div class="error">';
+				if (!$parseOk) echo '<div class="errorSync">';
 				echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
 				
 			}
@@ -155,7 +133,7 @@ switch ($action){
 		}
 
 		if (!$commandLine) {
-			echo '</body></html>';
+			echo '</div></body></html>';
 		}
 
 	break;

@@ -524,7 +524,26 @@ footer a,#main aside a{
 	display:inline;
 }
 
+.errorSync{
+	background-color:#C94141;
+	color:#ffffff;
+	padding:5px;
+	border-radius:5px;
+	margin:10px 0px 10px 0px;
+	box-shadow: 0 0 3px 0 #810000;
+}
 
+.errorSync a{
+	color:#ffffff;
+}
+
+.sync{
+	padding-left:10px;
+}
+
+.sync a{
+	color:#f16529;
+}
 
 /* ===============
     ALL: IE Fixes

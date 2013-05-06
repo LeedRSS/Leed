@@ -150,8 +150,10 @@ class Plugin{
 
 	public static function getFiles($onlyActivated=false){
 		$files = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.enabled.php');
+		$filesDisabled = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php');
 		if (!is_array($files)) $files = array();
-		if(!$onlyActivated)$files = array_merge($files,glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php'));
+		if (!is_array($filesDisabled)) $filesDisabled = array();
+		if(!$onlyActivated)$files = array_merge($files,$filesDisabled);
 		return $files;
 	}
 

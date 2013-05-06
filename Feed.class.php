@@ -130,7 +130,7 @@ class Feed extends MysqlEntity{
 					? $enclosure->handler
 					: substr($enclosureName, strrpos($enclosureName,'.')+1);
 
-				$enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span>';
+				$enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span></div>';
 			}else{
 				$enclosure = '';
 			}
