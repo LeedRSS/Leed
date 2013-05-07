@@ -25,7 +25,17 @@ switch ($action){
 	case 'commandLine':
 	case 'synchronize':
 		require_once("SimplePie.class.php");
-		$syncCode = $configurationManager->get('synchronisationCode');
+		
+		if ($myUser==false && isset($_['code'])) { 
+			$myUser = $userManager->getUserByCodeSync($_['code']); 
+			if ($myUser==false) { die('Utilisateur non trouvé'); }
+			$_SESSION['currentUser'] = serialize($myUser);
+			$feedManager = new Feed();
+			$eventManager = new Event();
+			$folderManager = new Folder();
+			$configurationManager = new Configuration();
+		}
+		
 		if (   false==$myUser
 			&& !$commandLine
 			&& !(isset($_['code'])
@@ -35,8 +45,9 @@ switch ($action){
 		) {
 			die('Vous devez vous connecter pour cette action.');
 		}
+		
 		Functions::triggerDirectOutput();
-				
+
 		if (!$commandLine)
 			echo '<html>
 				<head>

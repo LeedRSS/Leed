@@ -89,8 +89,23 @@ class User extends MysqlEntity{
 		while ($row = mysql_fetch_assoc($result)) {
 			$objects[] = $row;
 		}
-		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		return $objects;
+	}
+	
+	function getUserByCodeSync ($codeSync) {
+		if (isset($codeSync)){
+			$objects = array();
+			$userManager = new User();
+			$objects = $userManager->getUsersCodeSynchro();
+			$user = false;
+			foreach ($objects as $users) {
+				if ($users['value']==$codeSync)
+					$user = $userManager->load(array('id'=>$users['id']));
+			}
+			return $user;
+		} else {
+			return false;
+		}
 	}
 }
 
