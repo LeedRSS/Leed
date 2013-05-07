@@ -88,7 +88,7 @@
 							{if="count($feeds)!=0"}
 							{loop="$feedsForFolder"}
 								<tr>
-									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><span class="underlink">{$value2->getUrl()}</span></td>
+									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><pre class="hidden">{$value2->getUrl()}</pre><span class="underlink">{function="Functions::truncate($value2->getUrl(),40)"}</span></td>
 									<td>
 										<select onchange="changeFeedFolder(this,{$value2->getId()});">
 											{loop="$folders"}
