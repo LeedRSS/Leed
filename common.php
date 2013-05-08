@@ -10,6 +10,7 @@ session_start();
 mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
+require_once('version.php');
 require_once('RainTPL.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
