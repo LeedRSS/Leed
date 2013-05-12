@@ -119,9 +119,9 @@
 							</table>
 
 						 <h3>Ajouter un utilisateur</h3>
-						 <form action="action.php?action=addUser" method="POST">
-							<li><label for="login">Identifiant :</label> <input type="text" id="login" name="login" value=""></li>
-							<li><label for="password">Mot de passe :</label> <input type="password" id="password" name="password" autocomplete="off" value=""></li>
+						 <form action="action.php?action=addUser" method="POST" autocomplete="off">
+							<li><label for="login">Identifiant :</label> <input type="text" id="login" name="login" title="minimum 3 caractères : aaAZ-123" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9\-]{1,25}[a-zA-Z0-9]{1}$"></li>
+							<li><label for="password">Mot de passe :</label> <input type="password" id="password" name="password" required></li>
 							<button name="installButton">Créer utilisateur</button>
 						 </form>
 						 <h4>La création d'un utilisateur supplémentaire génère des tables supplémentaires en BDD prefixées "MYSQL_PREFIX_loginUser_"</h4>
