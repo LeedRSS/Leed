@@ -61,7 +61,8 @@ class Feed extends MysqlEntity{
 	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
 	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
-	function parse(){
+	function parse($syncId){
+		assert('is_int($syncId) && $syncId>0');
 		if (empty($this->id) || 0 == $this->id) {
 			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
 			parse() sans avoir appelé save() pour un nouveau flux.
