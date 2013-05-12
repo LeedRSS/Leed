@@ -180,6 +180,7 @@ class MysqlEntity
 	* @return Aucun retour
 	*/
 	public function save(){
+		error_log('AEZRA '.$this->id);
 		if(isset($this->id)){
 			$query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
 			$query .= ' SET ';

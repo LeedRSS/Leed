@@ -73,6 +73,7 @@ class Feed extends MysqlEntity{
 			die($msg); // Arrêt, sinon création événements sans flux associé.
 		}
 		$feed = new SimplePie();
+		$feed->enable_cache(false);
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 		if (!$feed->init()) {
@@ -98,14 +99,9 @@ class Feed extends MysqlEntity{
 			// Ne retient que les 100 premiers éléments de flux.
 			if ($iEvents++>=100) break;
 
-			// Si le guid existe déjà, on évite de le reparcourir.
-			$alreadyParsed = $eventManager->rowCount(
-				array('feed'=> $this->id, 'guid'=> $item->get_id())
-			);
-			if ($alreadyParsed!=0) continue;
-
 			// Initialisation des informations de l'événement (élt. de flux)
 			$event = new Event();
+			$event->setSyncId($syncId);
 			$event->setGuid($item->get_id());
 			$event->setTitle($item->get_title());
 			$event->setPubdate($item->get_date());
@@ -151,10 +147,19 @@ class Feed extends MysqlEntity{
 			$event->setCategory($item->get_category());
 			$event->setFeed($this->id);
 			$event->setUnread(1);
-			$events[] = $event;
+			error_log('dans Feed '.$event->getId());
+			$event->save();
+// 			$alreadyParsed = $eventManager->rowCount(
+// 				array('feed'=> $this->id, 'guid'=> $item->get_id())
+// 			);
+// 			if ($alreadyParsed!=0) {
+// 				$event->save();
+// 			} else {
+// 				$events[] = $event;
+// 			}
 		}
 
-		$eventManager->massiveInsert($events);
+// 		$eventManager->massiveInsert($events);
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
 		$this->save();
 		return true;
