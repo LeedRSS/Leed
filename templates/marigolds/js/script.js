@@ -149,6 +149,8 @@ function targetThisEvent(event,focusOn){
 		var id = target.attr('id');
 		if(id && focusOn)window.location = '#'+id;
 	}
+	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+	isPushed = true;
 }
 function openTargetEvent(){
 	window.open($('.eventSelected .articleTitle a').attr('href'), '_blank');
@@ -159,8 +161,6 @@ function readTargetEvent(){
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
 		targetThisEvent($('.eventSelected').next(),true);
-		// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
-		isPushed = true;
 	});
 }
 
