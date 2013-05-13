@@ -122,7 +122,7 @@
 						
 					<!-- CORPS ARTICLE -->
 					 
-					
+					{function="Plugin::callHook("event_pre_section", array(&$value))"}
 					<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}" >
 						<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 						<!-- TITRE -->
@@ -186,6 +186,7 @@
 
 
 					</section>
+					{function="Plugin::callHook("event_post_section", array(&$value))"}
 					{$hightlighted=$hightlighted+1}
 				{/loop}
 
