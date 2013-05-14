@@ -112,6 +112,8 @@ class Feed extends MysqlEntity{
 			);
 			$event->setLink($item->get_permalink());
 
+			$event->setIdFromDb();
+			
 			//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
 			$enclosure = $item->get_enclosure();
 			if($enclosure!=null && $enclosure->link!=''){
