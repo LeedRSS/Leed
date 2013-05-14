@@ -112,6 +112,7 @@ class Feed extends MysqlEntity{
 			);
 			$event->setLink($item->get_permalink());
 
+			$event->setFeed($this->id);
 			if ($event->setIdFromDb()) {
 				$event->setUnread(0); // déjà existant, donc lu
 			} else {
@@ -150,7 +151,6 @@ class Feed extends MysqlEntity{
 				$event->setContent($event->getDescription());
 
 			$event->setCategory($item->get_category());
-			$event->setFeed($this->id);
 			$event->save();
 // 			$alreadyParsed = $eventManager->rowCount(
 // 				array('feed'=> $this->id, 'guid'=> $item->get_id())
