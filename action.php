@@ -107,7 +107,7 @@ switch ($action){
 			}
 			if (!$parseOk) echo '</div>';
 // 			if ($commandLine) echo "\n";
-			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
+			$feed->removeOldEvents($maxEvents, $syncId);
 		}
 		assert('$nbTotal==$nbOk+$nbErrors');
 		$totalTime = microtime(true)-$start;

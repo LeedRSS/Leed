@@ -112,8 +112,11 @@ class Feed extends MysqlEntity{
 			);
 			$event->setLink($item->get_permalink());
 
-			$event->setIdFromDb();
-			
+			if ($event->setIdFromDb()) {
+				$event->setUnread(0); // déjà existant, donc lu
+			} else {
+				$event->setUnread(1); // inexistant, donc non-lu
+			}
 			//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
 			$enclosure = $item->get_enclosure();
 			if($enclosure!=null && $enclosure->link!=''){
@@ -148,8 +151,6 @@ class Feed extends MysqlEntity{
 
 			$event->setCategory($item->get_category());
 			$event->setFeed($this->id);
-			$event->setUnread(1);
-			error_log('dans Feed '.$event->getId());
 			$event->save();
 // 			$alreadyParsed = $eventManager->rowCount(
 // 				array('feed'=> $this->id, 'guid'=> $item->get_id())
@@ -168,14 +169,8 @@ class Feed extends MysqlEntity{
 	}
 
 
-	function removeOldEvents($maxEvent){
-		/* Ignore la configuration feedMaxEvents. Le nombre est notablement plus
-		grand que le nombre d'article téléchargé. Règle temporairement le bug
-		de résurection d'articles supprimés mais encore présents dans le flux
-		du fournisseur.
-		Première étape de la résolution du bug #109.
-		*/
-		$maxEvent = 300;
+	function removeOldEvents($maxEvent, $currentSyncId){
+		if ($maxEvent<=0) return;
 		$eventManager = new Event();
 		$nbLines = $eventManager->rowCount(array(
 			'feed'=>$this->id,
@@ -186,11 +181,10 @@ class Feed extends MysqlEntity{
 		if ($limit<=0) return;
 		$tableEvent = '`'.MYSQL_PREFIX."event`";
 		$query = "
-			DELETE FROM {$tableEvent}
-			WHERE feed={$this->id} AND favorite!=1 AND unread!=1
-			ORDER BY pubDate ASC LIMIT {$limit}
+			DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubDate ASC LIMIT {$limit}
 		";
-		$this->customExecute($query);
+		///@TODO: escape the variables inside mysql
+ 		$this->customExecute($query);
 	}
 	
 	function setId($id){
