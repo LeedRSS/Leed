@@ -184,7 +184,7 @@ class Event extends MysqlEntity{
 		/** @TODO: on pourrait initialiser l'objet directement en y mettant
 		    les données, plutôt que de récupérer l'id à part. */
 		assert('!is_null($this->guid)');
-		$result = $this->load(array('guid'=>$this->guid));
+		$result = $this->load(array('guid'=>$this->guid, 'feed'=>$this->feed));
 		$id = false===$result ? null : $result->id;
 		if (!empty($id)) $this->id = $id;
 		return $id;
