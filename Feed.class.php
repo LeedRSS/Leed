@@ -63,7 +63,8 @@ class Feed extends MysqlEntity{
 	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
 	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
-	function parse(){
+	function parse($syncId){
+		assert('is_int($syncId) && $syncId>0');
 		if (empty($this->id) || 0 == $this->id) {
 			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
 			parse() sans avoir appelé save() pour un nouveau flux.
@@ -74,6 +75,7 @@ class Feed extends MysqlEntity{
 			die($msg); // Arrêt, sinon création événements sans flux associé.
 		}
 		$feed = new SimplePie();
+		$feed->enable_cache(false);
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 		if (!$feed->init()) {
@@ -92,7 +94,7 @@ class Feed extends MysqlEntity{
 
 		$items = $feed->get_items();
 		$eventManager = new Event();
-			
+				
 		$events = array();
 		$iEvents = 0;
 		foreach($items as $item){
@@ -100,13 +102,15 @@ class Feed extends MysqlEntity{
 			if ($iEvents++>=100) break;
 
 			// Si le guid existe déjà, on évite de le reparcourir.
-			$alreadyParsed = $eventManager->rowCount(
-				array('feed'=> $this->id, 'guid'=> $item->get_id())
-			);
-			if ($alreadyParsed!=0) continue;
+			$alreadyParsed = $eventManager->load(array('guid'=>$item->get_id(), 'feed'=>$this->id));
+			if (isset($alreadyParsed)&&($alreadyParsed!=false)) {
+				$events[]=$alreadyParsed->getId();
+				continue;
+			}
 
 			// Initialisation des informations de l'événement (élt. de flux)
 			$event = new Event();
+			$event->setSyncId($syncId);
 			$event->setGuid($item->get_id());
 			$event->setTitle($item->get_title());
 			$event->setPubdate($item->get_date());
@@ -116,6 +120,9 @@ class Feed extends MysqlEntity{
 					: $item->get_author()->name
 			);
 			$event->setLink($item->get_permalink());
+
+			$event->setFeed($this->id);
+			$event->setUnread(1); // inexistant, donc non-lu
 
 			//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
 			$enclosure = $item->get_enclosure();
@@ -150,26 +157,24 @@ class Feed extends MysqlEntity{
 				$event->setContent($event->getDescription());
 
 			$event->setCategory($item->get_category());
-			$event->setFeed($this->id);
-			$event->setUnread(1);
-			$events[] = $event;
+			$event->save();
 		}
 
-		$eventManager->massiveInsert($events);
+		$listid = "";
+		foreach($events as $item){
+			$listid.=','.$item;
+		}
+		$query='UPDATE `'.$eventManager->getPrefixTable().'event` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
+		$myQuery = $this->customQuery($query);
+		
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
 		$this->save();
 		return true;
 	}
 
 
-	function removeOldEvents($maxEvent){
-		/* Ignore la configuration feedMaxEvents. Le nombre est notablement plus
-		grand que le nombre d'article téléchargé. Règle temporairement le bug
-		de résurection d'articles supprimés mais encore présents dans le flux
-		du fournisseur.
-		Première étape de la résolution du bug #109.
-		*/
-		$maxEvent = 300;
+	function removeOldEvents($maxEvent, $currentSyncId){
+		if ($maxEvent<=0) return;
 		$eventManager = new Event();
 		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
 		if ($myUser!=false) { $eventManager->setPrefixTable($myUser->getPrefixDatabase()); }
@@ -182,11 +187,10 @@ class Feed extends MysqlEntity{
 		if ($limit<=0) return;
 		$tableEvent = '`'.$eventManager->getPrefixTable()."event`";
 		$query = "
-			DELETE FROM {$tableEvent}
-			WHERE feed={$this->id} AND favorite!=1 AND unread!=1
-			ORDER BY pubDate ASC LIMIT {$limit}
+			DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubDate ASC LIMIT {$limit}
 		";
-		$this->customExecute($query);
+		///@TODO: escape the variables inside mysql
+ 		$this->customExecute($query);
 	}
 	
 	function setId($id){

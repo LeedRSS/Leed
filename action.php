@@ -79,10 +79,11 @@ switch ($action){
 		$nbOk = 0;
 		$nbTotal = 0;
 		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+		$syncId = time();
 		foreach ($feeds as $feed) {
 			$nbTotal++;
 			$startLocal = microtime(true);
-			$parseOk = $feed->parse();
+			$parseOk = $feed->parse($syncId);
 			$parseTime = microtime(true)-$startLocal;
 			$localTotal += $parseTime;
 			$parseTimeStr = number_format($parseTime, 3);
@@ -116,7 +117,7 @@ switch ($action){
 			}
 			if (!$parseOk) echo '</div>';
 // 			if ($commandLine) echo "\n";
-			if($maxEvents!=0) $feed->removeOldEvents($maxEvents);
+			$feed->removeOldEvents($maxEvents, $syncId);
 		}
 		assert('$nbTotal==$nbOk+$nbErrors');
 		$totalTime = microtime(true)-$start;

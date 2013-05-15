@@ -1,0 +1,1 @@
+ALTER TABLE `leed_event` ADD `syncId` INT UNSIGNED NOT NULL 
