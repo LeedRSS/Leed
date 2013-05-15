@@ -99,6 +99,13 @@ class Feed extends MysqlEntity{
 			// Ne retient que les 100 premiers éléments de flux.
 			if ($iEvents++>=100) break;
 
+			// Si le guid existe déjà, on évite de le reparcourir.
+			$alreadyParsed = $eventManager->load(array('guid'=>$item->get_id(), 'feed'=>$this->id));
+			if (isset($alreadyParsed)&&($alreadyParsed!=false)) {
+				$events[]=$alreadyParsed->getId();
+				continue;
+			}
+
 			// Initialisation des informations de l'événement (élt. de flux)
 			$event = new Event();
 			$event->setSyncId($syncId);
@@ -113,11 +120,8 @@ class Feed extends MysqlEntity{
 			$event->setLink($item->get_permalink());
 
 			$event->setFeed($this->id);
-			if ($event->setIdFromDb()) {
-				$event->setUnread(0); // déjà existant, donc lu
-			} else {
-				$event->setUnread(1); // inexistant, donc non-lu
-			}
+			$event->setUnread(1); // inexistant, donc non-lu
+
 			//Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
 			$enclosure = $item->get_enclosure();
 			if($enclosure!=null && $enclosure->link!=''){
@@ -161,6 +165,8 @@ class Feed extends MysqlEntity{
 // 				$events[] = $event;
 // 			}
 		}
+// print_r($events);
+// TODO mise à jour des events du feed à faire avec le sync ID.
 
 // 		$eventManager->massiveInsert($events);
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
