@@ -176,20 +176,6 @@ class Event extends MysqlEntity{
 		return $this->favorite;
 	}
 
-	/** Positionne l'id obtenu de la base de données à partir du guid.
-	    s'il existe. Ne fait rien sinon.
-	@returns l'id en cas de succès, null sinon.
-	*/
-	function setIdFromDb() {
-		/** @TODO: on pourrait initialiser l'objet directement en y mettant
-		    les données, plutôt que de récupérer l'id à part. */
-		assert('!is_null($this->guid) && !is_null($this->feed)');
-		$result = $this->load(array('guid'=>$this->guid, 'feed'=>$this->feed));
-		$id = false===$result ? null : $result->id;
-		if (!empty($id)) $this->id = $id;
-		return $id;
-	}
-
 }
 
 ?>

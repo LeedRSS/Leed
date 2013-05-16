@@ -92,7 +92,7 @@ class Feed extends MysqlEntity{
 
 		$items = $feed->get_items();
 		$eventManager = new Event();
-			
+				
 		$events = array();
 		$iEvents = 0;
 		foreach($items as $item){
@@ -156,19 +156,15 @@ class Feed extends MysqlEntity{
 
 			$event->setCategory($item->get_category());
 			$event->save();
-// 			$alreadyParsed = $eventManager->rowCount(
-// 				array('feed'=> $this->id, 'guid'=> $item->get_id())
-// 			);
-// 			if ($alreadyParsed!=0) {
-// 				$event->save();
-// 			} else {
-// 				$events[] = $event;
-// 			}
 		}
-// print_r($events);
-// TODO mise à jour des events du feed à faire avec le sync ID.
 
-// 		$eventManager->massiveInsert($events);
+		$listid = "";
+		foreach($events as $item){
+			$listid.=','.$item;
+		}
+		$query='UPDATE `'.MYSQL_PREFIX.'event` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
+		$myQuery = $this->customQuery($query);
+		
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
 		$this->save();
 		return true;
