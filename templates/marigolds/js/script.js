@@ -6,6 +6,7 @@ var isPushed = true;
 keyCode['shift'] = 16;
 keyCode['ctrl'] = 17;
 keyCode['enter'] = 13;
+keyCode['l'] = 76;
 keyCode['m'] = 77;
 keyCode['s'] = 83;
 keyCode['n'] = 78;
@@ -75,6 +76,16 @@ if(e.which == keyCode['shift']) isMaj=false;
                 isPushed = false;
                 //marque l'élément sélectionné comme lu / non lu
                 readTargetEvent();
+            }
+            return false;
+        break;
+
+        case keyCode['l']:
+        	if (isPushed) {
+                //on bloque les évènements clavier concurrents
+                isPushed = false;
+                //marque l'élément precédent comme non lu et réafficher
+                targetPreviousEventRead();
             }
             return false;
         break;
@@ -162,6 +173,13 @@ function readTargetEvent(){
 	readThis(buttonElement,id,null,function(){
 		targetThisEvent($('.eventSelected').next(),true);
 	});
+}
+
+function targetPreviousEventRead(){
+	targetThisEvent($('.eventSelected').prev().css('display','block'),true);
+	var buttonElement = $('.eventSelected .readUnreadButton');
+	var id = $(target).attr('id');
+	unReadThis(buttonElement,id,null);
 }
 
 function readAllDisplayedEvents(){
@@ -286,6 +304,7 @@ function readThis(element,id,from,callback){
 	if(!parent.hasClass('eventRead')){
 
 		if(hide){ 
+			parent.addClass('eventRead');
 			parent.fadeOut(200,function(){
 				if(callback){
 					//alert(callback);
@@ -310,6 +329,24 @@ function readThis(element,id,from,callback){
 
 			if(from!='title'){
 			
+				parent.removeClass('eventRead');
+				$.ajax({
+							  url: "./action.php?action=unreadContent",
+							  data:{id:id},
+							  success:function(msg){
+						  	  if(msg!="") alert('Erreur de lecture : '+msg);
+					  }
+				});
+			}
+	}
+	
+}
+
+function unReadThis(element,id,from){
+	var hide = ($('#pageTop').html()==''?true:false);
+	var parent = $(element).parent().parent();
+	if(parent.hasClass('eventRead')){
+			if(from!='title'){
 				parent.removeClass('eventRead');
 				$.ajax({
 							  url: "./action.php?action=unreadContent",
