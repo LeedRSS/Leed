@@ -158,8 +158,23 @@
 						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>Automatique (gradué) :</strong></label> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
 						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>Manuel (complet) :</strong></label> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					
-						<strong>Code de synchronisation:</strong>
+						<p><strong>Code de synchronisation:</strong>
 						{$synchronisationCode}
+						</p>
+						<p><strong>Options de synchronisation</strong>
+						<fieldset>
+							<legend>Activer le Cache</legend>
+							<input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
+							<input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
+							<p>Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</p>
+						</fieldset>
+						<fieldset>
+							<legend>Forcer l'intégration</legend>
+							<input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
+							<input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
+							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+						</fieldset>
+						</p>
 					</section>
 
 					<section>

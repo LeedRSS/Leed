@@ -80,10 +80,12 @@ switch ($action){
 		$nbTotal = 0;
 		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
 		$syncId = time();
+		$enableCache = $configurationManager->get('synchronisationEnableCache');
+		$forceFeed = $configurationManager->get('synchronisationForceFeed');
 		foreach ($feeds as $feed) {
 			$nbTotal++;
 			$startLocal = microtime(true);
-			$parseOk = $feed->parse($syncId);
+			$parseOk = $feed->parse($syncId, $enableCache, $forceFeed);
 			$parseTime = microtime(true)-$startLocal;
 			$localTotal += $parseTime;
 			$parseTimeStr = number_format($parseTime, 3);
@@ -175,7 +177,6 @@ switch ($action){
 	case 'updateConfiguration':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 
-
 			//Ajout des préférences et réglages
 			$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
 			//$configurationManager->put('view',$_['view']);
@@ -190,16 +191,14 @@ switch ($action){
 			$configurationManager->put('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
 			$configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
+			$configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
+			$configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);
 			$configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
 
-	
-		
-			 $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
-			 if(trim($_['password'])!='') $userManager->change(array('password'=>User::encrypt($_['password'])),array('id'=>$myUser->getId()));
-		
+			$userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
+			if(trim($_['password'])!='') $userManager->change(array('password'=>User::encrypt($_['password'])),array('id'=>$myUser->getId()));
 
-
-	header('location: ./settings.php');
+	header('location: ./settings.php#preferenceBloc');
 	break;
 
 
