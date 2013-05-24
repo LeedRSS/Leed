@@ -61,7 +61,7 @@ class Feed extends MysqlEntity{
 	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
 	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
-	function parse($syncId){
+	function parse($syncId, $enableCache=true, $forceFeed=false){
 		assert('is_int($syncId) && $syncId>0');
 		if (empty($this->id) || 0 == $this->id) {
 			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
@@ -73,7 +73,8 @@ class Feed extends MysqlEntity{
 			die($msg); // Arrêt, sinon création événements sans flux associé.
 		}
 		$feed = new SimplePie();
-		$feed->enable_cache(false);
+		$feed->enable_cache($enableCache);
+		$feed->force_feed($forceFeed);
 		$feed->set_feed_url($this->url);
 		$feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
 		if (!$feed->init()) {
