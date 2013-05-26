@@ -122,7 +122,7 @@ if(isset($_['installButton'])){
 	require_once('User.class.php');
 	require_once('Folder.class.php');
 	require_once('Configuration.class.php');
-	$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+
 	$feedManager = new Feed();
 	$eventManager = new Event();
 	$userManager = new User();
@@ -161,6 +161,8 @@ if(isset($_['installButton'])){
 	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
 	
 	$configurationManager->add('synchronisationCode',$synchronisationCode);
+	$configurationManager->add('synchronisationEnableCache',$_['synchronisationEnableCache']);
+	$configurationManager->add('synchronisationForceFeed',$_['synchronisationForceFeed']);
 
 	//Création du dossier de base
 	$folder = $folderManager->load(array('id'=>1));
@@ -286,6 +288,20 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
 					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) : </strong>Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) : </strong>Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
+					<p><strong>Options de synchronisation</strong>
+						<fieldset>
+							<legend>Activer le Cache</legend>
+							<input type="radio" checked="checked" value="1" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
+							<input type="radio" value="0" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
+							<p>Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</p>
+						</fieldset>
+						<fieldset>
+							<legend>Forcer l'intégration</legend>
+							<input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
+							<input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
+							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+						</fieldset>
+					</p>
 				</section>
 
 				<section>

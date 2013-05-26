@@ -13,6 +13,8 @@ require_once('header.php');
 $tpl->assign('feeds',$feedManager->populate('name'));
 $tpl->assign('folders',$folderManager->populate('name'));
 $tpl->assign('synchronisationType',$configurationManager->get('synchronisationType'));
+$tpl->assign('synchronisationEnableCache',$configurationManager->get('synchronisationEnableCache'));
+$tpl->assign('synchronisationForceFeed',$configurationManager->get('synchronisationForceFeed'));
 $tpl->assign('articleDisplayAnonymous', $configurationManager->get('articleDisplayAnonymous'));
 $tpl->assign('articleDisplayLink', $configurationManager->get('articleDisplayLink')); 
 $tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDate')); 

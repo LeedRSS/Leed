@@ -25,6 +25,7 @@ class Event extends MysqlEntity{
 		'unread'=>'integer',
 		'favorite'=>'integer',
 		'pubdate'=>'integer',
+		'syncId'=>'integer',
 	);
 
 	protected $object_fields_index = 
@@ -147,6 +148,14 @@ class Event extends MysqlEntity{
 		$this->guid = $guid;
 	}
 
+	function getSyncId(){
+		return $this->syncId;
+	}
+
+	function setSyncId($syncId){
+		$this->syncId = $syncId;
+	}
+	
 	function getUnread(){
 		return $this->unread;
 	}
