@@ -64,6 +64,7 @@ if(e.which == keyCode['ctrl']) isCtrl=false;
 if(e.which == keyCode['shift']) isMaj=false;
 }).keydown(function (e) {
  	//alert(e.which);
+   if(!$('.settings').length) {
     if(e.which == keyCode['ctrl']) isCtrl=true;
     if(e.which == keyCode['shift']) isMaj=true;
     
@@ -140,6 +141,7 @@ if(e.which == keyCode['shift']) isMaj=false;
         break;
     }
         }
+   }
 });
 
 /* Fonctions de séléctions */
