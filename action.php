@@ -69,8 +69,8 @@ switch ($action){
 		$nbTotal = 0;
 		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
 		$syncId = time();
-		$enableCache = $configurationManager->get('synchronisationEnableCache');
-		$forceFeed = $configurationManager->get('synchronisationForceFeed');
+		$enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
+		$forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
 		foreach ($feeds as $feed) {
 			$nbTotal++;
 			$startLocal = microtime(true);
