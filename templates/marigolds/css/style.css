@@ -731,3 +731,12 @@ footer a,#main aside a{
 	border: 1px black solid;
 	padding: 0px 5px 0px 5px;
 }
+.textleft{
+	text-align: left;
+}
+.textright{
+	text-align: right;
+}
+.textcenter{
+	text-align: center;
+}

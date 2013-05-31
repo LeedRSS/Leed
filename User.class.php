@@ -83,7 +83,7 @@ class User extends MysqlEntity{
 		foreach($users as $user){
 			$prefixTable = $user->getprefixDatabase();
 			if($i){$query.=' UNION ';}else{$i=true;}
-			$query.= 'SELECT '.$user->getId().' as id,\''.$user->getLogin().'\' as login, value FROM '.$prefixTable.'configuration WHERE `Key`=\'synchronisationCode\'';
+			$query.= 'SELECT '.$user->getId().' as id,\''.$user->getLogin().'\' as login, value, (select count(1) from '.$prefixTable.'feed) as nbfeed, (select count(1) from '.$prefixTable.'event WHERE unread=1) as nbunread, (select count(1) from '.$prefixTable.'event) as nbarticle FROM '.$prefixTable.'configuration WHERE `Key`=\'synchronisationCode\'';
 		}
 		$result = $this->customQuery($query);
 		while ($row = mysql_fetch_assoc($result)) {
