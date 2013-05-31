@@ -119,8 +119,8 @@
 								    <td class="border textcenter">{$value.value}</td>
 								    <td class="border">{if="($value.id!=1)"}<form action="action.php?action=delUser" method="POST"><input type="hidden" id="id" name="id" value="{$value.id}"><button name="delButton" class="delButton">supprimer</button></form>{/if}</td>
 								    <td class="border textright">{$value.nbfeed}</td>
-								    <td class="border textright">{$value.nbunread}</td>
 								    <td class="border textright">{$value.nbarticle}</td>
+								    <td class="border textright">{$value.nbunread}</td>
 								</tr>
 							{/loop}
 							</table>
