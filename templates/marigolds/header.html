@@ -39,7 +39,7 @@
 					<li><a href="index.php">Accueil</a></li>
 					<li><a href="index.php?action=favorites">Favoris</a></li>
 					<li><a href="settings.php">Gestion</a></li>
-					<li><a class="synchronyzeButton" title="Lancer une synchro manuelle" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
+					<li><a class="synchronyzeButton" title="Rafraîchir les flux." onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
 					{function="Plugin::callHook("navigate_post_link", array(&$myUser))"}
 				</ul>
 			</nav>
