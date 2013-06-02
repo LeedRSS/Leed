@@ -26,7 +26,7 @@
 				<div class="loginBloc">
 				{if="!$myUser"}
 				<form action="action.php?action=login" method="POST">
-						<input type="text" class="miniInput left" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput left" name="password" placeholder="Mot de passe"/> <button class="left">GO!!</button>
+						<input type="text" class="miniInput left" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput left" name="password" placeholder="Mot de passe"/> <button class="left">Connexion</button>
 				</form>
 				{else}
 					<span>Identifié avec <span>{$myUser->getLogin()}</span></span><button onclick="window.location='action.php?action=logout'">Déconnexion</button>
