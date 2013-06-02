@@ -214,7 +214,11 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 						}else{
 							$test['Succès'][]='Permissions sur le dossier courant : OK';
 						}
-
+						if (!@function_exists('mysql_connect')){
+						   $test['Erreur'][] = 'La fonction requise "mysql_connect" est inaccessible sur votre serveur, verifiez vote installation de MySql.';
+						}else{
+						   $test['Succès'][] = 'Fonction requise "mysql_connect" : OK';    
+						}
 						if (!@function_exists('file_get_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{
