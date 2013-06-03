@@ -727,3 +727,7 @@ footer a,#main aside a{
 .nochip{
 	list-style-type: none;
 }
+
+article #loader{
+	display: none;
+}
