@@ -4,7 +4,7 @@
 	<!-- CORPS ARTICLE -->
 	 
 	
-	<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}" {$scroll?'style="display: none;"':''}>
+	<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}{$scroll?' scroll':''}" {$scroll?'style="display: none;"':''}>
 		<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 		<!-- TITRE -->
 		<h2 class="articleTitle">

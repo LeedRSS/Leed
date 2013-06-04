@@ -153,21 +153,23 @@ $(window).scroll(function(){
 		{
             // lorsqu'on commence un traitement, on met ajaxready à false
 			$(window).data('ajaxready', false);
- 
-			$('article #loader').fadeIn(400);
+ 			
+ 			//j'affiche mon loader pour indiquer le chargement
+			$('article #loader').show();
 			
+			//utilisé pour l'alternance des couleurs d'un article à l'autre
 			if ($('article section:last').attr('class') == ' eventHightLighted') {
 				hightlighted = 1;
 			} else {
 				hightlighted = 2;
 			}
 			
-			// récupération de action
+			// récupération des variables passées en Get
 			var action = getUrlVars()['action'];
 			var folder = getUrlVars()['folder'];
 			var feed = getUrlVars()['feed'];
 			var order = getUrlVars()['order'];
-
+			
 			$.ajax({
 				url: './article.php',
 				type: 'post',
@@ -176,10 +178,10 @@ $(window).scroll(function(){
 				//Succès de la requête
 				success: function(data) {
 					if (data.replace(/^\s+/g,'').replace(/\s+$/g,'') != '')
-					{	// on les insère juste avant le loader.gif
+					{	// on les insère juste avant le loader
 						$('article #loader').before(data);
 						// on les affiche avec un fadeIn
-						$('article section').fadeIn(400);
+						$('article section.scroll').fadeIn(600);
 						$(window).data('ajaxready', true);
 						$(window).data('page', $(window).data('page')+1);
 					}
@@ -458,6 +460,8 @@ function buttonAction(target,id){
 	readThis(target,id,from);
 }
 
+
+// permet de récupérer les variables passée en get dans l'URL et des les parser
 function getUrlVars()
 {
     var vars = [], hash;
