@@ -10,7 +10,6 @@ $scroll = (isset($_['scroll'])?false:true);
 if ($scroll) {
 	include ('common.php');
 	$view = "article";
-	$tpl->assign('scroll',$scroll);
 		
 	//recuperation de tous les flux
 	$allFeeds = $feedManager->getFeedsPerFolder();
@@ -77,6 +76,7 @@ if ($scroll) {
 	$tpl->assign('events',$events);
 	$html = $tpl->draw($view);
 }
+$tpl->assign('scroll',$scroll);
 
 $view = "article";
 ?>
