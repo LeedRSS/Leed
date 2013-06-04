@@ -3,7 +3,7 @@
 /*
  @nom: article
  @auteur: Maël ILLOUZ (mael.illouz@cobestran.com)
- @description: Page de gestion de l'affichage des articles.
+ @description: Page de gestion de l'affichage des articles. Sera utilisé de base ainsi que pour le scroll infini
  */
 
 $scroll = (isset($_['scroll'])?false:true);
