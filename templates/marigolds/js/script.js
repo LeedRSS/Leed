@@ -158,7 +158,7 @@ $(window).scroll(function(){
 			$('article #loader').show();
 			
 			//utilisé pour l'alternance des couleurs d'un article à l'autre
-			if ($('article section:last').attr('class') == ' eventHightLighted') {
+			if ($('article section:last').hasClass('eventHightLighted')) {
 				hightlighted = 1;
 			} else {
 				hightlighted = 2;
@@ -180,8 +180,16 @@ $(window).scroll(function(){
 					if (data.replace(/^\s+/g,'').replace(/\s+$/g,'') != '')
 					{	// on les insère juste avant le loader
 						$('article #loader').before(data);
+						//on supprime de la page le script pour ne pas intéragir avec les next & prev
+						$('article .scriptaddbutton').remove();
+						//si l'élement courant est caché, selectionner le premier élément du scroll
+						if ($('article section.eventSelected').attr('style')=='display: none;') {
+							targetThisEvent($('article section.scroll:first'), true);
+						}
 						// on les affiche avec un fadeIn
 						$('article section.scroll').fadeIn(600);
+						// on supprime le tag de classe pour le prochain scroll
+						$('article section.scroll').removeClass('scroll');
 						$(window).data('ajaxready', true);
 						$(window).data('page', $(window).data('page')+1);
 					}
