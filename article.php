@@ -74,6 +74,7 @@ if ($scroll) {
 		break;
 	}
 	$tpl->assign('events',$events);
+	$tpl->assign('scroll',$scroll);
 	$html = $tpl->draw($view);
 }
 $tpl->assign('scroll',$scroll);
