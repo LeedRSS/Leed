@@ -727,6 +727,11 @@ footer a,#main aside a{
 .nochip{
 	list-style-type: none;
 }
+
+article #loader{
+	display: none;
+}
+
 .border{
 	border: 1px black solid;
 	padding: 0px 5px 0px 5px;
