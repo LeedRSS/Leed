@@ -38,13 +38,14 @@ if ($scroll) {
 	
 	$tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
-	$target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
-	if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';
-	if($articleDisplayContent && $articleView!='partial') $target .= MYSQL_PREFIX.'event.content,';
-	if($articleDisplayLink) $target .= MYSQL_PREFIX.'event.link,';
-	if($articleDisplayDate) $target .= MYSQL_PREFIX.'event.pubdate,';
-	if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';
-	$target .= MYSQL_PREFIX.'event.id';
+	$prefix=$eventManager->getPrefixTable();
+	$target = $prefix.'event.title,'.$prefix.'event.unread,'.$prefix.'event.favorite,'.$prefix.'event.feed,';
+	if($articleDisplayContent && $articleView=='partial') $target .= $prefix.'event.description,';
+	if($articleDisplayContent && $articleView!='partial') $target .= $prefix.'event.content,';
+	if($articleDisplayLink) $target .= $prefix.'event.link,';
+	if($articleDisplayDate) $target .= $prefix.'event.pubdate,';
+	if($articleDisplayAuthor) $target .= $prefix.'event.creator,';
+	$target .= $prefix.'event.id';
 	
 	$startArticle = $_['scroll']*$articlePerPages;
 	$action = $_['action'];
@@ -60,7 +61,7 @@ if ($scroll) {
 		/* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
 		case 'selectedFolder':
 			$currentFolder = $folderManager->getById($_['folder']);
-			if($articleDisplayFolderSort) {$order = MYSQL_PREFIX.'event.pubdate desc';} else {$order = MYSQL_PREFIX.'event.pubdate asc';}
+			if($articleDisplayFolderSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
 			$events = $currentFolder->getEvents($startArticle,$articlePerPages,$order,$target);
 		break;
 		/* AFFICHAGE DES EVENEMENTS FAVORIS */
