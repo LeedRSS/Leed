@@ -43,16 +43,7 @@ $(document).ready(function(){
 	}else{
 
 		targetThisEvent($('article section:first'),true);
-
-		$('article section').click(function(event){
-			var target = event.target;
-			var id = this.id;
-			if($(target).hasClass('readUnreadButton')){
-				buttonAction(target,id);
-			}else{
-				targetThisEvent(this);
-			}
-		});
+		addEventsButtonLuNonLus();
 
 	}
 
@@ -144,7 +135,89 @@ if(e.which == keyCode['shift']) isMaj=false;
    }
 });
 
+// on initialise ajaxready à true au premier chargement de la fonction
+$(window).data('ajaxready', true);
+$('article').append('<div id="loader">Chargement en cours ...</div>');
+$(window).data('page', 1);
+
+var deviceAgent = navigator.userAgent.toLowerCase();
+var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
+
+$(window).scroll(function(){
+	if(!$('.settings').length) {
+		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
+		if ($(window).data('ajaxready') == false) return;
+ 
+		if(($(window).scrollTop() + $(window).height()) == $(document).height()
+		   || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
+		{
+            // lorsqu'on commence un traitement, on met ajaxready à false
+			$(window).data('ajaxready', false);
+ 			
+ 			//j'affiche mon loader pour indiquer le chargement
+			$('article #loader').show();
+			
+			//utilisé pour l'alternance des couleurs d'un article à l'autre
+			if ($('article section:last').hasClass('eventHightLighted')) {
+				hightlighted = 1;
+			} else {
+				hightlighted = 2;
+			}
+			
+			// récupération des variables passées en Get
+			var action = getUrlVars()['action'];
+			var folder = getUrlVars()['folder'];
+			var feed = getUrlVars()['feed'];
+			var order = getUrlVars()['order'];
+			
+			$.ajax({
+				url: './article.php',
+				type: 'post',
+				data: 'scroll='+$(window).data('page')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+'&order='+order,
+ 
+				//Succès de la requête
+				success: function(data) {
+					if (data.replace(/^\s+/g,'').replace(/\s+$/g,'') != '')
+					{	// on les insère juste avant le loader
+						$('article #loader').before(data);
+						//on supprime de la page le script pour ne pas intéragir avec les next & prev
+						$('article .scriptaddbutton').remove();
+						//si l'élement courant est caché, selectionner le premier élément du scroll
+						if ($('article section.eventSelected').attr('style')=='display: none;') {
+							targetThisEvent($('article section.scroll:first'), true);
+						}
+						// on les affiche avec un fadeIn
+						$('article section.scroll').fadeIn(600);
+						// on supprime le tag de classe pour le prochain scroll
+						$('article section.scroll').removeClass('scroll');
+						$(window).data('ajaxready', true);
+						$(window).data('page', $(window).data('page')+1);
+					}
+ 				}
+			});
+			// le chargement est terminé, on fait disparaitre notre loader
+			$('article #loader').fadeOut(400);
+		}
+	}
+});
+
 /* Fonctions de séléctions */
+/* Cette fonction sera utilisé pour le scrool infinie, afin d'ajouter les évènements necessaires */
+function addEventsButtonLuNonLus(){
+	var handler = function(event){
+			var target = event.target;
+			var id = this.id;
+			if($(target).hasClass('readUnreadButton')){
+				buttonAction(target,id);
+			}else{
+				targetThisEvent(this);
+			}
+	}
+	// on vire tous les évènements afin de ne pas avoir des doublons d'évènements
+	$('article section').unbind('click');
+	// on bind proprement les click sur chaque section
+	$('article section').bind('click', handler);
+}
 
 function targetPreviousEvent(){
 	targetThisEvent($('.eventSelected').prev(':visible'),true);
@@ -173,6 +246,9 @@ function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
+		if($('article section:last').attr('style')=='display: none;') {
+			$(window).scrollTop($(document).height());
+		}
 		targetThisEvent($('.eventSelected').next(),true);
 	});
 }
@@ -391,4 +467,26 @@ function buttonAction(target,id){
 		var from='';
 	}
 	readThis(target,id,from);
+}
+
+
+// permet de récupérer les variables passée en get dans l'URL et des les parser
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        if (hash[1]){
+	        rehash = hash[1].split('#');
+	        vars[hash[0]] = rehash[0];
+	    } else {
+	    	vars[hash[0]] = '';
+	    }
+	    
+        
+    }
+    return vars;
 }
