@@ -246,6 +246,9 @@ function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
+		if($('article section:last').attr('style')=='display: none;') {
+			$(window).scrollTop($(document).height());
+		}
 		targetThisEvent($('.eventSelected').next(),true);
 	});
 }
