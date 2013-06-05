@@ -76,9 +76,7 @@ if ($scroll) {
 	}
 	$tpl->assign('events',$events);
 	$tpl->assign('scroll',$scroll);
+	$view = "article";
 	$html = $tpl->draw($view);
 }
-$tpl->assign('scroll',$scroll);
-
-$view = "article";
 ?>

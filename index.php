@@ -129,6 +129,7 @@ $pagesArray = array();
 				$tpl->assign('events',$events);
 				$tpl->assign('time',$_SERVER['REQUEST_TIME']);
 				$tpl->assign('hightlighted',0);
+				$tpl->assign('scroll',false);
 
 $view = 'index';
 require_once('footer.php'); 
