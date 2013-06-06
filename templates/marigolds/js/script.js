@@ -139,6 +139,7 @@ if(e.which == keyCode['shift']) isMaj=false;
 $(window).data('ajaxready', true);
 $('article').append('<div id="loader">Chargement en cours ...</div>');
 $(window).data('page', 1);
+$(window).data('nblus', 0);
 
 var deviceAgent = navigator.userAgent.toLowerCase();
 var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
@@ -173,7 +174,7 @@ $(window).scroll(function(){
 			$.ajax({
 				url: './article.php',
 				type: 'post',
-				data: 'scroll='+$(window).data('page')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+'&order='+order,
+				data: 'scroll='+$(window).data('page')+'&nblus='+$(window).data('nblus')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+'&order='+order,
  
 				//Succès de la requête
 				success: function(data) {
@@ -249,6 +250,9 @@ function readTargetEvent(){
 		if($('article section:last').attr('style')=='display: none;') {
 			$(window).scrollTop($(document).height());
 		}
+		// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+		$(window).data('nblus', $(window).data('nblus')+1);
+		// on fait un focus sur l'Event suivant
 		targetThisEvent($('.eventSelected').next(),true);
 	});
 }

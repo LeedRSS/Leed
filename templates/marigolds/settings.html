@@ -155,14 +155,14 @@
 						<h3>Utilisateur</h3>
 						<p><label for="login">Identifiant :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
 						<p><label for="password">Mot de passe :</label> <input type="password" id="password" name="password" autocomplete="off" value=""></p>
-						<h4>Laissez le champ vide si vous ne souhaitez pas changer le mot de passe</h4>
+						<h4>Laissez le champ vide si vous ne souhaitez pas changer le mot de passe.</h4>
 					
 					</section>
 
 					<section>
 						<h3>Synchronisation</h3>
-						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>Automatique (complet) :</strong></label> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés</p>
-						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>Automatique (gradué) :</strong></label> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible</p>
+						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>Automatique (complet) :</strong></label> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
+						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>Automatique (gradué) :</strong></label> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>Manuel (complet) :</strong></label> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					
 						<p><strong>Code de synchronisation:</strong>
@@ -186,7 +186,7 @@
 
 					<section>
 						{if="$myUser!=false"}
-						<h3>Préferences</h3>
+						<h3>Préférences</h3>
 						<fieldset>
 							<legend>Autoriser la lecture anonyme</legend>
 							<input type="radio" {if="($myUser->getId()!=1)"}disabled="disabled" {/if} {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">Oui</label>
@@ -322,7 +322,7 @@
 {else}
 	<div id="main" class="wrapper clearfix">
 		<article>
-				<h3>Vous devez être connecté pour consulter vos flux </h3>
+				<h3>Vous devez être connecté pour consulter vos flux.</h3>
 				<p>Si vous êtes administrateur, vous pouvez régler les droits de visualisation dans la partie administration.</p>
 		</article>
 	</div>
