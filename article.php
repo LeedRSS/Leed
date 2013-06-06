@@ -45,7 +45,7 @@ if ($scroll) {
 	if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';
 	$target .= MYSQL_PREFIX.'event.id';
 	
-	$startArticle = $_['scroll']*$articlePerPages;
+	$startArticle = $_['scroll']*$articlePerPages-$_['nblus'];
 	$action = $_['action'];
 	
 	switch($action){
