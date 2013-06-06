@@ -262,6 +262,8 @@ function targetPreviousEventRead(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	unReadThis(buttonElement,id,null);
+	// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+	$(window).data('nblus', $(window).data('nblus')-1);
 }
 
 function readAllDisplayedEvents(){
