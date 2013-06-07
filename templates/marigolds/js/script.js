@@ -170,11 +170,16 @@ $(window).scroll(function(){
 			var folder = getUrlVars()['folder'];
 			var feed = getUrlVars()['feed'];
 			var order = getUrlVars()['order'];
+			if (order) {
+				order = '&order='+order
+			} else {
+				order = ''
+			}
 			
 			$.ajax({
 				url: './article.php',
 				type: 'post',
-				data: 'scroll='+$(window).data('page')+'&nblus='+$(window).data('nblus')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+'&order='+order,
+				data: 'scroll='+$(window).data('page')+'&nblus='+$(window).data('nblus')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+order,
  
 				//Succès de la requête
 				success: function(data) {
@@ -250,8 +255,6 @@ function readTargetEvent(){
 		if($('article section:last').attr('style')=='display: none;') {
 			$(window).scrollTop($(document).height());
 		}
-		// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
-		$(window).data('nblus', $(window).data('nblus')+1);
 		// on fait un focus sur l'Event suivant
 		targetThisEvent($('.eventSelected').next(),true);
 	});
@@ -262,8 +265,6 @@ function targetPreviousEventRead(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	unReadThis(buttonElement,id,null);
-	// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
-	$(window).data('nblus', $(window).data('nblus')-1);
 }
 
 function readAllDisplayedEvents(){
@@ -384,9 +385,11 @@ function readThis(element,id,from,callback){
 	var hide = ($('#pageTop').html()==''?true:false);
 	var parent = $(element).parent().parent();
 	var nextEvent = $('#'+id).next();
+	//sur les éléments non lus
 	if(!parent.hasClass('eventRead')){
 
 		if(hide){ 
+			// cas de la page d'accueil
 			parent.addClass('eventRead');
 			parent.fadeOut(200,function(){
 				if(callback){
@@ -395,7 +398,10 @@ function readThis(element,id,from,callback){
 					targetThisEvent(nextEvent,true);
 				}
 			}); 
+			// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+			$(window).data('nblus', $(window).data('nblus')+1);
 		}else{ 
+			// autres cas : favoris, selectedFolder, selectedFeed ...
 			parent.addClass('eventRead');
 			targetThisEvent(nextEvent,true);
 		}
@@ -407,8 +413,8 @@ function readThis(element,id,from,callback){
 					  	if(msg!="") alert('Erreur de lecture : '+msg);
 					  }
 		});
-	}else{
-
+	}else{  // sur les éléments lus
+			// si ce n'est pas un clic sur le titre de l'event
 			if(from!='title'){
 			
 				parent.removeClass('eventRead');
@@ -437,6 +443,8 @@ function unReadThis(element,id,from){
 						  	  if(msg!="") alert('Erreur de lecture : '+msg);
 					  }
 				});
+				// on compte combien d'article ont été remis à non lus (uniquement pour la page d'accueil)
+				if (hide) $(window).data('nblus', $(window).data('nblus')-1);
 			}
 	}
 	
