@@ -252,9 +252,6 @@ function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
-		if($('article section:last').attr('style')=='display: none;') {
-			$(window).scrollTop($(document).height());
-		}
 		// on fait un focus sur l'Event suivant
 		targetThisEvent($('.eventSelected').next(),true);
 	});
@@ -398,6 +395,10 @@ function readThis(element,id,from,callback){
 					callback();
 				}else{
 					targetThisEvent(nextEvent,true);
+				}
+				// on simule un scroll si tous les events sont cachés
+				if($('article section:last').attr('style')=='display: none;') {
+					$(window).scrollTop($(document).height());
 				}
 			}); 
 			// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
