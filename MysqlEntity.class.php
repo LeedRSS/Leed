@@ -15,6 +15,7 @@ class MysqlEntity
 {
 	
 	private $debug = false;
+	private $debugAllQuery = false;
 
 		
 	function sgbdType($type){
@@ -386,6 +387,7 @@ class MysqlEntity
 
 	///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
 	public function customExecute($request){
+		if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.mysql_error();
 		$result = mysql_query($request);
 		if (false===$result) {
 			throw new Exception(mysql_error());
@@ -393,6 +395,7 @@ class MysqlEntity
 		return $result;
 	}
 	public function customQuery($request){
+		if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.mysql_error();
 		$result = mysql_query($request);
 		if (false===$result) {
 			throw new Exception(mysql_error());
