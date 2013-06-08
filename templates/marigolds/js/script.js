@@ -55,7 +55,7 @@ if(e.which == keyCode['ctrl']) isCtrl=false;
 if(e.which == keyCode['shift']) isMaj=false;
 }).keydown(function (e) {
  	//alert(e.which);
-   if(!$('.settings').length) {
+   if($('.index').length) {
     if(e.which == keyCode['ctrl']) isCtrl=true;
     if(e.which == keyCode['shift']) isMaj=true;
     
@@ -145,7 +145,7 @@ var deviceAgent = navigator.userAgent.toLowerCase();
 var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
 
 $(window).scroll(function(){
-	if(!$('.settings').length) {
+	if($('.index').length) {
 		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
 		if ($(window).data('ajaxready') == false) return;
  
