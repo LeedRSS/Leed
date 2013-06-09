@@ -21,6 +21,9 @@ class Configuration extends MysqlEntity{
 
 	function __construct(){
 		parent::__construct();
+		unset($_SESSION['configuration']);
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) { $this->setPrefixTable($myUser->getPrefixDatabase()); }
 	}
 
 	public function getAll(){

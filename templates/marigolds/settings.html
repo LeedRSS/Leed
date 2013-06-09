@@ -17,12 +17,21 @@
 							
 							
 							<li><a class="toggle" href="#manageBloc">Gestion des flux</a></li>
+							{if="(isset($myUser)) && ($myUser!=false)"}
+								{if="($myUser->getId()==1)"}
+								<li><a class="toggle" href="#manageUsers">Gestion des environnements</a></li>
+								{/if}
+							{/if}
 							<li><a class="toggle" href="#synchronizeBloc">Mise à jour manuelle des flux</a></li>
 							<li><a class="toggle" href="#preferenceBloc">Préférences</a></li>
 							<li><a class="toggle" href="#importBloc">Import</a></li>
 							<li><a class="toggle" href="#exportBloc">Export</a></li>
 							<li><a class="toggle" href="#bookBloc">Bookmarklet</a></li>
-							<li><a class="toggle" href="#pluginBloc">Plugins disponibles</a></li>
+							{if="(isset($myUser)) && ($myUser!=false)"}
+								{if="($myUser->getId()==1)"}
+								<li><a class="toggle" href="#pluginBloc">Plugins disponibles</a></li>
+								{/if}
+							{/if}
 							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tous les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
@@ -79,7 +88,7 @@
 							{if="count($feeds)!=0"}
 							{loop="$feedsForFolder"}
 								<tr>
-									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><span class="underlink">{$value2->getUrl()}</span></td>
+									<td style="width:50%;"><a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><pre class="hidden">{$value2->getUrl()}</pre><span class="underlink">{function="Functions::truncate($value2->getUrl(),40)"}</span></td>
 									<td>
 										<select onchange="changeFeedFolder(this,{$value2->getId()});">
 											{loop="$folders"}
@@ -97,6 +106,36 @@
 				</ul>
 				</section>
 
+				{if="(isset($myUser)) && ($myUser!=false)"}
+					{if="($myUser->getId()==1)"}
+					<section class="manageUsers">
+						 <h2>Gestion des environnements</h2>
+						 <h3>Liste des utilisateurs</h3>
+							<table>
+								<th class="border">ID</th><th class="border">Login</th><th class="border">Code Synchro</th><th class="border">Action</th><th class="border">Nb. feed</th><th class="border">Nb. articles</th><th class="border">Nb. art. non lus</th>
+							{loop="$usersCodeSynchro"}
+								<tr><td class="border textcenter">{$value.id}</td>
+								    <td class="border textcenter">{$value.login}</td>
+								    <td class="border textcenter">{$value.value}</td>
+								    <td class="border">{if="($value.id!=1)"}<form action="action.php?action=delUser" method="POST"><input type="hidden" id="id" name="id" value="{$value.id}"><button name="delButton" class="delButton">supprimer</button></form>{/if}</td>
+								    <td class="border textright">{$value.nbfeed}</td>
+								    <td class="border textright">{$value.nbarticle}</td>
+								    <td class="border textright">{$value.nbunread}</td>
+								</tr>
+							{/loop}
+							</table>
+
+						 <h3>Ajouter un utilisateur</h3>
+						 <form action="action.php?action=addUser" method="POST" autocomplete="off">
+							<li><label for="login">Identifiant :</label> <input type="text" id="login" name="login" title="minimum 3 caractères : aaAZ-123" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9\-]{1,25}[a-zA-Z0-9]{1}$"></li>
+							<li><label for="password">Mot de passe :</label> <input type="password" id="password" name="password" required></li>
+							<button name="installButton">Créer utilisateur</button>
+						 </form>
+						 <h4>La création d'un utilisateur supplémentaire génère des tables supplémentaires en BDD prefixées "MYSQL_PREFIX_loginUser_"</h4>
+					</section>
+					{/if}
+				{/if}
+
 				<section class="synchronizeBloc">
 					 <h2>Synchronisation des flux :</h2>
 					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
@@ -108,7 +147,7 @@
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<section>
 						<h3>Général</h3>
-						<p><label for="root">Racine du projet :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
+						<p><label for="root">Racine du projet :</label> <input {if="($myUser->getId()!=1)"}readonly="readonly" {/if}type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
 						<h4>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h4>
 					</section>
 
@@ -150,8 +189,8 @@
 						<h3>Préférences</h3>
 						<fieldset>
 							<legend>Autoriser la lecture anonyme</legend>
-							<input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">Oui</label>
-							<input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">Non</label>
+							<input type="radio" {if="($myUser->getId()!=1)"}disabled="disabled" {/if} {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">Oui</label>
+							<input type="radio" {if="($myUser->getId()!=1)"}disabled="disabled" {/if} {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">Non</label>
 							<h4>Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h4>
 						</fieldset>
 						<fieldset>
@@ -237,36 +276,39 @@
 				</section>
 				
 
-				
-				<section class="pluginBloc">
-					<h2>Plugins :</h2>
-					<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a href="https://github.com/ldleman/Leed-market/">sur le Leed Market</a>.</p>
-					<p>Voici la liste des plugins installés :</p>
-					{if="$myUser!=false"}
-					<ul class="pluginList">
-					{if="count($plugins)==0"}
-					Aucun plugin n'est installé pour le moment.
-					{else}
-					{loop="$plugins"}
-					<li>
-						<ul>
-							<li><h4>Nom: </h4>{$value->getName()}</li>
-							<li><h4>Auteur: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
-							<li><h4>Licence: </h4>{$value->getLicence()}</li>
-							<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
-							<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
-							<li>{$value->getDescription()}</li>
-							<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?"Activer":"Désactiver"}</a></li>
+				{if="(isset($myUser)) && ($myUser!=false)"}
+					{if="($myUser->getId()==1)"}
+					<section class="pluginBloc">
+						<h2>Plugins :</h2>
+						<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a target="_blank" href="https://github.com/ldleman/Leed-market/">sur le Leed Market</a>.</p>
+						<p>Voici la liste des plugins installés :</p>
+						{if="$myUser!=false"}
+						<ul class="pluginList">
+						{if="count($plugins)==0"}
+						Aucun plugin n'est installé pour le moment.
+						{else}
+						{loop="$plugins"}
+						<li>
+							<ul>
+								<li><h4>Nom: </h4>{$value->getName()}</li>
+								<li><h4>Auteur: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
+								<li><h4>Licence: </h4>{$value->getLicence()}</li>
+								<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
+								<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+								<li>{$value->getDescription()}</li>
+								<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?"Activer":"Désactiver"}</a></li>
+							</ul>
+						</li>
+						{/loop}
+						{/if}
 						</ul>
-					</li>
-					{/loop}
-					{/if}
-					</ul>
 
-					{else}
-					<p>Vous devez être connecté pour voir les plugins.</p>
+						{else}
+						<p>Vous devez être connecté pour voir les plugins.</p>
+						{/if}
+					</section>
 					{/if}
-				</section>
+				{/if}
 
 				
 

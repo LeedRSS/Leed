@@ -91,7 +91,7 @@ if(isset($_['installButton'])){
 	}
 
 	$constant = "<?php
-	define('VERSION_NUMBER','1.5');
+	define('VERSION_NUMBER','1.6');
 	define('VERSION_NAME','Beta');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
@@ -139,6 +139,7 @@ if(isset($_['installButton'])){
 	$admin = new User();
 	$admin->setLogin($_['login']);
 	$admin->setPassword($_['password']);
+	$admin->setPrefixDatabase(MYSQL_PREFIX);
 	$admin->save();
 	//Identification de l'utilisateur en session
 	$_SESSION['currentUser'] = serialize($admin);
@@ -172,7 +173,7 @@ if(isset($_['installButton'])){
 	$folder->setIsopen(1);
 	$folder->save();
 	$dirname = dirname(__FILE__);
-	$logFile = str_replace(array(basename(__FILE__),'\\'),array('logs/cron.log','/'),__FILE__);
+	$logFile = str_replace(array(basename(__FILE__),'\\'),array('logs/'.$admin->getLogin().'.log','/'),__FILE__);
 	$wgetUrl = "{$root}action.php?action=synchronize&code={$synchronisationCode}";
 ?>
 
@@ -182,7 +183,7 @@ if(isset($_['installButton'])){
 		<h3>Appel direct</h3>
 <p>Cette méthode requiert un accès local. Elle permet de lancer directement la synchronisation. Elle devrait être préférée lorsqu'on dispose d'un accès direct à la ligne de commande de l'hébergement.</p>
 
-<code>0 * * * * cd <?php echo $dirname ?> &amp;&amp; php action.php >> logs/cron.log 2>&1</code>
+<code>0 * * * * cd <?php echo $dirname ?> &amp;&amp; php action.php >> logs/<?php echo $admin->getLogin() ?>.log 2>&1</code>
 
 		<h3>Appel réseau</h3>
 <p>Cette méthode nécessite l'accès à Leed en http via la commande <em>wget</em>, par exemple. Cette méthode a l'avantage de pouvoir être déclenchée à distance et sans accès à la ligne de commande. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation qui est disponible dans la configuration :</p>
@@ -214,7 +215,11 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 						}else{
 							$test['Succès'][]='Permissions sur le dossier courant : OK';
 						}
-
+						if (!@function_exists('mysql_connect')){
+						   $test['Erreur'][] = 'La fonction requise "mysql_connect" est inaccessible sur votre serveur, verifiez vote installation de MySql.';
+						}else{
+						   $test['Succès'][] = 'Fonction requise "mysql_connect" : OK';    
+						}
 						if (!@function_exists('file_get_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{

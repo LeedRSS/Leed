@@ -5,11 +5,12 @@
  @auteur: Idleman (idleman@idleman.fr)
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
-
+session_name('leed');
 session_start();
 mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
+require_once('version.php');
 require_once('RainTPL.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
@@ -28,14 +29,11 @@ class_exists('Opml') or require_once('Opml.class.php');
 date_default_timezone_set('Europe/Paris'); 
 
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+$userManager = new User();
 $feedManager = new Feed();
 $eventManager = new Event();
-$userManager = new User();
 $folderManager = new Folder();
 $configurationManager = new Configuration();
-
-
-
 
 $conf = $configurationManager->getAll();
 

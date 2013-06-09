@@ -43,16 +43,7 @@ $(document).ready(function(){
 	}else{
 
 		targetThisEvent($('article section:first'),true);
-
-		$('article section').click(function(event){
-			var target = event.target;
-			var id = this.id;
-			if($(target).hasClass('readUnreadButton')){
-				buttonAction(target,id);
-			}else{
-				targetThisEvent(this);
-			}
-		});
+		addEventsButtonLuNonLus();
 
 	}
 
@@ -64,7 +55,7 @@ if(e.which == keyCode['ctrl']) isCtrl=false;
 if(e.which == keyCode['shift']) isMaj=false;
 }).keydown(function (e) {
  	//alert(e.which);
-   if(!$('.settings').length) {
+   if($('.index').length) {
     if(e.which == keyCode['ctrl']) isCtrl=true;
     if(e.which == keyCode['shift']) isMaj=true;
     
@@ -93,50 +84,50 @@ if(e.which == keyCode['shift']) isMaj=false;
 
         case keyCode['s']:
         	if (isPushed) {
-        		//on bloque les évènements clavier concurrents
-        		isPushed = false;
-	    		//marque l'élément sélectionné comme favori / non favori
+               	//on bloque les évènements clavier concurrents
+               	isPushed = false;
+	            //marque l'élément sélectionné comme favori / non favori
 	            switchFavoriteTargetEvent();
 	    	}
             return false;
         break;
         case keyCode['n']:
             //élément suivant (sans l'ouvrir)
-            targetNextEvent();
+   	        targetNextEvent();
             return false;
         break;
         case keyCode['v']:
-            //ouvre l'url de l'élément sélectionné
-            openTargetEvent();
+         	//ouvre l'url de l'élément sélectionné
+           	openTargetEvent();
             return false;
         break;
         case keyCode['p']:
             //élément précédent (sans l'ouvrir)
-            targetPreviousEvent();
+   	        targetPreviousEvent();
             return false;
         break;
         case keyCode['space']:
             if(isMaj){
-                //élément précédent (et l'ouvrir)
-                targetPreviousEvent();
-                openTargetEvent();
+               //élément précédent (et l'ouvrir)
+       	       targetPreviousEvent();
+   	           openTargetEvent();
             }else{
-                //élément suivant (et l'ouvrir)
-                targetNextEvent();
-                openTargetEvent();
-            }
+   	            //élément suivant (et l'ouvrir)
+       	        targetNextEvent();
+           	    openTargetEvent();
+           	}
             return false;
         break;
         case keyCode['k']:
-            //élément précédent (et l'ouvrir)
-            targetPreviousEvent();
-            openTargetEvent();
+	        //élément précédent (et l'ouvrir)
+	        targetPreviousEvent();
+           	openTargetEvent();
             return false;
         break;
         case keyCode['o']:
         case keyCode['enter']:
             //ouvrir l'élément sélectionné
-            openTargetEvent();
+	        openTargetEvent();
             return false;
         break;
     }
@@ -144,7 +135,95 @@ if(e.which == keyCode['shift']) isMaj=false;
    }
 });
 
+// on initialise ajaxready à true au premier chargement de la fonction
+$(window).data('ajaxready', true);
+$('article').append('<div id="loader">Chargement en cours ...</div>');
+$(window).data('page', 1);
+$(window).data('nblus', 0);
+
+var deviceAgent = navigator.userAgent.toLowerCase();
+var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
+
+$(window).scroll(function(){
+	if($('.index').length) {
+		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
+		if ($(window).data('ajaxready') == false) return;
+ 
+		if(($(window).scrollTop() + $(window).height()) == $(document).height()
+		   || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
+		{
+            // lorsqu'on commence un traitement, on met ajaxready à false
+			$(window).data('ajaxready', false);
+ 			
+ 			//j'affiche mon loader pour indiquer le chargement
+			$('article #loader').show();
+			
+			//utilisé pour l'alternance des couleurs d'un article à l'autre
+			if ($('article section:last').hasClass('eventHightLighted')) {
+				hightlighted = 1;
+			} else {
+				hightlighted = 2;
+			}
+			
+			// récupération des variables passées en Get
+			var action = getUrlVars()['action'];
+			var folder = getUrlVars()['folder'];
+			var feed = getUrlVars()['feed'];
+			var order = getUrlVars()['order'];
+			if (order) {
+				order = '&order='+order
+			} else {
+				order = ''
+			}
+			
+			$.ajax({
+				url: './article.php',
+				type: 'post',
+				data: 'scroll='+$(window).data('page')+'&nblus='+$(window).data('nblus')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+order,
+ 
+				//Succès de la requête
+				success: function(data) {
+					if (data.replace(/^\s+/g,'').replace(/\s+$/g,'') != '')
+					{	// on les insère juste avant le loader
+						$('article #loader').before(data);
+						//on supprime de la page le script pour ne pas intéragir avec les next & prev
+						$('article .scriptaddbutton').remove();
+						//si l'élement courant est caché, selectionner le premier élément du scroll
+						if ($('article section.eventSelected').attr('style')=='display: none;') {
+							targetThisEvent($('article section.scroll:first'), true);
+						}
+						// on les affiche avec un fadeIn
+						$('article section.scroll').fadeIn(600);
+						// on supprime le tag de classe pour le prochain scroll
+						$('article section.scroll').removeClass('scroll');
+						$(window).data('ajaxready', true);
+						$(window).data('page', $(window).data('page')+1);
+					}
+ 				}
+			});
+			// le chargement est terminé, on fait disparaitre notre loader
+			$('article #loader').fadeOut(400);
+		}
+	}
+});
+
 /* Fonctions de séléctions */
+/* Cette fonction sera utilisé pour le scrool infinie, afin d'ajouter les évènements necessaires */
+function addEventsButtonLuNonLus(){
+	var handler = function(event){
+			var target = event.target;
+			var id = this.id;
+			if($(target).hasClass('readUnreadButton')){
+				buttonAction(target,id);
+			}else{
+				targetThisEvent(this);
+			}
+	}
+	// on vire tous les évènements afin de ne pas avoir des doublons d'évènements
+	$('article section').unbind('click');
+	// on bind proprement les click sur chaque section
+	$('article section').bind('click', handler);
+}
 
 function targetPreviousEvent(){
 	targetThisEvent($('.eventSelected').prev(':visible'),true);
@@ -173,6 +252,7 @@ function readTargetEvent(){
 	var buttonElement = $('.eventSelected .readUnreadButton');
 	var id = $(target).attr('id');
 	readThis(buttonElement,id,null,function(){
+		// on fait un focus sur l'Event suivant
 		targetThisEvent($('.eventSelected').next(),true);
 	});
 }
@@ -195,9 +275,9 @@ function readAllDisplayedEvents(){
 function switchFavoriteTargetEvent(){
 	var id = $(target).attr('id');
 	if($('.favorite',target).html()=='Favoriser'){
-		addFavorite($('.favorite',target),id);
+		addFavorite($('.favorite',target),id)
 	}else{
-		removeFavorite($('.favorite',target),id);
+		removeFavorite($('.favorite',target),id)
 	}
 	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
 	isPushed = true;
@@ -264,8 +344,9 @@ function renameFeed(element,feed){
 	var feedLine = $(element).parent().parent();
 	var feedNameCase = $('td:first a',feedLine);
 	var feedNameValue = feedNameCase.html();
+	var feedUrlHidden = $('td:first pre',feedLine);
 	var feedUrlCase = $('td:first span',feedLine);
-	var feedUrlValue = feedUrlCase.html();
+	var feedUrlValue = feedUrlHidden.html();
 	var url = feedNameCase.attr('href');
 	$(element).html('Enregistrer');
 	$(element).attr('style','background-color:#0C87C9;');
@@ -284,7 +365,7 @@ function saveRenameFeed(element,feed,url){
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFeed(this,'+feed+')');
 	feedNameCase.replaceWith('<a href="'+url+'">'+feedNameValue+'</a>');
-	feedUrlCase.replaceWith('<span class="underlink">'+feedUrlValue+'</span>');
+	feedUrlCase.replaceWith('<span class="underlink">'+feedUrlValue.substring(0,39)+'</span>');
 	$.ajax({
 				  url: "./action.php?action=renameFeed",
 				  data:{id:feed,name:feedNameValue,url:feedUrlValue}
@@ -302,18 +383,28 @@ function readThis(element,id,from,callback){
 	var hide = ($('#pageTop').html()==''?true:false);
 	var parent = $(element).parent().parent();
 	var nextEvent = $('#'+id).next();
+	//sur les éléments non lus
 	if(!parent.hasClass('eventRead')){
 
 		if(hide){ 
+			// cas de la page d'accueil
 			parent.addClass('eventRead');
 			parent.fadeOut(200,function(){
 				if(callback){
+					//alert(callback);
 					callback();
 				}else{
 					targetThisEvent(nextEvent,true);
 				}
+				// on simule un scroll si tous les events sont cachés
+				if($('article section:last').attr('style')=='display: none;') {
+					$(window).scrollTop($(document).height());
+				}
 			}); 
+			// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+			$(window).data('nblus', $(window).data('nblus')+1);
 		}else{ 
+			// autres cas : favoris, selectedFolder, selectedFeed ...
 			parent.addClass('eventRead');
 			targetThisEvent(nextEvent,true);
 		}
@@ -325,8 +416,8 @@ function readThis(element,id,from,callback){
 					  	if(msg!="") alert('Erreur de lecture : '+msg);
 					  }
 		});
-	}else{
-
+	}else{  // sur les éléments lus
+			// si ce n'est pas un clic sur le titre de l'event
 			if(from!='title'){
 			
 				parent.removeClass('eventRead');
@@ -355,6 +446,8 @@ function unReadThis(element,id,from){
 						  	  if(msg!="") alert('Erreur de lecture : '+msg);
 					  }
 				});
+				// on compte combien d'article ont été remis à non lus (uniquement pour la page d'accueil)
+				if (hide) $(window).data('nblus', $(window).data('nblus')-1);
 			}
 	}
 	
@@ -391,4 +484,26 @@ function buttonAction(target,id){
 		var from='';
 	}
 	readThis(target,id,from);
+}
+
+
+// permet de récupérer les variables passée en get dans l'URL et des les parser
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        if (hash[1]){
+	        rehash = hash[1].split('#');
+	        vars[hash[0]] = rehash[0];
+	    } else {
+	    	vars[hash[0]] = '';
+	    }
+	    
+        
+    }
+    return vars;
 }

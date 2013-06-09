@@ -25,7 +25,17 @@ switch ($action){
 	case 'commandLine':
 	case 'synchronize':
 		require_once("SimplePie.class.php");
-		$syncCode = $configurationManager->get('synchronisationCode');
+		
+		if ($myUser==false && isset($_['code'])) { 
+			$myUser = $userManager->getUserByCodeSync($_['code']); 
+			if ($myUser==false) { die('Utilisateur non trouvé'); }
+			$_SESSION['currentUser'] = serialize($myUser);
+			$feedManager = new Feed();
+			$eventManager = new Event();
+			$folderManager = new Folder();
+			$configurationManager = new Configuration();
+		}
+		
 		if (   false==$myUser
 			&& !$commandLine
 			&& !(isset($_['code'])
@@ -35,6 +45,7 @@ switch ($action){
 		) {
 			die('Vous devez vous connecter pour cette action.');
 		}
+		
 		Functions::triggerDirectOutput();
 
 		if (!$commandLine)
@@ -247,7 +258,7 @@ switch ($action){
 
 	case 'synchronizeForm':
 	 if(isset($myUser) && $myUser!=false){  
-		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
+		echo '<link rel="stylesheet" href="./templates/'.DEFAULT_THEME.'/css/style.css">
 				<a class="button" href="action.php?action=synchronize">Synchroniser maintenant</a>
 					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 				
@@ -264,30 +275,11 @@ switch ($action){
 	break;
 
 	case 'importFeed':
-		// On ne devrait pas mettre de style ici.
 		echo "<html>
-			<style>
-				a {
-					color:#F16529;
-				}
-
-				html,body{
-						font-family:Verdana;
-						font-size: 11px;
-				}
-				.error{
-						background-color:#C94141;
-						color:#ffffff;
-						padding:5px;
-						border-radius:5px;
-						margin:10px 0px 10px 0px;
-						box-shadow: 0 0 3px 0 #810000;
-					}
-				.error a{
-						color:#ffffff;
-				}
-				</style>
-			</style><body>
+			<head>
+				<link rel='stylesheet' href='./templates/".DEFAULT_THEME."/css/style.css'>
+			</head>
+			<body>
 \n";
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(!isset($_POST['importButton'])) break;
@@ -395,7 +387,7 @@ switch ($action){
 	case 'removeFolder':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
 		if(isset($_['id']) && is_numeric($_['id']) && $_['id']>0){
-			$eventManager->customExecute('DELETE FROM '.MYSQL_PREFIX.'event WHERE '.MYSQL_PREFIX.'event.feed in (SELECT '.MYSQL_PREFIX.'feed.id FROM '.MYSQL_PREFIX.'feed WHERE '.MYSQL_PREFIX.'feed.folder =\''.intval($_['id']).'\') ;');
+			$eventManager->customExecute('DELETE FROM '.$eventManager->getPrefixTable().'event WHERE '.$eventManager->getPrefixTable().'event.feed in (SELECT '.$feedManager->getPrefixTable().'feed.id FROM '.$feedManager->getPrefixTable().'feed WHERE '.$feedManager->getPrefixTable().'feed.folder =\''.intval($_['id']).'\') ;');
 			$feedManager->delete(array('folder'=>$_['id']));
 			$folderManager->delete(array('id'=>$_['id']));
 		}
@@ -450,6 +442,7 @@ switch ($action){
 
 	case 'changePluginState':
 		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser->getId()!=1) exit('Vous devez vous identifier en administrateur');
 		
 		if($_['state']=='0'){
 			Plugin::enabled($_['plugin']);
@@ -460,8 +453,116 @@ switch ($action){
 		header('location: ./settings.php#pluginBloc');
 	break;
 	
+	case 'addUser':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser->getId()!=1) exit('Vous devez vous identifier en administrateur');
+		
+		//vérifier que le login utilisateur n'est pas déjà utilisé
+		if(isset($_['login'])&&isset($_['password'])){
+			if (($_['login']!='')&&($_['password']!='')) {
+				$login = mysql_real_escape_string($_['login']);
+				$password = mysql_real_escape_string($_['password']);
+				$user = $userManager->load(array('login'=>$login));
+				if($user==false) {
+					//Ajout d'un utilisateur avec prefixe de table fixe.
+					$newUser = new User();
+					$newUser->setLogin($login);
+					$newUser->setPassword($password);
+					$newUser->setPrefixDatabase(MYSQL_PREFIX.$login.'_');
+					$newUser->save();
+					//Identification temporaire de l'utilisateur en session afin d'effectuer les créations
+					$admin = unserialize($_SESSION['currentUser']);
+					$_SESSION['currentUser'] = serialize($newUser);
+				
+					//Création de la base et des tables
+					$newFeed = new Feed();
+					$newFeed->setPrefixTable(MYSQL_PREFIX.$login.'_');
+					$newEvent = new Event();
+					$newEvent->setPrefixTable(MYSQL_PREFIX.$login.'_');
+					$newFolder = new Folder();
+					$newFolder->setPrefixTable(MYSQL_PREFIX.$login.'_');
+					$newConfiguration = new Configuration();
+					$newConfiguration->setPrefixTable(MYSQL_PREFIX.$login.'_');
+				
+					$newFeed->create();
+					$newEvent->create();
+					$newFolder->create();
+					$newConfiguration->create();
+				
+					//Ajout des préférences et reglages
+					$synchronisationCode = substr(sha1(rand(0,30).time().rand(0,30)),0,10);
 
+					$newConfiguration->add('root',$configurationManager->get('root'));
+					$newConfiguration->add('articleView',$configurationManager->get('articleView'));
+					$newConfiguration->add('articleDisplayContent',$configurationManager->get('articleDisplayContent'));
+					$newConfiguration->add('articleDisplayAnonymous',$configurationManager->get('articleDisplayAnonymous'));
+					$newConfiguration->add('articlePerPages',$configurationManager->get('articlePerPages'));
+					$newConfiguration->add('articleDisplayLink',$configurationManager->get('articleDisplayLink'));
+					$newConfiguration->add('articleDisplayDate',$configurationManager->get('articleDisplayDate'));
+					$newConfiguration->add('articleDisplayAuthor',$configurationManager->get('articleDisplayAuthor'));
+					$newConfiguration->add('articleDisplayHomeSort',$configurationManager->get('articleDisplayHomeSort'));
+					$newConfiguration->add('articleDisplayFolderSort',$configurationManager->get('articleDisplayFolderSort'));
+					$newConfiguration->add('synchronisationType',$configurationManager->get('synchronisationType'));
+					$newConfiguration->add('feedMaxEvents',$configurationManager->get('feedMaxEvents'));
+					$newConfiguration->add('synchronisationCode',$synchronisationCode);
+
+					//Création du dossier de base
+					$folder = $newFolder->load(array('id'=>1));
+					$folder = (!$folder?new Folder():$folder);
+					$folder->setName('Général');
+					$folder->setParent(-1);
+					$folder->setIsopen(1);
+					$folder->save();
+				
+					$_SESSION['currentUser'] = serialize($admin);
+				} else {
+					exit("erreur : le compte existe déjà");
+				}
+			} else {
+				exit("erreur : merci de saisir un login et mot de passe");
+			}
+		} else {
+			exit("erreur : nombre de variable incorrect");
+		}
+		header('location: ./settings.php#manageUsers');
+	break;
 	
+	case 'delUser':
+		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser->getId()!=1) exit('Vous devez vous identifier en administrateur');
+		
+		if(isset($_['id'])){
+			if($_['id']!=1){
+				//récupération du prefix
+				$myuser = new User();
+				$user = $myuser->load(array('id'=>$_['id']));
+				$prefix = $user->getPrefixDatabase();
+				
+				//récupération des objets de l'utilisateur et drop des tables
+				$dropFeed = new Feed();
+				$dropFeed->setPrefixTable($prefix);
+				$dropFeed->destroy();
+				$dropEvent = new Event();
+				$dropEvent->setPrefixTable($prefix);
+				$dropEvent->destroy();
+				$dropFolder = new Folder();
+				$dropFolder->setPrefixTable($prefix);
+				$dropFolder->destroy();
+				$dropConfiguration = new Configuration();
+				$dropConfiguration->setPrefixTable($prefix);
+				$dropConfiguration->destroy();
+				
+				//suppression de l'utilisateur
+				$userManager->delete(array('id'=>$_['id']));		
+			} else {
+				exit("erreur : impossible de supprimer ladministrateur");
+			}
+		} else {
+			exit("erreur : nombre de variable incorrect");
+		}
+		
+		header('location: ./settings.php#manageUsers');
+	break;
 	case 'logout':
 		$_SESSION = array();
 		session_unset();

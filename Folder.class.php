@@ -20,16 +20,18 @@ class Folder extends MysqlEntity{
 	);
 
 	function unreadCount(){
-		$results = $this->customQuery('SELECT COUNT('.MYSQL_PREFIX.'event.id) FROM '.MYSQL_PREFIX.'event INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.'event.unread=1 AND '.MYSQL_PREFIX.'feed.folder = '.$this->getId());
+		$prefixTable = $this->getPrefixTable();
+		$results = $this->customQuery('SELECT COUNT('.$prefixTable.'event.id) FROM '.$prefixTable.'event INNER JOIN '.$prefixTable.'feed ON ('.$prefixTable.'event.feed = '.$prefixTable.'feed.id) WHERE '.$prefixTable.'event.unread=1 AND '.$prefixTable.'feed.folder = '.$this->getId());
 		$number = mysql_fetch_array($results);
 		return $number[0];
 	}
 
 
 	function getEvents($start=0,$limit=10000,$order,$columns='*'){
+		$prefixTable = $this->getPrefixTable();
 		$eventManager = new Event();
 		$objects = array();
-		$results = $this->customQuery('SELECT '.$columns.' FROM '.MYSQL_PREFIX.'event INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.'event.unread=1 AND '.MYSQL_PREFIX.'feed.folder = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
+		$results = $this->customQuery('SELECT '.$columns.' FROM '.$prefixTable.'event INNER JOIN '.$prefixTable.'feed ON ('.$prefixTable.'event.feed = '.$prefixTable.'feed.id) WHERE '.$prefixTable.'event.unread=1 AND '.$prefixTable.'feed.folder = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
 		if($results!=false){
 			while($item = mysql_fetch_array($results)){
 				$object = new Event();
@@ -47,6 +49,8 @@ class Folder extends MysqlEntity{
 
 	function __construct(){
 		parent::__construct();
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) { $this->setPrefixTable($myUser->getPrefixDatabase()); }
 	}
 
 	function setId($id){
