@@ -6,7 +6,7 @@ Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.o
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
 - Application : Leed (Light Feed)
-- Version : 1.1 Beta
+- Version : 1.5 Stable
 - Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 - Page du projet : http://projet.idleman.fr/leed
 - Licence : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
