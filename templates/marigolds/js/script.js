@@ -435,7 +435,7 @@ function readThis(element,id,from,callback){
 					  }
 				});
 				// on compte combien d'article ont été remis à non lus (uniquement pour la page d'accueil)
-				if ( (activeScreen=='') || (activeScreen='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+				if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
 			}
 	}
 	
@@ -455,7 +455,7 @@ function unReadThis(element,id,from){
 					  }
 				});
 				// on compte combien d'article ont été remis à non lus (uniquement pour la page d'accueil)
-				if ( (activeScreen=='') || (activeScreen='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+				if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
 			}
 	}
 	
