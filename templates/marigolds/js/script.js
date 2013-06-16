@@ -379,13 +379,13 @@ function changeFeedFolder(element,id){
 
 
 function readThis(element,id,from,callback){
-	var hide = ($('#pageTop').html()==''?true:false);
+	var activeScreen = $('#pageTop').html();
 	var parent = $(element).parent().parent();
 	var nextEvent = $('#'+id).next();
 	//sur les éléments non lus
 	if(!parent.hasClass('eventRead')){
-
-		if(hide){ 
+		switch (activeScreen){ 
+		  case '':
 			// cas de la page d'accueil
 			parent.addClass('eventRead');
 			parent.fadeOut(200,function(){
@@ -401,10 +401,18 @@ function readThis(element,id,from,callback){
 			}); 
 			// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
 			$(window).data('nblus', $(window).data('nblus')+1);
-		}else{ 
-			// autres cas : favoris, selectedFolder, selectedFeed ...
+		  break;
+		  case 'selectedFolder':
 			parent.addClass('eventRead');
 			targetThisEvent(nextEvent,true);
+			// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+			$(window).data('nblus', $(window).data('nblus')+1);
+		  break;
+		  default:
+			// autres cas : favoris, selectedFeed ...
+			parent.addClass('eventRead');
+			targetThisEvent(nextEvent,true);
+		  break;
 		}
 		
 		$.ajax({
@@ -432,7 +440,7 @@ function readThis(element,id,from,callback){
 }
 
 function unReadThis(element,id,from){
-	var hide = ($('#pageTop').html()==''?true:false);
+	var activeScreen = $('#pageTop').html();
 	var parent = $(element).parent().parent();
 	if(parent.hasClass('eventRead')){
 			if(from!='title'){
@@ -445,7 +453,7 @@ function unReadThis(element,id,from){
 					  }
 				});
 				// on compte combien d'article ont été remis à non lus (uniquement pour la page d'accueil)
-				if (hide) $(window).data('nblus', $(window).data('nblus')-1);
+				if ( (activeScreen=='') || (activeScreen='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
 			}
 	}
 	
