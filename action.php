@@ -403,24 +403,52 @@ switch ($action){
 	break;
 
 	case 'readContent':
+		if($myUser==false) { 
+			$response_array['status'] = 'noconnect';
+			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			header('Content-type: application/json');
+		    echo json_encode($response_array); 
+			exit();
+		}
 		if(isset($_['id'])){
 			$event = $eventManager->load(array('id'=>$_['id']));
-			if($myUser!=false) $eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
+			$eventManager->change(array('unread'=>'0'),array('id'=>$_['id']));
 		}
 	break;
 
 	case 'unreadContent':
-		$event = $eventManager->load(array('id'=>$_['id']));
-		if($myUser!=false) $eventManager->change(array('unread'=>'1'),array('id'=>$_['id']));
+		if($myUser==false) { 
+			$response_array['status'] = 'noconnect';
+			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			header('Content-type: application/json');
+		    echo json_encode($response_array); 
+			exit();
+		}
+		if(isset($_['id'])){
+			$event = $eventManager->load(array('id'=>$_['id']));
+			$eventManager->change(array('unread'=>'1'),array('id'=>$_['id']));
+		}
 	break;
 
 	case 'addFavorite':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) { 
+			$response_array['status'] = 'noconnect';
+			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			header('Content-type: application/json');
+		    echo json_encode($response_array); 
+			exit();
+		}
 		$eventManager->change(array('favorite'=>'1'),array('id'=>$_['id']));
 	break;
 
 	case 'removeFavorite':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) { 
+			$response_array['status'] = 'noconnect';
+			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			header('Content-type: application/json');
+		    echo json_encode($response_array); 
+			exit();
+		}
 		$eventManager->change(array('favorite'=>'0'),array('id'=>$_['id']));
 	break;
 	
