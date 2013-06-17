@@ -456,7 +456,7 @@ function readThis(element,id,from,callback){
 								alert(msg.texte)
 							} else {
 								if( console && console.log && msg!="" ) console.log(msg);
-								Parent.removeClass('eventRead');
+								parent.removeClass('eventRead');
 								// on compte combien d'article ont été remis à non lus
 								if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
 							}
