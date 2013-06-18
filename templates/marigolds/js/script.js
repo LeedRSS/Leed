@@ -148,11 +148,11 @@ $(window).scroll(function(){
 	if($('.index').length) {
 		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
 		if ($(window).data('ajaxready') == false) return;
- 
-		if(($(window).scrollTop() + $(window).height()) == $(document).height()
+
+		if(($(window).scrollTop() + $(window).height()) + 1 >= $(document).height()
 		   || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
 		{
-            // lorsqu'on commence un traitement, on met ajaxready à false
+			// lorsqu'on commence un traitement, on met ajaxready à false
 			$(window).data('ajaxready', false);
  			
  			//j'affiche mon loader pour indiquer le chargement
