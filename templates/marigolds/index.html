@@ -104,13 +104,13 @@
 				
 				{if="$action=='favorites'"}
 				<!-- AFFICHAGE DES EVENEMENTS FAVORIS -->		
-					<h1 class="articleSection">Articles favoris ({$numberOfItem})</h1>
+					<h1 class="articleSection">Articles favoris (<span id="nbarticle">{$numberOfItem}</span>)</h1>
 				{/if}
 
 				
 				{if="($action=='unreadEvents') || ($action=='')"}
 				<!-- AFFICHAGE DES EVENEMENTS NON LU (COMPORTEMENT PAR DEFAUT) -->		
-					<h1 class="articleSection">Non lu ({$numberOfItem})</h1>
+					<h1 class="articleSection">Non lu (<span id="nbarticle">{$numberOfItem}</span>)</h1>
 				{/if}
 			
 			 	<div class="clear"></div>

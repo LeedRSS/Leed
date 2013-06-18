@@ -310,7 +310,10 @@ function addFavorite(element,id){
 							if( console && console.log && msg!="" ) console.log(msg);
 							$(element).attr('onclick','removeFavorite(this,'+id+');').html('Défavoriser');
 							// on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
-							if (activeScreen=='favorites') $(window).data('nblus', $(window).data('nblus')-1);
+							if (activeScreen=='favorites') {
+								$(window).data('nblus', $(window).data('nblus')-1);
+								$('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
+							}
 						}
 				  }
 	});
@@ -328,7 +331,10 @@ function removeFavorite(element,id){
 							if( console && console.log && msg!="" ) console.log(msg);
 							$(element).attr('onclick','addFavorite(this,'+id+');').html('Favoriser');
 							// on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
-							if (activeScreen=='favorites') $(window).data('nblus', $(window).data('nblus')+1);
+							if (activeScreen=='favorites') {
+								$(window).data('nblus', $(window).data('nblus')+1);
+								$('#nbarticle').html(parseInt($('#nbarticle').html()) - 1);
+							}
 						}
 				  }
 	});
@@ -429,6 +435,8 @@ function readThis(element,id,from,callback){
 										}); 
 										// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
 										$(window).data('nblus', $(window).data('nblus')+1);
+										// on diminue le nombre d'article en haut de page
+										$('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
 									break;
 									case 'selectedFolder':
 										parent.addClass('eventRead');
@@ -477,12 +485,14 @@ function unReadThis(element,id,from){
 							  data:{id:id},
 							  success:function(msg){
 								if(msg.status == 'noconnect') {
-								alert(msg.texte)
+									alert(msg.texte)
 								} else {
 									if( console && console.log && msg!="" ) console.log(msg);
 									parent.removeClass('eventRead');
 									// on compte combien d'article ont été remis à non lus
 									if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+									// on augmente le nombre d'article en haut de page
+									if (activeScreen=='') $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
 								}
 					 		 }
 				});
