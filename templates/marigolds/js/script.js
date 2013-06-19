@@ -44,7 +44,17 @@ $(document).ready(function(){
 
 		targetThisEvent($('article section:first'),true);
 		addEventsButtonLuNonLus();
+		
+		// on initialise ajaxready à true au premier chargement de la fonction
+		$(window).data('ajaxready', true);
+		$('article').append('<div id="loader">Chargement en cours ...</div>');
+		$(window).data('page', 1);
+		$(window).data('nblus', 0);
+		
+		var deviceAgent = navigator.userAgent.toLowerCase();
+		var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
 
+		if ($(window).scrollTop()==0) scrollInfini();
 	}
 
 });
@@ -135,16 +145,11 @@ if(e.which == keyCode['shift']) isMaj=false;
    }
 });
 
-// on initialise ajaxready à true au premier chargement de la fonction
-$(window).data('ajaxready', true);
-$('article').append('<div id="loader">Chargement en cours ...</div>');
-$(window).data('page', 1);
-$(window).data('nblus', 0);
-
-var deviceAgent = navigator.userAgent.toLowerCase();
-var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
-
 $(window).scroll(function(){
+	scrollInfini();
+});
+
+function scrollInfini() {
 	if($('.index').length) {
 		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
 		if ($(window).data('ajaxready') == false) return;
@@ -198,14 +203,17 @@ $(window).scroll(function(){
 						$('article section.scroll').removeClass('scroll');
 						$(window).data('ajaxready', true);
 						$(window).data('page', $(window).data('page')+1);
+						$(window).data('enCoursScroll',0);
+						// le chargement est terminé, on fait disparaitre notre loader
+						$('article #loader').fadeOut(400);
+						// appel récursif tant qu'un scroll n'est pas detecté.
+						if ($(window).scrollTop()==0) scrollInfini();
 					}
  				}
 			});
-			// le chargement est terminé, on fait disparaitre notre loader
-			$('article #loader').fadeOut(400);
 		}
 	}
-});
+};
 
 /* Fonctions de séléctions */
 /* Cette fonction sera utilisé pour le scrool infinie, afin d'ajouter les évènements necessaires */
