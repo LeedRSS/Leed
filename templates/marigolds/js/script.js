@@ -204,13 +204,13 @@ function scrollInfini() {
 						$(window).data('ajaxready', true);
 						$(window).data('page', $(window).data('page')+1);
 						$(window).data('enCoursScroll',0);
-						// le chargement est terminé, on fait disparaitre notre loader
-						$('article #loader').fadeOut(400);
 						// appel récursif tant qu'un scroll n'est pas detecté.
 						if ($(window).scrollTop()==0) scrollInfini();
 					}
  				}
 			});
+			// le chargement est terminé, on fait disparaitre notre loader
+			$('article #loader').fadeOut(400);			
 		}
 	}
 };
