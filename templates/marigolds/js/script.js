@@ -51,9 +51,6 @@ $(document).ready(function(){
 		$(window).data('page', 1);
 		$(window).data('nblus', 0);
 		
-		var deviceAgent = navigator.userAgent.toLowerCase();
-		var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
-
 		if ($(window).scrollTop()==0) scrollInfini();
 	}
 
@@ -150,6 +147,9 @@ $(window).scroll(function(){
 });
 
 function scrollInfini() {
+	var deviceAgent = navigator.userAgent.toLowerCase();
+	var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
+
 	if($('.index').length) {
 		// On teste si ajaxready vaut false, auquel cas on stoppe la fonction
 		if ($(window).data('ajaxready') == false) return;
