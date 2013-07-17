@@ -21,7 +21,7 @@
 				{function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
 			<aside>
 				<!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
-				<h3 class="left">Flux</h3> <button style="margin: 20px 10px;" onclick="if(confirm('Tout marquer comme lu pour tous les flux?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
+				<h3 class="left">Flux</h3> <button style="margin: 20px 10px;" onclick="if(confirm('Tout marquer comme lu pour tous les flux ?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
 				{function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
 				<ul class="clear">
 					
@@ -43,7 +43,7 @@
 
 						<h1 class="folder">
 							{function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-							<a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}
+							<a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier ?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}
 							{function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
 						</h1>
 						<!-- FLUX DU DOSSIER -->
@@ -54,7 +54,7 @@
 										<li> 
 											{function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
 											{if="isset($unread[$value2['id']])"}  
-											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux ?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
 												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}
