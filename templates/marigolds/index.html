@@ -81,6 +81,30 @@
 			<!--          -->
 
 			<article>
+
+				{if="$pages!=0"}
+					<p>Page {$page}/{$pages} : 
+
+						{if="$previousPages>0"}
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$previousPages}{if="$order!=''"}&amp;order={$order}{/if}"><<</a>
+						{/if}
+						
+						{loop="pagesArray"}
+
+							{if="$page!=$value"}
+							<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$value}{if="$order!=''"}&amp;order={$order}{/if}">{$value}</a> 
+							{else}
+							{$value}
+							{/if}
+							|
+						{/loop}
+
+						{if="$nextPages>0"}
+						<a href="index.php?action={$action}{if="$action=='selectedFeed'"}&amp;feed={$currentFeed->getId()}{/if}{if="$action=='selectedFolder'"}&amp;folder={$currentFolder->getId()}{/if}&amp;page={$nextPages}{if="$order!=''"}&amp;order={$order}{/if}">>></a>
+						{/if}
+					</p> 
+				{/if}
+
 				<!-- ENTETE ARTICLE -->
 				<header class="articleHead">
 			
