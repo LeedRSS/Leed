@@ -23,7 +23,7 @@
 							<li><a class="toggle" href="#exportBloc">Export</a></li>
 							<li><a class="toggle" href="#bookBloc">Bookmarklet</a></li>
 							<li><a class="toggle" href="#pluginBloc">Plugins disponibles</a></li>
-							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tous les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
+							<li class="pointer" onclick="if(confirm('Êtes vous sûr de vouloir vider tous les événements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
 				</aside>
@@ -109,7 +109,7 @@
 					<section>
 						<h3>Général</h3>
 						<p><label for="root">Racine du projet :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
-						<h4>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h4>
+						<h4>Laissez bien un "/" en fin de chaine. Ex : http://monsite.com/leed/</h4>
 					</section>
 
 					<section>
@@ -126,7 +126,7 @@
 						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>Automatique (gradué) :</strong></label> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>Manuel (complet) :</strong></label> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					
-						<p><strong>Code de synchronisation:</strong>
+						<p><strong>Code de synchronisation :</strong>
 						{$synchronisationCode}
 						</p>
 						<p><strong>Options de synchronisation</strong>
@@ -140,7 +140,7 @@
 							<legend>Forcer l'intégration</legend>
 							<input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
 							<input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
 						</fieldset>
 						</p>
 					</section>
@@ -152,10 +152,10 @@
 							<legend>Autoriser la lecture anonyme</legend>
 							<input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">Oui</label>
 							<input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">Non</label>
-							<h4>Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h4>
+							<h4>NB : si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h4>
 						</fieldset>
 						<fieldset>
-							<legend><label for="articlePerPages">Nombre d'articles par pages</label></legend>
+							<legend><label for="articlePerPages">Nombre d'articles par page</label></legend>
 							<input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
 						</fieldset>
 						<fieldset>
@@ -191,11 +191,11 @@
 								<input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" id="articleViewPartial" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewPartial">Partiel</label>
 								<input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" id="articleViewComplete" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewComplete">Complet</label>
 							</div>
-							<h4>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h4>
+							<h4>NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers mènera à l'article sur le blog de l'auteur.</h4>
 						</fieldset>
 						<fieldset>
 							<legend>Conserver les <input type="text" value="{$configurationManager->get('feedMaxEvents')}" name="feedMaxEvents" size="4" /> derniers événements d'un flux</legend>
-							<h4>Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br />Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h4>
+							<h4>NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br />Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h4>
 						</fieldset>
 					
 					</section>
@@ -213,21 +213,21 @@
 
 
 				<section class="importBloc">
-					<h2>Importer les flux au format opml</h2>
+					<h2>Importer les flux au format OPML</h2>
 					<iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
 
 				
 				<section class="exportBloc">
 					<form action="action.php?action=exportFeed" method="POST">
-						<h2>Exporter les flux au format opml</h2>
+						<h2>Exporter les flux au format OPML</h2>
 						<p>Fichier OPML : <button name="exportButton">Exporter</button></p>
 					</form>
 				</section>
 				
 				<section class="bookBloc">
 					<h2>Utiliser le bookmarklet :</h2>
-					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
+					<p>Vous pouvez ajouter le bookmaklet ci-dessous à votre navigateur pour vous abonner plus rapidement aux flux :</p>
 					{if="$myUser!=false"}
 					
 					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ Ajouter à Leed</a>
