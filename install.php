@@ -303,7 +303,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 							<legend>Forcer l'intégration</legend>
 							<input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
 							<input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont sensés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
 						</fieldset>
 					</p>
 				</section>
@@ -314,7 +314,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
                         <legend>Autoriser la lecture anonyme</legend><input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
                         <h3 class="articleDetails">NB : si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
                     </fieldset>
-					<fieldset><legend>Nombre d'articles par page</legend><input type="text" value="5" name="articlePerPages"></fieldset>
+					<fieldset><legend>Nombre d'articles par page</legend><input type="text" size="4" value="5" name="articlePerPages"></fieldset>
 					<fieldset><legend>Articles les plus récents en premier (sur la page d'accueil)</legend><input type="radio" checked="checked" value="1" name="articleDisplayHomeSort">Oui <input type="radio" value="0" name="articleDisplayHomeSort">Non</fieldset>
 					<fieldset><legend>Articles les plus récents en premier (sur les dossiers)</legend><input type="radio" checked="checked" value="1" name="articleDisplayFolderSort">Oui <input type="radio" value="0" name="articleDisplayFolderSort">Non</fieldset>
 					<fieldset><legend>Affichage du lien direct de l'article</legend><input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</fieldset>
@@ -322,13 +322,13 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<fieldset><legend>Affichage de l'auteur de l'article</legend><input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</fieldset>
                     <fieldset>
                         <legend>Affichage du contenu de l'article</legend>
-                        <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</fieldset>
+                        <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non<br/>
 					    <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet
-                        <h3 class="articleDetails">NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
+                        <h3 class="articleDetails">NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers mènera à l'article sur le blog de l'auteur.</h3>
                     </fieldset>
-					<fieldset><legend>Catégorie par defaut</legend><input type="text" value="Géneral" name="category"></fieldset>
+					<fieldset><legend>Catégorie par défaut</legend><input type="text" value="Géneral" name="category"></fieldset>
                     <fieldset>
-                        <legend>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événement d'un flux</legend>
+                        <legend>Conserver les <input type="text" size="4" value="300" name="feedMaxEvents"> derniers événement d'un flux</legend>
                         <h3 class="articleDetails">NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
                     </fieldset>
 					
