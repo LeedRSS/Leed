@@ -236,7 +236,7 @@ switch ($action){
 		echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<body style="height:auto;">
 					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
-					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
+					<p>Fichier <abbr title="Outline Processor Markup Language">OPML</abbr> : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
 					<p>NB : L\'import peut prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 					</form>
 				</body>
