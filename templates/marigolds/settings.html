@@ -69,7 +69,7 @@
 
 						<button  onclick="renameFolder(this,{$value->getId()})">Renommer</button>
 						{if="$value->getId()!='1'"}
-						<button  onclick="if(confirm('tes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>
+						<button  onclick="if(confirm('Êtes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>
 						{/if}
 						
 <div class="clear"></div>
