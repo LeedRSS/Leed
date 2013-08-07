@@ -27,7 +27,7 @@
 						<li><b>Version :</b> {$VERSION_NUMBER} {$VERSION_NAME}</li>
 						<li><b>Auteur :</b> Valentin CARRUESCO aka <a href="mailto:idleman@idleman.fr">Idleman</a></li>
 						<li><b>Page projet :</b> <a href="http://projet.idleman.fr/leed">http://projet.idleman.fr/leed</a></li>
-						<li><b>Dépot GIT :</b> <a href="https://github.com/ldleman/Leed.git">https://github.com/ldleman/Leed.git</a></li>
+						<li><b>Dépôt GIT :</b> <a href="https://github.com/ldleman/Leed.git">https://github.com/ldleman/Leed.git</a></li>
 						<li><b>Licence :</b> <a href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/">CC by-nc-sa</a></li>
 					</ul>
 
@@ -36,25 +36,25 @@
 						<b>Leed (contraction de Light Feed)</b> est un agrégateur RSS minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.</p><p>
 						Toutes les tâches de traitement de flux sont effectuées de manière invisible par une tâche synchronisée (Cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacun des flux suivis.</p><p>
 						A noter que Leed est compatible toutes résolutions, sur pc, tablettes et smartphone et fonctionne sous tous les navigateurs.</p><p>
-						Le script est également compatible avec les fichiers d'exports/imports OPML ce qui rend la migration de tous les agrégateurs réspectant le standard OPML simple et rapide.
+						Le script est également compatible avec les fichiers d'export/import OPML ce qui rend la migration de tous les agrégateurs réspectant le standard OPML simple et rapide.
 					</p>
 					<h2>INSTALLATION</h2>
-					<ul>
-						<li>1. Récuperez le projet sur le <a href="https://github.com/ldleman/Leed.git">dépot GIT</a> de la version courante  ou en téléchargeant l' <a href="http://projet.idleman.fr/leed/?page=Téléchargement">archive</a></li>
-						<li>2. Placez le projet dans votre répertoire web et appliquez une permission chmod 777 sur le dossier et son contenu</li>
-						<li>3. Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez le instructions.</li>
-						<li>4. Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité</li>
-						<li>5. Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation ex : <br/>
+					<ol>
+						<li>Récuperez le projet sur le <a href="https://github.com/ldleman/Leed.git">dépot GIT</a> de la version courante  ou en téléchargeant l' <a href="http://projet.idleman.fr/leed/?page=Téléchargement">archive</a></li>
+						<li>Placez le projet dans votre répertoire web et appliquez une permission chmod 777 sur le dossier et son contenu</li>
+						<li>Depuis votre navigateur, accedez à la page d'installation install.php (ex : http://votre.domaine.fr/leed/install.php) et suivez le instructions.</li>
+						<li>Une fois l'installation terminée, supprimez le fichier install.php par mesure de sécurité</li>
+                        <li>Mettez en place un cron (sudo crontab -e pour ouvrir le fichier de cron) et placez y un appel vers la page http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation.<br/>Par exemple : <br/>
 
 						<code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron "http://votre.domaine.fr/leed/action.php?action=synchronize&code=votre_code_synchronisation"</code><br/>
+                        pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter).
 
 						Le code de synchronisation est indiqué dans <a href=settings.php#preferenceBloc>Gestion > Préférences</a><br/>
-						Pour mettre à jour vos flux toutes les heures à la minute 0 (il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'executer).
-						<li>6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p.</li>
-					</ul>
+						<li>Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS libre et svelte :p.</li>
+					</ol>
 					<h2>QUESTIONS & SUGGESTIONS</h2>
 					<ul>
-						<li><b>Pour toutes questions et remarques:</b> Vérifiez dans un premier temps que la réponse ne se trouve pas dans la <a href="http://projet.idleman.fr/leed/?page=FAQ">FAQ</a> ou sur <a href="http://projet.idleman.fr/leed">le wiki du projet</a>, si ce n'est pas le cas, envoyez moi vos questions/suggestions/remarques sur <a href="mailto:idleman@idleman.fr">idleman@idleman.fr</a></li>
+						<li><b>Pour toutes questions et remarques :</b> Vérifiez dans un premier temps que la réponse ne se trouve pas dans la <a href="http://projet.idleman.fr/leed/?page=FAQ">FAQ</a> ou sur <a href="http://projet.idleman.fr/leed">le wiki du projet</a>, si ce n'est pas le cas, envoyez moi vos questions/suggestions/remarques sur <a href="mailto:idleman@idleman.fr">idleman@idleman.fr</a></li>
 	
 					</ul>
 					<h2>LIBRAIRIES</h2>
