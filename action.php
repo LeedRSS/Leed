@@ -236,8 +236,8 @@ switch ($action){
 		echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<body style="height:auto;">
 					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
-					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
-					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
+					<p>Fichier <abbr title="Outline Processor Markup Language">OPML</abbr> : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
+					<p>NB : L\'import peut prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 					</form>
 				</body>
 			</html>
@@ -249,7 +249,7 @@ switch ($action){
 	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<a class="button" href="action.php?action=synchronize">Synchroniser maintenant</a>
-					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
+					<p>NB : La synchronisation peut prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
 				
 			';
 		}else{
