@@ -21,7 +21,7 @@
 				{function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
 			<aside>
 				<!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
-				<h3 class="left">Flux</h3> <button style="margin: 20px 10px;" onclick="if(confirm('Tout marquer comme lu pour tous les flux?'))window.location='action.php?action=readAll'">Tout marquer comme lu</button>
+				<h3 class="left">{function="I18n::t('FEED')"}</h3> <button style="margin: 20px 10px;" onclick="if(confirm('{function="I18n::t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="I18n::t('MARK_ALL_AS_READ')"}</button>
 				{function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
 				<ul class="clear">
 					
@@ -43,7 +43,7 @@
 
 						<h1 class="folder">
 							{function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-							<a  title="Lire les évenements de ce dossier" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="Plier/Deplier le dossier" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}Déplier{else}Plier{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="marquer comme lu le(s) {$unreadEventsForFolder} evenement(s) non lu(s) de ce dossier" onclick="if(confirm('Tout marquer comme lu pour ce dossier?'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} non lu</a>{/if}
+							<a  title="{function="I18n::t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="I18n::t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}{function="I18n::t('UNFOLD')"}{else}{function="I18n::t('FOLD')"}{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="I18n::t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="I18n::t('CONFIRM_MARK_AS_READ_FOLDER_ITEMS')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="I18n::t('UNREAD')"}</a>{/if}
 							{function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
 						</h1>
 						<!-- FLUX DU DOSSIER -->
@@ -54,8 +54,8 @@
 										<li> 
 											{function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}											 <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
 											{if="isset($unread[$value2['id']])"}  
-											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('Tout marquer comme lu pour ce flux?'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
-												<span alt="marquer comme lu" title="marquer comme lu">{$unread[$value2['id']]}</span>
+											<button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="I18n::t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+												<span alt="{function="I18n::t('MARK_AS_READ')"}" title="{function="I18n::t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
 											</button>
 											{/if}
 											{function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
@@ -91,26 +91,26 @@
 					<h1 class="articleSection"><a target="_blank" href="{$currentFeed->getWebSite()}">{$currentFeed->getName()}</a></h1>
 					<div class="clear"></div>
 						{$currentFeed->getDescription()}  
-							Voir les 
-					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">Non lu</a> | 
-					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">Plus vieux</a> en premier
+							{function="I18n::t('SEE_THE')"} 
+					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">{function="ucfirst(I18n::t('UNREAD'))"}</a> | 
+					<a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">{function="I18n::t('OLDER')"}</a> {function="I18n::t('IN_FIRST')"}
 				{/if}
 				
 				{if="$action=='selectedFolder'"}
 				<!-- AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER -->		
-					<h1 class="articleSection">Dossier : {$currentFolder->getName()}</h1>
-					<p>Tous les événements non lus pour le dossier {$currentFolder->getName()}</p>
+					<h1 class="articleSection">{function="I18n::t('FOLDER')"} : {$currentFolder->getName()}</h1>
+					<p>{function="I18n::t('SEE_EVENTS_FOR_FOLDER',array($currentFolder->getName()))"}</p>
 				{/if}
 				
 				{if="$action=='favorites'"}
 				<!-- AFFICHAGE DES EVENEMENTS FAVORIS -->		
-					<h1 class="articleSection">Articles favoris (<span id="nbarticle">{$numberOfItem}</span>)</h1>
+					<h1 class="articleSection">{function="I18n::t('FAVORITES_EVENTS',array('<span id="nbarticle">'.$numberOfItem.'</span>'))"}</h1>
 				{/if}
 
 				
 				{if="($action=='unreadEvents') || ($action=='')"}
 				<!-- AFFICHAGE DES EVENEMENTS NON LU (COMPORTEMENT PAR DEFAUT) -->		
-					<h1 class="articleSection">Non lu (<span id="nbarticle">{$numberOfItem}</span>)</h1>
+					<h1 class="articleSection">{function="I18n::t('UNREAD')"} (<span id="nbarticle">{$numberOfItem}</span>)</h1>
 				{/if}
 			
 			 	<div class="clear"></div>
@@ -124,8 +124,8 @@
 {else}
 	<div id="main" class="wrapper clearfix">
 		<article>
-				<h3>Vous devez être connecté pour consulter vos flux </h3>
-				<p>Si vous êtes administrateur, vous pouvez régler les droits de visualisation dans la partie administration.</p>
+				<h3>{function="I18n::t('YOU_MUST_BE_LOGGED')"}</h3>
+				<p>{function="I18n::t('IF_ADMIN_THEN_CONFIG')"}</p>
 		</article>
 	</div>
 {/if}

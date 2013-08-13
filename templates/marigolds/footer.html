@@ -8,12 +8,15 @@
 
 	<div id="footer-container">
 		<footer class="wrapper">
-			<p>Leed "Light Feed" fabuleux agrégateur exécuté en {$executionTime} secondes par <a target="_blank" href="http://blog.idleman.fr">Idleman</a> | <a href="about.php">À propos</a></p>
+			<p>Leed "Light Feed" {function="I18n::t('FABULOUS AGREGATOR LAUNCHED IN',array($executionTime,'<a target="_blank" href="http://blog.idleman.fr">Idleman</a>'))"} | <a href="about.php">{function="I18n::t('ABOUT',array())"}</a></p>
 			{function="Plugin::callHook("footer_post_copyright", array(&$myUser))"}
 		</footer>
 	</div>
 </div>
 
+<script>
+var  i18n = {$i18n_js};
+</script>
 <script src="js/libs/jqueryAndModernizr.min.js"></script>
 <script src="js/script.js"></script>
 {function="Plugin::callJs()"}

@@ -5,7 +5,7 @@
 	 
 	
 	<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}{$scroll?' scroll':''}" {$scroll?'style="display: none;"':''}>
-		<a title="Revenir en haut de page" class="goTopButton" href="#pageTopAnvil">ˆ</a>
+		<a title="{function="I18n::t('RETURN_TO_TOP')"}" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 		<!-- TITRE -->
 		<h2 class="articleTitle">
 			{function="Plugin::callHook("event_pre_title", array(&$value))"}
@@ -25,12 +25,12 @@
 			{if="$articleDisplayDate"} 
 				{$value->getPubdateWithInstant($time)} 
 			{/if}
-			{if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
+			{if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >{function="I18n::t('FAVORIZE')"}</a> 
 			{else}
-			 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a> 
+			 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="I18n::t('UNFAVORIZE')"}</a> 
 			 {/if}
 			
-			 <a class="pointer right readUnreadButton">(lu/non lu)</a>
+			 <a class="pointer right readUnreadButton">({function="I18n::t('READ')"}/{function="I18n::t('UNREAD')"})</a>
 			 {function="Plugin::callHook("event_post_top_options", array(&$value))"}
 		</h3>
 
@@ -54,9 +54,9 @@
 				{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
 			
 				<a class="pointer right readUnreadButton">(lu/non lu)</a>
-				{if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >Favoriser</a> 
+				{if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});" >{function="I18n::t('FAVORIZE')"}</a> 
 				{else}
-				<a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >Défavoriser</a>  
+				<a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="I18n::t('UNFAVORIZE')"}</a>  
 				{/if}
 				<div class="clear"></div>
 				{function="Plugin::callHook("event_post_bottom_options", array(&$value))"}

@@ -11,6 +11,7 @@ mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
+class_exists('I18n') or require_once('I18n.class.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');
@@ -33,10 +34,6 @@ $eventManager = new Event();
 $userManager = new User();
 $folderManager = new Folder();
 $configurationManager = new Configuration();
-
-
-
-
 $conf = $configurationManager->getAll();
 
 //Instanciation du template
@@ -46,14 +43,17 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
+I18n::init();
+
+
 $view = '';
+$tpl->assign('i18n_js',$i18n_js);
 $tpl->assign('myUser',$myUser);
 $tpl->assign('feedManager',$feedManager);
 $tpl->assign('eventManager',$eventManager);
 $tpl->assign('userManager',$userManager);
 $tpl->assign('folderManager',$folderManager);
 $tpl->assign('configurationManager',$configurationManager);
-
 $tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCode'));
 
 //Récuperation et sécurisation de toutes les variables POST et GET

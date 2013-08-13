@@ -12,18 +12,18 @@
 		<div id="main" class="wrapper clearfix settings">
 			<div id="menuBar">
 				<aside>
-					<h3>Options des flux</h3>
+					<h3>{function="I18n::t('FEED_OPTION')"}</h3>
 					<ul>
 							
 							
-							<li><a class="toggle" href="#manageBloc">Gestion des flux</a></li>
-							<li><a class="toggle" href="#synchronizeBloc">Mise à jour manuelle des flux</a></li>
-							<li><a class="toggle" href="#preferenceBloc">Préférences</a></li>
-							<li><a class="toggle" href="#importBloc">Import</a></li>
-							<li><a class="toggle" href="#exportBloc">Export</a></li>
-							<li><a class="toggle" href="#bookBloc">Bookmarklet</a></li>
-							<li><a class="toggle" href="#pluginBloc">Plugins disponibles</a></li>
-							<li class="pointer" onclick="if(confirm('Etes vous sûr de vouloir vider tous les évenements?')){window.location='action.php?action=purge';}">Vider les événements</a></li>
+							<li><a class="toggle" href="#manageBloc">{function="I18n::t('FEED_MANAGING')"}</a></li>
+							<li><a class="toggle" href="#synchronizeBloc">{function="I18n::t('MANUAL_FEED_UPDATE')"}</a></li>
+							<li><a class="toggle" href="#preferenceBloc">{function="I18n::t('PREFERENCES')"}</a></li>
+							<li><a class="toggle" href="#importBloc">{function="I18n::t('IMPORT')"}</a></li>
+							<li><a class="toggle" href="#exportBloc">{function="I18n::t('EXPORT')"}</a></li>
+							<li><a class="toggle" href="#bookBloc">{function="I18n::t('BOOKMARKLET')"}</a></li>
+							<li><a class="toggle" href="#pluginBloc">{function="I18n::t('AVAILABLES_PLUGINS')"}</a></li>
+							<li class="pointer" onclick="if(confirm('{function="I18n::t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purge';}">{function="I18n::t('TRASH_EVENTS')"}</a></li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
 				</aside>
@@ -33,27 +33,27 @@
 
 			<section class="manageBloc">
 
-					<h2>Gestion des flux :</h2>
+					<h2>{function="I18n::t('FEED_MANAGING')"} :</h2>
 
 					<form action="action.php?action=addFeed" method="POST">
 				<section class="addBloc">
-					<h3>Ajout d'un flux</h3>
-					<p>Lien du flux RSS : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
+					<h3>{function="I18n::t('ADD_FEED')"}</h3>
+					<p>{function="I18n::t('FEED_RSS_LINK')"} : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
 					 <select name="newUrlCategory">
 						{loop="$folders"}
 							<option {if="$value->getId()==1"}selected="selected"{/if} value="{$value->getId()}">{$value->getName()}</option>
 						{/loop}
 					</select>
-					 <button>Ajouter</button></p>
+					 <button>{function="I18n::t('ADD')"}</button></p>
 				
 				</section>
 				</form>
 
 				<section class="addBloc">
-				<h3>Ajout d'un dossier</h3>
+				<h3>{function="I18n::t('ADD_FOLDER')"}</h3>
 			
 					<form method="POST" action="action.php?action=addFolder">
-						Nouveau dossier <input type="text" name="newFolder"> <button>Ajouter</button>
+						{function="I18n::t('NEW_FOLDER')"} <input type="text" name="newFolder"> <button>{function="I18n::t('ADD')"}</button>
 					</form>
 					
 				</section>
@@ -67,9 +67,9 @@
 					<li>{if="$value->getId()==1"}<a name="defaultFolder"></a>{/if}
 						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
 
-						<button  onclick="renameFolder(this,{$value->getId()})">Renommer</button>
+						<button  onclick="renameFolder(this,{$value->getId()})">{function="I18n::t('RENAME')"}</button>
 						{if="$value->getId()!='1'"}
-						<button  onclick="if(confirm('Etes vous sur de vouloir supprimer ce dossier? Cela supprimera tous les flux qu\'il contient.'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">Supprimer</button>
+						<button  onclick="if(confirm('{function="I18n::t('CONFIRM_DELETE_FOLDER')"}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="I18n::t('DELETE')"}</button>
 						{/if}
 						
 <div class="clear"></div>
@@ -87,8 +87,8 @@
 											{/loop}
 										</select>
 									</td>
-									<td><button onclick="renameFeed(this,{$value2->getId()})">Renommer</button></td>
-									<td><button onclick="if(confirm('Etes vous sûr de vouloir supprimer ce flux?')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">Supprimer</button></td></tr>
+									<td><button onclick="renameFeed(this,{$value2->getId()})">{function="I18n::t('RENAME')"}</button></td>
+									<td><button onclick="if(confirm('{function="I18n::t('CONFIRM_DELETE_FEED')"}')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="I18n::t('DELETE')"}</button></td></tr>
 							{/loop}
 							{/if}
 						</table>
@@ -98,104 +98,105 @@
 				</section>
 
 				<section class="synchronizeBloc">
-					 <h2>Synchronisation des flux :</h2>
+					 <h2>{function="I18n::t('FEED_SYNCHRONISATION')"} :</h2>
 					 <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
 				</section>
 
 				{if="(isset($myUser)) && ($myUser!=false)"}
 				<section class="preferenceBloc">
-					<h2>Préférences :</h2>
+					<h2>{function="I18n::t('PREFERENCES')"} :</h2>
 					<form method="POST" action="action.php?action=updateConfiguration">
 					<section>
-						<h3>Général</h3>
-						<p><label for="root">Racine du projet :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
-						<h4>Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h4>
+						<h3>{function="I18n::t('GENERALITY')"}</h3>
+						<p><label for="root">{function="I18n::t('PROJECT_ROOT')"} :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
+						<h4>{function="I18n::t('LET_SLASH_AT_END')"}</h4>
 					</section>
 
 					<section>
-						<h3>Utilisateur</h3>
-						<p><label for="login">Identifiant :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
-						<p><label for="password">Mot de passe :</label> <input type="password" id="password" name="password" autocomplete="off" value=""></p>
-						<h4>Laissez le champ vide si vous ne souhaitez pas changer le mot de passe.</h4>
+						<h3>{function="I18n::t('USER')"}</h3>
+						<p><label for="login">{function="I18n::t('LOGIN')"} :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
+						<p><label for="password">{function="I18n::t('PASSWORD')"} :</label> <input type="password" id="password" name="password" autocomplete="off" value=""></p>
+						<h4>{function="I18n::t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
 					
 					</section>
 
 					<section>
-						<h3>Synchronisation</h3>
-						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>Automatique (complet) :</strong></label> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
-						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>Automatique (gradué) :</strong></label> Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
-						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>Manuel (complet) :</strong></label> Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
+						<h3>{function="I18n::t('SYNCHRONISATION')"}</h3>
+						<p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
+							{function="I18n::t('AUTOMATIC_FULL')"} :</strong></label> {function="I18n::t('AUTOMATIC_FULL_DESC')"}</p>
+						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="I18n::t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="I18n::t('AUTOMATIC_GRADUATE_DESC')"}</p>
+						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>{function="I18n::t('MANUAL_FULL')"} :</strong></label> {function="I18n::t('MANUAL_FULL_DESC')"}</p>
 					
-						<p><strong>Code de synchronisation:</strong>
+						<p><strong>{function="I18n::t('SYNCHRONISATION_CODE')"} :</strong>
 						{$synchronisationCode}
 						</p>
-						<p><strong>Options de synchronisation</strong>
+						<p><strong>{function="I18n::t('SYNCHRONISATION_OPTION')"}</strong>
 						<fieldset>
-							<legend>Activer le Cache</legend>
-							<input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
-							<input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
-							<p>Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</p>
+							<legend>{function="I18n::t('ENABLE_CACHE')"}</legend>
+							<input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">{function="I18n::t('NO')"}</label>
+							<p>{function="I18n::t('ENABLE_CACHE_DESC')"}</p>
 						</fieldset>
 						<fieldset>
-							<legend>Forcer l'intégration</legend>
-							<input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
-							<input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<legend>{function="I18n::t('FORCE_INTEGRATION')"}</legend>
+							<input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">{function="I18n::t('NO')"}</label>
+							<p>{function="I18n::t('FORCE_INTEGRATION_DESC')"}</p>
 						</fieldset>
 						</p>
 					</section>
 
 					<section>
 						{if="$myUser!=false"}
-						<h3>Préférences</h3>
+						<h3>{function="I18n::t('PREFERENCES')"}</h3>
 						<fieldset>
-							<legend>Autoriser la lecture anonyme</legend>
-							<input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">Oui</label>
-							<input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">Non</label>
-							<h4>Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h4>
+							<legend>{function="I18n::t('ALLOW_ANONYOUS_READ')"}</legend>
+							<input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">{function="I18n::t('NO')"}</label>
+							<h4>{function="I18n::t('ALLOW_ANONYOUS_READ_DESC')"}</h4>
 						</fieldset>
 						<fieldset>
-							<legend><label for="articlePerPages">Nombre d'articles par pages</label></legend>
+							<legend><label for="articlePerPages">{function="I18n::t('EVENT_NUMBER_PER_PAGES')"}</label></legend>
 							<input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
 						</fieldset>
 						<fieldset>
-							<legend>Articles les plus récents en premier (sur la page d'accueil)</legend>
-							<input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortYes">Oui</label>
-							<input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortNo">Non</label>
+							<legend>{function="I18n::t('SORT_BY_RECENT_EVENT_HOME')"}</legend>
+							<input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortNo">{function="I18n::t('NO')"}</label>
 						</fieldset>
 						<fieldset>
-							<legend>Articles les plus récents en premier (sur les dossiers)</legend>
-							<input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortYes">Oui</label>
-							<input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSorttNo" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortNo">Non</label>
+							<legend>{function="I18n::t('SORT_BY_RECENT_EVENT_FOLDER')"}</legend>
+							<input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSorttNo" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortNo">{function="I18n::t('NO')"}</label>
 						</fieldset>
 						<fieldset>
-							<legend>Affichage du lien direct de l'article</legend>
-							<input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="articleDisplayLink" /><label for="articleDisplayLinkYes">Oui</label>
-							<input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="articleDisplayLink" /><label for="articleDisplayLinkNo">Non</label>
+							<legend>{function="I18n::t('SHOW_EVENT_LINK')"}</legend>
+							<input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="articleDisplayLink" /><label for="articleDisplayLinkYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="articleDisplayLink" /><label for="articleDisplayLinkNo">{function="I18n::t('NO')"}</label>
 						</fieldset>
 						<fieldset>
-							<legend>Affichage de la date de l'article</legend>
-							<input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" id="articleDisplayDateYes" name="articleDisplayDate" /><label for="articleDisplayDateYes">Oui</label>
-							<input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" id="articleDisplayDateNo" name="articleDisplayDate" /><label for="articleDisplayDateNo">Non</label>
+							<legend>{function="I18n::t('SHOW_EVENT_DATE')"}</legend>
+							<input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" id="articleDisplayDateYes" name="articleDisplayDate" /><label for="articleDisplayDateYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" id="articleDisplayDateNo" name="articleDisplayDate" /><label for="articleDisplayDateNo">{function="I18n::t('NO')"}</label>
 						</fieldset>
 						<fieldset>
-							<legend>Affichage de l'auteur de l'article</legend>
-							<input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="articleDisplayAuthor" /><label for="articleDisplayAuthorYes">Oui</label>
-							<input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">Non</label>
+							<legend>{function="I18n::t('SHOW_EVENT_AUTHOR')"}</legend>
+							<input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="articleDisplayAuthor" /><label for="articleDisplayAuthorYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">{function="I18n::t('NO')"}</label>
 						</fieldset>
 						<fieldset>
-							<legend>Affichage du contenu de l'article</legend>
-							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='1'"} checked="checked" {/if} value="1" id="articleDisplayContentYes" name="articleDisplayContent" /><label for="articleDisplayContentYes">Oui</label>
-							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='0'"} checked="checked" {/if} value="0" id="articleDisplayContentNo" name="articleDisplayContent" /><label for="articleDisplayContentNo">Non</label>
+							<legend>{function="I18n::t('SHOW_EVENT_CONTENT')"}</legend>
+							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='1'"} checked="checked" {/if} value="1" id="articleDisplayContentYes" name="articleDisplayContent" /><label for="articleDisplayContentYes">{function="I18n::t('YES')"}</label>
+							<input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='0'"} checked="checked" {/if} value="0" id="articleDisplayContentNo" name="articleDisplayContent" /><label for="articleDisplayContentNo">{function="I18n::t('NO')"}</label>
 							<div class="articleView"{$articleDisplayContent==0 ? 'style="display: none;"':''}>
-								<input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" id="articleViewPartial" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewPartial">Partiel</label>
-								<input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" id="articleViewComplete" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewComplete">Complet</label>
+								<input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" id="articleViewPartial" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewPartial">{function="I18n::t('PARTIAL')"}</label>
+								<input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" id="articleViewComplete" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewComplete">{function="I18n::t('FULL')"}</label>
 							</div>
-							<h4>Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h4>
+							<h4>{function="I18n::t('SHOW_PARTIAL_CONTENT_DESC')"}</h4>
 						</fieldset>
 						<fieldset>
-							<legend>Conserver les <input type="text" value="{$configurationManager->get('feedMaxEvents')}" name="feedMaxEvents" size="4" /> derniers événements d'un flux</legend>
-							<h4>Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br />Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h4>
+							<legend>{function="I18n::t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
+							<h4>{function="I18n::t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</h4>
 						</fieldset>
 					
 					</section>
@@ -203,60 +204,61 @@
 			
 
 
-					<button name="installButton">Enregistrer</button>
+					<button name="installButton">{function="I18n::t('SAVE')"}</button>
 					</form>
 					{else}
-					<p>Vous devez être connecté pour voir le bookmarklet.</p>
+					<p>{function="I18n::t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
 					{/if}
 				</section>
 			{/if}
 
 
 				<section class="importBloc">
-					<h2>Importer les flux au format opml</h2>
+					<h2>{function="I18n::t('IMPORT_FEED_OPML_FORMAT')"}</h2>
 					<iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
 
 				
 				<section class="exportBloc">
 					<form action="action.php?action=exportFeed" method="POST">
-						<h2>Exporter les flux au format opml</h2>
-						<p>Fichier OPML : <button name="exportButton">Exporter</button></p>
+						<h2>{function="I18n::t('EXPORT_FEED_OPML_FORMAT')"}</h2>
+						<p>{function="I18n::t('OPML_FILE')"} : <button name="exportButton">{function="I18n::t('EXPORT')"}</button></p>
 					</form>
 				</section>
 				
 				<section class="bookBloc">
-					<h2>Utiliser le bookmarklet :</h2>
-					<p>Vous pouvez ajouter le bookmaklet ci dessus à votre navigateur pour vous inscrire plus rapidement au flux :</p>
+					<h2>{function="I18n::t('USE_BOOKMARK')"} :</h2>
+					<p>{function="I18n::t('USE_BOOKMARK_DESC')"} :</p>
 					{if="$myUser!=false"}
 					
-					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ Ajouter à Leed</a>
+					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ {function="I18n::t('ADD_TO_LEED')"}</a>
 					{else}
-					<p>Vous devez être connecté pour voir le bookmarklet.</p>
+					<p>{function="I18n::t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
 					{/if}
 				</section>
 				
 
 				
 				<section class="pluginBloc">
-					<h2>Plugins :</h2>
-					<p>Vous pouvez télécharger et installer gratuitement de nouveaux plugins <a href="https://github.com/ldleman/Leed-market/">sur le Leed Market</a>.</p>
-					<p>Voici la liste des plugins installés :</p>
+					<h2>{function="I18n::t('PLUGINS')"} :</h2>
+					<p>{function="I18n::t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/ldleman/Leed-market/"> Leed Market</a>.</p>
+					<p>{function="I18n::t('AVAILABLE_PLUGIN_LIST')"} :</p>
 					{if="$myUser!=false"}
 					<ul class="pluginList">
 					{if="count($plugins)==0"}
-					Aucun plugin n'est installé pour le moment.
+					{function="I18n::t('NO_INSTALLED_PLUGINS')"}
+					
 					{else}
 					{loop="$plugins"}
 					<li>
 						<ul>
-							<li><h4>Nom: </h4>{$value->getName()}</li>
-							<li><h4>Auteur: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
-							<li><h4>Licence: </h4>{$value->getLicence()}</li>
-							<li><h4>Version: </h4><code>{$value->getVersion()}</code></li>
-							<li><h4>Site web: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+							<li><h4>{function="I18n::t('NAME')"}: </h4>{$value->getName()}</li>
+							<li><h4>{function="I18n::t('AUTHOR')"}: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
+							<li><h4>{function="I18n::t('LICENCE')"}: </h4>{$value->getLicence()}</li>
+							<li><h4>{function="I18n::t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
+							<li><h4>{function="I18n::t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
 							<li>{$value->getDescription()}</li>
-							<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?"Activer":"Désactiver"}</a></li>
+							<li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?I18n::t('ENABLE'):I18n::t('DISABLE')}</a></li>
 						</ul>
 					</li>
 					{/loop}
@@ -264,7 +266,7 @@
 					</ul>
 
 					{else}
-					<p>Vous devez être connecté pour voir les plugins.</p>
+					<p>{function="I18n::t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>
 					{/if}
 				</section>
 
@@ -280,8 +282,8 @@
 {else}
 	<div id="main" class="wrapper clearfix">
 		<article>
-				<h3>Vous devez être connecté pour consulter vos flux.</h3>
-				<p>Si vous êtes administrateur, vous pouvez régler les droits de visualisation dans la partie administration.</p>
+				<h3>{function="I18n::t('YOU_MUST_BE_CONNECTED_FEED')"}</h3>
+				<p>{function="I18n::t('IF_ADMIN_THEN_CONFIG')"}</p>
 		</article>
 	</div>
 

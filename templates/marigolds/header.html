@@ -26,20 +26,20 @@
 				<div class="loginBloc">
 				{if="!$myUser"}
 				<form action="action.php?action=login" method="POST">
-						<input type="text" class="miniInput left" name="login" placeholder="Identifiant"/> <input type="password" class="miniInput left" name="password" placeholder="Mot de passe"/> <button class="left">GO!!</button>
+						<input type="text" class="miniInput left" name="login" placeholder="{function="I18n::t('LOGIN')"}"/> <input type="password" class="miniInput left" name="password" placeholder="{function="I18n::t('PASSWORD')"}"/> <button class="left">GO!!</button>
 				</form>
 				{else}
-					<span>Identifié avec <span>{$myUser->getLogin()}</span></span><button onclick="window.location='action.php?action=logout'">Déconnexion</button>
+					<span>{function="I18n::t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="I18n::t('DISCONNECT')"}</button>
 				{/if}
 				<div class="clear"></div>
 				</div>
 			
 			<nav>
 				<ul>
-					<li><a href="index.php">Accueil</a></li>
-					<li><a href="index.php?action=favorites">Favoris</a></li>
-					<li><a href="settings.php">Gestion</a></li>
-					<li><a class="synchronyzeButton" title="Lancer une synchro manuelle" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
+					<li><a href="index.php">{function="I18n::t('HOME')"}</a></li>
+					<li><a href="index.php?action=favorites">{function="I18n::t('FAVORITES')"}</a></li>
+					<li><a href="settings.php">{function="I18n::t('MANAGE')"}</a></li>
+					<li><a class="synchronyzeButton" title="{function="I18n::t('LAUNCH_SYNCHRONISATION')"}" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
 					{function="Plugin::callHook("navigate_post_link", array(&$myUser))"}
 				</ul>
 			</nav>
