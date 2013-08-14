@@ -33,7 +33,7 @@ switch ($action){
 				&& $_['code']==$configurationManager->get('synchronisationCode')
 			)
 		) {
-			die('Vous devez vous connecter pour cette action.');
+			die(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		}
 		Functions::triggerDirectOutput();
 
@@ -49,11 +49,11 @@ switch ($action){
 		if('graduate'==$synchronisationType){
 			// sélectionne les 10 plus vieux flux
 			$feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
-			$syncTypeStr = 'Type de synchronisation : Synchronisation graduée…';
+			$syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
 		}else{
 			// sélectionne tous les flux, triés par le nom
 			$feeds = $feedManager->populate('name');
-			$syncTypeStr = 'Type de synchronisation : Synchronisation complète…';
+			$syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
 		}
 
 		
@@ -116,20 +116,20 @@ switch ($action){
 		$totalTimeStr = number_format($totalTime, 3);
 		$currentDate = date('d/m/Y H:i:s');
 		if ($commandLine) {
-			echo "\t{$nbErrors}\terreur(s)\n";
-			echo "\t{$nbOk}\tbon(s)\n";
-			echo "\t{$nbTotal}\tau total\n";
+			echo "\t{$nbErrors}\t"._t('ERRORS')."\n";
+			echo "\t{$nbOk}\t"._t('GOOD')."\n";
+			echo "\t{$nbTotal}\t"._t('AT_TOTAL')."\n";
 			echo "\t$currentDate\n";
-			echo "\t{$totalTimeStr}\tseconde(s)\n";
+			echo "\t{$totalTimeStr}\t"._t('SECONDS')."\n";
 		} else {
 			echo "</dl>\n";
 			echo "<div id='syncSummary'\n";
-			echo "<p>Synchronisation terminée.</p>\n";
+			echo "<p>"._t('SYNCHRONISATION_COMPLETE')."</p>\n";
 			echo "<ul>\n";
-			echo "<li>{$nbErrors} erreur(s)\n";
-			echo "<li>{$nbOk} bon(s)\n";
-			echo "<li>{$nbTotal} au total\n";
-			echo "<li>{$totalTimeStr}\tseconde(s)\n";
+			echo "<li>{$nbErrors} "._t('ERRORS')."\n";
+			echo "<li>{$nbOk} "._t('GOOD')."\n";
+			echo "<li>{$nbTotal} "._t('AT_TOTAL')."\n";
+			echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
 			echo "</ul>\n";
 			echo "</div>\n";
 		}
@@ -142,7 +142,7 @@ switch ($action){
 
 
 	case 'readAll':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		$whereClause = array();
 		$whereClause['unread'] = '1';
 		if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
@@ -151,7 +151,7 @@ switch ($action){
 	break;
 
 	case 'readFolder':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
 		$feeds = $feedManager->loadAllOnlyColumn('id',array('folder'=>$_['folder']));
 		
@@ -164,7 +164,7 @@ switch ($action){
 	break;
 
 	case 'updateConfiguration':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
 			//Ajout des préférences et réglages
 			$configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
@@ -192,14 +192,14 @@ switch ($action){
 
 
 	case 'purge':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		$eventManager->truncate();
 		header('location: ./settings.php');
 	break;
 
 
 	case 'exportFeed':
-			if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+			if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 				/*********************/
 			/** Export **/
 			/*********************/
@@ -232,12 +232,12 @@ switch ($action){
 	
 
 	case 'importForm':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<body style="height:auto;">
 					<form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
-					<p>Fichier OPML : <input name="newImport" type="file"/> <button name="importButton">Importer</button></p>
-					<p>Nb : L\'importation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
+					<p>'._t('OPML_FILE').' : <input name="newImport" type="file"/> <button name="importButton">'._t('IMPORT').'</button></p>
+					<p>'._t('IMPORT_COFFEE_TIME').'</p>
 					</form>
 				</body>
 			</html>
@@ -248,18 +248,18 @@ switch ($action){
 	case 'synchronizeForm':
 	 if(isset($myUser) && $myUser!=false){  
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
-				<a class="button" href="action.php?action=synchronize">Synchroniser maintenant</a>
-					<p>Nb : La synchronisation peux prendre un certain temps, laissez votre navigateur tourner et allez vous prendre un café :).</p>
+				<a class="button" href="action.php?action=synchronize">'._t('SYNCHRONIZE_NOW').'</a>
+					<p>'._t('SYNCHRONIZE_COFFEE_TIME').'</p>
 				
 			';
 		}else{
-			echo 'Vous devez être connecté pour accéder à cette partie.';
+			echo _t('YOU_MUST_BE_CONNECTED_ACTION');
 		}
 
 	break;
 
 	case 'changeFolderState':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		$folderManager->change(array('isopen'=>$_['isopen']),array('id'=>$_['id']));
 	break;
 
@@ -289,27 +289,26 @@ switch ($action){
 				</style>
 			</style><body>
 \n";
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(!isset($_POST['importButton'])) break;
 		$opml = new Opml();
-		echo "<h3>Importation</h3><p>En cours...</p>\n";
+		echo "<h3>"._t('IMPORT')."</h3><p>"._t('PENDING')."</p>\n";
 		try {
 			$errorOutput = $opml->import($_FILES['newImport']['tmp_name']);
 		} catch (Exception $e) {
 			$errorOutput = array($e->getMessage());
 		}
 		if (empty($errorOutput)) {
-			echo "<p>L'import s'est déroulé sans problème.</p>\n";
+			echo "<p>"._t('IMPORT_NO_PROBLEM')."</p>\n";
 		} else {
-			echo "<div class='error'>Erreurs à l'importation!\n";
+			echo "<div class='error'>"._t('IMPORT_ERROR')."\n";
 			foreach($errorOutput as $line) {
 				echo "<p>$line</p>\n";
 			}
 			echo "</div>";
 		}
 		if (!empty($opml->alreadyKnowns)) {
-			echo "<h3>Certains flux étaient déjà connus, ils n'ont pas été "
-				."réimportés&nbsp;:</h3>\n<ul>\n";
+			echo "<h3>"._t('IMPORT_FEED_ALREADY_KNOWN')." : </h3>\n<ul>\n";
 			foreach($opml->alreadyKnowns as $alreadyKnown) {
 				foreach($alreadyKnown as &$elt) $elt = htmlspecialchars($elt);
 				$text = Functions::truncate($alreadyKnown->feedName, 60);
@@ -322,13 +321,13 @@ switch ($action){
 		echo "<p>";
 		echo "<a href='$syncLink' style='text-decoration:none;font-size:3em'>"
 			."↺</a>";
-		echo "<a href='$syncLink'>Cliquez ici pour synchroniser vos flux importés.</a>";
+		echo "<a href='$syncLink'>"._t('CLIC_HERE_SYNC_IMPORT')."</a>";
 		echo "<p></body></html>\n";
 	break;
 
 	
 	case 'addFeed':
-			if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+			if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 			require_once("SimplePie.class.php");
 			if(!isset($_['newUrl'])) break;
 			$newFeed = new Feed();
@@ -346,7 +345,7 @@ switch ($action){
 	break;
 
 	case 'changeFeedFolder':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_['feed'])){
 			$feedManager->change(array('folder'=>$_['folder']),array('id'=>$_['feed']));
 		}
@@ -354,7 +353,7 @@ switch ($action){
 	break;
 
 	case 'removeFeed':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_GET['id'])){
 			$feedManager->delete(array('id'=>$_['id']));
 			$eventManager->delete(array('feed'=>$_['id']));
@@ -363,11 +362,10 @@ switch ($action){
 	break;
 
 	case 'addFolder':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_['newFolder'])){
 				$folder = new Folder();
 			if($folder->rowCount(array('name'=>$_['newFolder']))==0){
-
 				$folder->setParent(-1);
 				$folder->setIsopen(0);
 				$folder->setName($_['newFolder']);
@@ -379,21 +377,21 @@ switch ($action){
 
 
 	case 'renameFolder':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_['id'])){
 			$folderManager->change(array('name'=>$_['name']),array('id'=>$_['id']));
 		}
 	break;
 
 	case 'renameFeed':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_['id'])){
 			$feedManager->change(array('name'=>$_['name'],'url'=>Functions::clean_url($_['url'])),array('id'=>$_['id']));
 		}
 	break;
 
 	case 'removeFolder':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		if(isset($_['id']) && is_numeric($_['id']) && $_['id']>0){
 			$eventManager->customExecute('DELETE FROM '.MYSQL_PREFIX.'event WHERE '.MYSQL_PREFIX.'event.feed in (SELECT '.MYSQL_PREFIX.'feed.id FROM '.MYSQL_PREFIX.'feed WHERE '.MYSQL_PREFIX.'feed.folder =\''.intval($_['id']).'\') ;');
 			$feedManager->delete(array('folder'=>$_['id']));
@@ -405,7 +403,7 @@ switch ($action){
 	case 'readContent':
 		if($myUser==false) { 
 			$response_array['status'] = 'noconnect';
-			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
 		    echo json_encode($response_array); 
 			exit();
@@ -419,7 +417,7 @@ switch ($action){
 	case 'unreadContent':
 		if($myUser==false) { 
 			$response_array['status'] = 'noconnect';
-			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
 		    echo json_encode($response_array); 
 			exit();
@@ -433,7 +431,7 @@ switch ($action){
 	case 'addFavorite':
 		if($myUser==false) { 
 			$response_array['status'] = 'noconnect';
-			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
 		    echo json_encode($response_array); 
 			exit();
@@ -444,7 +442,7 @@ switch ($action){
 	case 'removeFavorite':
 		if($myUser==false) { 
 			$response_array['status'] = 'noconnect';
-			$response_array['texte'] = 'Vous devez vous connecter pour cette action.';
+			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
 		    echo json_encode($response_array); 
 			exit();
@@ -477,7 +475,7 @@ switch ($action){
 	break;
 
 	case 'changePluginState':
-		if($myUser==false) exit('Vous devez vous connecter pour cette action.');
+		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 		
 		if($_['state']=='0'){
 			Plugin::enabled($_['plugin']);

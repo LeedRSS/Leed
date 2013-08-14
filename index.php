@@ -96,8 +96,6 @@ $pagesArray = array();
 						$startArticle = ($page-1)*$articlePerPages;
 						$events = $eventManager->loadAllOnlyColumn($target,array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						$tpl->assign('numberOfItem',$numberOfItem);
-
-
 					break;
 
 					/* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
