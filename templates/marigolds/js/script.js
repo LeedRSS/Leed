@@ -53,10 +53,10 @@ $(document).ready(function(){
 		
 		if ($(window).scrollTop()==0) scrollInfini();
 	}
-	//alert(t('IDENTIFIED_WITH',['idleman']));
+	//alert(_t('IDENTIFIED_WITH',['idleman']));
 });
 
-function t(key,args){
+function _t(key,args){
 	value = i18n[key];
 	for(i=0;i<args.length;i++){
 		value = value.replace('$'+(i+1),args[i]);

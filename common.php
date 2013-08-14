@@ -11,7 +11,7 @@ mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
-class_exists('I18n') or require_once('I18n.class.php');
+require_once('i18n.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Feed') or require_once('Feed.class.php');
@@ -43,7 +43,7 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-I18n::init();
+i18n_init();
 
 
 $view = '';

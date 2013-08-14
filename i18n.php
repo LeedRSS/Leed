@@ -3,14 +3,11 @@
 /*
  @nom: i18n
  @auteur: Idleman (idleman@idleman.fr)
- @description:  Classe de gestion de la traduction
+ @description:  Fonctions de gestion de la traduction
  */
 
-class I18n
-{
 
-
-	public static function init(){
+	function i18n_init(){
 		global $i18n,$i18n_js;
 		if(!isset($i18n)){
 			$i18n_js =  file_get_contents('locale/'.LANGAGE.'.json');
@@ -18,7 +15,7 @@ class I18n
 		}
 	}	
 
-	public static function t($key,$args=array(),$debug=false){
+	function _t($key,$args=array(),$debug=false){
 		global $i18n;
 
 		$value = (isset($i18n[$key])?$i18n[$key]:'');
@@ -29,5 +26,5 @@ class I18n
 		return $value;
 	}
 
-}
+
 ?>
