@@ -43,7 +43,7 @@
 
 						<h1 class="folder">
 							{function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-							<a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}{function="_t('UNFOLD')"}{else}{function="_t('FOLD')"}{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('CONFIRM_MARK_AS_READ_FOLDER_ITEMS')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+							<a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}{function="_t('UNFOLD')"}{else}{function="_t('FOLD')"}{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
 							{function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
 						</h1>
 						<!-- FLUX DU DOSSIER -->
