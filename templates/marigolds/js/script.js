@@ -47,7 +47,7 @@ $(document).ready(function(){
 		
 		// on initialise ajaxready à true au premier chargement de la fonction
 		$(window).data('ajaxready', true);
-		$('article').append('<div id="loader">Chargement en cours ...</div>');
+		$('article').append('<div id="loader">'+_t('LOADING')+'</div>');
 		$(window).data('page', 1);
 		$(window).data('nblus', 0);
 		
@@ -306,7 +306,7 @@ function toggleFolder(element,folder){
 	open = 0;
 	if(feedBloc.css('display')=='none') open = 1;
 	feedBloc.slideToggle(200);
-	$(element).html((!open?'Déplier':'Plier'));
+	$(element).html((!open?_t('UNFOLD'):_t('FOLD')));
 	$.ajax({
 				  url: "./action.php?action=changeFolderState",
 				  data:{id:folder,isopen:open}
@@ -323,7 +323,7 @@ function addFavorite(element,id){
 							alert(msg.texte)
 						} else {
 							if( console && console.log && msg!="" ) console.log(msg);
-							$(element).attr('onclick','removeFavorite(this,'+id+');').html('Défavoriser');
+							$(element).attr('onclick','removeFavorite(this,'+id+');').html(_t('UNFAVORIZE'));
 							// on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
 							if (activeScreen=='favorites') {
 								$(window).data('nblus', $(window).data('nblus')-1);
@@ -344,7 +344,7 @@ function removeFavorite(element,id){
 							alert(msg.texte)
 						} else {
 							if( console && console.log && msg!="" ) console.log(msg);
-							$(element).attr('onclick','addFavorite(this,'+id+');').html('Favoriser');
+							$(element).attr('onclick','addFavorite(this,'+id+');').html(_t('FAVORIZE'));
 							// on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
 							if (activeScreen=='favorites') {
 								$(window).data('nblus', $(window).data('nblus')+1);
@@ -370,7 +370,7 @@ function saveRenameFolder(element,folder){
 	var folderLine = $(element).parent();
 	var folderNameCase = $('span',folderLine);
 	var value = $('input',folderNameCase).val();
-	$(element).html('Renommer');
+	$(element).html(_t('RENAME'));
 	$(element).attr('style','background-color:#F16529;');
 	$(element).attr('onclick','renameFolder(this,'+folder+')');
 	folderNameCase.replaceWith('<span>'+value+'</span>');
@@ -388,7 +388,7 @@ function renameFeed(element,feed){
 	var feedUrlCase = $('td:first span',feedLine);
 	var feedUrlValue = feedUrlCase.html();
 	var url = feedNameCase.attr('href');
-	$(element).html('Enregistrer');
+	$(element).html(_t('SAVE'));
 	$(element).attr('style','background-color:#0C87C9;');
 	$(element).attr('onclick','saveRenameFeed(this,'+feed+',"'+url+'")');
 	feedNameCase.replaceWith('<input type="text" name="feedName" value="'+feedNameValue+'" size="25" />');
@@ -523,7 +523,7 @@ function synchronize(code){
 			'<iframe class="importFrame" src="action.php?action=synchronize&format=html&code='+code+'" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>'+
 			'</section>');
 	}else{
-		alert('Vous devez être connecté pour synchroniser vos flux');
+		alert(_t('YOU_MUST_BE_CONNECTED_FEED'));
 	}
 }
 
