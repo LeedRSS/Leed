@@ -103,7 +103,7 @@ $pagesArray = array();
 					default:
 						$numberOfItem = $eventManager->rowCount(array('unread'=>1));
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = ceil($numberOfItem/$articlePerPages); 
+						$pages = ($articlePerPages>0?ceil($numberOfItem/$articlePerPages):1); 
 						$startArticle = ($page-1)*$articlePerPages;
 						if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
 						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),$order,$startArticle.','.$articlePerPages);
