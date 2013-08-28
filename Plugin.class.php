@@ -2,31 +2,27 @@
 
 /*
  @nom: Plugin
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Valentin CARRUESCO (idleman@idleman.fr)
  @description: Classe de gestion des plugins au travers de l'application
  */
 
 class Plugin{
 	const FOLDER = '/plugins';
-	protected $name,$author,$mail,$link,$licence,$path,$description,$version,$state;
+	protected $name,$author,$mail,$link,$licence,$path,$description,$version,$state,$type;
 
 	function __construct(){
-		
 	}
 
 	public static function includeAll(){
 		$pluginFiles = Plugin::getFiles(true);
 		if(is_array($pluginFiles)) {   
-		
 			foreach($pluginFiles as $pluginFile) {  
-
 				//Inclusion du coeur de plugin
 				include $pluginFile;  
 				//Gestion des css du plugin en fonction du thème actif
-				$cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
-				$cssDefault = glob(dirname($pluginFile).'/*/default.css');
+				$cssTheme = glob('../'.dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
+				$cssDefault = glob('../'.dirname($pluginFile).'/*/default.css');
 				if(isset($cssTheme[0])){
-
 					$GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssTheme[0])); 
 				}else if(isset($cssDefault[0])){
 					$GLOBALS['hooks']['css_files'][] =  Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssDefault[0])); 
@@ -35,47 +31,65 @@ class Plugin{
 		}  
 	}
 
+	private static function getStates(){
+		$stateFile = dirname(__FILE__).Plugin::FOLDER.'/plugins.states.json';
+		if(!file_exists($stateFile)) touch($stateFile);
+		return json_decode(file_get_contents($stateFile),true);
+	}
+	private static function setStates($states){
+		$stateFile = dirname(__FILE__).Plugin::FOLDER.'/plugins.states.json';
+		file_put_contents($stateFile,json_encode($states));
+	}
+	
+
+	private static function getObject($pluginFile){
+		$plugin = new Plugin();
+		$fileLines = file_get_contents($pluginFile);
+
+		if(preg_match("#@author\s(.+)\s\<#", $fileLines, $match))
+			$plugin->setAuthor(trim($match[1]));
+			    
+		if(preg_match("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $match))
+			$plugin->setMail(strtolower($match[2]));
+			    
+		if(preg_match("#@name\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setName($match[1]);
+			    
+		if(preg_match("#@licence\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setLicence($match[1]);
+			    
+		if(preg_match("#@version\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setVersion($match[1]);
+			    
+		if(preg_match("#@link\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setLink(trim($match[1]));
+
+		if(preg_match("#@type\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setType(trim($match[1]));
+			    
+		if(preg_match("#@description\s(.+)[\r\n]#", $fileLines, $match))
+			$plugin->setDescription(trim($match[1]));
+			     
+		if(Plugin::loadState($pluginFile) || $plugin->getType()=='component'){
+			$plugin->setState(1);
+		}else{
+			$plugin->setState(0);
+		}
+		$plugin->setPath($pluginFile);
+		return $plugin;
+	}
+
 	public static function getAll(){
 		$pluginFiles = Plugin::getFiles(); 
+
 		$plugins = array();
 		if(is_array($pluginFiles)) {   
 			foreach($pluginFiles as $pluginFile) {  
-				$plugin = new Plugin();
-				$fileLines = file_get_contents($pluginFile);
-				//Author
-			    if(preg_match("#@author\s(.+)\s\<#", $fileLines, $match))
-					$plugin->setAuthor(trim($match[1]));
-			    
-			    if(preg_match("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $match))
-					$plugin->setMail(strtolower($match[2]));
-			    
-			    if(preg_match("#@name\s(.+)[\r\n]#", $fileLines, $match))
-			     	$plugin->setName($match[1]);
-			    
-			    if(preg_match("#@licence\s(.+)[\r\n]#", $fileLines, $match))
-			     	$plugin->setLicence($match[1]);
-			    
-			    if(preg_match("#@version\s(.+)[\r\n]#", $fileLines, $match))
-			     	$plugin->setVersion($match[1]);
-			    
-			    if(preg_match("#@link\s(.+)[\r\n]#", $fileLines, $match))
-			     	$plugin->setLink(trim($match[1]));
-			    
-			    if(preg_match("#@description\s(.+)[\r\n]#", $fileLines, $match))
-			     	$plugin->setDescription(trim($match[1]));
-			     
-			    if(strpos($pluginFile,'.plugin.enabled.php')!==false){
-			    	$plugin->setState(1);
-			    }else{
-			    	$plugin->setState(0);
-			    }
-			    $plugin->setPath($pluginFile);
+				$plugin = Plugin::getObject($pluginFile);
 				$plugins[]=$plugin;
 			}  
 		}
-
 		usort($plugins, "Plugin::sortPlugin");
-
 		return $plugins;
 	}
 
@@ -87,7 +101,9 @@ class Plugin{
 
 		public static function addCss($css) {  
 			$bt =  debug_backtrace();
+			
 			$path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$css));
+
 		    $GLOBALS['hooks']['css_files'][] = $path;  
 		}
 
@@ -100,8 +116,6 @@ class Plugin{
 		    }    
 		    return $return;
 		}
-
-
 		
 		public static function addLink($rel, $link) {  
 		    $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
@@ -121,7 +135,6 @@ class Plugin{
 			$bt =  debug_backtrace();
 			return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/'; 
 		}
-
 
 		public static function addJs($js) {  
 			$bt =  debug_backtrace();
@@ -149,12 +162,72 @@ class Plugin{
 		} 
 
 	public static function getFiles($onlyActivated=false){
-		$files = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.enabled.php');
-		$filesDisabled = glob(dirname(__FILE__) . Plugin::FOLDER .'/*/*.plugin.disabled.php');
-		if (!is_array($files)) $files = array();
-		if (!is_array($filesDisabled)) $filesDisabled = array();
-		if(!$onlyActivated)$files = array_merge($files,$filesDisabled);
-		return $files;
+
+		$enabled = $disabled =  array();
+		$files = glob(dirname(__FILE__). Plugin::FOLDER .'/*/*.plugin.*.php');
+	
+		foreach($files as $file){
+			$plugin = Plugin::getObject($file);
+			if($plugin->getState()){
+				$enabled [] =  $file;
+			}else{
+				$disabled [] =  $file;
+			}
+		}
+
+		if(!$onlyActivated)$enabled = array_merge($enabled,$disabled);
+		return $enabled;
+	}
+
+	
+	public static function loadState($plugin){
+		$states = Plugin::getStates();
+		return (isset($states[$plugin])?$states[$plugin]:false);
+	}
+
+	public static function changeState($plugin,$state){
+		$states = Plugin::getStates();
+		$states[$plugin] = $state;
+
+		Plugin::setStates($states);
+	}
+
+
+	public static function enabled($pluginUid){
+		$plugins = Plugin::getAll();
+
+		foreach($plugins as $plugin){
+			if($plugin->getUid()==$pluginUid){
+				Plugin::changeState($plugin->getPath(),true);
+				$install = dirname($plugin->getPath()).'/install.php';
+				if(file_exists($install))require_once($install);
+			}
+		}
+	}
+	public static function disabled($pluginUid){
+		$plugins = Plugin::getAll();
+		foreach($plugins as $plugin){
+			if($plugin->getUid()==$pluginUid){
+				Plugin::changeState($plugin->getPath(),false);
+				$uninstall = dirname($plugin->getPath()).'/uninstall.php';
+				if(file_exists($uninstall))require_once($uninstall);
+			}
+		}
+		
+	}
+
+	function getUid(){
+		$pathInfo = explode('/',$this->getPath()); 
+		$count = count($pathInfo);
+		$name = $pathInfo[$count-1];
+		return $pathInfo[$count -2].'-'.substr($name,0,strpos($name,'.'));
+	}
+
+
+	static function sortPlugin($a, $b){
+		if ($a->getName() == $b->getName()) 
+        return 0;
+	    return ($a->getName() < $b->getName()) ? -1 : 1;
 	}
 
 
@@ -227,49 +300,17 @@ class Plugin{
 	function getState(){
 		return $this->state;
 	}
-
 	function setState($state){
 		$this->state = $state;
 	}
 
-	function getUid(){
-		$pathInfo = explode('/',$this->getPath()); 
-		$count = count($pathInfo);
-		$name = $pathInfo[$count-1];
-		return $pathInfo[$count -2].'-'.substr($name,0,strpos($name,'.'));
+	function getType(){
+		return $this->type;
 	}
 
-	public static function enabled($pluginUid){
-		$plugins = Plugin::getAll();
-
-		foreach($plugins as $plugin){
-			if($plugin->getUid()==$pluginUid){
-				rename($plugin->getPath(),str_replace('.plugin.disabled.php', '.plugin.enabled.php', $plugin->getPath()));
-				$install = dirname($plugin->getPath()).'/install.php';
-				if(file_exists($install))require_once($install);
-			}
-		}
-		
+	function setType($type){
+		$this->type = $type;
 	}
-	public static function disabled($pluginUid){
-		$plugins = Plugin::getAll();
-		foreach($plugins as $plugin){
-			if($plugin->getUid()==$pluginUid){
-				rename($plugin->getPath(),str_replace('.plugin.enabled.php', '.plugin.disabled.php', $plugin->getPath()));
-				$uninstall = dirname($plugin->getPath()).'/uninstall.php';
-				if(file_exists($uninstall))require_once($uninstall);
-			}
-		}
-		
-	}
-
-	static function sortPlugin($a, $b){
-		if ($a->getName() == $b->getName()) 
-        return 0;
-	    
-	    return ($a->getName() < $b->getName()) ? -1 : 1;
-	}
-
 
 }
 
