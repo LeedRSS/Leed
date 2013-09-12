@@ -58,8 +58,10 @@ $(document).ready(function(){
 
 function _t(key,args){
 	value = i18n[key];
-	for(i=0;i<args.length;i++){
-		value = value.replace('$'+(i+1),args[i]);
+	if(args!=null){
+		for(i=0;i<args.length;i++){
+			value = value.replace('$'+(i+1),args[i]);
+		}
 	}
 	return value;
 }
