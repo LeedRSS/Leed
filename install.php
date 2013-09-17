@@ -293,13 +293,13 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 							<legend>Activer le Cache</legend>
 							<input type="radio" checked="checked" value="1" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
 							<input type="radio" value="0" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
-							<p>Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</p>
+							<h3 class="articleDetails">Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</h3>
 						</fieldset>
 						<fieldset>
 							<legend>Forcer l'intégration</legend>
 							<input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
 							<input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<h3 class="articleDetails">Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</h3>
 						</fieldset>
 					</p>
 				</section>
