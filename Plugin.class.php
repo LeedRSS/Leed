@@ -164,7 +164,9 @@ class Plugin{
 	public static function getFiles($onlyActivated=false){
 
 		$enabled = $disabled =  array();
-		$files = glob(dirname(__FILE__). Plugin::FOLDER .'/*/*.plugin.*.php');
+		$files = glob(dirname(__FILE__). Plugin::FOLDER .'/*/*.plugin.*.php') or false;
+
+        if($files === false) $files = array();
 	
 		foreach($files as $file){
 			$plugin = Plugin::getObject($file);
