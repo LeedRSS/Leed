@@ -261,7 +261,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 			<article>
 				<header>
 					<h1>Installation de Leed</h1>
-					<p>Merci de prendre quelques instants pour vérifier les infos ci dessous :</p>
+					<p>Merci de prendre quelques instants pour vérifier les infos ci-dessous :</p>
 				
 				</header>
 			
@@ -273,25 +273,25 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 
 				<section>
 					<h2>Base de données</h2>
-					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
-					<h3 class="articleDetails">Géneralement localhost</h3>
+					<p>Hôte MySQL : <input type="text" name="mysqlHost" value=""></p>
+					<h3 class="articleDetails">Généralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
 					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""></p>
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
-					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
+					<p>Préfixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
 				</section>
 
 				
 				<section>
 					<h2>Administrateur</h2>
-					<p>Identifiant de l'administrateur: <input type="text" name="login" placeholder="Identifiant"></p>
-					<p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"></p>
+					<p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
+					<p>Mot de passe de l'administrateur : <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"></p>
 				</section>
 
 				<section>
 					<h2>Synchronisation</h2>
-					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peux faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
+					<p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peut faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
 					<p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) : </strong>Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
 					<p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) : </strong>Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
 					<p><strong>Options de synchronisation</strong>
@@ -305,27 +305,27 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 							<legend>Forcer l'intégration</legend>
 							<input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
 							<input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
 						</fieldset>
 					</p>
 				</section>
 
 				<section>
 					<h2>Préferences</h2>
-					<p>Autoriser la lecture anonyme: <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-					<h3 class="articleDetails">Nb: si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
-					<p>Nombre d'articles par pages: <input type="text" value="5" name="articlePerPages"></p>
+					<p>Autoriser la lecture anonyme : <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
+					<h3 class="articleDetails">NB : si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
+					<p>Nombre d'articles par page : <input type="text" value="5" name="articlePerPages"></p>
 					<p>Articles les plus récents en premier (sur la page d'accueil) : <input type="radio" checked="checked" value="1" name="articleDisplayHomeSort">Oui <input type="radio" value="0" name="articleDisplayHomeSort">Non</p>
 					<p>Articles les plus récents en premier (sur les dossiers) : <input type="radio" checked="checked" value="1" name="articleDisplayFolderSort">Oui <input type="radio" value="0" name="articleDisplayFolderSort">Non</p>
-					<p>Affichage du lien direct de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
-					<p>Affichage de la date de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
-					<p>Affichage de l'auteur de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
-					<p>Affichage du contenu de l'article: <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
-					<p>Type d'affichage du contenu: <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
-					<h3 class="articleDetails">Nb: si vous choissisez un affichage partiel des articles, un click sur ces derniers menera à l'article sur le blog de l'auteur.</h3>
-					<p>Catégorie par defaut: <input type="text" value="Géneral" name="category"></p>
-					<p>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événement d'un flux</p>
-					<h3 class="articleDetails">Nb: Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
+					<p>Affichage du lien direct de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
+					<p>Affichage de la date de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
+					<p>Affichage de l'auteur de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
+					<p>Affichage du contenu de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
+					<p>Type d'affichage du contenu : <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
+					<h3 class="articleDetails">NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers mènera à l'article sur le blog de l'auteur.</h3>
+					<p>Catégorie par défaut : <input type="text" value="Général" name="category"></p>
+					<p>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événements d'un flux.</p>
+					<h3 class="articleDetails">NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
 					
 				</section>
 
