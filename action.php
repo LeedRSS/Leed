@@ -68,19 +68,22 @@ switch ($action){
 		$nbOk = 0;
 		$nbTotal = 0;
 		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+		$nbTotalEvents = 0;
 		$syncId = time();
 		$enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
 		$forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+		
 		foreach ($feeds as $feed) {
+			$nbEvents = 0;
 			$nbTotal++;
 			$startLocal = microtime(true);
-			$parseOk = $feed->parse($syncId, $enableCache, $forceFeed);
+			$parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
 			$parseTime = microtime(true)-$startLocal;
 			$localTotal += $parseTime;
 			$parseTimeStr = number_format($parseTime, 3);
 			if ($parseOk) { // It's ok
 				$errors = array();
-
+				$nbTotalEvents += $nbEvents;
 				$nbOk++;
 			} else {
 				// tableau au cas où il arrive plusieurs erreurs
@@ -120,6 +123,7 @@ switch ($action){
 			echo "\t{$nbOk}\tbon(s)\n";
 			echo "\t{$nbTotal}\tau total\n";
 			echo "\t$currentDate\n";
+			echo "\t$nbTotalEvents\n";
 			echo "\t{$totalTimeStr}\tseconde(s)\n";
 		} else {
 			echo "</dl>\n";
@@ -129,6 +133,7 @@ switch ($action){
 			echo "<li>{$nbErrors} erreur(s)\n";
 			echo "<li>{$nbOk} bon(s)\n";
 			echo "<li>{$nbTotal} au total\n";
+			echo "<li>{$nbTotalEvents} nouveaux articles\n";
 			echo "<li>{$totalTimeStr}\tseconde(s)\n";
 			echo "</ul>\n";
 			echo "</div>\n";
