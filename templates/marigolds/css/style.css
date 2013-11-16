@@ -477,7 +477,7 @@ footer a,#main aside a{
 	margin-bottom: 10px;
 }
 
-.underlink{
+#main article section a.underlink, #main article a.underlink,.underlink{
 	font-size:9px;
 	color:#222222;
 	display:block;
