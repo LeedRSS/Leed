@@ -270,7 +270,8 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<p>Hote MySQL : <input type="text" name="mysqlHost" value=""></p>
 					<h3 class="articleDetails">Géneralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
-					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""></p>
+					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
+
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
 					<p>Prefixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
@@ -280,7 +281,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 				<section>
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur: <input type="text" name="login" placeholder="Identifiant"></p>
-					<p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"></p>
+					<p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
 				</section>
 
 				<section>
