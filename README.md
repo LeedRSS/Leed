@@ -20,7 +20,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 Pré-requis
 ====
 
-- Serveur Apache conseillé (non testé sur les autres serveurs types Nginx…)
+- Serveur Apache conseillé (non testé sur les autres serveurs type Nginx…)
 - PHP 5.3 minimum
 - MySQL
 - Un peu de bon sens :-)
@@ -29,11 +29,11 @@ Installation
 ====
 
 1. Récupérez le projet sur [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) ou sur la page [github](https://github.com/ldleman/Leed).
-2. Placez le projet dans votre repertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
+2. Placez le projet dans votre répertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
 5. [Optionnel] Si vous souhaitez que les mises à jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
-6. Le script est installé, merci d'avoir choisis Leed, l'agrégateur RSS svelte :p
+6. Le script est installé, merci d'avoir choisi Leed, l'agrégateur RSS svelte :p
 
 Tâches programmées avec cron
 ====

@@ -420,7 +420,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article section.eventHightLighted{
-	background-color: #F1F1F1;
+	background-color: #fbfbfb;
 }
 #main article section.eventSelected,
 .settings article > section{
@@ -477,7 +477,7 @@ footer a,#main aside a{
 	margin-bottom: 10px;
 }
 
-.underlink{
+#main article section a.underlink, #main article a.underlink,.underlink{
 	font-size:9px;
 	color:#222222;
 	display:block;

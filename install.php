@@ -276,7 +276,8 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<p>Hôte MySQL : <input type="text" name="mysqlHost" value=""></p>
 					<h3 class="articleDetails">Généralement localhost</h3>
 					<p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
-					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""></p>
+					<p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
+
 					<p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
 					<h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
 					<p>Préfixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
@@ -286,7 +287,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 				<section>
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
-					<p>Mot de passe de l'administrateur : <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"></p>
+					<p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
 				</section>
 
 				<section>
@@ -299,13 +300,13 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 							<legend>Activer le Cache</legend>
 							<input type="radio" checked="checked" value="1" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
 							<input type="radio" value="0" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
-							<p>Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</p>
+							<h3 class="articleDetails">Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</h3>
 						</fieldset>
 						<fieldset>
 							<legend>Forcer l'intégration</legend>
 							<input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
 							<input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-							<p>Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</p>
+							<h3 class="articleDetails">Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</h3>
 						</fieldset>
 					</p>
 				</section>
