@@ -471,6 +471,7 @@ switch ($action){
 				exit("erreur identification : le compte est inexistant");
 			}else{
 				$_SESSION['currentUser'] = serialize($user);
+				$user->setStayConnected();
 			}
 			header('location: ./index.php');	
 		}
