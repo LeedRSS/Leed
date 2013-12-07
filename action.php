@@ -344,7 +344,7 @@ switch ($action){
 					(isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
 				);
 				$newFeed->save();
-				$newFeed->parse(time(), true);
+				$newFeed->parse(time(), $_, true);
 			}
  			header('location: ./settings.php#manageBloc');
 	break;
