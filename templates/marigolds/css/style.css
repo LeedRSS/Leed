@@ -731,3 +731,29 @@ footer a,#main aside a{
 article #loader{
 	display: none;
 }
+
+/* =============================================================================
+   Help panel
+   ========================================================================== */
+#helpPanel {
+    background: #333;
+    opacity: 0.9;
+    filter:alpha(opacity=90); /* For IE8 and earlier */
+    color: #fff;
+    padding: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+    height: 400px;
+    margin-top: -200px; /* moitié de la hauteur */
+    margin-left: -250px; /* moitié de la largeur */
+    z-Index: 1;
+	display: none;
+}
+#helpPanel strong {
+    color: #ff0;
+}
