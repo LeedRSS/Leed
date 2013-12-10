@@ -68,19 +68,22 @@ switch ($action){
 		$nbOk = 0;
 		$nbTotal = 0;
 		$localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+		$nbTotalEvents = 0;
 		$syncId = time();
 		$enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
 		$forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+		
 		foreach ($feeds as $feed) {
+			$nbEvents = 0;
 			$nbTotal++;
 			$startLocal = microtime(true);
-			$parseOk = $feed->parse($syncId, $enableCache, $forceFeed);
+			$parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
 			$parseTime = microtime(true)-$startLocal;
 			$localTotal += $parseTime;
 			$parseTimeStr = number_format($parseTime, 3);
 			if ($parseOk) { // It's ok
 				$errors = array();
-
+				$nbTotalEvents += $nbEvents;
 				$nbOk++;
 			} else {
 				// tableau au cas où il arrive plusieurs erreurs
@@ -120,6 +123,7 @@ switch ($action){
 			echo "\t{$nbOk}\t"._t('GOOD')."\n";
 			echo "\t{$nbTotal}\t"._t('AT_TOTAL')."\n";
 			echo "\t$currentDate\n";
+			echo "\t$nbTotalEvents\n";
 			echo "\t{$totalTimeStr}\t"._t('SECONDS')."\n";
 		} else {
 			echo "</dl>\n";
@@ -130,6 +134,7 @@ switch ($action){
 			echo "<li>{$nbOk} "._t('GOOD')."\n";
 			echo "<li>{$nbTotal} "._t('AT_TOTAL')."\n";
 			echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
+			echo "<li>{$nbTotalEvents} nouveaux articles\n";
 			echo "</ul>\n";
 			echo "</div>\n";
 		}
@@ -339,7 +344,7 @@ switch ($action){
 					(isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
 				);
 				$newFeed->save();
-				$newFeed->parse(true);
+				$newFeed->parse(time(), $_, true);
 			}
  			header('location: ./settings.php#manageBloc');
 	break;
@@ -466,6 +471,7 @@ switch ($action){
 				exit("erreur identification : le compte est inexistant");
 			}else{
 				$_SESSION['currentUser'] = serialize($user);
+				$user->setStayConnected();
 			}
 			header('location: ./index.php');	
 		}

@@ -1,13 +1,13 @@
 /* #############
-###  MISE A JOUR Base de donnée de Leed pour fonctionnement en v1.5
+###  MISE À JOUR Base de données de Leed pour fonctionnement en v1.5
 
 Conseils : 
-- Avant d'effectuer la mise à jour, sauvegarder votre BDD et exporté vos flux en OPML
-- Attention : "leed_" est à remplacer par votre prefix de table
-- ce fichier est a supprimer après installation.
+- Avant d'effectuer la mise à jour, sauvegardez votre BDD et exportez vos flux en OPML.
+- Attention : "leed_" est à remplacer par votre préfix de table.
+- Ce fichier est à supprimer après installation.
 
 Description :
-- Les requêtes suivantes sont a executer sur votre Base de données Leed avec phpMyAdmin par exemple
+- Les requêtes suivantes sont a exécuter sur votre Base de données Leed avec phpMyAdmin par exemple
 
 ############### */
 

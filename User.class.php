@@ -31,15 +31,31 @@ class User extends MysqlEntity{
 		return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password)));
 	}
 
-	function existAuthToken($auth){
+	function getToken() {
+		assert('!empty($this->password)');
+		assert('!empty($this->login)');
+		return sha1($this->password.$this->login);
+	}
+
+	function existAuthToken($auth=null){
 		$result = false;
 		$userManager = new User();
 		$users = $userManager->populate('id');
+		if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
+		error_log($auth);
 		foreach($users as $user){
-		
-			if(sha1($user->getPassword().$user->getLogin())==$auth) $result = $user;
+			if($user->getToken()==$auth) $result = $user;
 		}
 		return $result;
+	}
+
+	function setStayConnected() {
+		///@TODO: set the current web directory, here and on del
+		setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
+	}
+	
+	static function delStayConnected() {
+		setcookie('leedStaySignedIn', '', -1);
 	}
 	
 	function getId(){

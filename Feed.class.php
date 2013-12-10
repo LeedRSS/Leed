@@ -61,7 +61,8 @@ class Feed extends MysqlEntity{
 	nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
 	car elle est appelée aussi pour autre chose que l'ajout.
 	*/
-	function parse($syncId, $enableCache=true, $forceFeed=false){
+	function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false){
+		$nbEvents = 0;
 		assert('is_int($syncId) && $syncId>0');
 		if (empty($this->id) || 0 == $this->id) {
 			/* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
@@ -157,6 +158,7 @@ class Feed extends MysqlEntity{
 
 			$event->setCategory($item->get_category());
 			$event->save();
+			$nbEvents++;
 		}
 
 		$listid = "";

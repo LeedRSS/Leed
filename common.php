@@ -32,6 +32,7 @@ $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser'])
 $feedManager = new Feed();
 $eventManager = new Event();
 $userManager = new User();
+if (empty($myUser)) $myUser = $userManager->existAuthToken();
 $folderManager = new Folder();
 $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
