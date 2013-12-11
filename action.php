@@ -495,6 +495,7 @@ switch ($action){
 
 	
 	case 'logout':
+		User::delStayConnected();
 		$_SESSION = array();
 		session_unset();
 		session_destroy();
