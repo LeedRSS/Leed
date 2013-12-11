@@ -190,7 +190,23 @@ switch ($action){
 			$configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
 
 			$userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
-			if(trim($_['password'])!='') $userManager->change(array('password'=>User::encrypt($_['password'])),array('id'=>$myUser->getId()));
+			if(trim($_['password'])!='') {
+				$salt = User::generateSalt();
+				$userManager->change(array('password'=>User::encrypt($_['password'], $salt)),array('id'=>$myUser->getId()));
+				/* /!\ En multi-utilisateur, il faudra changer l'information au
+				niveau du compte lui-même et non au niveau du déploiement comme
+				ici. C'est ainsi parce que c'est plus efficace de stocker le sel
+				dans la config que dans le fichier de constantes, difficile à
+				modifier. */
+				$oldSalt = $configurationManager->get('cryptographicSalt');
+				if (empty($oldSalt))
+					/* Pendant la migration à ce système, les déploiements
+					ne posséderont pas cette donnée. */
+					$configurationManager->add('cryptographicSalt', $salt);
+				else
+					$configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
+				
+			}
 
 	header('location: ./settings.php#preferenceBloc');
 	break;
@@ -466,7 +482,9 @@ switch ($action){
 				header('location: ./action.php?action=addFeed&newUrl='.$_['newUrl']);
 			}
 		}else{
-				$user = $userManager->exist($_['login'],$_['password']);
+			$salt = $configurationManager->get('cryptographicSalt');
+			if (empty($salt)) $salt = '';
+			$user = $userManager->exist($_['login'],$_['password'],$salt);
 			if($user==false){
 				exit("erreur identification : le compte est inexistant");
 			}else{

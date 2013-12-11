@@ -131,6 +131,8 @@ if(isset($_['installButton'])){
 	$folderManager = new Folder();
 	$configurationManager = new Configuration();
 
+	$cryptographicSalt = User::generateSalt();
+	
 	//Création de la base et des tables
 	$feedManager->create();
 	$eventManager->create();
@@ -140,7 +142,7 @@ if(isset($_['installButton'])){
 	//Ajout de l'administrateur
 	$admin = new User();
 	$admin->setLogin($_['login']);
-	$admin->setPassword($_['password']);
+	$admin->setPassword($_['password'],$cryptographicSalt);
 	$admin->save();
 	//Identification de l'utilisateur en session
 	$_SESSION['currentUser'] = serialize($admin);
@@ -165,6 +167,7 @@ if(isset($_['installButton'])){
 	$configurationManager->add('synchronisationCode',$synchronisationCode);
 	$configurationManager->add('synchronisationEnableCache',$_['synchronisationEnableCache']);
 	$configurationManager->add('synchronisationForceFeed',$_['synchronisationForceFeed']);
+	$configurationManager->add('cryptographicSalt', $cryptographicSalt);
 
 	//Création du dossier de base
 	$folder = $folderManager->load(array('id'=>1));
