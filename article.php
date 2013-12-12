@@ -6,9 +6,9 @@
  @description: Page de gestion de l'affichage des articles. Sera utilisé de base ainsi que pour le scroll infini
  */
 
-$scroll = (isset($_['scroll'])?false:true);
+include ('common.php');
+$scroll = (isset($_['scroll'])?true:false);
 if ($scroll) {
-	include ('common.php');
 	$view = "article";
 		
 	//recuperation de tous les flux
