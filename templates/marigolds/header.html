@@ -26,7 +26,10 @@
 				<div class="loginBloc">
 				{if="!$myUser"}
 				<form action="action.php?action=login" method="POST">
-						<input type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/> <input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/> <input type="checkbox" class="miniInput left" name="rememberMe"> <button class="left">GO!!</button>
+					<input type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
+					<input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
+					<input type="checkbox" class="miniInput left" name="rememberMe">
+					<button class="left">GO!!</button>
 				</form>
 				{else}
 					<span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="_t('DISCONNECT')"}</button>
