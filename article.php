@@ -6,11 +6,8 @@
  @description: Page de gestion de l'affichage des articles. Sera utilisé de base ainsi que pour le scroll infini
  */
 
-$scroll = (isset($_['scroll'])?false:true);
-if ($scroll) {
 	include ('common.php');
 	$view = "article";
-		
 	//recuperation de tous les flux
 	$allFeeds = $feedManager->getFeedsPerFolder();
 	$tpl->assign('allFeeds',$allFeeds);
@@ -74,8 +71,7 @@ if ($scroll) {
 		break;
 	}
 	$tpl->assign('events',$events);
-	$tpl->assign('scroll',$scroll);
+	$tpl->assign('scroll',$_['scroll']);
 	$view = "article";
 	$html = $tpl->draw($view);
-}
 ?>

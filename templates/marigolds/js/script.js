@@ -225,7 +225,7 @@ function scrollInfini() {
 };
 
 /* Fonctions de séléctions */
-/* Cette fonction sera utilisé pour le scrool infinie, afin d'ajouter les évènements necessaires */
+/* Cette fonction sera utilisé pour le scroll infinie, afin d'ajouter les évènements necessaires */
 function addEventsButtonLuNonLus(){
 	var handler = function(event){
 			var target = event.target;
