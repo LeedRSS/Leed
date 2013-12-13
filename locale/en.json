@@ -8,6 +8,7 @@
 	"DISCONNECT"  : "Log out",
 	"LOGIN"  : "Username",
 	"PASSWORD"  : "Password",
+	"REMEMBER_ME"  : "Remember me",
 	"FABULOUS AGREGATOR LAUNCHED IN"  : "fabulous news aggregator executed in $1 secondes by $2",
 	"ABOUT"  : "About",
 	"ABOUT_LEED"  : "About Leed (Light Feed)",
