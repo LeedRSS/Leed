@@ -1,5 +1,3 @@
-var isCtrl = false;
-var isMaj = false;
 var keyCode = new Array();
 var isPushed = true;
 
@@ -66,14 +64,10 @@ function _t(key,args){
 	return value;
 }
 
-$(document).keyup(function (e) {
-if(e.which == keyCode['ctrl']) isCtrl=false;
-if(e.which == keyCode['shift']) isMaj=false;
-}).keydown(function (e) {
+$(document).keydown(function (e) {
  	//alert(e.which);
+	if (e.altKey||e.ctrlKey||e.shiftKey||e.metaKey) return true;
    if($('.index').length) {
-    if(e.which == keyCode['ctrl']) isCtrl=true;
-    if(e.which == keyCode['shift']) isMaj=true;
     
     if($("input:focus").length==0){
     switch(e.which){
@@ -123,15 +117,9 @@ if(e.which == keyCode['shift']) isMaj=false;
             return false;
         break;
         case keyCode['space']:
-            if(isMaj){
-                //élément précédent (et l'ouvrir)
-                targetPreviousEvent();
-                openTargetEvent();
-            }else{
-                //élément suivant (et l'ouvrir)
-                targetNextEvent();
-                openTargetEvent();
-            }
+			//élément suivant (et l'ouvrir)
+			targetNextEvent();
+			openTargetEvent();
             return false;
         break;
         case keyCode['k']:
