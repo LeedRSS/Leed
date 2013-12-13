@@ -387,6 +387,14 @@ header a,header a:hover,header a:visited{
 
 }
 
+#rememberMe span{
+	color:#ccc;
+}
+
+#rememberMe input{
+	margin: 0;
+}
+
 .logo i{
 	font-size:0.7em;
 }

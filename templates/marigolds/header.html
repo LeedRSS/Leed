@@ -30,8 +30,10 @@
 					<input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
 					<button class="left">GO!!</button>
 					<div class="clear"/> </div>
-					<input type="checkbox" style="margin:0" name="rememberMe">
-					<span style="color:#ccc">Remember me!</span>
+					<span id="rememberMe">
+						<input type="checkbox" name="rememberMe">
+						<span>Remember me!</span>
+					</span>
 				</form>
 				{else}
 					<span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="_t('DISCONNECT')"}</button>
