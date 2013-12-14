@@ -23,7 +23,7 @@
 							<li><a class="toggle" href="#exportBloc">{function="_t('EXPORT')"}</a></li>
 							<li><a class="toggle" href="#bookBloc">{function="_t('BOOKMARKLET')"}</a></li>
 							<li><a class="toggle" href="#pluginBloc">{function="_t('AVAILABLES_PLUGINS')"}</a></li>
-							<li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purge';}">{function="_t('TRASH_EVENTS')"}</a></li>
+							<li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purge';}">{function="_t('TRASH_EVENTS')"}</li>
 							{function="Plugin::callHook("setting_post_link", array(&$myUser))"}
 					</ul>
 				</aside>
@@ -64,7 +64,7 @@
 					
 					{$feedsForFolder=$value->getFeeds()}
 						
-					<li>{if="$value->getId()==1"}<a name="defaultFolder"></a>{/if}
+					<li>{if="$value->getId()==1"}<a id="defaultFolder"></a>{/if}
 						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
 
 						<button  onclick="renameFolder(this,{$value->getId()})">{function="_t('RENAME')"}</button>
@@ -126,7 +126,7 @@
 							{function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
 						<p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
 						<p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>{function="_t('MANUAL_FULL')"} :</strong></label> {function="_t('MANUAL_FULL_DESC')"}</p>
-					
+
 						<p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
 						{$synchronisationCode}
 						</p>

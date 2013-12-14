@@ -389,10 +389,12 @@ header a,header a:hover,header a:visited{
 
 #rememberMe span{
 	color:#ccc;
+	font-size: 10px;
 }
 
 #rememberMe input{
-	margin: 0;
+	margin-left: 10px;
+	width: 14px;
 }
 
 .logo i{

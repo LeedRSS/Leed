@@ -18,41 +18,38 @@
 <body>
 	<div class="global-wrapper">
 		<!-- <!> Balise ayant double utilité : sert de base a javascript pour connaitre l'action courante permet le retour en haut de page -->
-		<a name="pageTopAnvil" id="pageTopAnvil"></a>
-		<a name="pageTop" id="pageTop" class="hidden">{$action}</a>
+		<a id="pageTopAnvil"></a>
+		<a id="pageTop" class="hidden">{$action}</a>
 		<div id="header-container">
 			<header class="wrapper clearfix">
 				<h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
 				<div class="loginBloc">
-				{if="!$myUser"}
-				<form action="action.php?action=login" method="POST">
-					<input type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
-					<input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
-					<button class="left">GO!!</button>
-					<div class="clear"/> </div>
-					<span id="rememberMe">
-						<input type="checkbox" name="rememberMe">
-						<span>{function="_t('REMEMBER_ME')"}</span>
-					</span>
-				</form>
-				{else}
-					<span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="_t('DISCONNECT')"}</button>
-				{/if}
-				<div class="clear"></div>
+					{if="!$myUser"}
+					<form action="action.php?action=login" method="POST">
+						<input type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
+						<input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
+						<button class="left">GO!!</button>
+						<span id="rememberMe">
+							<input type="checkbox" name="rememberMe">
+							<span>{function="_t('REMEMBER_ME')"}</span>
+						</span>
+						<div class="clear"></div>
+					</form>
+					{else}
+						<span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="_t('DISCONNECT')"}</button>
+					{/if}
+					<div class="clear"></div>
 				</div>
 			
-			<nav>
-				<ul>
-					<li><a href="index.php">{function="_t('HOME')"}</a></li>
-					<li><a href="index.php?action=favorites">{function="_t('FAVORITES')"}</a></li>
-					<li><a href="settings.php">{function="_t('MANAGE')"}</a></li>
-					<li><a class="synchronyzeButton" title="{function="_t('LAUNCH_SYNCHRONISATION')"}" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
-					{function="Plugin::callHook("navigate_post_link", array(&$myUser))"}
-				</ul>
-			</nav>
-		</header>
-	</div>
+				<nav>
+					<ul>
+						<li><a href="index.php">{function="_t('HOME')"}</a></li>
+						<li><a href="index.php?action=favorites">{function="_t('FAVORITES')"}</a></li>
+						<li><a href="settings.php">{function="_t('MANAGE')"}</a></li>
+						<li><a class="synchronyzeButton" title="{function="_t('LAUNCH_SYNCHRONISATION')"}" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');">↺</a></li>
+						{function="Plugin::callHook("navigate_post_link", array(&$myUser))"}
+					</ul>
+				</nav>
+			</header>
+		</div>
 	<div id="main-container">
-
-
-			
