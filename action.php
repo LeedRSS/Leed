@@ -109,7 +109,7 @@ switch ($action){
 				else
 					echo "<dd>$error</dd>\n";
 			}
-			if (!$parseOk) echo '</div>';
+			if (!$parseOk && !$commandLine) echo '</div>';
 // 			if ($commandLine) echo "\n";
 			$feed->removeOldEvents($maxEvents, $syncId);
 		}
