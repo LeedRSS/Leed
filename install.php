@@ -77,6 +77,11 @@ foreach($_ as $key=>&$val){
 
 if(isset($_['installButton'])){
 
+	if (empty($_['password']) || empty($_['login'])) {
+		echo "<p>Par sécurité, il est nécessaire de fournir un nom d'utilisateur et un mot de passe.</p>";
+		die();
+	}
+
 	if (!Functions::testDb(
 		$_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
 	)) {
