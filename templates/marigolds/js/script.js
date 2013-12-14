@@ -14,6 +14,7 @@ keyCode['v'] = 86;
 keyCode['p'] = 80;
 keyCode['k'] = 75;
 keyCode['o'] = 79;
+keyCode['h'] = 72;
 keyCode['space'] = 32;
 
 $(document).ready(function(){
@@ -144,6 +145,11 @@ if(e.which == keyCode['shift']) isMaj=false;
         case keyCode['enter']:
             //ouvrir l'élément sélectionné
             openTargetEvent();
+            return false;
+        break;
+        case keyCode['h']:
+            //ouvrir/fermer le panneau d'aide
+            document.getElementById( 'helpPanel' ).style.display == 'block' ? document.getElementById( 'helpPanel' ).style.display = 'none' : document.getElementById( 'helpPanel' ).style.display = 'block';
             return false;
         break;
     }
