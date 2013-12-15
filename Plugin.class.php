@@ -174,7 +174,6 @@ class Plugin{
 				$disabled [] =  $file;
 			}
 		}
-		error_log(print_r($enabled, true));
 		if(!$onlyActivated)$enabled = array_merge($enabled,$disabled);
 		return $enabled;
 	}
