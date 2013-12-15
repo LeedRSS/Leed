@@ -20,14 +20,14 @@ class Plugin{
 				//Inclusion du coeur de plugin
 				include $pluginFile;  
 				//Gestion des css du plugin en fonction du thème actif
-				$cssTheme = glob('../'.dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
-				$cssDefault = glob('../'.dirname($pluginFile).'/*/default.css');
+				$cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
+				$cssDefault = glob(dirname($pluginFile).'/*/default.css');
 				if(isset($cssTheme[0])){
 					$GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssTheme[0])); 
 				}else if(isset($cssDefault[0])){
 					$GLOBALS['hooks']['css_files'][] =  Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssDefault[0])); 
-				} 
-			}  
+				}
+			}
 		}  
 	}
 
@@ -174,7 +174,7 @@ class Plugin{
 				$disabled [] =  $file;
 			}
 		}
-
+		error_log(print_r($enabled, true));
 		if(!$onlyActivated)$enabled = array_merge($enabled,$disabled);
 		return $enabled;
 	}
