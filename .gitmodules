@@ -1,0 +1,3 @@
+[submodule "plugins/Leed-adblock"]
+	path = plugins/Leed-adblock
+	url = https://github.com/Phyks/Leed-adblock
