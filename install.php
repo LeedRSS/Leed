@@ -10,7 +10,9 @@ if (file_exists('constant.php')) {
 	die('Leed est déjà configuré. Supprimez ou renommez le fichier de configuration.');
 }
 
-session_set_cookie_params(0, dirname($_SERVER["SCRIPT_NAME"]).'/');
+$cookiedir = '';
+if(dirname($_SERVER['SCRIPT_NAME'])!='/') $cookiedir=dirname($_SERVER["SCRIPT_NAME"]).'/';
+session_set_cookie_params(0, $cookiedir);
 session_start(); 
 require_once('Functions.class.php');
 $_ = array_merge($_GET, $_POST);
