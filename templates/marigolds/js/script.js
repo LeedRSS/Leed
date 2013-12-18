@@ -65,11 +65,12 @@ function _t(key,args){
 }
 
 $(document).keydown(function (e) {
- 	//alert(e.which);
-	if (e.altKey||e.ctrlKey||e.shiftKey||e.metaKey) return true;
-   if($('.index').length) {
-    
-    if($("input:focus").length==0){
+    switch(true) {
+        case e.altKey||e.ctrlKey||e.shiftKey||e.metaKey:
+        case $('.index').length==0:
+        case $("input:focus").length0:
+            return true;
+	}
     switch(e.which){
     	
         case keyCode['m']:
@@ -135,8 +136,6 @@ $(document).keydown(function (e) {
             return false;
         break;
     }
-        }
-   }
 });
 
 $(window).scroll(function(){
