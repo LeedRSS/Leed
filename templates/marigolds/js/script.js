@@ -1,5 +1,4 @@
 var keyCode = new Array();
-var isPushed = true;
 
 keyCode['shift'] = 16;
 keyCode['ctrl'] = 17;
@@ -74,32 +73,20 @@ $(document).keydown(function (e) {
     switch(e.which){
     	
         case keyCode['m']:
-        	if (isPushed) {
-                //on bloque les évènements clavier concurrents
-                isPushed = false;
-                //marque l'élément sélectionné comme lu / non lu
-                readTargetEvent();
-            }
+            //marque l'élément sélectionné comme lu / non lu
+            readTargetEvent();
             return false;
         break;
 
         case keyCode['l']:
-        	if (isPushed) {
-                //on bloque les évènements clavier concurrents
-                isPushed = false;
-                //marque l'élément precédent comme non lu et réafficher
-                targetPreviousEventRead();
-            }
+            //marque l'élément precédent comme non lu et réafficher
+            targetPreviousEventRead();
             return false;
         break;
 
         case keyCode['s']:
-        	if (isPushed) {
-        		//on bloque les évènements clavier concurrents
-        		isPushed = false;
-	    		//marque l'élément sélectionné comme favori / non favori
-	            switchFavoriteTargetEvent();
-	    	}
+            //marque l'élément sélectionné comme favori / non favori
+            switchFavoriteTargetEvent();
             return false;
         break;
         case keyCode['n']:
@@ -246,7 +233,6 @@ function targetThisEvent(event,focusOn){
 		if(id && focusOn)window.location = '#'+id;
 	}
 	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
-	isPushed = true;
 }
 function openTargetEvent(){
 	window.open($('.eventSelected .articleTitle a').attr('href'), '_blank');
@@ -284,7 +270,6 @@ function switchFavoriteTargetEvent(){
 		removeFavorite($('.favorite',target),id);
 	}
 	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
-	isPushed = true;
 }
 
 /* Fonctions de séléctions fin */
