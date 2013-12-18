@@ -1,3 +1,6 @@
 [submodule "plugins/Leed-adblock"]
 	path = plugins/Leed-adblock
 	url = https://github.com/Phyks/Leed-adblock
+[submodule "plugins/epub"]
+	path = plugins/epub
+	url = https://github.com/Trim/leed-epub.git
