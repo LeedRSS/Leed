@@ -126,7 +126,7 @@ function scanTags($dir){
 
 <div id="menuBar">
 			<aside>
-				<h3 class="left">Verifications</h3> 
+				<h3 class="left">Vérifications</h3> 
 				<ul class="clear" style="margin:0">
 
 						<?php 
@@ -136,18 +136,18 @@ function scanTags($dir){
 						}
 
 						if (!@function_exists('file_get_contents')){
-							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';	
+							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';	
 						}
 						if (!@function_exists('file_put_contents')){
-							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';	
+							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';	
 						}
 						if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
-						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
+						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionnalités du script comportent des dysfonctionnements.';
 						}
 
 
 						if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
-							$test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activé,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
+							$test['Erreur'][] = 'Le script ne peux pas gérer le timeout tout seul car votre safe mode est activé,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
 						}
 
 						foreach($test as $type=>$messages){
@@ -206,10 +206,10 @@ function scanTags($dir){
 				</section>
 
 				<section>
-					<h2>Clée absentes/différences</h2>
-					<p>Différences entre les tracutions du fichier langue et les
-						traductions trouvée dans les fichiers de Leed</p>
-						<strong>Nb: Ce différentiel est la a titre informatif, il peut se tromper, merci de vérifier la véracité des différences.</strong>
+					<h2>Clés absentes/différences</h2>
+					<p>Différences entre les traductions du fichier langue et les
+						traductions trouvées dans les fichiers de Leed</p>
+						<strong>Nb: Ce différentiel est la à titre informatif, il peut se tromper, merci de vérifier la véracité des différences.</strong>
 						
 						<table class="diffTab">
 							<tr>
