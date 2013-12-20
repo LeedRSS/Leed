@@ -8,7 +8,8 @@
 header('Content-Type: text/html; charset=utf-8'); 
 require_once('../Functions.class.php');
 
-$_ = array_merge($_GET, $_POST);
+require_once("../common.php");
+if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
 if(isset($_['1234567890saveButton'])){
 	unset($_['1234567890saveButton']);
