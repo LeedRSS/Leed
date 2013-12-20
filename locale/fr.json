@@ -141,5 +141,16 @@
 	"IMPORT_NO_PROBLEM"  : "L’import s’est déroulé sans problème.",
 	"IMPORT_ERROR"  : "Erreurs durant l’import !",
 	"IMPORT_FEED_ALREADY_KNOWN"  : "Certains flux étaient déjà connus, ils n’ont pas été réimportés",
-	"CLIC_HERE_SYNC_IMPORT"  : "Cliquez ici pour synchroniser vos flux importés."
+	"CLIC_HERE_SYNC_IMPORT"  : "Cliquez ici pour synchroniser vos flux importés.",
+    "HELP_M":"<strong>m</strong> marque l’élément sélectionné comme lu \/ non lu",
+    "HELP_L":"<strong>l</strong> marque l’élément précédent comme non lu",
+    "HELP_S":"<strong>s</strong> marque l’élément sélectionné comme favori \/ non favori",
+    "HELP_N":"<strong>n</strong> élément suivant (sans l’ouvrir)",
+    "HELP_V":"<strong>v</strong> ouvre l’URL de l’élément sélectionné",
+    "HELP_P":"<strong>p</strong> élément précédent (sans l’ouvrir)",
+    "HELP_SHIFT_SPC":"<strong>MAJ + espace</strong> élément précédent (et l’ouvrir)",
+    "HELP_SPC":"<strong>espace</strong> élément suivant (et l’ouvrir)",
+    "HELP_K":"<strong>k</strong> élément précédent (et l’ouvrir)",
+    "HELP_O_ENTER":"<strong>o</strong> ou <strong>enter</strong> ouvrir l’élément sélectionné",
+    "HELP_H":"<strong>h</strong> faire apparaître/masquer ce panneau d’aide"
 }

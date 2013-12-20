@@ -141,5 +141,16 @@
 	"IMPORT_NO_PROBLEM"  : "Import successfuly done.",
 	"IMPORT_ERROR"  : "Errors during the import!",
 	"IMPORT_FEED_ALREADY_KNOWN"  : "Some feeds were alreadw known, they were not imported again",
-	"CLIC_HERE_SYNC_IMPORT"  : "Click here to synchronize your imported feeds."
+	"CLIC_HERE_SYNC_IMPORT"  : "Click here to synchronize your imported feeds.",
+    "HELP_M" : "<strong>m</strong> mark the selected element as read / unread",
+    "HELP_L" : "<strong>l</strong> mark the previous element as unread",
+    "HELP_S" : "<strong>s</strong> mark the selected element as favorite / not favorite",
+    "HELP_N" : "<strong>n</strong> next element (without opening)",
+    "HELP_V" : "<strong>v</strong> open the selected element URL",
+    "HELP_P" : "<strong>p</strong> previous element (without opening it)",
+    "HELP_SHIFT_SPC" : "<strong>SHIFT + space</strong> previous element (opening it)",
+    "HELP_SPC" : "<strong>espace</strong> next element (opening it)",
+    "HELP_K" : "<strong>k</strong> previous element (opening it)",
+    "HELP_O_ENTER" : "<strong>o</strong> or <strong>enter</strong> open selected element",
+    "HELP_H" : "<strong>h</strong> show/hide this help panel"
 }
