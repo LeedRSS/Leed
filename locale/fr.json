@@ -148,7 +148,6 @@
     "HELP_N":"<strong>n</strong> élément suivant (sans l’ouvrir)",
     "HELP_V":"<strong>v</strong> ouvre l’URL de l’élément sélectionné",
     "HELP_P":"<strong>p</strong> élément précédent (sans l’ouvrir)",
-    "HELP_SHIFT_SPC":"<strong>MAJ + espace</strong> élément précédent (et l’ouvrir)",
     "HELP_SPC":"<strong>espace</strong> élément suivant (et l’ouvrir)",
     "HELP_K":"<strong>k</strong> élément précédent (et l’ouvrir)",
     "HELP_O_ENTER":"<strong>o</strong> ou <strong>enter</strong> ouvrir l’élément sélectionné",

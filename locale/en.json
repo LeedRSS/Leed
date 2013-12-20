@@ -148,7 +148,6 @@
     "HELP_N" : "<strong>n</strong> next element (without opening)",
     "HELP_V" : "<strong>v</strong> open the selected element URL",
     "HELP_P" : "<strong>p</strong> previous element (without opening it)",
-    "HELP_SHIFT_SPC" : "<strong>SHIFT + space</strong> previous element (opening it)",
     "HELP_SPC" : "<strong>espace</strong> next element (opening it)",
     "HELP_K" : "<strong>k</strong> previous element (opening it)",
     "HELP_O_ENTER" : "<strong>o</strong> or <strong>enter</strong> open selected element",

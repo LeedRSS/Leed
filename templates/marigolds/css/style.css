@@ -758,7 +758,7 @@ article #loader{
     left: 50%;
     top: 50%;
     width: 500px;
-    height: 400px;
+    height: 21em;
     margin-top: -200px; /* moitié de la hauteur */
     margin-left: -250px; /* moitié de la largeur */
     z-Index: 1;
