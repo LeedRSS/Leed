@@ -88,9 +88,6 @@
 					
 				</ul>
 			</aside>
-            <aside>
-                {function="_t('HELP_H')"}
-            </aside>
 
 			{function="Plugin::callHook("menu_post_folder_menu", array(&$myUser))"}
 			</div>
@@ -128,7 +125,7 @@
 				
 				{if="($action=='unreadEvents') || ($action=='')"}
 				<!-- AFFICHAGE DES EVENEMENTS NON LU (COMPORTEMENT PAR DEFAUT) -->		
-					<h1 class="articleSection">{function="_t('UNREAD')"} (<span id="nbarticle">{$numberOfItem}</span>)</h1>
+					<h1 class="articleSection">{function="_t('UNREAD')"} (<span id="nbarticle">{$numberOfItem}</span>)</h1><div class="pointer right readUnreadButton" onmouseout="document.getElementById( 'helpPanel' ).style.display = 'none'" onmouseover="document.getElementById( 'helpPanel' ).style.display = 'block'" title="{function="_t('HELP_H_?')"}">?</div>
 				{/if}
 			
 			 	<div class="clear"></div>

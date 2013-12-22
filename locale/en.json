@@ -151,5 +151,6 @@
     "HELP_SPC" : "<strong>espace</strong> next element (opening it)",
     "HELP_K" : "<strong>k</strong> previous element (opening it)",
     "HELP_O_ENTER" : "<strong>o</strong> or <strong>enter</strong> open selected element",
-    "HELP_H" : "<strong>h</strong> show/hide the help panel"
+    "HELP_H" : "<strong>h</strong> show/hide the help panel",
+	"HELP_H_?": "Key h show/hide the help panel"
 }
