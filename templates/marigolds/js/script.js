@@ -199,10 +199,12 @@ function scrollInfini() {
 						// appel récursif tant qu'un scroll n'est pas detecté.
 						if ($(window).scrollTop()==0) scrollInfini();
 					}
- 				}
+ 				},
+				complete: function(){
+					// le chargement est terminé, on fait disparaitre notre loader
+					$('article #loader').fadeOut(400);
+				}
 			});
-			// le chargement est terminé, on fait disparaitre notre loader
-			$('article #loader').fadeOut(400);
 		}
 	}
 };
