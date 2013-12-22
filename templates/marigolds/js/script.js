@@ -183,7 +183,10 @@ function scrollInfini() {
 						//on supprime de la page le script pour ne pas intéragir avec les next & prev
 						$('article .scriptaddbutton').remove();
 						//si l'élement courant est caché, selectionner le premier élément du scroll
-						if ($('article section.eventSelected').attr('style')=='display: none;') {
+						//ou si le div loader est sélectionné (quand 0 article restant suite au raccourcis M)
+						if (($('article section.eventSelected').attr('style')=='display: none;')
+							|| ($('article div.eventSelected').attr('id')=='loader'))
+						{
 							targetThisEvent($('article section.scroll:first'), true);
 						}
 						// on les affiche avec un fadeIn
@@ -199,7 +202,7 @@ function scrollInfini() {
  				}
 			});
 			// le chargement est terminé, on fait disparaitre notre loader
-			$('article #loader').fadeOut(400);			
+			$('article #loader').fadeOut(400);
 		}
 	}
 };
@@ -237,6 +240,10 @@ function targetThisEvent(event,focusOn){
 		target.addClass('eventSelected');
 		var id = target.attr('id');
 		if(id && focusOn)window.location = '#'+id;
+	}
+	if(target.prop("tagName")=='DIV'){
+		$('.eventSelected').removeClass('eventSelected');
+		target.addClass('eventSelected');
 	}
 	// on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
 }
