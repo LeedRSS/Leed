@@ -68,7 +68,7 @@ $(document).keydown(function (e) {
     switch(true) {
         case e.altKey||e.ctrlKey||e.shiftKey||e.metaKey:
         case $('.index').length==0:
-        case $("input:focus").length0:
+        case $("input:focus").length!=0:
             return true;
 	}
     switch(e.which){
