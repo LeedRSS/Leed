@@ -4,9 +4,9 @@
 
 /* TEAM */
   Creator: Idleman (idleman@idleman.fr)
-  Contributors : Sbgodin (http://sbgodin.fr)
-                 Simounet (contact@simounet.net)
-                 Alef-Burzmali (thomas.fargeix@burzmali.com)
+  Contributors: Sbgodin (http://sbgodin.fr)
+                Simounet (contact@simounet.net)
+                Alef-Burzmali (thomas.fargeix@burzmali.com)
   Site: http://blog.idleman.fr
   Twitter: none
   Location: Nowhere

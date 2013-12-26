@@ -362,7 +362,7 @@ class MysqlEntity
 	}	
 	
 	/**
-	* Méthode de supression d'elements de l'entité
+	* Méthode de suppression d'éléments de l'entité
 	* @author Valentin CARRUESCO
 	* @category manipulation SQL
 	* @param <Array> $colonnes (WHERE)
