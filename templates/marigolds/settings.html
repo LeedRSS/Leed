@@ -229,7 +229,7 @@
 				<section class="bookBloc">
 					<h2>{function="_t('USE_BOOKMARK')"} :</h2>
 					{if="$myUser!=false"}
-					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="sha1($myUser->getPassword().$myUser->getLogin())"}'">+ {function="_t('ADD_TO_LEED')"}</a>
+					<a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="$myUser->getToken()"}'">+ {function="_t('ADD_TO_LEED')"}</a>
 					<p>{function="_t('USE_BOOKMARK_DESC')"}</p>
 					{else}
 					<p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
