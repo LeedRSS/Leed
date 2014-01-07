@@ -338,7 +338,7 @@ header a,header a:hover,header a:visited{
 	list-style-type:none;
 }
 #main aside ul li h1 {
-	font-size:14px;
+	font-size:1em;
 	padding:0px;
 	margin:3px;
 	text-align:center;
