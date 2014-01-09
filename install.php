@@ -119,7 +119,7 @@ if(isset($_['installButton'])){
 	//Nombre de flux mis à jour lors de la synchronisation graduée
 	define('SYNC_GRAD_COUNT',10);
 	//Langue utilisée
-	define('LANGAGE','fr');
+	define('LANGUAGE','fr');
 	?>";
 
 	file_put_contents('constant.php', $constant);

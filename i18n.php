@@ -10,7 +10,7 @@
 	function i18n_init(){
 		global $i18n,$i18n_js;
 		if(!isset($i18n)){
-			$i18n_js =  file_get_contents(dirname(__FILE__).'/locale/'.LANGAGE.'.json');
+			$i18n_js =  file_get_contents(dirname(__FILE__).'/locale/'.LANGUAGE.'.json');
 			$i18n = json_decode($i18n_js,true);
 		}
 	}	
