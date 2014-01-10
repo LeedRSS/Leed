@@ -19,7 +19,7 @@
 				<a href="{$value->getLink()}" target="_blank">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
 			{/if}
 			{if="$articleDisplayAuthor"}
-			 par {$value->getCreator()}
+			 {function="_t('BY')"} {$value->getCreator()}
 			{/if}
 
 			{if="$articleDisplayDate"} 

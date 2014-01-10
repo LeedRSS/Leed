@@ -152,5 +152,6 @@
     "HELP_K":"<strong>k</strong> élément précédent (et l’ouvrir)",
     "HELP_O_ENTER":"<strong>o</strong> ou <strong>enter</strong> ouvrir l’élément sélectionné",
     "HELP_H":"<strong>h</strong> afficher/masquer le panneau d’aide",
-	"HELP_H_?":"touche h pour afficher/masquer le panneau d’aide"
+	"HELP_H_?":"touche h pour afficher/masquer le panneau d’aide",
+	"BY": "par"
 }
