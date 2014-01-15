@@ -26,7 +26,7 @@
 				<div class="loginBloc">
 					{if="!$myUser"}
 					<form action="action.php?action=login" method="POST">
-						<input type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
+						<input id="inputlogin" type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
 						<input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
 						<button class="left">GO!!</button>
 						<span id="rememberMe">

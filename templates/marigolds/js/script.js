@@ -52,6 +52,9 @@ $(document).ready(function(){
 		if ($(window).scrollTop()==0) scrollInfini();
 	}
 	//alert(_t('IDENTIFIED_WITH',['idleman']));
+
+	// focus sur l'input du login
+	if (document.getElementById('inputlogin')) document.getElementById('inputlogin').focus();
 });
 
 function _t(key,args){
