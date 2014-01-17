@@ -56,7 +56,7 @@ switch ($action){
 			$syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
 		}
 
-		
+
 		$currentDate = date('d/m/Y H:i:s');
 		if (!$commandLine) {
 			echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
@@ -72,7 +72,7 @@ switch ($action){
 		$syncId = time();
 		$enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
 		$forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
-		
+
 		foreach ($feeds as $feed) {
 			$nbEvents = 0;
 			$nbTotal++;
@@ -101,7 +101,7 @@ switch ($action){
 
 				if (!$parseOk) echo '<div class="errorSync">';
 				echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
-				
+
 			}
 			foreach($errors as $error) {
 				if ($commandLine)
@@ -159,7 +159,7 @@ switch ($action){
 		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
 		$feeds = $feedManager->loadAllOnlyColumn('id',array('folder'=>$_['folder']));
-		
+
 		foreach($feeds as $feed){
 			$eventManager->change(array('unread'=>'0'),array('feed'=>$feed->getId()));
 		}
@@ -181,7 +181,7 @@ switch ($action){
 			$configurationManager->put('articlePerPages',$_['articlePerPages']);
 			$configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
 			$configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
-			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);			
+			$configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
 			$configurationManager->put('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
 			$configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
 			$configurationManager->put('synchronisationType',$_['synchronisationType']);
@@ -205,7 +205,7 @@ switch ($action){
 					$configurationManager->add('cryptographicSalt', $salt);
 				else
 					$configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
-				
+
 			}
 
 	header('location: ./settings.php#preferenceBloc');
@@ -250,7 +250,7 @@ switch ($action){
 			    echo $xmlStream;
 			}
 	break;
-	
+
 
 	case 'importForm':
 		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
@@ -262,16 +262,16 @@ switch ($action){
 					</form>
 				</body>
 			</html>
-				
+
 			';
 	break;
 
 	case 'synchronizeForm':
-	 if(isset($myUser) && $myUser!=false){  
+	 if(isset($myUser) && $myUser!=false){
 		echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
 				<a class="button" href="action.php?action=synchronize">'._t('SYNCHRONIZE_NOW').'</a>
 					<p>'._t('SYNCHRONIZE_COFFEE_TIME').'</p>
-				
+
 			';
 		}else{
 			echo _t('YOU_MUST_BE_CONNECTED_ACTION');
@@ -346,7 +346,7 @@ switch ($action){
 		echo "<p></body></html>\n";
 	break;
 
-	
+
 	case 'addFeed':
 			if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 			require_once("SimplePie.class.php");
@@ -422,11 +422,11 @@ switch ($action){
 	break;
 
 	case 'readContent':
-		if($myUser==false) { 
+		if($myUser==false) {
 			$response_array['status'] = 'noconnect';
 			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
-		    echo json_encode($response_array); 
+		    echo json_encode($response_array);
 			exit();
 		}
 		if(isset($_['id'])){
@@ -436,11 +436,11 @@ switch ($action){
 	break;
 
 	case 'unreadContent':
-		if($myUser==false) { 
+		if($myUser==false) {
 			$response_array['status'] = 'noconnect';
 			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
-		    echo json_encode($response_array); 
+		    echo json_encode($response_array);
 			exit();
 		}
 		if(isset($_['id'])){
@@ -450,29 +450,29 @@ switch ($action){
 	break;
 
 	case 'addFavorite':
-		if($myUser==false) { 
+		if($myUser==false) {
 			$response_array['status'] = 'noconnect';
 			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
-		    echo json_encode($response_array); 
+		    echo json_encode($response_array);
 			exit();
 		}
 		$eventManager->change(array('favorite'=>'1'),array('id'=>$_['id']));
 	break;
 
 	case 'removeFavorite':
-		if($myUser==false) { 
+		if($myUser==false) {
 			$response_array['status'] = 'noconnect';
 			$response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
 			header('Content-type: application/json');
-		    echo json_encode($response_array); 
+		    echo json_encode($response_array);
 			exit();
 		}
 		$eventManager->change(array('favorite'=>'0'),array('id'=>$_['id']));
 	break;
-	
+
 	case 'login':
-	
+
 		if(isset($_['usr'])){
 			$user = $userManager->existAuthToken($_['usr']);
 			if($user==false){
@@ -491,16 +491,16 @@ switch ($action){
 				$_SESSION['currentUser'] = serialize($user);
 				if (isset($_['rememberMe'])) $user->setStayConnected();
 			}
-			header('location: ./index.php');	
+			header('location: ./index.php');
 		}
-		
 
-	
+
+
 	break;
 
 	case 'changePluginState':
 		if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-		
+
 		if($_['state']=='0'){
 			Plugin::enabled($_['plugin']);
 
@@ -509,9 +509,9 @@ switch ($action){
 		}
 		header('location: ./settings.php#pluginBloc');
 	break;
-	
 
-	
+
+
 	case 'logout':
 		User::delStayConnected();
 		$_SESSION = array();
@@ -519,7 +519,7 @@ switch ($action){
 		session_destroy();
 		header('location: ./index.php');
 	break;
-	
+
 	default:
 		require_once("SimplePie.class.php");
 		Plugin::callHook("action_post_case", array(&$_,$myUser));

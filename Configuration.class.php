@@ -12,7 +12,7 @@ class Configuration extends MysqlEntity{
 	protected $id,$key,$value,$confTab;
 	protected $TABLE_NAME = 'configuration';
 	protected $CLASS_NAME = 'Configuration';
-	protected $object_fields = 
+	protected $object_fields =
 	array(
 		'id'=>'key',
 		'key'=>'longstring',
@@ -26,7 +26,7 @@ class Configuration extends MysqlEntity{
 	public function getAll(){
 
 		if(!isset($_SESSION['configuration'])){
-	
+
 		$configurationManager = new Configuration();
 		$configs = $configurationManager->populate();
 		$confTab = array();
@@ -36,7 +36,7 @@ class Configuration extends MysqlEntity{
 		}
 
 		$_SESSION['configuration'] = serialize($this->confTab);
-		
+
 		}else{
 			$this->confTab = unserialize($_SESSION['configuration']);
 		}
@@ -52,7 +52,7 @@ class Configuration extends MysqlEntity{
 		if (isset($this->confTab[$key])){
 			$configurationManager->change(array('value'=>$value),array('key'=>$key));
 		} else {
-			$configurationManager->add($key,$value);	
+			$configurationManager->add($key,$value);
 		}
 		$this->confTab[$key] = $value;
 		unset($_SESSION['configuration']);
@@ -66,7 +66,7 @@ class Configuration extends MysqlEntity{
 		$this->confTab[$key] = $value;
 		unset($_SESSION['configuration']);
 	}
-	
+
 	function getId(){
 		return $this->id;
 	}

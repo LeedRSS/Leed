@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: article
@@ -28,10 +28,10 @@
 	$tpl->assign('articleDisplayAuthor',$articleDisplayAuthor);
 	$tpl->assign('articleDisplayContent',$articleDisplayContent);
 
-	
+
 	$hightlighted = $_['hightlighted'];
 	$tpl->assign('hightlighted',$hightlighted);
-	
+
 	$tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
 	$target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
@@ -41,10 +41,10 @@
 	if($articleDisplayDate) $target .= MYSQL_PREFIX.'event.pubdate,';
 	if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';
 	$target .= MYSQL_PREFIX.'event.id';
-	
+
 	$startArticle = $_['scroll']*$articlePerPages-$_['nblus'];
 	$action = $_['action'];
-	
+
 	switch($action){
 		/* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
 		case 'selectedFeed':

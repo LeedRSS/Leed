@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 /*
  @nom: manager
  @auteur: Idleman (idleman@idleman.fr)
  @description:  Outil de gestion des fichiers langues
  */
-header('Content-Type: text/html; charset=utf-8'); 
+header('Content-Type: text/html; charset=utf-8');
 require_once('../Functions.class.php');
 
 require_once("../common.php");
@@ -13,7 +13,7 @@ if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
 if(isset($_['1234567890saveButton'])){
 	unset($_['1234567890saveButton']);
-	$currentLangage = $_['1234567890currentLangage']; 
+	$currentLangage = $_['1234567890currentLangage'];
 	unset($_['1234567890currentLangage']);
 	file_put_contents($currentLangage.'.json', pretty_json_encode($_));
 }
@@ -123,24 +123,24 @@ function scanTags($dir){
 
 
 
-	
+
 
 <div id="menuBar">
 			<aside>
-				<h3 class="left">Vérifications</h3> 
+				<h3 class="left">Vérifications</h3>
 				<ul class="clear" style="margin:0">
 
-						<?php 
+						<?php
 						$test = array();
 						if(!is_writable('./')){
 							$test['Erreur'][]='Écriture impossible dans le répertoire Leed, veuillez ajouter les permissions en écriture sur tout le dossier, pensez à blinder les permissions par la suite)';
 						}
 
 						if (!@function_exists('file_get_contents')){
-							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';	
+							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';
 						}
 						if (!@function_exists('file_put_contents')){
-							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';	
+							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, vérifiez votre version de PHP.';
 						}
 						if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
 						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionnalités du script comportent des dysfonctionnements.';
@@ -160,9 +160,9 @@ function scanTags($dir){
 						<form action="#" method="POST">
 						<h2>Ouvrir une langue</h2>
 						<select name="1234567890currentLangage">
-							<?php 
-							
-							foreach($files as $file){ 
+							<?php
+
+							foreach($files as $file){
 							$file = str_replace('.json', '', $file);
 								?>
 							<option value="<?php echo $file; ?>"><?php echo $file; ?></option>
@@ -170,24 +170,24 @@ function scanTags($dir){
 						</select>
 							<input type="submit" value="Ouvrir" class="button">
 						</form>
-					
+
 				</ul>
 			</aside>
 </div>
-		
+
 	<form action="#" method="POST">
 			<article>
 				<header>
 					<h1>Fichier langue de Leed <input type="text" value="<?php echo @$_['1234567890currentLangage'] ; ?>" name="1234567890currentLangage"><input type="submit" name="1234567890saveButton" value="Enregistrer" class="button"></h1>
-					
+
 				</header>
-				
+
 				<section>
 					<h2>Clée présentes</h2>
 					<table class="tradTab">
 						<?php foreach($currentLangage as $key=>$value){ ?>
 						<tr>
-							<td><?php echo $key; ?></td> 
+							<td><?php echo $key; ?></td>
 							<td class="value">
 								<?php $value = htmlentities($value,ENT_COMPAT,'UTF-8');
 								if(strlen($value)>100){
@@ -198,7 +198,7 @@ function scanTags($dir){
 									?>
 									<input type="text" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
 									<?php
-								} 
+								}
 								?>
 							</td>
 						</tr>
@@ -211,7 +211,7 @@ function scanTags($dir){
 					<p>Différences entre les traductions du fichier langue et les
 						traductions trouvées dans les fichiers de Leed</p>
 						<strong>Nb: Ce différentiel est la à titre informatif, il peut se tromper, merci de vérifier la véracité des différences.</strong>
-						
+
 						<table class="diffTab">
 							<tr>
 								<th>Fichier Langue ( <?php echo count($currentLangage) ?> Tags)</th>
@@ -224,7 +224,7 @@ function scanTags($dir){
 							echo '<tr><td>'.$key.'</td><td>-</td></tr>';
 						}
 					}
-				
+
 					foreach ($missingTags as $key => $value) {
 						if(!isset($currentLangage[$value])){
 							echo '<tr><td>'.$value.'</td><td>-</td></tr>';
@@ -232,11 +232,11 @@ function scanTags($dir){
 					}
 					?>
 				</section>
-				
-	
+
+
 			</article>
-	</form>		
-			
+	</form>
+
 
 		</div> <!-- #main -->
 
@@ -257,7 +257,7 @@ function scanTags($dir){
 </body>
 </html>
 
-<?php 
+<?php
 
     function pretty_json_encode($json) {
 	array_walk_recursive($json, function (&$item, $key) { if (is_string($item)) $item = mb_encode_numericentity($item, array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); });

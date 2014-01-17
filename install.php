@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: install
@@ -13,7 +13,7 @@ if (file_exists('constant.php')) {
 $cookiedir = '';
 if(dirname($_SERVER['SCRIPT_NAME'])!='/') $cookiedir=dirname($_SERVER["SCRIPT_NAME"]).'/';
 session_set_cookie_params(0, $cookiedir);
-session_start(); 
+session_start();
 require_once('Functions.class.php');
 $_ = array_merge($_GET, $_POST);
 $whiteList = array(
@@ -103,7 +103,7 @@ if(isset($_['installButton'])){
 	define('VERSION_NAME','Beta');
 
 	//Host de Mysql, le plus souvent localhost ou 127.0.0.1
-	define('MYSQL_HOST','".$_['mysqlHost']."'); 
+	define('MYSQL_HOST','".$_['mysqlHost']."');
 	//Identifiant MySQL
 	define('MYSQL_LOGIN','".$_['mysqlLogin']."');
 	//mot de passe MySQL
@@ -128,7 +128,7 @@ if(isset($_['installButton'])){
 	require_once('MysqlEntity.class.php');
 	require_once('Feed.class.php');
 	require_once('Event.class.php');
-	
+
 	require_once('User.class.php');
 	require_once('Folder.class.php');
 	require_once('Configuration.class.php');
@@ -140,7 +140,7 @@ if(isset($_['installButton'])){
 	$configurationManager = new Configuration();
 
 	$cryptographicSalt = User::generateSalt();
-	
+
 	//Création de la base et des tables
 	$feedManager->create();
 	$eventManager->create();
@@ -171,7 +171,7 @@ if(isset($_['installButton'])){
 	$configurationManager->add('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
 	$configurationManager->add('synchronisationType',$_['synchronisationType']);
 	$configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
-	
+
 	$configurationManager->add('synchronisationCode',$synchronisationCode);
 	$configurationManager->add('synchronisationEnableCache',$_['synchronisationEnableCache']);
 	$configurationManager->add('synchronisationForceFeed',$_['synchronisationForceFeed']);
@@ -216,13 +216,13 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 ?>
 <div id="menuBar">
 			<aside>
-				<h3 class="left">Verifications</h3> 
+				<h3 class="left">Verifications</h3>
 				<ul class="clear" style="margin:0">
 
-						<?php 
+						<?php
 
 						if(!is_writable('./')){
-			
+
 							$test['Erreur'][]='Écriture impossible dans le répertoire Leed, veuillez ajouter les permissions en écriture sur tout le dossier (sudo chmod 777 -R '.str_replace(basename(__FILE__),'',__FILE__).', pensez à blinder les permissions par la suite)';
 						}else{
 							$test['Succès'][]='Permissions sur le dossier courant : OK';
@@ -230,28 +230,28 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 						if (!@function_exists('mysql_connect')){
 						   $test['Erreur'][] = 'La fonction requise "mysql_connect" est inaccessible sur votre serveur, verifiez vote installation de MySql.';
 						}else{
-						   $test['Succès'][] = 'Fonction requise "mysql_connect" : OK';    
+						   $test['Succès'][] = 'Fonction requise "mysql_connect" : OK';
 						}
 						if (!@function_exists('file_get_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{
-							 $test['Succès'][] = 'Fonction requise "file_get_contents" : OK';	
+							 $test['Succès'][] = 'Fonction requise "file_get_contents" : OK';
 						}
 						if (!@function_exists('file_put_contents')){
 							 $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
 						}else{
-							 $test['Succès'][] = 'Fonction requise "file_put_contents" : OK';	
+							 $test['Succès'][] = 'Fonction requise "file_put_contents" : OK';
 						}
 						if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
 						 $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
 						}else{
-						 $test['Succès'][] = 'Compabilité de version PHP ('.PHP_VERSION.') : OK';	
+						 $test['Succès'][] = 'Compabilité de version PHP ('.PHP_VERSION.') : OK';
 						}
 
 						// if (!@extension_loaded('sqlite3')){
 						//  $test['Erreur'][] = 'L\'Extension Sqlite3 n\'est pas activée sur votre serveur, merci de bien vouloir l\'installer';
 						// }else{
-						//  $test['Succès'][] = 'Extension Sqlite3 : OK';	
+						//  $test['Succès'][] = 'Extension Sqlite3 : OK';
 						// }
 
 						if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
@@ -267,15 +267,15 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 				</ul>
 			</aside>
 </div>
-	<?php  if(!isset($test['Erreur'])){ ?>		
+	<?php  if(!isset($test['Erreur'])){ ?>
 	<form action="install.php" method="POST">
 			<article>
 				<header>
 					<h1>Installation de Leed</h1>
 					<p>Merci de prendre quelques instants pour vérifier les infos ci-dessous :</p>
-				
+
 				</header>
-			
+
 				<section>
 					<h2>Général</h2>
 					<p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
@@ -294,7 +294,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<p>Préfixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
 				</section>
 
-				
+
 				<section>
 					<h2>Administrateur</h2>
 					<p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
@@ -338,18 +338,18 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 					<p>Catégorie par défaut : <input type="text" value="Général" name="category"></p>
 					<p>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événements d'un flux.</p>
 					<h3 class="articleDetails">NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
-					
+
 				</section>
 
-	
+
 
 
 				<button name="installButton">Lancer l'installation</button>
 			</article>
-	</form>		
+	</form>
 	<?php }else{ ?>
 	<p>Il vous manque des prérequis pour continuer l'installation, référez vous au panneau de droite.</p>
-	<?php }?>		
+	<?php }?>
 	<?php } ?>
 		</div> <!-- #main -->
 

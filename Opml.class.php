@@ -7,7 +7,7 @@
  */
 
 require_once("common.php");
- 
+
 class Opml  {
 
 	// liens déjà connus, déjà abonnés, au moment de l'importation
@@ -39,7 +39,7 @@ class Opml  {
 		* Accessoirement, on remplace les espaces non signifiants par une seule
 		  espace. C'est le cas des retours chariots physiques, non
 		  interprétables.
-		*/		
+		*/
 		// Retire toutes les entités, &amp; &eacute; etc.
 		$string = html_entity_decode($string, ENT_COMPAT, 'UTF-8' );
 		// Remet les entités HTML comme &amp; mais ne touche pas aux accents.
@@ -142,7 +142,7 @@ class Opml  {
 			}
 		}
 	}
-	
+
 	/**
 	 * Importe les flux.
 	 */

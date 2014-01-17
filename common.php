@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: common
@@ -33,7 +33,7 @@ class_exists('Opml') or require_once('Opml.class.php');
 //error_reporting(E_ALL);
 
 //Calage de la date
-date_default_timezone_set('Europe/Paris'); 
+date_default_timezone_set('Europe/Paris');
 
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
 $feedManager = new Feed();
@@ -76,7 +76,7 @@ $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 $tpl->assign('_',$_);
 $tpl->assign('action','');
 
-//Inclusion des plugins  
+//Inclusion des plugins
 Plugin::includeAll();
 
 ?>

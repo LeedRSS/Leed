@@ -11,7 +11,7 @@ class Folder extends MysqlEntity{
 	protected $id,$name,$parent,$isopen;
 	protected $TABLE_NAME = 'folder';
 	protected $CLASS_NAME = 'Folder';
-	protected $object_fields = 
+	protected $object_fields =
 	array(
 		'id'=>'key',
 		'name'=>'string',
@@ -41,7 +41,7 @@ class Folder extends MysqlEntity{
 					unset($object);
 			}
 		}
-		
+
 		return $objects;
 	}
 

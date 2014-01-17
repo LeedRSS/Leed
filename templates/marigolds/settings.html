@@ -14,8 +14,8 @@
 				<aside>
 					<h3>{function="_t('FEED_OPTION')"}</h3>
 					<ul>
-							
-							
+
+
 							<li><a class="toggle" href="#manageBloc">{function="_t('FEED_MANAGING')"}</a></li>
 							<li><a class="toggle" href="#synchronizeBloc">{function="_t('MANUAL_FEED_UPDATE')"}</a></li>
 							<li><a class="toggle" href="#preferenceBloc">{function="_t('PREFERENCES')"}</a></li>
@@ -45,25 +45,25 @@
 						{/loop}
 					</select>
 					 <button>{function="_t('ADD')"}</button></p>
-				
+
 				</section>
 				</form>
 
 				<section class="addBloc">
 				<h3>{function="_t('ADD_FOLDER')"}</h3>
-			
+
 					<form method="POST" action="action.php?action=addFolder">
 						{function="_t('NEW_FOLDER')"} <input type="text" name="newFolder"> <button>{function="_t('ADD')"}</button>
 					</form>
-					
+
 				</section>
 
 					<ul class="clear nochip">
 				    {$feedsForFolder=""}
-					{loop="$folders"}  
-					
+					{loop="$folders"}
+
 					{$feedsForFolder=$value->getFeeds()}
-						
+
 					<li>{if="$value->getId()==1"}<a id="defaultFolder"></a>{/if}
 						<h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
 
@@ -71,7 +71,7 @@
 						{if="$value->getId()!='1'"}
 						<button  onclick="if(confirm('{function="_t('CONFIRM_DELETE_FOLDER')"}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="_t('DELETE')"}</button>
 						{/if}
-						
+
 <div class="clear"></div>
 						</h1>
 <div class="clear"></div>
@@ -117,7 +117,7 @@
 						<p><label for="login">{function="_t('LOGIN')"} :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
 						<p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="(sera affiché en clair)"></p>
 						<h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
-					
+
 					</section>
 
 					<section>
@@ -198,10 +198,10 @@
 							<legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
 							<h4>{function="_t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</h4>
 						</fieldset>
-					
+
 					</section>
 
-			
+
 
 
 					<button name="installButton">{function="_t('SAVE')"}</button>
@@ -218,14 +218,14 @@
 					<iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
 				</section>
 
-				
+
 				<section class="exportBloc">
 					<form action="action.php?action=exportFeed" method="POST">
 						<h2>{function="_t('EXPORT_FEED_OPML_FORMAT')"}</h2>
 						<p>{function="_t('OPML_FILE')"} : <button name="exportButton">{function="_t('EXPORT')"}</button></p>
 					</form>
 				</section>
-				
+
 				<section class="bookBloc">
 					<h2>{function="_t('USE_BOOKMARK')"} :</h2>
 					{if="$myUser!=false"}
@@ -235,9 +235,9 @@
 					<p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
 					{/if}
 				</section>
-				
 
-				
+
+
 				<section class="pluginBloc">
 					<h2>{function="_t('PLUGINS')"} :</h2>
 					<p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/ldleman/Leed-market/"> Leed Market</a>.</p>
@@ -246,7 +246,7 @@
 					<ul class="pluginList">
 					{if="count($plugins)==0"}
 					{function="_t('NO_INSTALLED_PLUGINS')"}
-					
+
 					{else}
 					{loop="$plugins"}
 					<li>
@@ -269,13 +269,13 @@
 					{/if}
 				</section>
 
-				
 
-				
+
+
 				{function="Plugin::callHook("setting_post_section", array(&$myUser))"}
 			</article>
-			
-			
+
+
 		</div> <!-- #main -->
 
 {else}

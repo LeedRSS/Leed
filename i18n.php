@@ -13,7 +13,7 @@
 			$i18n_js =  file_get_contents(dirname(__FILE__).'/locale/'.LANGUAGE.'.json');
 			$i18n = json_decode($i18n_js,true);
 		}
-	}	
+	}
 
 	function _t($key,$args=array(),$debug=false){
 		global $i18n;

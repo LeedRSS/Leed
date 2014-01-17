@@ -282,7 +282,7 @@ class Functions
 		  $code = substr($code, 0, 6);
 		  return $code;
 	}
-	
+
 	public static function scanRecursiveDir($dir){
 		$files = scandir($dir);
 		$allFiles = array();
@@ -326,7 +326,7 @@ class Functions
 		}
 		return str_pad("", count($arFrom) * 3, '..'.$ps).implode($ps, $arTo);
 	}
-	
+
 
 	// Nettoyage de l'url avant la mise en base
 	public static function clean_url( $url ) {
@@ -354,6 +354,6 @@ class Functions
 		mysql_close($link);
 		return true;
 	}
-		
+
 }
 ?>

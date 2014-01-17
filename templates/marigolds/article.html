@@ -1,15 +1,15 @@
 {loop="$events"}
 	{$plainDescription=strip_tags($value->getDescription())}
-		
+
 	<!-- CORPS ARTICLE -->
-	 
-	
+
+
 	<section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}{$scroll?' scroll':''}" {$scroll?'style="display: none;"':''}>
 		<a title="{function="_t('RETURN_TO_TOP')"}" class="goTopButton" href="#pageTopAnvil">ˆ</a>
 		<!-- TITRE -->
 		<h2 class="articleTitle">
 			{function="Plugin::callHook("event_pre_title", array(&$value))"}
-			<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a> 
+			<a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a>
 			{function="Plugin::callHook("event_post_title", array(&$value))"}
 		</h2>
 		<!-- DETAILS + OPTIONS -->
@@ -24,14 +24,14 @@
 				{/if}
 			{/if}
 
-			{if="$articleDisplayDate"} 
-				{$value->getPubdateWithInstant($time)} 
+			{if="$articleDisplayDate"}
+				{$value->getPubdateWithInstant($time)}
 			{/if}
-			{if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >{function="_t('FAVORIZE')"}</a> 
+			{if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >{function="_t('FAVORIZE')"}</a>
 			{else}
-			 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="_t('UNFAVORIZE')"}</a> 
+			 <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="_t('UNFAVORIZE')"}</a>
 			 {/if}
-			
+
 			 <a class="pointer right readUnreadButton">({function="_t('READ')"}/{function="_t('UNREAD')"})</a>
 			 {function="Plugin::callHook("event_post_top_options", array(&$value))"}
 		</h3>
@@ -48,13 +48,13 @@
 					{$value->getContent()}
 					{function="Plugin::callHook("event_post_content", array(&$value))"}
 				{/if}
-			</div> 
-			
+			</div>
+
 			{if="$articleView!='partial'"}
 			<!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
 			<h3 class="articleDetails">
 				{function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
-			
+
 				<a class="pointer right readUnreadButton">(lu/non lu)</a>
 				{if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});">{function="_t('FAVORIZE')"}</a>
 				{else}

@@ -1,9 +1,9 @@
 <?php
-	
+
 /*
 	@nom: mysql
 	@auteur: Idleman (idleman@idleman.fr)
-	@date de création: 
+	@date de création:
 	@description: Classe de gestion des connexions Mysql
 */
 
@@ -18,12 +18,12 @@ class MysqlConnector
 	public $debug=0;
 	private $connection = null;
 	public static $instance = null;
-	
+
 	private function __construct(){
 		$this->connect();
 	}
 
-	
+
 
 	/**
 	* Methode de recuperation unique de l'instance
@@ -32,23 +32,23 @@ class MysqlConnector
 	* @param <Aucun>
 	* @return <mysql> $instance
 	*/
-	
+
 	public static function getInstance(){
-		
+
 		if (MysqlConnector::$instance === null) {
-			MysqlConnector::$instance = new self(); 
+			MysqlConnector::$instance = new self();
 		}
 		return MysqlConnector::$instance;
 	}
 
 
-	
+
 	public function connect(){
 		$this->connection = mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
 		mysql_query('SET NAMES utf8');
 		mysql_select_db(MYSQL_BDD,$this->connection);
 	}
-	
+
 
 
 	public function __toString(){

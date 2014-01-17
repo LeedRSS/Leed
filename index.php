@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: index
@@ -6,7 +6,7 @@
  @description:  Page d'accueil et de lecture des flux
 */
 
-require_once('header.php'); 
+require_once('header.php');
 
 
 Plugin::callHook("index_pre_treatment", array(&$_));
@@ -57,7 +57,7 @@ $tpl->assign('target',$target);
 $tpl->assign('feeds','');
 $tpl->assign('order','');
 $tpl->assign('unreadEventsForFolder','');
-$pagesArray = array();				
+$pagesArray = array();
 
 				switch($action){
 					/* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
@@ -68,7 +68,7 @@ $pagesArray = array();
 						$allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
 						$order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['date']);
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = ceil($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages);
 						$startArticle = ($page-1)*$articlePerPages;
 						$events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
 
@@ -81,7 +81,7 @@ $pagesArray = array();
 						$tpl->assign('currentFolder',$currentFolder);
 						$numberOfItem = $currentFolder->unreadCount();
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = ceil($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages);
 						$startArticle = ($page-1)*$articlePerPages;
 						if($articleDisplayFolderSort) {$order = MYSQL_PREFIX.'event.pubdate desc';} else {$order = MYSQL_PREFIX.'event.pubdate asc';}
 						$events = $currentFolder->getEvents($startArticle,$articlePerPages,$order,$target);
@@ -92,7 +92,7 @@ $pagesArray = array();
 					case 'favorites':
 						$numberOfItem = $eventManager->rowCount(array('favorite'=>1));
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = ceil($numberOfItem/$articlePerPages); 
+						$pages = ceil($numberOfItem/$articlePerPages);
 						$startArticle = ($page-1)*$articlePerPages;
 						$events = $eventManager->loadAllOnlyColumn($target,array('favorite'=>1),'pubDate DESC',$startArticle.','.$articlePerPages);
 						$tpl->assign('numberOfItem',$numberOfItem);
@@ -103,7 +103,7 @@ $pagesArray = array();
 					default:
 						$numberOfItem = $eventManager->rowCount(array('unread'=>1));
 						$page = (isset($_['page'])?$_['page']:1);
-						$pages = ($articlePerPages>0?ceil($numberOfItem/$articlePerPages):1); 
+						$pages = ($articlePerPages>0?ceil($numberOfItem/$articlePerPages):1);
 						$startArticle = ($page-1)*$articlePerPages;
 						if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
 						$events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),$order,$startArticle.','.$articlePerPages);
@@ -129,5 +129,5 @@ $pagesArray = array();
 				$tpl->assign('scroll',false);
 
 $view = 'index';
-require_once('footer.php'); 
+require_once('footer.php');
 ?>

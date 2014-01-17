@@ -42,13 +42,13 @@ $(document).ready(function(){
 
 		targetThisEvent($('article section:first'),true);
 		addEventsButtonLuNonLus();
-		
+
 		// on initialise ajaxready à true au premier chargement de la fonction
 		$(window).data('ajaxready', true);
 		$('article').append('<div id="loader">'+_t('LOADING')+'</div>');
 		$(window).data('page', 1);
 		$(window).data('nblus', 0);
-		
+
 		if ($(window).scrollTop()==0) scrollInfini();
 	}
 	//alert(_t('IDENTIFIED_WITH',['idleman']));
@@ -75,7 +75,7 @@ $(document).keydown(function (e) {
             return true;
 	}
     switch(e.which){
-    	
+
         case keyCode['m']:
             //marque l'élément sélectionné comme lu / non lu
             readTargetEvent();
@@ -151,17 +151,17 @@ function scrollInfini() {
 		{
 			// lorsqu'on commence un traitement, on met ajaxready à false
 			$(window).data('ajaxready', false);
- 			
+
  			//j'affiche mon loader pour indiquer le chargement
 			$('article #loader').show();
-			
+
 			//utilisé pour l'alternance des couleurs d'un article à l'autre
 			if ($('article section:last').hasClass('eventHightLighted')) {
 				hightlighted = 1;
 			} else {
 				hightlighted = 2;
 			}
-			
+
 			// récupération des variables passées en Get
 			var action = getUrlVars()['action'];
 			var folder = getUrlVars()['folder'];
@@ -172,12 +172,12 @@ function scrollInfini() {
 			} else {
 				order = ''
 			}
-			
+
 			$.ajax({
 				url: './article.php',
 				type: 'post',
 				data: 'scroll='+$(window).data('page')+'&nblus='+$(window).data('nblus')+'&hightlighted='+hightlighted+'&action='+action+'&folder='+folder+'&feed='+feed+order,
- 
+
 				//Succès de la requête
 				success: function(data) {
 					if (data.replace(/^\s+/g,'').replace(/\s+$/g,'') != '')
@@ -425,7 +425,7 @@ function readThis(element,id,from,callback){
 								alert(msg.texte)
 							} else {
 								if( console && console.log && msg!="" ) console.log(msg);
-								switch (activeScreen){ 
+								switch (activeScreen){
 									case '':
 										// cas de la page d'accueil
 										parent.addClass('eventRead');
@@ -439,7 +439,7 @@ function readThis(element,id,from,callback){
 											if($('article section:last').attr('style')=='display: none;') {
 												$(window).scrollTop($(document).height());
 											}
-										}); 
+										});
 										// on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
 										$(window).data('nblus', $(window).data('nblus')+1);
 										// on diminue le nombre d'article en haut de page
@@ -479,7 +479,7 @@ function readThis(element,id,from,callback){
 				});
 			}
 	}
-	
+
 }
 
 function unReadThis(element,id,from){
@@ -505,7 +505,7 @@ function unReadThis(element,id,from){
 				});
 			}
 	}
-	
+
 }
 
 //synchronisation manuelle lancée depuis le boutton du menu
@@ -557,8 +557,8 @@ function getUrlVars()
 	    } else {
 	    	vars[hash[0]] = '';
 	    }
-	    
-        
+
+
     }
     return vars;
 }

@@ -6,18 +6,18 @@ require_once('MysqlConnector.class.php');
 	@auteur: Valentin CARRUESCO (valentincarruesco@yahoo.fr)
 	@date de création: 16/04/2012 02:34:15
 	@description: Classe parent de tous les modèles (classe entitées) liées a la base de donnée,
-	 cette classe est configuré pour agir avec une base MySQL, mais il est possible de redefinir ses codes SQL pour l'adapter à un autre SGBD sans affecter 
+	 cette classe est configuré pour agir avec une base MySQL, mais il est possible de redefinir ses codes SQL pour l'adapter à un autre SGBD sans affecter
 	 le reste du code du projet.
 
 */
 
 class MysqlEntity
 {
-	
+
 	private $debug = false;
 	private $debugAllQuery = false;
 
-		
+
 	function sgbdType($type){
 		$return = false;
 		switch($type){
@@ -44,17 +44,17 @@ class MysqlEntity
 		}
 		return $return ;
 	}
-	
+
 	/**
 	 * Protège une variable pour MySQL
 	 */
 	protected function secure($value, $field){
 		$type = false;
-		
+
 		// ce champ n'existe pas : on le considère comme une chaîne de caractères
 		if (isset($this->object_fields[$field]))
 			$type = $this->object_fields[$field];
-		
+
 		$return = false;
 		switch($type){
 			case 'key':
@@ -72,13 +72,13 @@ class MysqlEntity
 		}
 		return $return ;
 	}
-	
+
 	public function __construct(){
 		MysqlConnector::getInstance();
 	}
 
 	public function __destruct(){
-		
+
 	}
 
 	// GESTION SQL
@@ -138,7 +138,7 @@ class MysqlEntity
 		if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 		$myQuery = $this->customQuery($query);
 	}
-	
+
 	public function massiveInsert($events){
 		if (empty($events)) return;
 		$query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
@@ -153,9 +153,9 @@ class MysqlEntity
 			$u = false;
 
 			foreach($events as $event){
-				
+
 					if($u){$query .=' union select ';}else{$u=true;}
-					
+
 					$i=false;
 					foreach($event->object_fields as $field=>$type){
 						if($type!='key'){
@@ -163,13 +163,13 @@ class MysqlEntity
 							$query .='"'.$this->secure($event->$field, $field).'"';
 						}
 					}
-				
-			
+
+
 			}
 
 			$query .=';';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-		
+
 		$this->customQuery($query);
 	}
 
@@ -231,7 +231,7 @@ class MysqlEntity
 			if($i){$query .=',';}else{$i=true;}
 			$query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
 		}
-		$query .=' WHERE '; 
+		$query .=' WHERE ';
 
 		$i = false;
 		foreach ($columns2 as $column=>$value){
@@ -271,7 +271,7 @@ class MysqlEntity
 	public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug=false,$selColumn='*'){
 		$objects = array();
 		$whereClause = '';
-	
+
 			if($columns!=null && sizeof($columns)!=0){
 			$whereClause .= ' WHERE ';
 				$i = false;
@@ -359,8 +359,8 @@ class MysqlEntity
 		$myQuery = $this->customQuery($query);
 		$number = mysql_fetch_array($myQuery);
 		return $number[0];
-	}	
-	
+	}
+
 	/**
 	* Méthode de suppression d'éléments de l'entité
 	* @author Valentin CARRUESCO
@@ -382,7 +382,7 @@ class MysqlEntity
 			$query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
 			if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
 			$this->customQuery($query);
-		
+
 	}
 
 	///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
@@ -402,7 +402,7 @@ class MysqlEntity
 		}
 		return $result;
 	}
-	
+
 
 	// ACCESSEURS
 		/**
@@ -412,16 +412,16 @@ class MysqlEntity
 	* @param Aucun
 	* @return <Attribute> debug
 	*/
-	
+
 	public function getDebug(){
 		return $this->debug;
 	}
-	
+
 	/**
 	* Méthode de définition de l'attribut debug de l'entité
 	* @author Valentin CARRUESCO
 	* @category Accesseur
-	* @param <boolean> $debug 
+	* @param <boolean> $debug
 	*/
 
 	public function setDebug($debug){

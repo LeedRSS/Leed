@@ -11,7 +11,7 @@ class Feed extends MysqlEntity{
 	protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
 	protected $TABLE_NAME = 'feed';
 	protected $CLASS_NAME = 'Feed';
-	protected $object_fields = 
+	protected $object_fields =
 	array(
 		'id'=>'key',
 		'name'=>'string',
@@ -21,14 +21,14 @@ class Feed extends MysqlEntity{
 		'lastupdate'=>'string',
 		'folder'=>'integer'
 	);
-	
-	protected $object_fields_index = 
+
+	protected $object_fields_index =
 	array(
 		'folder'=>'index'
 	);
 
 	protected $error = '';
-	
+
 	function __construct($name=null,$url=null){
 		$this->name = $name;
 		$this->url = $url;
@@ -49,7 +49,7 @@ class Feed extends MysqlEntity{
 	}
 
 	function getError() { return $this->error; }
-	
+
 	/*@TODO: fournir un extrait quand il 'y a pas de description. De même pour les médias.
 	@TODO: SimplePie remplace "é" par "&eacute;", il ne devrait pas le faire.
 	J'ai testé set_stupidly_fast(true) sans succès.
@@ -92,7 +92,7 @@ class Feed extends MysqlEntity{
 
 		$items = $feed->get_items();
 		$eventManager = new Event();
-				
+
 		$events = array();
 		$iEvents = 0;
 		foreach($items as $item){
@@ -165,7 +165,7 @@ class Feed extends MysqlEntity{
 		}
 		$query='UPDATE `'.MYSQL_PREFIX.'event` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
 		$myQuery = $this->customQuery($query);
-		
+
 		$this->lastupdate = $_SERVER['REQUEST_TIME'];
 		$this->save();
 		return true;
@@ -189,7 +189,7 @@ class Feed extends MysqlEntity{
 		///@TODO: escape the variables inside mysql
  		$this->customExecute($query);
 	}
-	
+
 	function setId($id){
 		$this->id = $id;
 	}
@@ -256,12 +256,12 @@ class Feed extends MysqlEntity{
 			while($item = mysql_fetch_array($results)){
 				$name = $item['name'];
 				$feedsIdMap[$item['id']]['name'] = $name;
-				
+
 
 				$feedsFolderMap[$item['folder']][$item['id']]['id'] = $item['id'];
 				$feedsFolderMap[$item['folder']][$item['id']]['name'] = $name;
 				$feedsFolderMap[$item['folder']][$item['id']]['url'] = $item['url'];
-				
+
 			}
 		}
 		$feeds['folderMap'] = $feedsFolderMap;

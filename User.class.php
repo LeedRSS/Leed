@@ -11,7 +11,7 @@ class User extends MysqlEntity{
 	protected $id,$login,$password;
 	protected $TABLE_NAME = 'user';
 	protected $CLASS_NAME = 'User';
-	protected $object_fields = 
+	protected $object_fields =
 	array(
 		'id'=>'key',
 		'login'=>'string',
@@ -52,11 +52,11 @@ class User extends MysqlEntity{
 		///@TODO: set the current web directory, here and on del
 		setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
 	}
-	
+
 	static function delStayConnected() {
 		setcookie('leedStaySignedIn', '', -1);
 	}
-	
+
 	function getId(){
 		return $this->id;
 	}

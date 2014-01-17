@@ -196,12 +196,12 @@ header a,header a:hover,header a:visited{
 -moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	
+
 	line-height:20px;
 }
 
 #main aside a.unreadForFolder,#main aside a.readFolder{
-	
+
 	background-color:#F16529;
 	border:0px;
 	color:#ffffff;
@@ -253,7 +253,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article div.articleContent{
-	
+
 	margin:10px 0px 0px 0px;
 	text-align: justify;
 	clear:both;
@@ -304,7 +304,7 @@ header a,header a:hover,header a:visited{
 	font-size: 12px;
 }
 #main article div.articleContent .enclosure a{
-	
+
 	color:#F16529;
 	font-size: 10px;
 }
@@ -414,7 +414,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article section {
-	 
+
 }
 
 #main article section.eventRead .readUnreadButton {
@@ -586,7 +586,7 @@ footer a,#main aside a{
     INTERMEDIATE: Menu
    ==================== */
 
-		
+
 
 	nav a{
 		float:left;
@@ -600,19 +600,19 @@ footer a,#main aside a{
 	nav a:hover{
 		border-bottom: 5px solid #F7BC79;
 	}
-	
+
 	nav li:first-child a{ margin-left:0;  }
 	nav li:last-child  a{ margin-right:0; }
-	
+
 /* ========================
     INTERMEDIATE: IE Fixes
    ======================== */
 
 	nav ul li{
 		display:inline;
-	}	
+	}
 	.oldie nav a{
-		margin:0 0.7%;		
+		margin:0 0.7%;
 	}
 }
 
@@ -626,7 +626,7 @@ footer a,#main aside a{
 #main{
 		padding:30px 0;
 	}
- 
+
 /* ====================
     WIDE: CSS3 Effects
    ==================== */
@@ -641,7 +641,7 @@ footer a,#main aside a{
 /* ============
     WIDE: Menu
    ============ */
-	
+
 	#title{
 		float:left;
 	}
@@ -659,7 +659,7 @@ footer a,#main aside a{
 		float:left;
 		width:67%;
 	}
-		
+
 	#main #menuBar{
 		float:right;
 		width:32%;
@@ -703,7 +703,7 @@ footer a,#main aside a{
 /* =============================================================================
    Print Styles
    ========================================================================== */
- 
+
 @media print {
   * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } /* Black prints faster: h5bp.com/s */
   a, a:visited { text-decoration: underline; }

@@ -11,7 +11,7 @@ class Event extends MysqlEntity{
 	protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
 	protected $TABLE_NAME = 'event';
 	protected $CLASS_NAME = 'Event';
-	protected $object_fields = 
+	protected $object_fields =
 	array(
 		'id'=>'key',
 		'guid'=>'longstring',
@@ -28,7 +28,7 @@ class Event extends MysqlEntity{
 		'syncId'=>'integer',
 	);
 
-	protected $object_fields_index = 
+	protected $object_fields_index =
 	array(
 		'feed'=>'index',
 		'unread'=>'index',
@@ -36,7 +36,7 @@ class Event extends MysqlEntity{
 	);
 
 	function __construct($guid=null,$title=null,$description=null,$content=null,$pubdate=null,$link=null,$category=null,$creator=null){
-		
+
 		$this->guid = $guid;
 		$this->title = $title;
 		$this->creator = $creator;
@@ -55,7 +55,7 @@ class Event extends MysqlEntity{
 		while($item = mysql_fetch_array($results)){
 			$events[$item[1]] = $item[0];
 		}
-		
+
 		return $events;
 	}
 
@@ -155,7 +155,7 @@ class Event extends MysqlEntity{
 	function setSyncId($syncId){
 		$this->syncId = $syncId;
 	}
-	
+
 	function getUnread(){
 		return $this->unread;
 	}
