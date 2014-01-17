@@ -8,82 +8,82 @@
 
 class User extends MysqlEntity{
 
-	protected $id,$login,$password;
-	protected $TABLE_NAME = 'user';
-	protected $CLASS_NAME = 'User';
-	protected $object_fields =
-	array(
-		'id'=>'key',
-		'login'=>'string',
-		'password'=>'string'
-	);
+    protected $id,$login,$password;
+    protected $TABLE_NAME = 'user';
+    protected $CLASS_NAME = 'User';
+    protected $object_fields =
+    array(
+        'id'=>'key',
+        'login'=>'string',
+        'password'=>'string'
+    );
 
-	function __construct(){
-		parent::__construct();
-	}
+    function __construct(){
+        parent::__construct();
+    }
 
-	function setId($id){
-		$this->id = $id;
-	}
+    function setId($id){
+        $this->id = $id;
+    }
 
-	function exist($login,$password,$salt=''){
-		$userManager = new User();
-		return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
-	}
+    function exist($login,$password,$salt=''){
+        $userManager = new User();
+        return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
+    }
 
-	function getToken() {
-		assert('!empty($this->password)');
-		assert('!empty($this->login)');
-		return sha1($this->password.$this->login);
-	}
+    function getToken() {
+        assert('!empty($this->password)');
+        assert('!empty($this->login)');
+        return sha1($this->password.$this->login);
+    }
 
-	function existAuthToken($auth=null){
-		$result = false;
-		$userManager = new User();
-		$users = $userManager->populate('id');
-		if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
-		foreach($users as $user){
-			if($user->getToken()==$auth) $result = $user;
-		}
-		return $result;
-	}
+    function existAuthToken($auth=null){
+        $result = false;
+        $userManager = new User();
+        $users = $userManager->populate('id');
+        if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
+        foreach($users as $user){
+            if($user->getToken()==$auth) $result = $user;
+        }
+        return $result;
+    }
 
-	function setStayConnected() {
-		///@TODO: set the current web directory, here and on del
-		setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
-	}
+    function setStayConnected() {
+        ///@TODO: set the current web directory, here and on del
+        setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
+    }
 
-	static function delStayConnected() {
-		setcookie('leedStaySignedIn', '', -1);
-	}
+    static function delStayConnected() {
+        setcookie('leedStaySignedIn', '', -1);
+    }
 
-	function getId(){
-		return $this->id;
-	}
+    function getId(){
+        return $this->id;
+    }
 
-	function getLogin(){
-		return $this->login;
-	}
+    function getLogin(){
+        return $this->login;
+    }
 
-	function setLogin($login){
-		$this->login = $login;
-	}
+    function setLogin($login){
+        $this->login = $login;
+    }
 
-	function getPassword(){
-		return $this->password;
-	}
+    function getPassword(){
+        return $this->password;
+    }
 
-	function setPassword($password,$salt=''){
-		$this->password = User::encrypt($password,$salt);
-	}
+    function setPassword($password,$salt=''){
+        $this->password = User::encrypt($password,$salt);
+    }
 
-	static function encrypt($password, $salt=''){
-		return sha1($password.$salt);
-	}
+    static function encrypt($password, $salt=''){
+        return sha1($password.$salt);
+    }
 
-	static function generateSalt() {
-		return ''.mt_rand().mt_rand();
-	}
+    static function generateSalt() {
+        return ''.mt_rand().mt_rand();
+    }
 
 }
 

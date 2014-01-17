@@ -14,8 +14,8 @@ mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 if (!defined('LANGUAGE')) {
-	define('LANGUAGE', LANGAGE); // ancienne constante encore utilisée
-	trigger_error('Please use, in "constant.php", LANGUAGE instead of LANGAGE');
+    define('LANGUAGE', LANGAGE); // ancienne constante encore utilisée
+    trigger_error('Please use, in "constant.php", LANGUAGE instead of LANGAGE');
 }
 require_once('RainTPL.php');
 require_once('i18n.php');
