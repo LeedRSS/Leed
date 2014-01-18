@@ -220,35 +220,35 @@ switch ($action){
 
 
     case 'exportFeed':
-            if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-                /*********************/
-            /** Export **/
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
             /*********************/
-            if(isset($_POST['exportButton'])){
-                $opml = new Opml();
-                $xmlStream = $opml->export();
+        /** Export **/
+        /*********************/
+        if(isset($_POST['exportButton'])){
+            $opml = new Opml();
+            $xmlStream = $opml->export();
 
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename=leed-'.date('d-m-Y').'.opml');
-                header('Content-Transfer-Encoding: binary');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Pragma: public');
-                header('Content-Length: ' . strlen($xmlStream));
-                /*
-                //A decommenter dans le cas ou on a des pb avec ie
-                if(preg_match('/msie|(microsoft internet explorer)/i', $_SERVER['HTTP_USER_AGENT'])){
-                  header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                  header('Pragma: public');
-                }else{
-                  header('Pragma: no-cache');
-                }
-                */
-                ob_clean();
-                flush();
-                echo $xmlStream;
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=leed-'.date('d-m-Y').'.opml');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . strlen($xmlStream));
+            /*
+            //A decommenter dans le cas ou on a des pb avec ie
+            if(preg_match('/msie|(microsoft internet explorer)/i', $_SERVER['HTTP_USER_AGENT'])){
+              header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+              header('Pragma: public');
+            }else{
+              header('Pragma: no-cache');
             }
+            */
+            ob_clean();
+            flush();
+            echo $xmlStream;
+        }
     break;
 
 
@@ -348,21 +348,21 @@ switch ($action){
 
 
     case 'addFeed':
-            if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-            require_once("SimplePie.class.php");
-            if(!isset($_['newUrl'])) break;
-            $newFeed = new Feed();
-            $newFeed->setUrl(Functions::clean_url($_['newUrl']));
-            if ($newFeed->notRegistered()) {
-                ///@TODO: avertir l'utilisateur du doublon non ajouté
-                $newFeed->getInfos();
-                $newFeed->setFolder(
-                    (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
-                );
-                $newFeed->save();
-                $newFeed->parse(time(), $_, true);
-            }
-             header('location: ./settings.php#manageBloc');
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        require_once("SimplePie.class.php");
+        if(!isset($_['newUrl'])) break;
+        $newFeed = new Feed();
+        $newFeed->setUrl(Functions::clean_url($_['newUrl']));
+        if ($newFeed->notRegistered()) {
+            ///@TODO: avertir l'utilisateur du doublon non ajouté
+            $newFeed->getInfos();
+            $newFeed->setFolder(
+                (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
+            );
+            $newFeed->save();
+            $newFeed->parse(time(), $_, true);
+        }
+        header('location: ./settings.php#manageBloc');
     break;
 
     case 'changeFeedFolder':
@@ -385,7 +385,7 @@ switch ($action){
     case 'addFolder':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         if(isset($_['newFolder'])){
-                $folder = new Folder();
+            $folder = new Folder();
             if($folder->rowCount(array('name'=>$_['newFolder']))==0){
                 $folder->setParent(-1);
                 $folder->setIsopen(0);

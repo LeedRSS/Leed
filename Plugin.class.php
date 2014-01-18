@@ -95,71 +95,71 @@ class Plugin{
 
 
 
-        public static function addHook($hookName, $functionName) {
-            $GLOBALS['hooks'][$hookName][] = $functionName;
-        }
+    public static function addHook($hookName, $functionName) {
+        $GLOBALS['hooks'][$hookName][] = $functionName;
+    }
 
-        public static function addCss($css) {
-            $bt =  debug_backtrace();
+    public static function addCss($css) {
+        $bt =  debug_backtrace();
 
-            $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$css));
+        $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$css));
 
-            $GLOBALS['hooks']['css_files'][] = $path;
-        }
+        $GLOBALS['hooks']['css_files'][] = $path;
+    }
 
-        public static function callCss(){
-            $return='';
-            if(isset($GLOBALS['hooks']['css_files'])) {
-                foreach($GLOBALS['hooks']['css_files'] as $css_file) {
-                    $return .='<link rel="stylesheet" href="'.$css_file.'">'."\n";
-                }
-            }
-            return $return;
-        }
-
-        public static function addLink($rel, $link) {
-            $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
-        }
-
-        public static function callLink(){
-            $return='';
-            if(isset($GLOBALS['hooks']['head_link'])) {
-                foreach($GLOBALS['hooks']['head_link'] as $head_link) {
-                    $return .='<link rel="'.$head_link['rel'].'" href="'.$head_link['link'].'" />'."\n";
-                }
-            }
-            return $return;
-        }
-
-        public static function path(){
-            $bt =  debug_backtrace();
-            return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/';
-        }
-
-        public static function addJs($js) {
-            $bt =  debug_backtrace();
-            $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$js));
-            $GLOBALS['hooks']['js_files'][] = $path;
-        }
-
-        public static function callJs(){
-            $return='';
-            if(isset($GLOBALS['hooks']['js_files'])) {
-                foreach($GLOBALS['hooks']['js_files'] as $js_file) {
-                    $return .='<script type="text/javascript" src="'.$js_file.'"></script>'."\n";
-                }
-            }
-            return $return;
-        }
-
-        public static function callHook($hookName, $hookArguments) {
-            //echo '<div style="display:inline;background-color:#CC47CB;padding:3px;border:5px solid #9F1A9E;border-radius:5px;color:#ffffff;font-size:15px;">'.$hookName.'</div>';
-            if(isset($GLOBALS['hooks'][$hookName])) {
-                foreach($GLOBALS['hooks'][$hookName] as $functionName) {
-                    call_user_func_array($functionName, $hookArguments);
-                }
+    public static function callCss(){
+        $return='';
+        if(isset($GLOBALS['hooks']['css_files'])) {
+            foreach($GLOBALS['hooks']['css_files'] as $css_file) {
+                $return .='<link rel="stylesheet" href="'.$css_file.'">'."\n";
             }
         }
+        return $return;
+    }
+
+    public static function addLink($rel, $link) {
+        $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
+    }
+
+    public static function callLink(){
+        $return='';
+        if(isset($GLOBALS['hooks']['head_link'])) {
+            foreach($GLOBALS['hooks']['head_link'] as $head_link) {
+                $return .='<link rel="'.$head_link['rel'].'" href="'.$head_link['link'].'" />'."\n";
+            }
+        }
+        return $return;
+    }
+
+    public static function path(){
+        $bt =  debug_backtrace();
+        return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']))).'/';
+    }
+
+    public static function addJs($js) {
+        $bt =  debug_backtrace();
+        $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',dirname($bt[0]['file']).$js));
+        $GLOBALS['hooks']['js_files'][] = $path;
+    }
+
+    public static function callJs(){
+        $return='';
+        if(isset($GLOBALS['hooks']['js_files'])) {
+            foreach($GLOBALS['hooks']['js_files'] as $js_file) {
+                $return .='<script type="text/javascript" src="'.$js_file.'"></script>'."\n";
+            }
+        }
+        return $return;
+    }
+
+    public static function callHook($hookName, $hookArguments) {
+        //echo '<div style="display:inline;background-color:#CC47CB;padding:3px;border:5px solid #9F1A9E;border-radius:5px;color:#ffffff;font-size:15px;">'.$hookName.'</div>';
+        if(isset($GLOBALS['hooks'][$hookName])) {
+            foreach($GLOBALS['hooks'][$hookName] as $functionName) {
+                call_user_func_array($functionName, $hookArguments);
+            }
+        }
+    }
 
     public static function getFiles($onlyActivated=false){
 

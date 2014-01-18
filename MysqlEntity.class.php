@@ -106,9 +106,9 @@ class MysqlEntity
     */
     public function truncate($debug=false)
     {
-            $query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-            $myQuery = $this->customQuery($query);
+        $query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        $myQuery = $this->customQuery($query);
     }
 
     /**
@@ -154,15 +154,15 @@ class MysqlEntity
 
             foreach($events as $event){
 
-                    if($u){$query .=' union select ';}else{$u=true;}
+                if($u){$query .=' union select ';}else{$u=true;}
 
-                    $i=false;
-                    foreach($event->object_fields as $field=>$type){
-                        if($type!='key'){
-                            if($i){$query .=',';}else{$i=true;}
-                            $query .='"'.$this->secure($event->$field, $field).'"';
-                        }
+                $i=false;
+                foreach($event->object_fields as $field=>$type){
+                    if($type!='key'){
+                        if($i){$query .=',';}else{$i=true;}
+                        $query .='"'.$this->secure($event->$field, $field).'"';
                     }
+                }
 
 
             }
@@ -350,8 +350,8 @@ class MysqlEntity
             $whereClause = ' WHERE ';
             $i=false;
             foreach($columns as $column=>$value){
-                    if($i){$whereClause .=' AND ';}else{$i=true;}
-                    $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
+                if($i){$whereClause .=' AND ';}else{$i=true;}
+                $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
             }
         }
         $query = 'SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
@@ -374,14 +374,14 @@ class MysqlEntity
     public function delete($columns,$operation='=',$debug=false){
         $whereClause = '';
 
-            $i=false;
-            foreach($columns as $column=>$value){
-                if($i){$whereClause .=' AND ';}else{$i=true;}
-                $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
-            }
-            $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-            $this->customQuery($query);
+        $i=false;
+        foreach($columns as $column=>$value){
+            if($i){$whereClause .=' AND ';}else{$i=true;}
+            $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
+        }
+        $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        $this->customQuery($query);
 
     }
 

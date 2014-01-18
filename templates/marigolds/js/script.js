@@ -216,13 +216,13 @@ function scrollInfini() {
 /* Cette fonction sera utilisé pour le scroll infinie, afin d'ajouter les évènements necessaires */
 function addEventsButtonLuNonLus(){
     var handler = function(event){
-            var target = event.target;
-            var id = this.id;
-            if($(target).hasClass('readUnreadButton')){
-                buttonAction(target,id);
-            }else{
-                targetThisEvent(this);
-            }
+    var target = event.target;
+    var id = this.id;
+    if($(target).hasClass('readUnreadButton')){
+        buttonAction(target,id);
+    }else{
+        targetThisEvent(this);
+    }
     }
     // on vire tous les évènements afin de ne pas avoir des doublons d'évènements
     $('article section').unbind('click');
@@ -308,42 +308,42 @@ function toggleFolder(element,folder){
 function addFavorite(element,id){
     var activeScreen = $('#pageTop').html();
     $.ajax({
-                  url: "./action.php?action=addFavorite",
-                  data:{id:id},
-                  success:function(msg){
-                        if(msg.status == 'noconnect') {
-                            alert(msg.texte)
-                        } else {
-                            if( console && console.log && msg!="" ) console.log(msg);
-                            $(element).attr('onclick','removeFavorite(this,'+id+');').html(_t('UNFAVORIZE'));
-                            // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
-                            if (activeScreen=='favorites') {
-                                $(window).data('nblus', $(window).data('nblus')-1);
-                                $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
-                            }
-                        }
-                  }
+        url: "./action.php?action=addFavorite",
+        data:{id:id},
+        success:function(msg){
+            if(msg.status == 'noconnect') {
+                alert(msg.texte)
+            } else {
+                if( console && console.log && msg!="" ) console.log(msg);
+                $(element).attr('onclick','removeFavorite(this,'+id+');').html(_t('UNFAVORIZE'));
+                // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
+                if (activeScreen=='favorites') {
+                    $(window).data('nblus', $(window).data('nblus')-1);
+                    $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
+                }
+            }
+        }
     });
 }
 
 function removeFavorite(element,id){
     var activeScreen = $('#pageTop').html();
     $.ajax({
-                  url: "./action.php?action=removeFavorite",
-                  data:{id:id},
-                  success:function(msg){
-                        if(msg.status == 'noconnect') {
-                            alert(msg.texte)
-                        } else {
-                            if( console && console.log && msg!="" ) console.log(msg);
-                            $(element).attr('onclick','addFavorite(this,'+id+');').html(_t('FAVORIZE'));
-                            // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
-                            if (activeScreen=='favorites') {
-                                $(window).data('nblus', $(window).data('nblus')+1);
-                                $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1);
-                            }
-                        }
-                  }
+        url: "./action.php?action=removeFavorite",
+        data:{id:id},
+        success:function(msg){
+            if(msg.status == 'noconnect') {
+                alert(msg.texte)
+            } else {
+                if( console && console.log && msg!="" ) console.log(msg);
+                $(element).attr('onclick','addFavorite(this,'+id+');').html(_t('FAVORIZE'));
+                // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
+                if (activeScreen=='favorites') {
+                    $(window).data('nblus', $(window).data('nblus')+1);
+                    $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1);
+                }
+            }
+        }
     });
 }
 
@@ -367,8 +367,8 @@ function saveRenameFolder(element,folder){
     $(element).attr('onclick','renameFolder(this,'+folder+')');
     folderNameCase.replaceWith('<span>'+value+'</span>');
     $.ajax({
-                  url: "./action.php?action=renameFolder",
-                  data:{id:folder,name:value}
+        url: "./action.php?action=renameFolder",
+        data:{id:folder,name:value}
     });
 }
 
@@ -399,8 +399,8 @@ function saveRenameFeed(element,feed,url){
     feedNameCase.replaceWith('<a href="'+url+'">'+feedNameValue+'</a>');
     feedUrlCase.replaceWith('<span class="underlink">'+feedUrlValue+'</span>');
     $.ajax({
-                  url: "./action.php?action=renameFeed",
-                  data:{id:feed,name:feedNameValue,url:feedUrlValue}
+        url: "./action.php?action=renameFeed",
+        data:{id:feed,name:feedNameValue,url:feedUrlValue}
     });
 }
 
@@ -418,66 +418,66 @@ function readThis(element,id,from,callback){
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
         $.ajax({
-                      url: "./action.php?action=readContent",
-                      data:{id:id},
-                      success:function(msg){
-                            if(msg.status == 'noconnect') {
-                                alert(msg.texte)
-                            } else {
-                                if( console && console.log && msg!="" ) console.log(msg);
-                                switch (activeScreen){
-                                    case '':
-                                        // cas de la page d'accueil
-                                        parent.addClass('eventRead');
-                                        parent.fadeOut(200,function(){
-                                            if(callback){
-                                                callback();
-                                            }else{
-                                                targetThisEvent(nextEvent,true);
-                                            }
-                                            // on simule un scroll si tous les events sont cachés
-                                            if($('article section:last').attr('style')=='display: none;') {
-                                                $(window).scrollTop($(document).height());
-                                            }
-                                        });
-                                        // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
-                                        $(window).data('nblus', $(window).data('nblus')+1);
-                                        // on diminue le nombre d'article en haut de page
-                                        $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
-                                    break;
-                                    case 'selectedFolder':
-                                        parent.addClass('eventRead');
-                                        targetThisEvent(nextEvent,true);
-                                        // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
-                                        $(window).data('nblus', $(window).data('nblus')+1);
-                                    break;
-                                    default:
-                                        // autres cas : favoris, selectedFeed ...
-                                        parent.addClass('eventRead');
-                                        targetThisEvent(nextEvent,true);
-                                    break;
+            url: "./action.php?action=readContent",
+            data:{id:id},
+            success:function(msg){
+                if(msg.status == 'noconnect') {
+                    alert(msg.texte)
+                } else {
+                    if( console && console.log && msg!="" ) console.log(msg);
+                    switch (activeScreen){
+                        case '':
+                            // cas de la page d'accueil
+                            parent.addClass('eventRead');
+                            parent.fadeOut(200,function(){
+                                if(callback){
+                                    callback();
+                                }else{
+                                    targetThisEvent(nextEvent,true);
                                 }
-                            }
-                      }
+                                // on simule un scroll si tous les events sont cachés
+                                if($('article section:last').attr('style')=='display: none;') {
+                                    $(window).scrollTop($(document).height());
+                                }
+                            });
+                            // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+                            $(window).data('nblus', $(window).data('nblus')+1);
+                            // on diminue le nombre d'article en haut de page
+                            $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
+                        break;
+                        case 'selectedFolder':
+                            parent.addClass('eventRead');
+                            targetThisEvent(nextEvent,true);
+                            // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+                            $(window).data('nblus', $(window).data('nblus')+1);
+                        break;
+                        default:
+                            // autres cas : favoris, selectedFeed ...
+                            parent.addClass('eventRead');
+                            targetThisEvent(nextEvent,true);
+                        break;
+                    }
+                }
+            }
         });
     }else{  // sur les éléments lus
             // si ce n'est pas un clic sur le titre de l'event
-            if(from!='title'){
-                $.ajax({
-                        url: "./action.php?action=unreadContent",
-                        data:{id:id},
-                        success:function(msg){
-                            if(msg.status == 'noconnect') {
-                                alert(msg.texte)
-                            } else {
-                                if( console && console.log && msg!="" ) console.log(msg);
-                                parent.removeClass('eventRead');
-                                // on compte combien d'article ont été remis à non lus
-                                if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
-                            }
+        if(from!='title'){
+            $.ajax({
+                    url: "./action.php?action=unreadContent",
+                    data:{id:id},
+                    success:function(msg){
+                        if(msg.status == 'noconnect') {
+                            alert(msg.texte)
+                        } else {
+                            if( console && console.log && msg!="" ) console.log(msg);
+                            parent.removeClass('eventRead');
+                            // on compte combien d'article ont été remis à non lus
+                            if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
                         }
-                });
-            }
+                    }
+            });
+        }
     }
 
 }
@@ -486,24 +486,24 @@ function unReadThis(element,id,from){
     var activeScreen = $('#pageTop').html();
     var parent = $(element).parent().parent();
     if(parent.hasClass('eventRead')){
-            if(from!='title'){
-                $.ajax({
-                              url: "./action.php?action=unreadContent",
-                              data:{id:id},
-                              success:function(msg){
-                                if(msg.status == 'noconnect') {
-                                    alert(msg.texte)
-                                } else {
-                                    if( console && console.log && msg!="" ) console.log(msg);
-                                    parent.removeClass('eventRead');
-                                    // on compte combien d'article ont été remis à non lus
-                                    if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
-                                    // on augmente le nombre d'article en haut de page
-                                    if (activeScreen=='') $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
-                                }
-                              }
-                });
-            }
+        if(from!='title'){
+            $.ajax({
+                url: "./action.php?action=unreadContent",
+                data:{id:id},
+                success:function(msg){
+                    if(msg.status == 'noconnect') {
+                        alert(msg.texte)
+                    } else {
+                        if( console && console.log && msg!="" ) console.log(msg);
+                        parent.removeClass('eventRead');
+                        // on compte combien d'article ont été remis à non lus
+                        if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+                        // on augmente le nombre d'article en haut de page
+                        if (activeScreen=='') $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
+                    }
+                }
+            });
+        }
     }
 
 }
@@ -511,9 +511,9 @@ function unReadThis(element,id,from){
 //synchronisation manuelle lancée depuis le boutton du menu
 function synchronize(code){
     if(code!=''){
-            $('article').prepend('<section>'+
-            '<iframe class="importFrame" src="action.php?action=synchronize&format=html&code='+code+'" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>'+
-            '</section>');
+        $('article').prepend('<section>'+
+        '<iframe class="importFrame" src="action.php?action=synchronize&format=html&code='+code+'" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>'+
+        '</section>');
     }else{
         alert(_t('YOU_MUST_BE_CONNECTED_FEED'));
     }

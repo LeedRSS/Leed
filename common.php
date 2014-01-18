@@ -67,10 +67,10 @@ $tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCo
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
 foreach($_POST as $key=>$val){
-$_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
+    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 }
 foreach($_GET as $key=>$val){
-$_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
+    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 }
 
 $tpl->assign('_',$_);
