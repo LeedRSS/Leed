@@ -127,7 +127,7 @@ AddType text/x-vcard                        vcf
 #  <IfModule filter_module>
 #    FilterDeclare   COMPRESS
 # There are two way to configure the filters, according to the Apache version.
-# Apache >= 2.4 
+# Apache >= 2.4
 #     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/html
 #     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/css
 #     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/plain

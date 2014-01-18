@@ -1,7 +1,7 @@
 /* #############
 ###  MISE À JOUR Base de données de Leed pour fonctionnement en v1.5
 
-Conseils : 
+Conseils :
 - Avant d'effectuer la mise à jour, sauvegardez votre BDD et exportez vos flux en OPML.
 - Attention : "leed_" est à remplacer par votre préfix de table.
 - Ce fichier est à supprimer après installation.

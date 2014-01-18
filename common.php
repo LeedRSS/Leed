@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: common
@@ -14,8 +14,8 @@ mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
 if (!defined('LANGUAGE')) {
-	define('LANGUAGE', LANGAGE); // ancienne constante encore utilisée
-	trigger_error('Please use, in "constant.php", LANGUAGE instead of LANGAGE');
+    define('LANGUAGE', LANGAGE); // ancienne constante encore utilisée
+    trigger_error('Please use, in "constant.php", LANGUAGE instead of LANGAGE');
 }
 require_once('RainTPL.php');
 require_once('i18n.php');
@@ -33,7 +33,7 @@ class_exists('Opml') or require_once('Opml.class.php');
 //error_reporting(E_ALL);
 
 //Calage de la date
-date_default_timezone_set('Europe/Paris'); 
+date_default_timezone_set('Europe/Paris');
 
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
 $feedManager = new Feed();
@@ -67,16 +67,16 @@ $tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCo
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
 foreach($_POST as $key=>$val){
-$_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
+    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 }
 foreach($_GET as $key=>$val){
-$_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
+    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
 }
 
 $tpl->assign('_',$_);
 $tpl->assign('action','');
 
-//Inclusion des plugins  
+//Inclusion des plugins
 Plugin::includeAll();
 
 ?>

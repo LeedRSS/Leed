@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  @nom: settings
@@ -6,7 +6,7 @@
  @description: Page de gestion de toutes les préférences/configurations administrateur
  */
 
-require_once('header.php'); 
+require_once('header.php');
 
 
 
@@ -16,14 +16,14 @@ $tpl->assign('synchronisationType',$configurationManager->get('synchronisationTy
 $tpl->assign('synchronisationEnableCache',$configurationManager->get('synchronisationEnableCache'));
 $tpl->assign('synchronisationForceFeed',$configurationManager->get('synchronisationForceFeed'));
 $tpl->assign('articleDisplayAnonymous', $configurationManager->get('articleDisplayAnonymous'));
-$tpl->assign('articleDisplayLink', $configurationManager->get('articleDisplayLink')); 
-$tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDate')); 
+$tpl->assign('articleDisplayLink', $configurationManager->get('articleDisplayLink'));
+$tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDate'));
 $tpl->assign('articleDisplayAuthor', $configurationManager->get('articleDisplayAuthor'));
 $tpl->assign('articleDisplayHomeSort', $configurationManager->get('articleDisplayHomeSort'));
 $tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisplayFolderSort'));
-$tpl->assign('articleDisplayContent', $configurationManager->get('articleDisplayContent')); 
+$tpl->assign('articleDisplayContent', $configurationManager->get('articleDisplayContent'));
 $tpl->assign('articleView', $configurationManager->get('articleView'));
-//Récuperation des plugins  
+//Récuperation des plugins
 $tpl->assign('plugins',Plugin::getAll());
 
 $view = "settings";
