@@ -184,7 +184,7 @@ class Feed extends MysqlEntity{
         if ($limit<=0) return;
         $tableEvent = '`'.MYSQL_PREFIX."event`";
         $query = "
-            DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubDate ASC LIMIT {$limit}
+            DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubdate ASC LIMIT {$limit}
         ";
         ///@TODO: escape the variables inside mysql
          $this->customExecute($query);
