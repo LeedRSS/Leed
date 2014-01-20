@@ -48,7 +48,7 @@ $tpl->assign('articleDisplayFolderSort',$configurationManager->get('articleDispl
 $target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
 if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';
 if($articleDisplayContent && $articleView!='partial') $target .= MYSQL_PREFIX.'event.content,';
-if($articleDisplayLink) $target .= MYSQL_PREFIX.'event.link,';
+$target .= MYSQL_PREFIX.'event.link,';
 if($articleDisplayDate) $target .= MYSQL_PREFIX.'event.pubdate,';
 if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';
 $target .= MYSQL_PREFIX.'event.id';
