@@ -447,14 +447,22 @@ function readThis(element,id,from,callback){
                         break;
                         case 'selectedFolder':
                             parent.addClass('eventRead');
-                            targetThisEvent(nextEvent,true);
+                            if(callback){
+                                callback();
+                            }else{
+                                targetThisEvent(nextEvent,true);
+                            }
                             // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
                             $(window).data('nblus', $(window).data('nblus')+1);
                         break;
                         default:
                             // autres cas : favoris, selectedFeed ...
                             parent.addClass('eventRead');
-                            targetThisEvent(nextEvent,true);
+                            if(callback){
+                                callback();
+                            }else{
+                                targetThisEvent(nextEvent,true);
+                            }
                         break;
                     }
                 }
@@ -474,6 +482,9 @@ function readThis(element,id,from,callback){
                             parent.removeClass('eventRead');
                             // on compte combien d'article ont été remis à non lus
                             if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+                            if(callback){
+                                callback();
+                            }
                         }
                     }
             });
