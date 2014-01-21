@@ -35,6 +35,9 @@ $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
 $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
+$displayOnlyUnreadFeedFolder = $configurationManager->get('displayOnlyUnreadFeedFolder');
+if (!isset($displayOnlyUnreadFeedFolder)) $displayOnlyUnreadFeedFolder=false;
+($displayOnlyUnreadFeedFolder=='true')?$displayOnlyUnreadFeedFolder_reverse='false':$displayOnlyUnreadFeedFolder_reverse='true';
 
 $tpl->assign('articleDisplayContent',$configurationManager->get('articleDisplayContent'));
 $tpl->assign('articleView',$configurationManager->get('articleView'));
@@ -44,6 +47,8 @@ $tpl->assign('articleDisplayDate',$configurationManager->get('articleDisplayDate
 $tpl->assign('articleDisplayAuthor',$configurationManager->get('articleDisplayAuthor'));
 $tpl->assign('articleDisplayHomeSort',$configurationManager->get('articleDisplayHomeSort'));
 $tpl->assign('articleDisplayFolderSort',$configurationManager->get('articleDisplayFolderSort'));
+$tpl->assign('displayOnlyUnreadFeedFolder',$displayOnlyUnreadFeedFolder);
+$tpl->assign('displayOnlyUnreadFeedFolder_reverse',$displayOnlyUnreadFeedFolder_reverse);
 
 $target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
 if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';

@@ -531,6 +531,29 @@ function toggleBlocks(target){
     $('#main article > section').hide();$('.'+target).fadeToggle(200);
 }
 
+// affiche ou cache les feeds n'ayant pas d'article non lus.
+function toggleUnreadFeedFolder(button,action){
+    $.ajax({
+        url: "./action.php?action=displayOnlyUnreadFeedFolder&displayOnlyUnreadFeedFolder="+action,
+        success:function(msg){
+            if(msg.status == 'noconnect') {
+                alert(msg.texte)
+            } else {
+                if( console && console.log && msg!="" ) console.log(msg);
+                //Afficher ou cacher les feeds
+                if(action){
+                    $('.hidefeed').hide();
+                }else{
+                    $('.hidefeed').show();
+                }
+                //changement de l'évènement onclick pour faire l'inverse lors du prochain clic
+                $(button).attr('onclick','toggleUnreadFeedFolder(this,'+!action+');');
+
+            }
+        }
+    });
+}
+
 function buttonAction(target,id){
     // Check unreadEvent
     if($('#pageTop').html()){

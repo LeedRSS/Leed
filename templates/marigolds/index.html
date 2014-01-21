@@ -36,7 +36,8 @@
                 {function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
             <aside>
                 <!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
-                <h3 class="left">{function="_t('FEED')"}</h3> <button style="margin: 20px 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="_t('MARK_ALL_AS_READ')"}</button>
+                <h3 class="left">{function="_t('FEED')"}</h3> <button style="margin: 25px 0px 0px 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="_t('MARK_ALL_AS_READ')"}</button>
+                <button class="right" onclick="toggleUnreadFeedFolder(this,{$displayOnlyUnreadFeedFolder_reverse});" title="{function="_t('DISPLAY_ONLY_UNREAD_FEEDFOLDER')"}" style="margin: 25px 4px 0px 10px;">&#8597;</button>
                 {function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
                 <ul class="clear">
 
@@ -66,15 +67,44 @@
 
                                 {if="count($feeds)!=0"}
                                     {loop="feeds"}
-                                        <li>
-                                            {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                        {if="$displayOnlyUnreadFeedFolder=='true'"}
+                                        <!-- Affichage des feeds ayant des articles non lus -->
                                             {if="isset($unread[$value2['id']])"}
-                                            <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
-                                                <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
-                                            </button>
+                                                <li>
+                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                        <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
+                                                    </button>
+                                                    {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
+                                                </li>
+                                            {else}
+                                                <!-- On cache les feeds n'ayant pas d'article non lus -->
+                                                <li class="hidefeed" style="display:none;">
+                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                    {if="isset($unread[$value2['id']])"}
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                    <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
+                                                    </button>
+                                                    {/if}
+                                                    {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
+                                                </li>
                                             {/if}
-                                            {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
-                                        </li>
+									    {else}
+                                        <!-- Affichage de tous les feeds -->
+                                            {if="isset($unread[$value2['id']])"}
+                                            <li>
+                                            {else} <!-- On affiche même ceux qui non pas d'article non lus -->
+                                            <li class="hidefeed">
+                                            {/if}
+                                                {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                {if="isset($unread[$value2['id']])"}
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                        <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
+                                                    </button>
+                                                {/if}
+                                                {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
+                                            </li>
+                                        {/if}
                                     {/loop}
                                 {/if}
                         </ul>

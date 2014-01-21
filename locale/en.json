@@ -153,5 +153,6 @@
     "HELP_O_ENTER" : "<strong>o</strong> or <strong>enter</strong> open selected element",
     "HELP_H" : "<strong>h</strong> show/hide the help panel",
     "HELP_H_?": "Key h show/hide the help panel",
-    "BY": "by"
+    "BY": "by",
+    "DISPLAY_ONLY_UNREAD_FEEDFOLDER" : "Show/hide feeds without unread articles"
 }
