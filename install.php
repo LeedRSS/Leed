@@ -159,21 +159,21 @@ if(isset($_['installButton'])){
 
     $configurationManager->add('root',$root);
     //$configurationManager->put('view',$_['view']);
-    $configurationManager->add('articleView',$_['articleView']);
-    $configurationManager->add('articleDisplayContent',$_['articleDisplayContent']);
-    $configurationManager->add('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
-    $configurationManager->add('articlePerPages',$_['articlePerPages']);
-    $configurationManager->add('articleDisplayLink',$_['articleDisplayLink']);
-    $configurationManager->add('articleDisplayDate',$_['articleDisplayDate']);
-    $configurationManager->add('articleDisplayAuthor',$_['articleDisplayAuthor']);
-    $configurationManager->add('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
-    $configurationManager->add('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
-    $configurationManager->add('synchronisationType',$_['synchronisationType']);
-    $configurationManager->add('feedMaxEvents',$_['feedMaxEvents']);
+    $configurationManager->add('articleView','partial');
+    $configurationManager->add('articleDisplayContent','1');
+    $configurationManager->add('articleDisplayAnonymous','1');
+    $configurationManager->add('articlePerPages','5');
+    $configurationManager->add('articleDisplayLink','1');
+    $configurationManager->add('articleDisplayDate','1');
+    $configurationManager->add('articleDisplayAuthor','1');
+    $configurationManager->add('articleDisplayHomeSort','1');
+    $configurationManager->add('articleDisplayFolderSort','1');
+    $configurationManager->add('synchronisationType','auto');
+    $configurationManager->add('feedMaxEvents','300');
 
     $configurationManager->add('synchronisationCode',$synchronisationCode);
-    $configurationManager->add('synchronisationEnableCache',$_['synchronisationEnableCache']);
-    $configurationManager->add('synchronisationForceFeed',$_['synchronisationForceFeed']);
+    $configurationManager->add('synchronisationEnableCache','1');
+    $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('cryptographicSalt', $cryptographicSalt);
 
     //Création du dossier de base
@@ -299,49 +299,6 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
                     <p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
                     <p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
                 </section>
-
-                <section>
-                    <h2>Synchronisation</h2>
-                    <p><input type="radio" checked="checked" value="auto" name="synchronisationType"> <strong>Automatique (complet) :</strong> Le script mettra à jour automatiquement tous vos flux en une seule fois, ceci permet la mise à jour en une fois de tous vos flux mais peut faire ramer votre serveur, les appels cron ne doivent pas être trop rapprochés.</p>
-                    <p><input type="radio"  value="graduate" name="synchronisationType"> <strong>Automatique (gradué) : </strong>Le script mettra à jour automatiquement les 10 flux les plus vieux en terme de mise à jour, ceci permet d'alléger la charge serveur et d'éviter les timeouts intempestifs mais nécessite un appel de cron plus fréquent afin de mettre à jour le plus de flux possible.</p>
-                    <p><input type="radio"  value="manual" name="synchronisationType"> <strong>Manuel (complet) : </strong>Le script ne fait aucune mise à jour automatique, vous devez faire vous même les mises à jour depuis l'espace administration.</p>
-                    <p><strong>Options de synchronisation</strong>
-                        <fieldset>
-                            <legend>Activer le Cache</legend>
-                            <input type="radio" checked="checked" value="1" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">Oui</label>
-                            <input type="radio" value="0" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">Non</label>
-                            <h3 class="articleDetails">Cette option vous permet de désactiver la mise en cache. Cependant, la désactivation du cache peut entraîner des temps de chargement plus longs.</h3>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Forcer l'intégration</legend>
-                            <input type="radio" value="1" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">Oui</label>
-                            <input type="radio" checked="checked" value="0" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">Non</label>
-                            <h3 class="articleDetails">Les flux RSS et Atom sont censés avoir des types MIME associés spécifiques afin que le logiciel sache de quel type de données il s'agit. Certains flux ne suivent pas ces règles (par exemple text/plain). SimplePie suit les meilleures pratiques par défaut, mais vous pouvez forcer l'intégration avec ce paramètre.</h3>
-                        </fieldset>
-                    </p>
-                </section>
-
-                <section>
-                    <h2>Préferences</h2>
-                    <p>Autoriser la lecture anonyme : <input type="radio" checked="checked" value="1" name="articleDisplayAnonymous">Oui <input type="radio" value="0" name="articleDisplayAnonymous">Non</p>
-                    <h3 class="articleDetails">NB : si vous choisissez cette option, les utilisateurs non authentifiés pourront consulter vos flux (sans pouvoir les marquer comme lu/non lu).</h3>
-                    <p>Nombre d'articles par page : <input type="text" value="5" name="articlePerPages"></p>
-                    <p>Articles les plus récents en premier (sur la page d'accueil) : <input type="radio" checked="checked" value="1" name="articleDisplayHomeSort">Oui <input type="radio" value="0" name="articleDisplayHomeSort">Non</p>
-                    <p>Articles les plus récents en premier (sur les dossiers) : <input type="radio" checked="checked" value="1" name="articleDisplayFolderSort">Oui <input type="radio" value="0" name="articleDisplayFolderSort">Non</p>
-                    <p>Affichage du lien direct de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayLink">Oui <input type="radio" value="0" name="articleDisplayLink">Non</p>
-                    <p>Affichage de la date de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayDate">Oui <input type="radio" value="0" name="articleDisplayDate">Non</p>
-                    <p>Affichage de l'auteur de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayAuthor">Oui <input type="radio" value="0" name="articleDisplayAuthor">Non</p>
-                    <p>Affichage du contenu de l'article : <input type="radio" checked="checked" value="1" name="articleDisplayContent">Oui <input type="radio" value="0" name="articleDisplayContent">Non</p>
-                    <p>Type d'affichage du contenu : <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
-                    <h3 class="articleDetails">NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers mènera à l'article sur le blog de l'auteur.</h3>
-                    <p>Catégorie par défaut : <input type="text" value="Général" name="category"></p>
-                    <p>Conserver les <input type="text" value="50" name="feedMaxEvents"> derniers événements d'un flux.</p>
-                    <h3 class="articleDetails">NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
-
-                </section>
-
-
-
 
                 <button name="installButton">Lancer l'installation</button>
             </article>
