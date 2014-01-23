@@ -271,25 +271,20 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
             <article>
                 <header>
                     <h1>Installation de Leed</h1>
-                    <p>Merci de prendre quelques instants pour vérifier les infos ci-dessous :</p>
-
                 </header>
 
                 <section>
                     <h2>Général</h2>
                     <p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
-                    <h3 class="articleDetails">Laissez bien un "/" en fin de chaine ex : http://monsite.com/leed/</h3>
                 </section>
 
                 <section>
-                    <h2>Base de données</h2>
-                    <p>Hôte MySQL : <input type="text" name="mysqlHost" value=""></p>
-                    <h3 class="articleDetails">Généralement localhost</h3>
-                    <p>Identifiant MySQL : <input type="text" name="mysqlLogin" value=""></p>
-                    <p>Mot de passe MySQL : <input type="text" autocomplete="off" name="mysqlMdp" value=""> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
+                    <h2>Mysql</h2>
+                    <p>Hôte : <input type="text" name="mysqlHost" value="" placeholder="(Généralement 'localhost')"></p>
+                    <p>Identifiant : <input type="text" name="mysqlLogin" value=""></p>
+                    <p>Mot de passe : <input type="text" autocomplete="off" name="mysqlMdp" value="" placeholder="(sera affiché en clair)"></p>
 
-                    <p>Nom de base MySQL : <input type="text" name="mysqlBase" value=""></p>
-                    <h3 class="articleDetails">Nom de la base de données vouée à Leed (à créer avant d'installer leed)</h3>
+                    <p>Base : <input type="text" name="mysqlBase" value="" placeholder="(à créer avant)"></p>
                     <p>Préfixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
                 </section>
 
@@ -297,7 +292,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
                 <section>
                     <h2>Administrateur</h2>
                     <p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
-                    <p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="Mot de passe"> <h3 class="articleDetails"><span style="color:#C80000;font-weight:bold;font-size:11px;">Attention !!</span> Afin d'éviter les erreurs, le mot de passe tapé est affiché en clair.</h3></p>
+                    <p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="(sera affiché en clair)"></p>
                 </section>
 
                 <button name="installButton">Lancer l'installation</button>
