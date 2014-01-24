@@ -40,6 +40,18 @@ class Plugin{
         $stateFile = dirname(__FILE__).Plugin::FOLDER.'/plugins.states.json';
         file_put_contents($stateFile,json_encode($states));
     }
+    public static function pruneStates() {
+        $statesBefore = self::getStates();
+        $statesAfter = array();
+        $error = false;
+        foreach($statesBefore as $file=>$state) {
+            if (file_exists($file))
+                $statesAfter[$file] = $state;
+            else
+                $error = true;
+        }
+        if ($error) self::setStates($statesAfter);
+    }
 
 
     private static function getObject($pluginFile){
