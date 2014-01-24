@@ -51,6 +51,18 @@ foreach($_ as $key=>&$val){
             color:#000;
             font-size: 1em;
         }
+        td {
+            padding-right: 1em;
+        }
+        th {
+            text-align: left;
+            font-size: 1.5em;
+            padding-top: 1em;
+        }
+        button#installButton {
+            margin-top: 1em;
+            font-size: 2em;
+        }
     </style>
 </head>
 <body>
@@ -268,35 +280,51 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
 </div>
     <?php  if(!isset($test['Erreur'])){ ?>
     <form action="install.php" method="POST">
-            <article>
-                <header>
-                    <h1>Installation de Leed</h1>
-                </header>
-
-                <section>
-                    <h2>Général</h2>
-                    <p>Racine du projet : <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></p>
-                </section>
-
-                <section>
-                    <h2>Mysql</h2>
-                    <p>Hôte : <input type="text" name="mysqlHost" value="" placeholder="(Généralement 'localhost')"></p>
-                    <p>Identifiant : <input type="text" name="mysqlLogin" value=""></p>
-                    <p>Mot de passe : <input type="text" autocomplete="off" name="mysqlMdp" value="" placeholder="(sera affiché en clair)"></p>
-
-                    <p>Base : <input type="text" name="mysqlBase" value="" placeholder="(à créer avant)"></p>
-                    <p>Préfixe des tables : <input type="text" name="mysqlPrefix" value="leed_"></p>
-                </section>
-
-
-                <section>
-                    <h2>Administrateur</h2>
-                    <p>Identifiant de l'administrateur : <input type="text" name="login" placeholder="Identifiant"></p>
-                    <p>Mot de passe de l'administrateur: <input type="text" autocomplete="off" name="password" placeholder="(sera affiché en clair)"></p>
-                </section>
-
-                <button name="installButton">Lancer l'installation</button>
-            </article>
+        <h1>Installation de Leed</h1>
+        <table>
+            <tr>
+                <th colspan="2">Général</th>
+            </tr>
+            <tr>
+                <td>Racine du projet</td>
+                <td><input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></td>
+            </tr>
+            <tr>
+                <th colspan="2">Mysql</th>
+            </tr>
+            <tr>
+                <td>Hôte</td>
+                <td><input type="text" name="mysqlHost" value="" placeholder="(Généralement 'localhost')"></td>
+            </tr>
+            <tr>
+                <td>Identifiant</td>
+                <td><input type="text" name="mysqlLogin" value=""></td>
+            </tr>
+            <tr>
+                <td>Mot de passe</td>
+                <td><input type="text" autocomplete="off" name="mysqlMdp" value="" placeholder="(sera affiché en clair)"></td>
+            </tr>
+            <tr>
+                <td>Base</td>
+                <td><input type="text" name="mysqlBase" value="" placeholder="(à créer avant)"></td>
+            </tr>
+            <tr>
+                <td>Préfixe des tables</td>
+                <td><input type="text" name="mysqlPrefix" value="leed_"></td>
+            </tr>
+            <tr>
+                <th colspan="2">Administrateur</th>
+            </tr>
+            <tr>
+                <td>Identifiant</td>
+                <td><input type="text" name="login" placeholder="Identifiant"></td>
+            </tr>
+            <tr>
+                <td>Mot de passe</td>
+                <td><input type="text" autocomplete="off" name="password" placeholder="(sera affiché en clair)"></td>
+            </tr>
+        </table>
+        <button id="installButton" name="installButton">Lancer l'installation</button>
     </form>
     <?php }else{ ?>
     <p>Il vous manque des prérequis pour continuer l'installation, référez vous au panneau de droite.</p>
