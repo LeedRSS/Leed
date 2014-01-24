@@ -431,5 +431,16 @@ class MysqlEntity
     public function getObject_fields(){
         return $this->object_fields;
     }
+
+    /**
+    * @return <boolean> VRAI si la table existe, FAUX sinon
+    */
+
+    public function tableExists() {
+        $table = MYSQL_PREFIX.$this->TABLE_NAME;
+        $result = $this->customQuery("SHOW TABLES LIKE '$table'");
+        $assoc = mysql_fetch_assoc($result);
+        return false===$assoc ? false : true;
+    }
 }
 ?>
