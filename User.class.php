@@ -31,6 +31,11 @@ class User extends MysqlEntity{
         return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
     }
 
+    function get($login){
+        $userManager = new User();
+        return $userManager->load(array('login'=>$login,));
+    }
+
     function getToken() {
         assert('!empty($this->password)');
         assert('!empty($this->login)');

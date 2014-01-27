@@ -474,6 +474,30 @@ switch ($action){
 
     case 'login':
 
+        define('RESET_PASSWORD_FILE', 'resetPassword');
+        if (file_exists(RESET_PASSWORD_FILE)) {
+            /* Pour réinitialiser le mot de passe :
+             * créer le fichier RESET_PASSWORD_FILE vide.
+             * Le nouveau mot de passe sera celui fourni à la connexion.
+             */
+            @unlink(RESET_PASSWORD_FILE);
+            if (file_exists(RESET_PASSWORD_FILE)) {
+                $message = 'Unable to remove "'.RESET_PASSWORD_FILE.'"!';
+                /* Pas supprimable ==> on ne remet pas à zéro */
+            } else {
+                $resetPassword = $_['password'];
+                assert('!empty($resetPassword)');
+                $id = User::get($_['login'])->getId();
+                $salt = $configurationManager->get('cryptographicSalt');
+                $userManager->change(
+                    array('password'=>User::encrypt($resetPassword, $salt)),
+                    array('id'=>$id)
+                );
+                $message = "User (id=$id) Password reset to '$resetPassword'.";
+            }
+            error_log($message);
+        }
+
         if(isset($_['usr'])){
             $user = $userManager->existAuthToken($_['usr']);
             if($user==false){

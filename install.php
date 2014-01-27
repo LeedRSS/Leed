@@ -52,7 +52,6 @@ foreach($_ as $key=>&$val){
             font-size: 1em;
         }
     </style>
-    <script src="templates/marigolds/js/libs/jqueryAndModernizr.min.js"></script>
 </head>
 <body>
 <div class="global-wrapper">
@@ -363,9 +362,5 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
     </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-
-<script src="templates/marigolds/js/script.js"></script>
 </body>
 </html>
