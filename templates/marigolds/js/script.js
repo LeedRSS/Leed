@@ -201,6 +201,8 @@ function scrollInfini() {
                         $(window).data('enCoursScroll',0);
                         // appel récursif tant qu'un scroll n'est pas detecté.
                         if ($(window).scrollTop()==0) scrollInfini();
+                    } else {
+                        $('article #loader').addClass('finScroll');
                     }
                  },
                 complete: function(){
