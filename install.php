@@ -42,17 +42,28 @@ foreach($_ as $key=>&$val){
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="templates/marigolds/css/style.css">
     <style>
+        .install h1 {
+            margin-bottom: 1.3em;
+        }
+        .install h2 {
+            margin-bottom: 0.1em;
+            font-size: 1.5em;
+        }
+        .install ul {
+            margin: 0;
+            padding: 0;
+        }
+        .install li {
+            list-style: none outside none;
+        }
+        .install span {
+            display: inline-block;
+            width: 8em;
+            padding-right: 1em;
+        }
         code {
             color:#000;
             font-size: 1em;
-        }
-        td {
-            padding-right: 1em;
-        }
-        th {
-            text-align: left;
-            font-size: 1.5em;
-            padding-top: 1em;
         }
         button#installButton {
             margin-top: 1em;
@@ -251,51 +262,49 @@ if(isset($_['installButton'])){
     </aside>
 </div>
     <?php  if(!isset($test['Erreur'])){ ?>
-    <form action="install.php" method="POST">
+    <form action="install.php" method="POST" class="install">
         <h1>Installation de Leed</h1>
-        <table>
-            <tr>
-                <th colspan="2">Général</th>
-            </tr>
-            <tr>
-                <td>Racine du projet</td>
-                <td><input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>"></td>
-            </tr>
-            <tr>
-                <th colspan="2">Mysql</th>
-            </tr>
-            <tr>
-                <td>Hôte</td>
-                <td><input type="text" name="mysqlHost" value="" placeholder="(Généralement 'localhost')"></td>
-            </tr>
-            <tr>
-                <td>Identifiant</td>
-                <td><input type="text" name="mysqlLogin" value=""></td>
-            </tr>
-            <tr>
-                <td>Mot de passe</td>
-                <td><input type="text" autocomplete="off" name="mysqlMdp" value="" placeholder="(sera affiché en clair)"></td>
-            </tr>
-            <tr>
-                <td>Base</td>
-                <td><input type="text" name="mysqlBase" value="" placeholder="(à créer avant)"></td>
-            </tr>
-            <tr>
-                <td>Préfixe des tables</td>
-                <td><input type="text" name="mysqlPrefix" value="leed_"></td>
-            </tr>
-            <tr>
-                <th colspan="2">Administrateur</th>
-            </tr>
-            <tr>
-                <td>Identifiant</td>
-                <td><input type="text" name="login" placeholder="Identifiant"></td>
-            </tr>
-            <tr>
-                <td>Mot de passe</td>
-                <td><input type="text" autocomplete="off" name="password" placeholder="(sera affiché en clair)"></td>
-            </tr>
-        </table>
+        <h2>Général</h2>
+        <ul>
+            <li>
+                <span>Racine du projet</span>
+                <input type="text" name="root" value="<?php echo str_replace(basename(__FILE__),'','http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']); ?>">
+            </li>
+        </ul>
+        <h2>Mysql</h2>
+        <ul>
+            <li>
+                <span>Hôte</span>
+                <input type="text" name="mysqlHost" value="" placeholder="(Généralement 'localhost')">
+            </li>
+            <li>
+                <span>Identifiant</span>
+                <input type="text" name="mysqlLogin" value="">
+            </li>
+            <li>
+                <span>Mot de passe</span>
+                <input type="text" autocomplete="off" name="mysqlMdp" value="" placeholder="(sera affiché en clair)">
+            </li>
+            <li>
+                <span>Base</span>
+                <input type="text" name="mysqlBase" value="" placeholder="(à créer avant)">
+            </li>
+            <li>
+                <span>Préfixe des tables</span>
+                <input type="text" name="mysqlPrefix" value="leed_">
+            </li>
+        </ul>
+        <h2>Administrateur</h2>
+        <ul>
+            <li>
+                <span>Identifiant</span>
+                <input type="text" name="login" placeholder="Identifiant">
+            </li>
+            <li>
+                <span>Mot de passe</span>
+                <input type="text" autocomplete="off" name="password" placeholder="(sera affiché en clair)">
+            </li>
+        </ul>
         <button id="installButton" name="installButton">Lancer l'installation</button>
     </form>
     <?php }else{ ?>
