@@ -335,7 +335,7 @@ Si vous n'avez pas accès a la commande wget sur votre serveur, vous pouvez essa
                     <p>Type d'affichage du contenu : <input type="radio" checked="checked" value="partial" name="articleView">Partiel <input type="radio" value="complete" name="articleView">Complet</p>
                     <h3 class="articleDetails">NB : si vous choissisez un affichage partiel des articles, un clic sur ces derniers mènera à l'article sur le blog de l'auteur.</h3>
                     <p>Catégorie par défaut : <input type="text" value="Général" name="category"></p>
-                    <p>Conserver les <input type="text" value="300" name="feedMaxEvents"> derniers événements d'un flux.</p>
+                    <p>Conserver les <input type="text" value="50" name="feedMaxEvents"> derniers événements d'un flux.</p>
                     <h3 class="articleDetails">NB : Plus il y aura d'événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br>Notez que vos événements marqués comme favoris ne seront jamais supprimés.</h3>
 
                 </section>
