@@ -487,13 +487,18 @@ switch ($action){
             } else {
                 $resetPassword = $_['password'];
                 assert('!empty($resetPassword)');
-                $id = User::get($_['login'])->getId();
-                $salt = $configurationManager->get('cryptographicSalt');
-                $userManager->change(
-                    array('password'=>User::encrypt($resetPassword, $salt)),
-                    array('id'=>$id)
-                );
-                $message = "User (id=$id) Password reset to '$resetPassword'.";
+                $tmpUser = User::get($_['login']);
+                if (false===$tmpUser) {
+                    $message = "Unknown user '{$_['login']}'! No password reset.";
+                } else {
+                    $id = $tmpUser->getId();
+                    $salt = $configurationManager->get('cryptographicSalt');
+                    $userManager->change(
+                        array('password'=>User::encrypt($resetPassword, $salt)),
+                        array('id'=>$id)
+                    );
+                    $message = "User '{$_['login']}' (id=$id) Password reset to '$resetPassword'.";
+                }
             }
             error_log($message);
         }
