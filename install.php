@@ -191,7 +191,7 @@ if(isset($_['installButton'])){
     $configurationManager->add('articleDisplayHomeSort','1');
     $configurationManager->add('articleDisplayFolderSort','1');
     $configurationManager->add('synchronisationType','auto');
-    $configurationManager->add('feedMaxEvents','300');
+    $configurationManager->add('feedMaxEvents','50');
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','1');
     $configurationManager->add('synchronisationForceFeed','0');
