@@ -14,12 +14,20 @@ class Plugin{
     }
 
     public static function includeAll(){
+        global $i18n;
         $pluginFiles = Plugin::getFiles(true);
         if(is_array($pluginFiles)) {
             foreach($pluginFiles as $pluginFile) {
-                //Inclusion du coeur de plugin
+                // Chargement du fichier de Langue du plugin
+                if (file_exists(dirname($pluginFile).'/locale/'.LANGUAGE.'.json'))
+                {
+                    $i18n_file =  file_get_contents(dirname($pluginFile).'/locale/'.LANGUAGE.'.json');
+                    $i18n_plugin = json_decode($i18n_file,true);
+                    $i18n = array_merge($i18n, $i18n_plugin);
+                }
+                // Inclusion du coeur de plugin
                 include $pluginFile;
-                //Gestion des css du plugin en fonction du thème actif
+                // Gestion des css du plugin en fonction du thème actif
                 $cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
                 $cssDefault = glob(dirname($pluginFile).'/*/default.css');
                 if(isset($cssTheme[0])){
