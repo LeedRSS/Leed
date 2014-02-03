@@ -80,6 +80,19 @@ switch($action){
         $tpl->assign('order',(isset($_['order'])?$_['order']:''));
 
     break;
+    /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER en mode non lus */
+    case 'selectedFeedNonLu':
+        $currentFeed = $feedManager->getById($_['feed']);
+        $tpl->assign('currentFeed',$currentFeed);
+        $filter = array('unread'=>1, 'feed'=>$currentFeed->getId());
+        $numberOfItem = $eventManager->rowCount($filter);
+        $order = 'pubdate DESC';
+        $page = (isset($_['page'])?$_['page']:1);
+        $pages = ceil($numberOfItem/$articlePerPages);
+        $startArticle = ($page-1)*$articlePerPages;
+        $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
+
+        break;
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);

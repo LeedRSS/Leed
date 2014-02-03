@@ -448,6 +448,7 @@ function readThis(element,id,from,callback){
                             $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
                         break;
                         case 'selectedFolder':
+                        case 'selectedFeedNonLu':
                             parent.addClass('eventRead');
                             if(callback){
                                 callback();
@@ -483,7 +484,8 @@ function readThis(element,id,from,callback){
                             if( console && console.log && msg!="" ) console.log(msg);
                             parent.removeClass('eventRead');
                             // on compte combien d'article ont été remis à non lus
-                            if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+                            if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeedNonLu'))
+                                $(window).data('nblus', $(window).data('nblus')-1);
                             if(callback){
                                 callback();
                             }
@@ -510,7 +512,8 @@ function unReadThis(element,id,from){
                         if( console && console.log && msg!="" ) console.log(msg);
                         parent.removeClass('eventRead');
                         // on compte combien d'article ont été remis à non lus
-                        if ( (activeScreen=='') || (activeScreen=='selectedFolder') ) $(window).data('nblus', $(window).data('nblus')-1);
+                        if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeedNonLu'))
+                            $(window).data('nblus', $(window).data('nblus')-1);
                         // on augmente le nombre d'article en haut de page
                         if (activeScreen=='') $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
                     }
