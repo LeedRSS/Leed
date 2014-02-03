@@ -35,11 +35,17 @@ class_exists('Opml') or require_once('Opml.class.php');
 //Calage de la date
 date_default_timezone_set('Europe/Paris');
 
+$userManager = new User();
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+if (empty($myUser)) {
+    /* Pas d'utilisateur dans la session ?
+     * On tente de récupérer une nouvelle session avec un jeton. */
+    $myUser = $userManager->existAuthToken();
+    $_SESSION['currentUser'] = serialize($myUser);
+}
+
 $feedManager = new Feed();
 $eventManager = new Event();
-$userManager = new User();
-if (empty($myUser)) $myUser = $userManager->existAuthToken();
 $folderManager = new Folder();
 $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
