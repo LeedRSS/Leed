@@ -377,9 +377,9 @@ function saveRenameFolder(element,folder){
 
 function renameFeed(element,feed){
     var feedLine = $(element).parent().parent();
-    var feedNameCase = $('td a:nth-child(1)',feedLine);
+    var feedNameCase = feedLine.children('.js-feedTitle').children('a:nth-child(1)');
     var feedNameValue = feedNameCase.html();
-    var feedUrlCase = $('td a:nth-child(2)',feedLine);
+    var feedUrlCase = feedLine.children('.js-feedTitle').children('a:nth-child(2)');
     var feedUrlValue = feedUrlCase.attr('href');
     var url = feedNameCase.attr('href');
     $(element).html(_t('SAVE'));
@@ -391,9 +391,9 @@ function renameFeed(element,feed){
 
 function saveRenameFeed(element,feed,url){
     var feedLine = $(element).parent().parent();
-    var feedNameCase = $('td:first input[name="feedName"]',feedLine);
+    var feedNameCase = feedLine.children('.js-feedTitle:first').children('input[name="feedName"]');
     var feedNameValue = feedNameCase.val();
-    var feedUrlCase = $('td:first input[name="feedUrl"]',feedLine);
+    var feedUrlCase = feedLine.children('.js-feedTitle:first').children('input[name="feedUrl"]');
     var feedUrlValue = feedUrlCase.val();
     $(element).html('Renommer');
     $(element).attr('style','background-color:#F16529;');
