@@ -316,12 +316,11 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
         </table>
         <button id="installButton" name="installButton">Lancer l'installation</button>
     </form>
-    <div id="footer-container">
-        <footer class="wrapper">
-            <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
-        </footer>
-    </div>
 </div>
-
+<div id="footer-container">
+    <footer class="wrapper">
+        <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+    </footer>
+</div>
 </body>
 </html>
