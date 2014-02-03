@@ -42,7 +42,7 @@ class User extends MysqlEntity{
         return sha1($this->password.$this->login);
     }
 
-    function existAuthToken($auth=null){
+    static function existAuthToken($auth=null){
         $result = false;
         $userManager = new User();
         $users = $userManager->populate('id');

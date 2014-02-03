@@ -504,7 +504,7 @@ switch ($action){
         }
 
         if(isset($_['usr'])){
-            $user = $userManager->existAuthToken($_['usr']);
+            $user = User::existAuthToken($_['usr']);
             if($user==false){
                 exit("erreur identification : le compte est inexistant");
             }else{

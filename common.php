@@ -40,7 +40,7 @@ $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser'])
 if (empty($myUser)) {
     /* Pas d'utilisateur dans la session ?
      * On tente de récupérer une nouvelle session avec un jeton. */
-    $myUser = $userManager->existAuthToken();
+    $myUser = User::existAuthToken();
     $_SESSION['currentUser'] = serialize($myUser);
 }
 
