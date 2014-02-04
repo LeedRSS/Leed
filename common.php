@@ -61,7 +61,6 @@ i18n_init();
 
 
 $view = '';
-$tpl->assign('i18n_js',$i18n_js);
 $tpl->assign('myUser',$myUser);
 $tpl->assign('feedManager',$feedManager);
 $tpl->assign('eventManager',$eventManager);
@@ -84,5 +83,7 @@ $tpl->assign('action','');
 
 //Inclusion des plugins
 Plugin::includeAll();
+// pour inclure aussi les traductions des plugins dans les js
+$tpl->assign('i18n_js',$i18n_js);
 
 ?>

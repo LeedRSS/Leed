@@ -14,7 +14,7 @@ class Plugin{
     }
 
     public static function includeAll(){
-        global $i18n;
+        global $i18n, $i18n_js;
         $pluginFiles = Plugin::getFiles(true);
         if(is_array($pluginFiles)) {
             foreach($pluginFiles as $pluginFile) {
@@ -37,6 +37,7 @@ class Plugin{
                 }
             }
         }
+        $i18n_js = json_encode($i18n);
     }
 
     private static function getStates(){
