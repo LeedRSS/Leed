@@ -361,7 +361,9 @@ switch ($action){
                 (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
             );
             $newFeed->save();
-            $newFeed->parse(time(), $_, true);
+            $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
+            $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+            $newFeed->parse(time(), $_, $enableCache, $forceFeed);
         }
         header('location: ./settings.php#manageBloc');
     break;
