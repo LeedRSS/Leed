@@ -19,12 +19,7 @@ class Plugin{
         if(is_array($pluginFiles)) {
             foreach($pluginFiles as $pluginFile) {
                 // Chargement du fichier de Langue du plugin
-                if (file_exists(dirname($pluginFile).'/locale/'.LANGUAGE.'.json'))
-                {
-                    $i18n_file =  file_get_contents(dirname($pluginFile).'/locale/'.LANGUAGE.'.json');
-                    $i18n_plugin = json_decode($i18n_file,true);
-                    $i18n = array_merge($i18n, $i18n_plugin);
-                }
+                $i18n->append(new Translation(dirname($pluginFile)));
                 // Inclusion du coeur de plugin
                 include $pluginFile;
                 // Gestion des css du plugin en fonction du thème actif
@@ -37,7 +32,7 @@ class Plugin{
                 }
             }
         }
-        $i18n_js = json_encode($i18n);
+        $i18n_js = $i18n->getJson();
     }
 
     private static function getStates(){
