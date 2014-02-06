@@ -128,7 +128,6 @@
                         <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
                             {function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
                         <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
-                        <p><input type="radio" {if="$synchronisationType=='manual'"} checked="checked" {/if}  value="manual" id="synchronisationTypeManual" name="synchronisationType"> <label for="synchronisationTypeManual"><strong>{function="_t('MANUAL_FULL')"} :</strong></label> {function="_t('MANUAL_FULL_DESC')"}</p>
 
                         <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
                         {$synchronisationCode}
