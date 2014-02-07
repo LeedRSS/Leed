@@ -48,11 +48,14 @@ class Plugin{
         $statesBefore = self::getStates();
         $statesAfter = array();
         $error = false;
-        foreach($statesBefore as $file=>$state) {
-            if (file_exists($file))
-                $statesAfter[$file] = $state;
-            else
-                $error = true;
+        if (is_array($statesBefore))
+        {
+            foreach($statesBefore as $file=>$state) {
+                if (file_exists($file))
+                    $statesAfter[$file] = $state;
+                else
+                    $error = true;
+            }
         }
         if ($error) self::setStates($statesAfter);
     }
