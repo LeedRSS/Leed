@@ -66,43 +66,43 @@ if(isset($_['installButton'])){
     if (!Functions::testDb(
         $_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
     )) {
-        $test['Erreur'][] = _t('INSTALL_ERROR_CONNEXION');
+        $test[_t('ERROR')][] = _t('INSTALL_ERROR_CONNEXION');
     } else {
-        $test['Succès'][] = _t('INSTALL_INFO_CONNEXION');
+        $test[_t('SUCCESS')][] = _t('INSTALL_INFO_CONNEXION');
     }
 }
 if(!is_writable('./')){
-    $test['Erreur'][]=_t('INSTALL_ERROR_RIGHT', array(str_replace(basename(__FILE__),'',__FILE__)));
+    $test[_t('ERROR')][]=_t('INSTALL_ERROR_RIGHT', array(str_replace(basename(__FILE__),'',__FILE__)));
 }else{
-    $test['Succès'][]=_t('INSTALL_INFO_RIGHT');
+    $test[_t('SUCCESS')][]=_t('INSTALL_INFO_RIGHT');
 }
 if (!@function_exists('mysql_connect')){
-    $test['Erreur'][] = _t('INSTALL_ERROR_MYSQLCONNECT');
+    $test[_t('ERROR')][] = _t('INSTALL_ERROR_MYSQLCONNECT');
 }else{
-    $test['Succès'][] = _t('INSTALL_INFO_MYSQLCONNECT');
+    $test[_t('SUCCESS')][] = _t('INSTALL_INFO_MYSQLCONNECT');
 }
 if (!@function_exists('file_get_contents')){
-    $test['Erreur'][] =  _t('INSTALL_ERROR_FILEGET');
+    $test[_t('ERROR')][] =  _t('INSTALL_ERROR_FILEGET');
 }else{
-    $test['Succès'][] = _t('INSTALL_INFO_FILEGET');
+    $test[_t('SUCCESS')][] = _t('INSTALL_INFO_FILEGET');
 }
 if (!@function_exists('file_put_contents')){
-    $test['Erreur'][] = _t('INSTALL_ERROR_FILEPUT');
+    $test[_t('ERROR')][] = _t('INSTALL_ERROR_FILEPUT');
 }else{
-    $test['Succès'][] = _t('INSTALL_INFO_FILEPUT');
+    $test[_t('SUCCESS')][] = _t('INSTALL_INFO_FILEPUT');
 }
 if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
-    $test['Erreur'][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
+    $test[_t('ERROR')][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
 }else{
-    $test['Succès'][] = _t('INSTALL_INFO_PHPV', array(PHP_VERSION));
+    $test[_t('SUCCESS')][] = _t('INSTALL_INFO_PHPV', array(PHP_VERSION));
 }
 if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
-    $test['Erreur'][] = _t('INSTALL_ERROR_SAFEMODE');
+    $test[_t('ERROR')][] = _t('INSTALL_ERROR_SAFEMODE');
 }else{
-    $test['Succès'][] = _t('INSTALL_INFO_SAFEMODE');
+    $test[_t('SUCCESS')][] = _t('INSTALL_INFO_SAFEMODE');
 }
 
-if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'installation peut se faire.
+if (isset($_['installButton']) && empty($test[_t('ERROR')])) { // Pas d'erreur, l'installation peut se faire.
     $constant = "<?php
     define('VERSION_NUMBER','1.5');
     define('VERSION_NAME','Beta');
