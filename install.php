@@ -61,7 +61,7 @@ if (!isset($_['mysqlPrefix'])) {
 
 if(isset($_['installButton'])){
     if (empty($_['password']) || empty($_['login'])) {
-        $test['Erreur'][] = _t('INSTALL_ERROR_USERPWD');
+        $test[_t('ERROR')][] = _t('INSTALL_ERROR_USERPWD');
     }
     if (!Functions::testDb(
         $_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
@@ -298,7 +298,7 @@ if (isset($_['installButton']) && empty($test[_t('ERROR')])) { // Pas d'erreur, 
             <?php
                 foreach($test as $type=>$messages){
                     $class = 'message ';
-                    $class .= 'Erreur'==$type ? 'messageError':'messageSuccess';
+                    $class .= _t('ERROR')==$type ? 'messageError':'messageSuccess';
                     echo "<li class='$class'>$type&nbsp;:\n<ul>";
                     foreach ($messages as $message){
                         echo "<li>$message</li>\n";
