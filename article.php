@@ -80,6 +80,7 @@ switch($action){
 $tpl->assign('events',$events);
 $tpl->assign('scroll',$_['scroll']);
 $view = "article";
+Plugin::callHook("index_post_treatment", array(&$events));
 $html = $tpl->draw($view);
 
 ?>
