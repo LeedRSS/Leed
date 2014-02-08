@@ -176,7 +176,7 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
     $configurationManager->add('root',$root);
     $configurationManager->add('articleView','partial');
     $configurationManager->add('articleDisplayContent','1');
-    $configurationManager->add('articleDisplayAnonymous','1');
+    $configurationManager->add('articleDisplayAnonymous','0');
     $configurationManager->add('articlePerPages','5');
     $configurationManager->add('articleDisplayLink','1');
     $configurationManager->add('articleDisplayDate','1');
