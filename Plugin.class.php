@@ -46,6 +46,9 @@ class Plugin{
     }
     public static function pruneStates() {
         $statesBefore = self::getStates();
+        if(empty($statesBefore))
+            $statesBefore = array();
+
         $statesAfter = array();
         $error = false;
         if (is_array($statesBefore))
@@ -183,7 +186,9 @@ class Plugin{
     public static function getFiles($onlyActivated=false){
 
         $enabled = $disabled =  array();
-        $files = glob(dirname(__FILE__). Plugin::FOLDER .'/*/*.plugin.*.php') or array();
+        $files = glob(dirname(__FILE__). Plugin::FOLDER .'/*/*.plugin.*.php');
+        if(empty($files))
+            $files = array();
 
         foreach($files as $file){
             $plugin = Plugin::getObject($file);
