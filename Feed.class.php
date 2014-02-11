@@ -8,7 +8,7 @@
 
 class Feed extends MysqlEntity{
 
-    protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate;
+    protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose;
     protected $TABLE_NAME = 'feed';
     protected $CLASS_NAME = 'Feed';
     protected $object_fields =
@@ -19,7 +19,8 @@ class Feed extends MysqlEntity{
         'website'=>'longstring',
         'url'=>'longstring',
         'lastupdate'=>'string',
-        'folder'=>'integer'
+        'folder'=>'integer',
+        'isverbose'=>'boolean',
     );
 
     protected $object_fields_index =
@@ -283,6 +284,14 @@ class Feed extends MysqlEntity{
 
     function setLastupdate($lastupdate){
         $this->lastupdate = $lastupdate;
+    }
+
+    function getIsverbose(){
+        return $this->isverbose;
+    }
+
+    function setIsverbose($isverbose){
+        $this->isverbose = $isverbose;
     }
 
     /** @returns vrai si l'url n'est pas déjà connue .*/

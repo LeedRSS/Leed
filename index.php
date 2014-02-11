@@ -38,6 +38,7 @@ $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort
 $displayOnlyUnreadFeedFolder = $configurationManager->get('displayOnlyUnreadFeedFolder');
 if (!isset($displayOnlyUnreadFeedFolder)) $displayOnlyUnreadFeedFolder=false;
 ($displayOnlyUnreadFeedFolder=='true')?$displayOnlyUnreadFeedFolder_reverse='false':$displayOnlyUnreadFeedFolder_reverse='true';
+$displayFolderIsVerbose = $configurationManager->get('displayFolderIsVerbose');
 
 $tpl->assign('articleDisplayContent',$configurationManager->get('articleDisplayContent'));
 $tpl->assign('articleView',$configurationManager->get('articleView'));
@@ -119,12 +120,21 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
     case 'unreadEvents':
     default:
-        $numberOfItem = $eventManager->rowCount(array('unread'=>1));
+        $filter = array('unread'=>1);
+        if($displayFolderIsVerbose) {
+            $numberOfItem = $eventManager->rowCount($filter);
+        } else {
+            $numberOfItem = $eventManager->getEventCountNotVerboseFeed();
+        }
         $page = (isset($_['page'])?$_['page']:1);
         $pages = ($articlePerPages>0?ceil($numberOfItem/$articlePerPages):1);
         $startArticle = ($page-1)*$articlePerPages;
         if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
-        $events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),$order,$startArticle.','.$articlePerPages);
+        if($displayFolderIsVerbose) {
+            $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
+        } else {
+            $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
+        }
         $tpl->assign('numberOfItem',$numberOfItem);
 
     break;

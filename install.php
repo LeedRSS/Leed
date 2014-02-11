@@ -183,6 +183,8 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
     $configurationManager->add('articleDisplayAuthor','1');
     $configurationManager->add('articleDisplayHomeSort','1');
     $configurationManager->add('articleDisplayFolderSort','1');
+    $configurationManager->add('displayOnlyUnreadFeedFolder','false');
+    $configurationManager->add('displayFolderIsVerbose',1);
     $configurationManager->add('synchronisationType','auto');
     $configurationManager->add('feedMaxEvents','50');
     $configurationManager->add('synchronisationCode',$synchronisationCode);
