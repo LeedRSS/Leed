@@ -196,8 +196,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('cryptographicSalt', $cryptographicSalt);
 
-    header('location: settings.php#preferenceBloc');
-    exit();
+    $install_terminee=true;
 } /* Ci-dessous, on y va si :
 - la page est simplement affichée, sans avoir été validée
 - le formulaire est soumis, mais l'installation ne peut se faire
@@ -266,6 +265,30 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
             </nav>
         </header>
     </div>
+    <?php
+    if (@$install_terminee){
+        echo '<div id="main-container">
+                <div id="main" class="wrapper clearfix">
+                    <div id="menuBar"></div>
+                        <h1>'._t('INSTALL_TITLE_END').'</h1>
+                        <span>'._t('INSTALL_END').'</span>
+                        <hr>
+                        <button id="installButton" name="installButton" onclick="document.location.href=\'settings.php#preferenceBloc\'">'._t('INSTALL_BTN_END').'</button>
+              ';
+        // écriture des balises de fin et ne pas faire la suite
+        echo '</div>
+            <div id="footer-container">
+                <footer class="wrapper">
+                    <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+                </footer>
+            </div>
+            </body>
+            </html>';
+        exit();
+    }
+
+
+    ?>
     <div id="main-container">
         <div id="main" class="wrapper clearfix">
         <div id="menuBar">
