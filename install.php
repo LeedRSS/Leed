@@ -9,7 +9,10 @@
 require_once('Functions.class.php');
 require_once('i18n.php');
 global $i18n;
-i18n_init('fr');
+$install_terminee=false;
+
+(isset($_GET['lang'])?$language=$_GET['lang']:$language=DEFAULT_LANGUAGE);
+i18n_init($language);
 
 if (file_exists('constant.php')) {
     die(_t('ALREADY_INSTALLED'));
@@ -48,7 +51,7 @@ if (empty($root)) {
     $root = str_replace(
         basename(__FILE__),
         '',
-        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
+        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
     );
 }
 if (!isset($_['mysqlPrefix'])) {
@@ -124,7 +127,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     //Nombre de flux mis à jour lors de la synchronisation graduée
     define('SYNC_GRAD_COUNT',10);
     //Langue utilisée
-    define('LANGUAGE','fr');
+    define('LANGUAGE','".$_POST['install_changeLngLeed']."');
 ?>";
 
     file_put_contents('constant.php', $constant);
@@ -266,7 +269,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
         </header>
     </div>
     <?php
-    if (@$install_terminee){
+    if ($install_terminee){
         echo '<div id="main-container">
                 <div id="main" class="wrapper clearfix">
                     <div id="menuBar"></div>
@@ -313,6 +316,23 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
         <h1><?php echo _t('INSTALL_TITLE') ?></h1>
         <h2><?php echo _t('INSTALL_TAB_GENERAL') ?></h2>
         <ul>
+            <li>
+                <span><?php echo _t('INSTALL_LANGUAGE') ?></span>
+                <select name="install_changeLngLeed" onchange="window.location.href='install.php?lang='+this[this.selectedIndex].value">
+                <?php
+                    $filesLeed = glob('./locale/*.json');
+                    foreach($filesLeed as $file){
+                        preg_match('#./locale/([a-z][a-z]).json#',$file,$matches);
+                        if ($file=='./locale/'.$language.'.json')
+                        {
+                            echo '<option selected=selected value="'.$matches[1].'">'.$matches[1].'</option>';
+                        } else {
+                            echo '<option value="'.$matches[1].'">'.$matches[1].'</option>';
+                        }
+                    }
+                ?>
+                </select>
+            </li>
             <li>
                 <span><?php echo _t('PROJECT_ROOT') ?></span>
                 <input type="text" name="root" value="<?php echo $root; ?>">
