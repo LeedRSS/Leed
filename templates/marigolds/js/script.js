@@ -601,3 +601,19 @@ function getUrlVars()
     }
     return vars;
 }
+
+// affiche ou cache les feeds n'ayant pas d'article non lus.
+function toggleFeedVerbose(button,action,idFeed){
+    $.ajax({
+        url: "./action.php?action=displayFolderIsVerbose&displayFolderIsVerbose="+action+"&idFeed="+idFeed,
+        success:function(msg){
+            if(msg.status == 'noconnect') {
+                alert(msg.texte)
+            } else {
+                if( console && console.log && msg!="" ) console.log(msg);
+                //changement de l'évènement onclick pour faire l'inverse lors du prochain clic
+                $(button).attr('onclick','toggleFeedVerbose(this,'+!action+', '+idFeed+');');
+            }
+        }
+    });
+}
