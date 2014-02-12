@@ -57,7 +57,7 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-i18n_init();
+i18n_init(LANGUAGE);
 
 
 $view = '';
