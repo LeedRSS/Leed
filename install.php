@@ -7,9 +7,15 @@
  */
 
 require_once('Functions.class.php');
+require_once('i18n.php');
+global $i18n;
+$install_terminee=false;
+
+(isset($_GET['lang'])?$language=$_GET['lang']:$language=DEFAULT_LANGUAGE);
+i18n_init($language);
 
 if (file_exists('constant.php')) {
-    die('Leed est déjà configuré. Supprimez ou renommez le fichier de configuration.');
+    die(_t('ALREADY_INSTALLED'));
 }
 
 // Cookie de la session
@@ -45,7 +51,7 @@ if (empty($root)) {
     $root = str_replace(
         basename(__FILE__),
         '',
-        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
+        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
     );
 }
 if (!isset($_['mysqlPrefix'])) {
@@ -53,50 +59,53 @@ if (!isset($_['mysqlPrefix'])) {
     $mysqlPrefix = 'leed_';
 }
 
+$lib_errors = _t('ERROR');
+$lib_success = _t('SUCCESS');
+
 if(isset($_['installButton'])){
     if (empty($_['password']) || empty($_['login'])) {
-        $test['Erreur'][] = "Par sécurité, il est nécessaire de fournir un nom d'utilisateur et un mot de passe.";
+        $test[$lib_errors][] = _t('INSTALL_ERROR_USERPWD');
     }
     if (!Functions::testDb(
         $_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
     )) {
-        $test['Erreur'][] = "Connexion à la base de donnnées impossible.";
+        $test[$lib_errors][] = _t('INSTALL_ERROR_CONNEXION');
     } else {
-        $test['Succès'][] = "Connexion à la base de données : OK";
+        $test[$lib_success][] = _t('INSTALL_INFO_CONNEXION');
     }
 }
 if(!is_writable('./')){
-    $test['Erreur'][]='Écriture impossible dans le répertoire Leed, veuillez ajouter les permissions en écriture sur tout le dossier (sudo chmod 777 -R '.str_replace(basename(__FILE__),'',__FILE__).', pensez à blinder les permissions par la suite)';
+    $test[$lib_errors][]=_t('INSTALL_ERROR_RIGHT', array(str_replace(basename(__FILE__),'',__FILE__)));
 }else{
-    $test['Succès'][]='Permissions sur le dossier courant : OK';
+    $test[$lib_success][]=_t('INSTALL_INFO_RIGHT');
 }
 if (!@function_exists('mysql_connect')){
-    $test['Erreur'][] = 'La fonction requise "mysql_connect" est inaccessible sur votre serveur, verifiez vote installation de MySql.';
+    $test[$lib_errors][] = _t('INSTALL_ERROR_MYSQLCONNECT');
 }else{
-    $test['Succès'][] = 'Fonction requise "mysql_connect" : OK';
+    $test[$lib_success][] = _t('INSTALL_INFO_MYSQLCONNECT');
 }
 if (!@function_exists('file_get_contents')){
-    $test['Erreur'][] = 'La fonction requise "file_get_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
+    $test[$lib_errors][] =  _t('INSTALL_ERROR_FILEGET');
 }else{
-    $test['Succès'][] = 'Fonction requise "file_get_contents" : OK';
+    $test[$lib_success][] = _t('INSTALL_INFO_FILEGET');
 }
 if (!@function_exists('file_put_contents')){
-    $test['Erreur'][] = 'La fonction requise "file_put_contents" est inaccessible sur votre serveur, verifiez votre version de PHP.';
+    $test[$lib_errors][] = _t('INSTALL_ERROR_FILEPUT');
 }else{
-    $test['Succès'][] = 'Fonction requise "file_put_contents" : OK';
+    $test[$lib_success][] = _t('INSTALL_INFO_FILEPUT');
 }
 if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
-    $test['Erreur'][] = 'Votre version de PHP ('.PHP_VERSION.') est trop ancienne, il est possible que certaines fonctionalitees du script comportent des disfonctionnements.';
+    $test[$lib_errors][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
 }else{
-    $test['Succès'][] = 'Compabilité de version PHP ('.PHP_VERSION.') : OK';
+    $test[$lib_success][] = _t('INSTALL_INFO_PHPV', array(PHP_VERSION));
 }
 if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
-    $test['Erreur'][] = 'Le script ne peux pas gerer le timeout tout seul car votre safe mode est activé,<br/> dans votre fichier de configuration PHP, mettez la variable max_execution_time à 0 ou désactivez le safemode.';
+    $test[$lib_errors][] = _t('INSTALL_ERROR_SAFEMODE');
 }else{
-    $test['Succès'][] = 'Gestion du timeout : OK';
+    $test[$lib_success][] = _t('INSTALL_INFO_SAFEMODE');
 }
 
-if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'installation peut se faire.
+if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, l'installation peut se faire.
     $constant = "<?php
     define('VERSION_NUMBER','1.5');
     define('VERSION_NAME','Beta');
@@ -118,7 +127,7 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
     //Nombre de flux mis à jour lors de la synchronisation graduée
     define('SYNC_GRAD_COUNT',10);
     //Langue utilisée
-    define('LANGUAGE','fr');
+    define('LANGUAGE','".$_POST['install_changeLngLeed']."');
 ?>";
 
     file_put_contents('constant.php', $constant);
@@ -161,7 +170,7 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
     if ($folderManager->rowCount()==0) {
         //Création du dossier général
         $folder = new Folder();
-        $folder->setName('Général');
+        $folder->setName(_t('GENERAL_FOLDER'));
         $folder->setParent(-1);
         $folder->setIsopen(1);
         $folder->save();
@@ -190,8 +199,7 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('cryptographicSalt', $cryptographicSalt);
 
-    header('location: settings.php#preferenceBloc');
-    exit();
+    $install_terminee=true;
 } /* Ci-dessous, on y va si :
 - la page est simplement affichée, sans avoir été validée
 - le formulaire est soumis, mais l'installation ne peut se faire
@@ -205,7 +213,7 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Installation</title>
+    <title><?php echo _t('INSTALL_TITLE') ?></title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="templates/marigolds/css/style.css">
     <style>
@@ -260,16 +268,40 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
             </nav>
         </header>
     </div>
+    <?php
+    if ($install_terminee){
+        echo '<div id="main-container">
+                <div id="main" class="wrapper clearfix">
+                    <div id="menuBar"></div>
+                        <h1>'._t('INSTALL_TITLE_END').'</h1>
+                        <span>'._t('INSTALL_END').'</span>
+                        <hr>
+                        <button id="installButton" name="installButton" onclick="document.location.href=\'settings.php#preferenceBloc\'">'._t('INSTALL_BTN_END').'</button>
+              ';
+        // écriture des balises de fin et ne pas faire la suite
+        echo '</div>
+            <div id="footer-container">
+                <footer class="wrapper">
+                    <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+                </footer>
+            </div>
+            </body>
+            </html>';
+        exit();
+    }
+
+
+    ?>
     <div id="main-container">
         <div id="main" class="wrapper clearfix">
         <div id="menuBar">
         <aside>
-            <h3 class="left">Verifications</h3>
+            <h3 class="left"><?php echo _t('INSTALL_PRE_REQUIS') ?></h3>
             <ul class="clear" style="margin:0">
             <?php
                 foreach($test as $type=>$messages){
                     $class = 'message ';
-                    $class .= 'Erreur'==$type ? 'messageError':'messageSuccess';
+                    $class .= $lib_errors==$type ? 'messageError':'messageSuccess';
                     echo "<li class='$class'>$type&nbsp;:\n<ul>";
                     foreach ($messages as $message){
                         echo "<li>$message</li>\n";
@@ -281,49 +313,66 @@ if (isset($_['installButton']) && empty($test['Erreur'])) { // Pas d'erreur, l'i
         </aside>
     </div>
     <form action="install.php" method="POST" class="install">
-        <h1>Installation de Leed</h1>
-        <h2>Général</h2>
+        <h1><?php echo _t('INSTALL_TITLE') ?></h1>
+        <h2><?php echo _t('INSTALL_TAB_GENERAL') ?></h2>
         <ul>
             <li>
-                <span>Racine du projet</span>
+                <span><?php echo _t('INSTALL_LANGUAGE') ?></span>
+                <select name="install_changeLngLeed" onchange="window.location.href='install.php?lang='+this[this.selectedIndex].value">
+                <?php
+                    $filesLeed = glob('./locale/*.json');
+                    foreach($filesLeed as $file){
+                        preg_match('#./locale/([a-z][a-z]).json#',$file,$matches);
+                        if ($file=='./locale/'.$language.'.json')
+                        {
+                            echo '<option selected=selected value="'.$matches[1].'">'.$matches[1].'</option>';
+                        } else {
+                            echo '<option value="'.$matches[1].'">'.$matches[1].'</option>';
+                        }
+                    }
+                ?>
+                </select>
+            </li>
+            <li>
+                <span><?php echo _t('PROJECT_ROOT') ?></span>
                 <input type="text" name="root" value="<?php echo $root; ?>">
             </li>
         </ul>
-        <h2>Mysql</h2>
+        <h2><?php echo _t('INSTALL_TAB_BDD') ?></h2>
         <ul>
             <li>
-                <span>Hôte</span>
-                <input type="text" name="mysqlHost" value="<?php echo $mysqlHost; ?>" placeholder="(Généralement 'localhost')">
+                <span><?php echo _t('INSTALL_HOST') ?></span>
+                <input type="text" name="mysqlHost" value="<?php echo $mysqlHost; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_HOST') ?>">
             </li>
             <li>
-                <span>Identifiant</span>
+                <span><?php echo _t('LOGIN') ?></span>
                 <input type="text" name="mysqlLogin" value="<?php echo $mysqlLogin; ?>">
             </li>
             <li>
-                <span>Mot de passe</span>
-                <input type="text" autocomplete="off" name="mysqlMdp" value="<?php echo $mysqlMdp; ?>" placeholder="(sera affiché en clair)">
+                <span><?php echo _t('PASSWORD') ?></span>
+                <input type="text" autocomplete="off" name="mysqlMdp" value="<?php echo $mysqlMdp; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
             </li>
             <li>
-                <span>Base</span>
-                <input type="text" name="mysqlBase" value="<?php echo $mysqlBase; ?>" placeholder="(à créer avant)">
+                <span><?php echo _t('INSTALL_BDD') ?></span>
+                <input type="text" name="mysqlBase" value="<?php echo $mysqlBase; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_BDD') ?>">
             </li>
             <li>
-                <span>Préfixe des tables</span>
+                <span><?php echo _t('INSTALL_PREFIX_TABLE') ?></span>
                 <input type="text" name="mysqlPrefix" value="<?php echo $mysqlPrefix; ?>">
             </li>
         </ul>
-        <h2>Administrateur</h2>
+        <h2><?php echo _t('INSTALL_TAB_ADMIN') ?></h2>
         <ul>
             <li>
-                <span>Identifiant</span>
-                <input type="text" name="login" value="<?php echo $login; ?>" placeholder="Identifiant">
+                <span><?php echo _t('LOGIN') ?></span>
+                <input type="text" name="login" value="<?php echo $login; ?>" placeholder="<?php echo _t('LOGIN') ?>">
             </li>
             <li>
-                <span>Mot de passe</span>
-                <input type="text" autocomplete="off" name="password" value="<?php echo $password; ?>" placeholder="(sera affiché en clair)">
+                <span><?php echo _t('PASSWORD') ?></span>
+                <input type="text" autocomplete="off" name="password" value="<?php echo $password; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
             </li>
         </ul>
-        <button id="installButton" name="installButton">Lancer l'installation</button>
+        <button id="installButton" name="installButton"><?php echo _t('INSTALL_BTN') ?></button>
     </form>
 </div>
 <div id="footer-container">
