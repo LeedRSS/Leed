@@ -15,10 +15,8 @@ class Translation {
     // tableau associatif des traductions
     var $trans = array();
 
-    function __construct($location) {
-        assert('defined("LANGUAGE") && ""!=LANGUAGE');
-        assert('defined("DEFAULT_LANGUAGE") && ""!=DEFAULT_LANGUAGE');
-        $this->language = LANGUAGE;
+    function __construct($location,$p_language=null) {
+        (defined('LANGUAGE')?$this->language = LANGUAGE:$this->language=$p_language);
         $this->defaultLanguage = DEFAULT_LANGUAGE;
         $this->location = $location;
         $this->load();
@@ -75,10 +73,10 @@ class Translation {
 
 }
 
-function i18n_init(){
+function i18n_init($language=null){
     global $i18n,$i18n_js;
     if(!isset($i18n)){
-        $i18n = new Translation(dirname(__FILE__));
+        $i18n = new Translation(dirname(__FILE__),$language);
         $i18n_js = $i18n->getJson();
     }
 }
