@@ -144,7 +144,7 @@
  "PLUGINS":"Plugins",
  "PREFERENCES":"Preferences",
  "PRESENTATION":"PRESENTATION",
- "PRESENTATION_PARAGRAPH":"<b>Leed (contraction of Light Feed)</b> is a minimalistic RSS feed aggregator which allows quick and non-intrusive reading of feeds.</p><p> All the tasks are done silently with synchronized task (Cron), thus the user is not faced with the slow down due to the retrieveing and processing of the feeds.</p><p> Leed is compatible with all monitors' resolution, desktop computers, tablets and smartphones and accessible from all the browsers.</p><p> The script is also compatible with OPML import/export, which makes easier the migration from aggregators respecting the OPML standard.",
+ "PRESENTATION_PARAGRAPH":"<b>Leed (contraction of Light Feed)</b> is a minimalistic RSS feed aggregator which allows quick and non-intrusive reading of feeds.</p><p> All the tasks are done silently with a scheduled task (Cron), thus the user is not faced with the slow down due to the retrieveing and processing of the feeds.</p><p> Leed is compatible with all monitors' resolution, desktop computers, tablets and smartphones and accessible from all the browsers.</p><p> The script is also compatible with OPML import/export, which makes easier the migration from aggregators respecting the OPML standard.",
  "PROJECT_PAGE":"Project page",
  "PROJECT_ROOT":"Project root",
  "QUESTIONS_SUGGESTIONS":"QUESTIONS & SUGGESTIONS",

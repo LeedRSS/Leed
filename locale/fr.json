@@ -144,7 +144,7 @@
  "PLUGINS":"Plugins",
  "PREFERENCES":"Préférences",
  "PRESENTATION":"PRÉSENTATION",
- "PRESENTATION_PARAGRAPH":"<b>Leed (contraction de Light Feed)</b> est un agrégateur RSS minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.</p><p>Toutes les tâches de traitement de flux sont effectuées de manière invisible par une tâche synchronisée (Cron). Ainsi, l’utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacun des flux suivis.</p><p>À noter que Leed est compatible toutes résolutions, sur pc, tablettes et smartphones et fonctionne avec tous les navigateurs.</p><p>Le script est également compatible avec les fichiers d’export/import OPML ce qui rend la migration de tous les agrégateurs respectant le standard OPML simple et rapide.",
+ "PRESENTATION_PARAGRAPH":"<b>Leed (contraction de Light Feed)</b> est un agrégateur RSS minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.</p><p>Toutes les tâches de traitement de flux sont effectuées de manière invisible par une tâche planifiée (Cron). Ainsi, l’utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacun des flux suivis.</p><p>À noter que Leed est compatible toutes résolutions, sur pc, tablettes et smartphones et fonctionne avec tous les navigateurs.</p><p>Le script est également compatible avec les fichiers d’export/import OPML ce qui rend la migration de tous les agrégateurs respectant le standard OPML simple et rapide.",
  "PROJECT_PAGE":"Page projet",
  "PROJECT_ROOT":"Racine du projet",
  "QUESTIONS_SUGGESTIONS":"QUESTIONS & SUGGESTIONS",
