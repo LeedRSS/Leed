@@ -45,7 +45,7 @@
  "FEED":"Flux",
  "FEED_MANAGING":"Gestion des flux",
  "FEED_OPTION":"Option des flux",
- "FEED_OPTION_ISVERBOSE":"Activer / Désactiver l'option pour cacher les flux souhaités de la page d'accueil :",
+ "FEED_OPTION_ISVERBOSE":"Cacher les flux sélectionnés de la page d'accueil :",
  "FEED_RSS_LINK":"Lien du flux RSS",
  "FEED_SYNCHRONISATION":"Synchronisation des flux",
  "FOLD":"Plier",
