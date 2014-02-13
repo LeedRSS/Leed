@@ -69,7 +69,7 @@
  "HELP_S":"<strong>s</strong> marque l’élément sélectionné comme favori / non favori",
  "HELP_SPC":"<strong>espace</strong> élément suivant (et l’ouvrir)",
  "HELP_V":"<strong>v</strong> ouvre l’URL de l’élément sélectionné",
- "HIDEFEEDISVERBOSE":"Ne pas charger sur la page d'accueil",
+ "HIDE_FEED_IS_VERBOSE":"Ne pas charger sur la page d'accueil",
  "HOME":"Accueil",
  "HOWTO_RESET_PASSWORD":"<b>Pour réinitialiser le mot de passe</b>, créez un fichier <em>resetPassword</em> à la racine du site. La connexion marchera toujours, le mot de passe fourni remplacera l'ancien.",
  "IDENTIFIED_WITH":"Identifié avec $1",

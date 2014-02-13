@@ -94,9 +94,9 @@
                                             {/loop}
                                         </select>
                                         {if="$value2->getIsverbose()==0"}
-                                        <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDEFEEDISVERBOSE')"}">
+                                        <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}">
                                         {else}
-                                        <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDEFEEDISVERBOSE')"}" checked>
+                                        <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}" checked>
                                         {/if}
                                     </div>
                                 </li>

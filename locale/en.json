@@ -69,7 +69,7 @@
  "HELP_S":"<strong>s</strong> mark the selected element as favorite / not favorite",
  "HELP_SPC":"<strong>espace</strong> next element (opening it)",
  "HELP_V":"<strong>v</strong> open the selected element URL",
- "HIDEFEEDISVERBOSE":"Do not load on the home page",
+ "HIDE_FEED_IS_VERBOSE":"Do not load on the home page",
  "HOME":"Home",
  "HOWTO_RESET_PASSWORD":"<b>To reset the password</b>, create a file <em>resetPassword</em> at the site's root. The login will always work, the provided password will replace the former one.",
  "IDENTIFIED_WITH":"Identified as $1",
