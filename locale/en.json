@@ -45,6 +45,7 @@
  "FEED":"Feed",
  "FEED_MANAGING":"Feed managing",
  "FEED_OPTION":"Feed options",
+ "FEED_OPTION_ISVERBOSE":"Enable / Disable option to hide the desired feed on your home page:",
  "FEED_RSS_LINK":"RSS feed link ",
  "FEED_SYNCHRONISATION":"Feed synchronization",
  "FOLD":"Fold",

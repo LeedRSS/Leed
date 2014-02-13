@@ -14,4 +14,4 @@ Description :
 ALTER TABLE `leed_feed` ADD `isverbose` INT(1) NOT NULL;
 
 -- évolution pour les flux RSS défini verbeux qu'il faut ou ne faut pas afficher sur la page d'accueil.
-INSERT INTO `leed_configuration` (`key`,`value`) VALUES ('displayFolderIsVerbose',1);
+INSERT INTO `leed_configuration` (`key`,`value`) VALUES ('optionFeedIsVerbose',1);

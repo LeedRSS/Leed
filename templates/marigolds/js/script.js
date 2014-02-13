@@ -605,14 +605,40 @@ function getUrlVars()
 // affiche ou cache les feeds n'ayant pas d'article non lus.
 function toggleFeedVerbose(button,action,idFeed){
     $.ajax({
-        url: "./action.php?action=displayFolderIsVerbose&displayFolderIsVerbose="+action+"&idFeed="+idFeed,
+        url: "./action.php?action=displayFeedIsVerbose&displayFeedIsVerbose="+action+"&idFeed="+idFeed,
         success:function(msg){
             if(msg.status == 'noconnect') {
                 alert(msg.texte)
             } else {
                 if( console && console.log && msg!="" ) console.log(msg);
                 //changement de l'évènement onclick pour faire l'inverse lors du prochain clic
-                $(button).attr('onclick','toggleFeedVerbose(this,'+!action+', '+idFeed+');');
+                var reverseaction = 0
+                if (action==0) { reverseaction = 1 }
+                $(button).attr('onclick','toggleFeedVerbose(this,'+reverseaction+', '+idFeed+');');
+            }
+        }
+    });
+}
+
+// Bouton permettant l'affichage des options d'affichage et de non affichage des flux souhaités en page d'accueil
+function toggleOptionFeedVerbose(button,action){
+    $.ajax({
+        url: "./action.php?action=optionFeedIsVerbose&optionFeedIsVerbose="+action,
+        success:function(msg){
+            if(msg.status == 'noconnect') {
+                alert(msg.texte)
+            } else {
+                if( console && console.log && msg!="" ) console.log(msg);
+                //changement de l'évènement onclick pour faire l'inverse lors du prochain clic
+                var reverseaction = 0
+                if (action==0) { reverseaction = 1 }
+                $(button).attr('onclick','toggleOptionFeedVerbose(this,'+reverseaction+');');
+                //Changement du statut des cases à cocher sur les feed (afficher ou cacher)
+                if (action==1){
+                    $('.feedVerbose').hide();
+                }else{
+                    $('.feedVerbose').show();
+                }
             }
         }
     });
