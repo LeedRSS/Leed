@@ -9,9 +9,6 @@
 class Update{
     const FOLDER = '/updates';
 
-    function __construct(){
-    }
-
     /**
      * Description : Récupération des fichiers déjà passé lors des anciennes mises à jour.
      */
