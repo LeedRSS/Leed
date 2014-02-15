@@ -1297,7 +1297,7 @@ class SimplePie
 		// First check to see if input has been overridden.
 		if ($this->input_encoding !== false)
 		{
-			$encodings[] = $this->input_encoding;
+            $encodings[] = strtoupper($this->input_encoding);
 		}
 
 		$application_types = array('application/xml', 'application/xml-dtd', 'application/xml-external-parsed-entity');
@@ -1312,15 +1312,21 @@ class SimplePie
 				{
 					$encodings[] = strtoupper($charset[1]);
 				}
-				$encodings = array_merge($encodings, $this->registry->call('Misc', 'xml_encoding', array($this->raw_data, &$this->registry)));
-				$encodings[] = 'UTF-8';
+                else
+                {
+                    $encodings[] = '';	//Let the DOM parser decide first
+                }
 			}
 			elseif (in_array($sniffed, $text_types) || substr($sniffed, 0, 5) === 'text/' && substr($sniffed, -4) === '+xml')
 			{
 				if (isset($headers['content-type']) && preg_match('/;\x20?charset=([^;]*)/i', $headers['content-type'], $charset))
 				{
-					$encodings[] = $charset[1];
+					$encodings[] = strtoupper($charset[1]);
 				}
+                else
+                {
+                    $encodings[] = '';	//Let the DOM parser decide first
+                }
 				$encodings[] = 'US-ASCII';
 			}
 			// Text MIME-type default
@@ -1342,13 +1348,13 @@ class SimplePie
 		foreach ($encodings as $encoding)
 		{
 			// Change the encoding to UTF-8 (as we always use UTF-8 internally)
-			if ($utf8_data = $this->registry->call('Misc', 'change_encoding', array($this->raw_data, $encoding, 'UTF-8')))
+			if ($utf8_data = (empty($encoding) || $encoding === 'UTF-8') ? $this->raw_data : $this->registry->call('Misc', 'change_encoding', array($this->raw_data, $encoding, 'UTF-8')))
 			{
 				// Create new parser
 				$parser = $this->registry->create('Parser');
 
 				// If it's parsed fine
-				if ($parser->parse($utf8_data, 'UTF-8'))
+				if ($parser->parse($utf8_data, empty($encoding) ? '' : 'UTF-8'))
 				{
 					$this->data = $parser->get_data();
 					if (!($this->get_type() & ~SIMPLEPIE_TYPE_NONE))
@@ -12358,7 +12364,7 @@ class SimplePie_Misc
 		foreach ($element['attribs'] as $key => $value)
 		{
 			$key = strtolower($key);
-			$full .= " $key=\"" . htmlspecialchars($value['data']) . '"';
+            $full .= " $key=\"" . htmlspecialchars($value['data'], ENT_COMPAT, 'UTF-8') . '"';
 		}
 		if ($element['self_closing'])
 		{
@@ -15670,57 +15676,73 @@ class SimplePie_Parser
 
 	public function parse(&$data, $encoding)
 	{
-		// Use UTF-8 if we get passed US-ASCII, as every US-ASCII character is a UTF-8 character
-		if (strtoupper($encoding) === 'US-ASCII')
-		{
-			$this->encoding = 'UTF-8';
-		}
-		else
-		{
-			$this->encoding = $encoding;
-		}
+        if (!empty($encoding))
+        {
+            // Use UTF-8 if we get passed US-ASCII, as every US-ASCII character is a UTF-8 character
+            if (strtoupper($encoding) === 'US-ASCII')
+            {
+                $this->encoding = 'UTF-8';
+            }
+            else
+            {
+                $this->encoding = $encoding;
+            }
 
-		// Strip BOM:
-		// UTF-32 Big Endian BOM
-		if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")
-		{
-			$data = substr($data, 4);
-		}
-		// UTF-32 Little Endian BOM
-		elseif (substr($data, 0, 4) === "\xFF\xFE\x00\x00")
-		{
-			$data = substr($data, 4);
-		}
-		// UTF-16 Big Endian BOM
-		elseif (substr($data, 0, 2) === "\xFE\xFF")
-		{
-			$data = substr($data, 2);
-		}
-		// UTF-16 Little Endian BOM
-		elseif (substr($data, 0, 2) === "\xFF\xFE")
-		{
-			$data = substr($data, 2);
-		}
-		// UTF-8 BOM
-		elseif (substr($data, 0, 3) === "\xEF\xBB\xBF")
-		{
-			$data = substr($data, 3);
-		}
+            // Strip BOM:
+            // UTF-32 Big Endian BOM
+            if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")
+            {
+                $data = substr($data, 4);
+            }
+            // UTF-32 Little Endian BOM
+            elseif (substr($data, 0, 4) === "\xFF\xFE\x00\x00")
+            {
+                $data = substr($data, 4);
+            }
+            // UTF-16 Big Endian BOM
+            elseif (substr($data, 0, 2) === "\xFE\xFF")
+            {
+                $data = substr($data, 2);
+            }
+            // UTF-16 Little Endian BOM
+            elseif (substr($data, 0, 2) === "\xFF\xFE")
+            {
+                $data = substr($data, 2);
+            }
+            // UTF-8 BOM
+            elseif (substr($data, 0, 3) === "\xEF\xBB\xBF")
+            {
+                $data = substr($data, 3);
+            }
 
-		if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
-		{
-			$declaration = $this->registry->create('XML_Declaration_Parser', array(substr($data, 5, $pos - 5)));
-			if ($declaration->parse())
-			{
-				$data = substr($data, $pos + 2);
-				$data = '<?xml version="' . $declaration->version . '" encoding="' . $encoding . '" standalone="' . (($declaration->standalone) ? 'yes' : 'no') . '"?>' . $data;
-			}
-			else
-			{
-				$this->error_string = 'SimplePie bug! Please report this!';
-				return false;
-			}
-		}
+            if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
+            {
+                $declaration = $this->registry->create('XML_Declaration_Parser', array(substr($data, 5, $pos - 5)));
+                if ($declaration->parse())
+                {
+                    $data = substr($data, $pos + 2);
+                    $data = '<?xml version="' . $declaration->version . '" encoding="' . $encoding . '" standalone="' . (($declaration->standalone) ? 'yes' : 'no') . '"?>' . $data;
+                }
+                else
+                {
+                    $this->error_string = 'SimplePie bug! Please report this!';
+                    return false;
+                }
+            }
+        }
+
+            try
+            {
+                $dom = new DOMDocument();
+                $dom->recover = true;
+                $dom->strictErrorChecking = false;
+                $dom->loadXML($data);
+                $this->encoding = $encoding = $dom->encoding = 'UTF-8';
+			    $data = $dom->saveXML();
+                }
+            catch (Exception $e)
+            {
+            }
 
 		$return = true;
 
@@ -16716,6 +16738,7 @@ class SimplePie_Sanitize
 	protected function preprocess($html, $type)
 	{
 		$ret = '';
+        $html = preg_replace('%</?(?:html|body)[^>]*?'.'>%is', '', $html);
 		if ($type & ~SIMPLEPIE_CONSTRUCT_XHTML)
 		{
 			// Atom XHTML constructs are wrapped with a div by default
