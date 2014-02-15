@@ -15731,19 +15731,6 @@ class SimplePie_Parser
             }
         }
 
-            try
-            {
-                $dom = new DOMDocument();
-                $dom->recover = true;
-                $dom->strictErrorChecking = false;
-                $dom->loadXML($data);
-                $this->encoding = $encoding = $dom->encoding = 'UTF-8';
-			    $data = $dom->saveXML();
-                }
-            catch (Exception $e)
-            {
-            }
-
 		$return = true;
 
 		static $xml_is_sane = null;
