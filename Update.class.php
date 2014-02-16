@@ -83,6 +83,8 @@ class Update{
                 foreach ($sql_array as $val) {
                     $val = preg_replace('#([-].*)|(\n)#','',$val);
                     if ($val != '') {
+                        //remplacement des préfixes de table
+                        $val = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$val);
                         $conn->customQuery($val);
                     }
                 }
