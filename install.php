@@ -140,6 +140,8 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
 
     require_once('constant.php');
     require_once('MysqlEntity.class.php');
+    class_exists('Update') or require_once('Update.class.php');
+    Update::ExecutePatch(true);
     require_once('Feed.class.php');
     require_once('Event.class.php');
 
