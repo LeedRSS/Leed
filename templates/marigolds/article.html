@@ -3,7 +3,7 @@
 
     <!-- CORPS ARTICLE -->
 
-
+    {function="Plugin::callHook("event_pre_section", array(&$value))"}
     <section id="{$value->getId()}" class="{if="!$value->getUnread()"}eventRead{/if} {$hightlighted%2==0?'eventHightLighted':''}{$scroll?' scroll':''}" {$scroll?'style="display: none;"':''}>
         <a title="{function="_t('RETURN_TO_TOP')"}" class="goTopButton" href="#pageTopAnvil">ˆ</a>
         <!-- TITRE -->
@@ -66,6 +66,7 @@
             {/if}
         {/if}
     </section>
+    {function="Plugin::callHook("event_post_section", array(&$value))"}
     {$hightlighted=$hightlighted+1}
 {/loop}
 {if="$scroll && $events"}<div class='scriptaddbutton'><script>addEventsButtonLuNonLus();</script></div>{/if}

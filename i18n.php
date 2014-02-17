@@ -6,32 +6,66 @@
  @description:  Fonctions de gestion de la traduction
  */
 
-define('DEFAULT_LANGUAGE', 'fr');
-
 class Translation {
 
-    const LOCALE_DIR='locale';
+    // Répertoire contenant les traductions
+    const LOCALE_DIR = 'locale';
+
+    /* Langue utilisée si aucune langue n'est demandée ou si les langues
+     * demandées ne sont pas disponibles. Idem pour les traductions.*/
+    const DEFAULT_LANGUAGE = 'fr';
 
     // tableau associatif des traductions
     var $trans = array();
+    var $language = ''; // langue courante
+    var $languages = array(); // langues disponibles
 
-    function __construct($location) {
-        assert('defined("LANGUAGE") && ""!=LANGUAGE');
-        assert('defined("DEFAULT_LANGUAGE") && ""!=DEFAULT_LANGUAGE');
-        $this->language = LANGUAGE;
-        $this->defaultLanguage = DEFAULT_LANGUAGE;
+    /** @param location L'endroit où se trouve le dossier 'locale'
+     *  @param languages Les langues demandées */
+    function __construct($location, $languages=array()) {
         $this->location = $location;
-        $this->load();
+        if (!is_array($languages)) $languages = array($languages);
+        $this->listLanguages();
+        $languages[]=self::DEFAULT_LANGUAGE;
+        foreach ($languages as $language)
+            if ($this->load($language)) {
+                $this->language = $language;
+                break;
+            }
     }
 
-    /* Charge la traduction pour la langue sélectionnée.*/
-    protected function load() {
-        $trans = $this->loadFile($this->language);
-        if ($this->language!=$this->defaultLanguage) {
-            $defaultTrans = $this->loadFile($this->defaultLanguage);
+    /* Peuple la liste des langues avec une traduction */
+    protected function listLanguages() {
+        $files = glob($this->location.'/'.self::LOCALE_DIR.'/*.json');
+        assert('is_array($files)');
+        //~ die(var_dump($files));
+        $this->languages = array();
+        foreach($files as $file){
+            preg_match('/([a-z]{2})\.json$/', $file, $matches);
+            assert('!empty($matches)');
+            //~ error_log(var_dump($file));
+            $this->languages [] = $matches[1];
+        }
+    }
+
+    /* Charge la traduction
+     * @param language la langue sélectionnée
+     * @return TRUE si le chargement s'est bien fait, FALSE sinon */
+    protected function load($language) {
+        if (!preg_match('/^[a-z]{2}$/', $language)) {
+            error_log("Invalid language: '$language'");
+            return false;
+        }
+        $trans = $this->loadFile($language);
+        if (empty($trans)) return false;
+        assert('in_array($language, $this->languages)');
+        if ($language!=self::DEFAULT_LANGUAGE) {
+            $defaultTrans = $this->loadFile(self::DEFAULT_LANGUAGE);
+            assert('!empty($defaultTrans)');
             $trans = array_merge($defaultTrans, $trans);
         }
         $this->trans = $trans;
+        return true;
     }
 
     /* Charge un fichier
@@ -41,7 +75,6 @@ class Translation {
         $fileName = $this->location.'/'.self::LOCALE_DIR.'/'.$language.'.json';
         $content = @file_get_contents($fileName);
         if (empty($content)) {
-            error_log("Translation for $language ($fileName) not found!");
             $translations = array();
         } else {
             $translations = json_decode($content, true);
@@ -64,25 +97,30 @@ class Translation {
         return $value;
     }
 
-    /* Ajoute une traduction à la suite de celle-ci. */
+    /* Ajoute une traduction à la suite de celle-ci.
+     * Note : il faudra appeler getJson() si nécessaire */
     function append(Translation $other) {
         $this->trans = array_merge($this->trans, $other->trans);
     }
 
+    /* @return la version Json des traductions */
     function getJson() {
         return json_encode($this->trans);
     }
 
 }
 
-function i18n_init(){
+// Initialise le singleton, avec les langues possibles
+function i18n_init($languages){
     global $i18n,$i18n_js;
-    if(!isset($i18n)){
-        $i18n = new Translation(dirname(__FILE__));
+    if (!isset($i18n)) {
+        $i18n = new Translation(dirname(__FILE__), $languages);
         $i18n_js = $i18n->getJson();
     }
+    return $i18n->language;
 }
 
+// Appel rapide de la traduction
 function _t($key,$args=array(),$debug=false){
     global $i18n;
     return $i18n->get($key, $args);
