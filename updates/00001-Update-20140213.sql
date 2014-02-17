@@ -11,7 +11,9 @@
 --######################################################################################################
 
 -- Mise à jour table FOLDER (Obligatoire)
+ALTER TABLE `##MYSQL_PREFIX##feed` DROP `isverbose`;
 ALTER TABLE `##MYSQL_PREFIX##feed` ADD `isverbose` INT(1) NOT NULL;
 
 -- évolution pour les flux RSS défini verbeux qu'il faut ou ne faut pas afficher sur la page d'accueil.
+DELETE FROM `##MYSQL_PREFIX##configuration` WHERE `key` = 'optionFeedIsVerbose';
 INSERT INTO `##MYSQL_PREFIX##configuration` (`key`,`value`) VALUES ('optionFeedIsVerbose',1);
