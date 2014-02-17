@@ -563,6 +563,36 @@ switch ($action){
         $configurationManager->put('displayOnlyUnreadFeedFolder',$_['displayOnlyUnreadFeedFolder']);
     break;
 
+    case 'displayFeedIsVerbose':
+        if($myUser==false) {
+            $response_array['status'] = 'noconnect';
+            $response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
+            header('Content-type: application/json');
+            echo json_encode($response_array);
+            exit();
+        }
+        // changement du statut isverbose du feed
+        $feed = new Feed();
+        $feed = $feed->getById($_['idFeed']);
+        $feed->setIsverbose(($_['displayFeedIsVerbose']=="0"?1:0));
+        $feed->save();
+        break;
+
+    case 'optionFeedIsVerbose':
+        if($myUser==false) {
+            $response_array['status'] = 'noconnect';
+            $response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
+            header('Content-type: application/json');
+            echo json_encode($response_array);
+            exit();
+        }
+        // changement du statut de l'option
+        $configurationManager = new Configuration();
+        $conf = $configurationManager->getAll();
+        $configurationManager->put('optionFeedIsVerbose',($_['optionFeedIsVerbose']=="0"?0:1));
+
+        break;
+
     default:
         require_once("SimplePie.class.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));

@@ -465,17 +465,28 @@ header a,header a:hover,header a:visited{
 }
 .settings .feedTitle {
     display: inline-block;
-    width:50%;
+    width:45%;
     word-wrap:break-word
 }
 .settings .feedFolder,
+.settings .feedVerbose,
 .settings .feedRename,
 .settings .feedDelete {
     vertical-align: top;
 }
 
+#main.settings .feedAction {
+    width: 25%;
+    float: right;
+}
+
 #main.settings .feedFolder {
-    width: 20%;
+    width: 72%;
+}
+
+#main.settings .feedVerbose {
+    min-width: 1em;
+    float:left;
 }
 
 .settings .feedButtons {

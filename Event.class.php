@@ -59,6 +59,33 @@ class Event extends MysqlEntity{
         return $events;
     }
 
+    function getEventCountNotVerboseFeed(){
+        $results = $this->customQuery('SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.' INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.$this->TABLE_NAME.'.unread=1 AND '.MYSQL_PREFIX.'feed.isverbose=0');
+        while($item = mysql_fetch_array($results)){
+            $nbitem =  $item[0];
+        }
+
+        return $nbitem;
+    }
+
+    function getEventsNotVerboseFeed($start=0,$limit=10000,$order,$columns='*'){
+        $eventManager = new Event();
+        $objects = array();
+        $results = $this->customQuery('SELECT '.$columns.' FROM '.MYSQL_PREFIX.'event INNER JOIN '.MYSQL_PREFIX.'feed ON ('.MYSQL_PREFIX.'event.feed = '.MYSQL_PREFIX.'feed.id) WHERE '.MYSQL_PREFIX.'event.unread=1 AND '.MYSQL_PREFIX.'feed.isverbose = 0 ORDER BY '.$order.' LIMIT '.$start.','.$limit);
+        if($results!=false){
+            while($item = mysql_fetch_array($results)){
+                $object = new Event();
+                foreach($object->getObject_fields() as $field=>$type){
+                    $setter = 'set'.ucFirst($field);
+                    if(isset($item[$field])) $object->$setter($item[$field]);
+                }
+                $objects[] = $object;
+                unset($object);
+            }
+        }
+        return $objects;
+    }
+
     function setId($id){
         $this->id = $id;
     }
