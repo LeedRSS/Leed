@@ -87,6 +87,7 @@
  "KEEP_LAST_X_EVENTS_FEED":"Keep the last $1 events of a feed",
  "KEEP_LAST_X_EVENTS_FEED_DESC":"NB : To keep a better performance, we suggest you to keep the last 50 events at most. Notice that events marked as favorites will never be deleted.",
  "LAUNCH_SYNCHRONISATION":"Start a manual synchronization",
+ "LEED_UPDATE_MESSAGE":"Leed has been updated. Refresh the page to return to your Leed.",
  "LET_EMPTY_IF_NO_PASS_CHANGE":"Leave this part empty if you don't want to change your password.",
  "LET_SLASH_AT_END":"Leave a '/' at the end of the URL, example : http://mysite.com/leed/",
  "LIBRARIES":"LIBRARIES",

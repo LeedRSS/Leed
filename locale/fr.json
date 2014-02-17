@@ -87,6 +87,7 @@
  "KEEP_LAST_X_EVENTS_FEED":"Conserver les $1 derniers événements d’un flux",
  "KEEP_LAST_X_EVENTS_FEED_DESC":"NB : Plus il y aura d’événements à conserver, plus votre base de données sera importante. Nous vous conseillons de garder les 50 derniers événements au maximum pour conserver une performance correcte.<br />Notez que vos événements marqués comme favoris ne seront jamais supprimés.",
  "LAUNCH_SYNCHRONISATION":"Lancer une synchronisation manuelle",
+ "LEED_UPDATE_MESSAGE":"Leed à été mis à jour. Rafraîchir la page pour retourner sur votre Leed.",
  "LET_EMPTY_IF_NO_PASS_CHANGE":"Laissez le champ vide si vous ne souhaitez pas changer le mot de passe.",
  "LET_SLASH_AT_END":"Laissez bien un '/' en fin de chaine. Par exemple : http://monsite.com/leed/",
  "LIBRARIES":"LIBRAIRIES",
