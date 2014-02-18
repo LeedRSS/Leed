@@ -3,3 +3,4 @@
 /logs/
 /plugins/
 update.json
+*.log
