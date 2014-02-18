@@ -299,7 +299,7 @@ class MysqlEntity
             return $objects;
     }
 
-        public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug=false){
+    public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug=false){
         $objects = $this->loadAll($columns,$order,$limit,$operation,$debug,$selColumn);
         if(count($objects)==0)$objects = array();
         return $objects;

@@ -21,6 +21,8 @@ require_once('RainTPL.php');
 require_once('i18n.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
+class_exists('Update') or require_once('Update.class.php');
+$resultUpdate = Update::ExecutePatch();
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
 class_exists('Functions') or require_once('Functions.class.php');
@@ -57,8 +59,8 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-i18n_init();
-
+i18n_init(LANGUAGE);
+if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';
 $tpl->assign('myUser',$myUser);

@@ -21,6 +21,7 @@ $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
 $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
+$optionFeedIsVerbose = $configurationManager->get('optionFeedIsVerbose');
 
 $tpl->assign('articleView',$articleView);
 $tpl->assign('articleDisplayLink',$articleDisplayLink);
@@ -73,9 +74,14 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
     case 'unreadEvents':
     default:
+        $filter = array('unread'=>1);
         if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
-        $events = $eventManager->loadAllOnlyColumn($target,array('unread'=>1),$order,$startArticle.','.$articlePerPages);
-    break;
+        if($optionFeedIsVerbose) {
+            $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
+        } else {
+            $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
+        }
+        break;
 }
 $tpl->assign('events',$events);
 $tpl->assign('scroll',$_['scroll']);

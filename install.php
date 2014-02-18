@@ -11,8 +11,12 @@ require_once('i18n.php');
 global $i18n;
 $install_terminee=false;
 
-(isset($_GET['lang'])?$language=$_GET['lang']:$language=DEFAULT_LANGUAGE);
-i18n_init($language);
+if (isset($_GET['lang']))
+    $currentLanguage = i18n_init($_GET['lang']);
+else
+    $currentLanguage = i18n_init(Functions::getBrowserLanguages());
+
+$languageList = $i18n->languages;
 
 if (file_exists('constant.php')) {
     die(_t('ALREADY_INSTALLED'));
@@ -136,6 +140,8 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
 
     require_once('constant.php');
     require_once('MysqlEntity.class.php');
+    class_exists('Update') or require_once('Update.class.php');
+    Update::ExecutePatch(true);
     require_once('Feed.class.php');
     require_once('Event.class.php');
 
@@ -192,6 +198,8 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('articleDisplayAuthor','1');
     $configurationManager->add('articleDisplayHomeSort','1');
     $configurationManager->add('articleDisplayFolderSort','1');
+    $configurationManager->add('displayOnlyUnreadFeedFolder','false');
+    $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationType','auto');
     $configurationManager->add('feedMaxEvents','50');
     $configurationManager->add('synchronisationCode',$synchronisationCode);
@@ -320,15 +328,9 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
                 <span><?php echo _t('INSTALL_LANGUAGE') ?></span>
                 <select name="install_changeLngLeed" onchange="window.location.href='install.php?lang='+this[this.selectedIndex].value">
                 <?php
-                    $filesLeed = glob('./locale/*.json');
-                    foreach($filesLeed as $file){
-                        preg_match('#./locale/([a-z][a-z]).json#',$file,$matches);
-                        if ($file=='./locale/'.$language.'.json')
-                        {
-                            echo '<option selected=selected value="'.$matches[1].'">'.$matches[1].'</option>';
-                        } else {
-                            echo '<option value="'.$matches[1].'">'.$matches[1].'</option>';
-                        }
+                    foreach($languageList as $lang){
+                        $sel = $lang==$currentLanguage?'selected=selected':'';
+                        echo "<option $sel value='$lang'>$lang</option>";
                     }
                 ?>
                 </select>
