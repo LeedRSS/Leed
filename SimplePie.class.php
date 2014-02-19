@@ -6277,7 +6277,8 @@ class SimplePie_Sanitize
     // Options
     var $remove_div = true;
     var $image_handler = '';
-    var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
+    //var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
+    var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'font', 'form', 'frame', 'frameset', 'html', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'); // Update for Leed
     var $encode_instead_of_strip = false;
     var $strip_attributes = array('bgsound', 'class', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc');
     var $strip_comments = false;
@@ -9698,7 +9699,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
                 'prefix' => '',
             ),
         );
-
+        // $this->options = array_merge_recursive($this->options, SimplePie_Cache::parse_URL($location)); // Leed SimplePie en v1.3.1
         $this->options = SimplePie_Misc::array_merge_recursive($this->options, SimplePie_Cache::parse_URL($location));
 
         // Path is prefixed with a "/"
@@ -10164,6 +10165,12 @@ class SimplePie_Cache_Memcache implements SimplePie_Cache_Base
                 'prefix' => 'simplepie_',
             ),
         );
+
+        // Leed SimplePie en v1.3.1
+        // $parsed = SimplePie_Cache::parse_URL($location);
+        // $this->options['host'] = empty($parsed['host']) ? $this->options['host'] : $parsed['host'];
+        // $this->options['port'] = empty($parsed['port']) ? $this->options['port'] : $parsed['port'];
+        // $this->options['extras'] = array_merge($this->options['extras'], $parsed['extras']);
         $this->options = SimplePie_Misc::array_merge_recursive($this->options, SimplePie_Cache::parse_URL($location));
 
         $this->name = $this->options['extras']['prefix'] . md5("$name:$type");
@@ -14044,6 +14051,7 @@ class SimplePie_Item
             if (!empty($this->data['updated']['raw']))
             {
                 $parser = $this->registry->call('Parse_Date', 'get');
+                // $this->data['updated']['parsed'] = $parser->parse($this->data['date']['raw']); // Leed SimplePie en v1.3.1
                 $this->data['updated']['parsed'] = $parser->parse($this->data['updated']['raw']);
             }
             else
