@@ -6,6 +6,21 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
+define('VERSION_NUMBER_CODE','1.6');
+define('VERSION_NAME_CODE','dev');
+
+/* ----------MAJ de la version du constant.php--------------------- */
+$content = file_get_contents('constant.php');
+preg_match('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_version);
+preg_match('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_name);
+if ($matches_version[1]!=VERSION_NUMBER_CODE or $matches_name[1]!=VERSION_NAME_CODE)
+{
+    $content = preg_replace('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NUMBER\',\''.VERSION_NUMBER_CODE.'\');', $content);
+    $content = preg_replace('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NAME\',\''.VERSION_NAME_CODE.'\');', $content);
+    file_put_contents('constant.php', $content);
+}
+/* ---------------------------------------------------------------- */
+
 $cookiedir = '';
 if(dirname($_SERVER['SCRIPT_NAME'])!='/') $cookiedir=dirname($_SERVER["SCRIPT_NAME"]).'/';
 session_set_cookie_params(0, $cookiedir);
