@@ -1325,14 +1325,8 @@ class SimplePie
                 {
                     $encodings[] = strtoupper($charset[1]);
                 }
-                // Update for Leed
-                //$encodings = array_merge($encodings, $this->registry->call('Misc', 'xml_encoding', array($this->raw_data, &$this->registry)));
-                //$encodings[] = 'UTF-8';
-                else
-                {
-                    $encodings[] = '';	//FreshRSS: Let the DOM parser decide first
-                }
-                // Fin Update for Leed
+                $encodings = array_merge($encodings, $this->registry->call('Misc', 'xml_encoding', array($this->raw_data, &$this->registry)));
+                $encodings[] = 'UTF-8';
             }
             elseif (in_array($sniffed, $text_types) || substr($sniffed, 0, 5) === 'text/' && substr($sniffed, -4) === '+xml')
             {
