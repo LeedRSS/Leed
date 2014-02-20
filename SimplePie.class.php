@@ -1325,8 +1325,14 @@ class SimplePie
                 {
                     $encodings[] = strtoupper($charset[1]);
                 }
-                $encodings = array_merge($encodings, $this->registry->call('Misc', 'xml_encoding', array($this->raw_data, &$this->registry)));
-                $encodings[] = 'UTF-8';
+                // Update for Leed
+                //$encodings = array_merge($encodings, $this->registry->call('Misc', 'xml_encoding', array($this->raw_data, &$this->registry)));
+                //$encodings[] = 'UTF-8';
+                else
+                {
+                    $encodings[] = '';  //FreshRSS: Let the DOM parser decide first
+                }
+                // Fin Update for Leed
             }
             elseif (in_array($sniffed, $text_types) || substr($sniffed, 0, 5) === 'text/' && substr($sniffed, -4) === '+xml')
             {
@@ -4701,57 +4707,59 @@ class SimplePie_Parser
     public function parse(&$data, $encoding)
     {
         $xmlEncoding = ''; //Update for Leed
-
-        // Use UTF-8 if we get passed US-ASCII, as every US-ASCII character is a UTF-8 character
-        if (strtoupper($encoding) === 'US-ASCII')
+        if (!empty($encoding)) //Update for Leed (ajout de la condition. si vrai, on prend le standard SimplePie)
         {
-            $this->encoding = 'UTF-8';
-        }
-        else
-        {
-            $this->encoding = $encoding;
-        }
-
-        // Strip BOM:
-        // UTF-32 Big Endian BOM
-        if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")
-        {
-            $data = substr($data, 4);
-        }
-        // UTF-32 Little Endian BOM
-        elseif (substr($data, 0, 4) === "\xFF\xFE\x00\x00")
-        {
-            $data = substr($data, 4);
-        }
-        // UTF-16 Big Endian BOM
-        elseif (substr($data, 0, 2) === "\xFE\xFF")
-        {
-            $data = substr($data, 2);
-        }
-        // UTF-16 Little Endian BOM
-        elseif (substr($data, 0, 2) === "\xFF\xFE")
-        {
-            $data = substr($data, 2);
-        }
-        // UTF-8 BOM
-        elseif (substr($data, 0, 3) === "\xEF\xBB\xBF")
-        {
-            $data = substr($data, 3);
-        }
-
-        if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
-        {
-            $declaration = $this->registry->create('XML_Declaration_Parser', array(substr($data, 5, $pos - 5)));
-            if ($declaration->parse())
+            // Use UTF-8 if we get passed US-ASCII, as every US-ASCII character is a UTF-8 character
+            if (strtoupper($encoding) === 'US-ASCII')
             {
-                $xmlEncoding = strtoupper($declaration->encoding);	//Update for Leed
-                $data = substr($data, $pos + 2);
-                $data = '<?xml version="' . $declaration->version . '" encoding="' . $encoding . '" standalone="' . (($declaration->standalone) ? 'yes' : 'no') . '"?>' . $data;
+                $this->encoding = 'UTF-8';
             }
             else
             {
-                $this->error_string = 'SimplePie bug! Please report this!';
-                return false;
+                $this->encoding = $encoding;
+            }
+
+            // Strip BOM:
+            // UTF-32 Big Endian BOM
+            if (substr($data, 0, 4) === "\x00\x00\xFE\xFF")
+            {
+                $data = substr($data, 4);
+            }
+            // UTF-32 Little Endian BOM
+            elseif (substr($data, 0, 4) === "\xFF\xFE\x00\x00")
+            {
+                $data = substr($data, 4);
+            }
+            // UTF-16 Big Endian BOM
+            elseif (substr($data, 0, 2) === "\xFE\xFF")
+            {
+                $data = substr($data, 2);
+            }
+            // UTF-16 Little Endian BOM
+            elseif (substr($data, 0, 2) === "\xFF\xFE")
+            {
+                $data = substr($data, 2);
+            }
+            // UTF-8 BOM
+            elseif (substr($data, 0, 3) === "\xEF\xBB\xBF")
+            {
+                $data = substr($data, 3);
+            }
+
+            if (substr($data, 0, 5) === '<?xml' && strspn(substr($data, 5, 1), "\x09\x0A\x0D\x20") && ($pos = strpos($data, '?>')) !== false)
+            {
+                $declaration = $this->registry->create('XML_Declaration_Parser', array(substr($data, 5, $pos - 5)));
+                if ($declaration->parse())
+                {
+                    $xmlEncoding = strtoupper($declaration->encoding);	//Update for Leed
+                    $data = substr($data, $pos + 2);
+                    $data = '<?xml version="' . $declaration->version . '" encoding="' . $encoding . '" standalone="' . (($declaration->standalone) ? 'yes' : 'no') . '"?>' . $data;
+                }
+                else
+                {
+                    $this->error_string = 'SimplePie bug! Please report this!';
+                    return false;
+                }
             }
         }
 
