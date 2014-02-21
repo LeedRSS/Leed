@@ -28,10 +28,22 @@ session_start();
 mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
+//@todo requis pour la MAJ 1.5 vers 1.6 mais pourra être supprimé.
 if (!defined('LANGUAGE')) {
-    define('LANGUAGE', LANGAGE); // ancienne constante encore utilisée
-    trigger_error('Please use, in "constant.php", LANGUAGE instead of LANGAGE');
+    preg_match('#define\(\'LANGAGE\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_language);
+    if (isset($matches_language[1]) && isset($matches_language[1])!='') {
+        // pour ceux qui viennent de la branche de dev avant update en LANGUAGE.
+        $content = preg_replace('#define\(\'LANGAGE\',\'([A-Za-z0-9.]+)\'\);?#','define(\'LANGUAGE\',\''.$matches_language[1].'\');', $content);
+        file_put_contents('constant.php', $content);
+        define('LANGUAGE', $matches_language[1]); // ancienne constante encore utilisée
+    } else {
+        // pour ceux qui viennent de la v1.5. la variable n'existait pas
+        $content = preg_replace('#\?\>#',"//Langue utilisée\ndefine('LANGUAGE','fr');\n?>", $content);
+        file_put_contents('constant.php', $content);
+        define('LANGUAGE', 'fr');
+    }
 }
+// fin MAJ 1.5 vers 1.6
 require_once('RainTPL.php');
 require_once('i18n.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
