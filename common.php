@@ -20,7 +20,14 @@ if ($matches_version[1]!=VERSION_NUMBER_CODE or $matches_name[1]!=VERSION_NAME_C
     file_put_contents('constant.php', $content);
 }
 /* ---------------------------------------------------------------- */
-
+// Mise en place d'un timezone par default pour utiliser les fonction de date en php
+$timezone_default = 'Europe/Paris'; // valeur par défaut :)
+date_default_timezone_set($timezone_default);
+$timezone_phpini = ini_get('date.timezone');
+if (($timezone_phpini!='') && (strcmp($timezone_default, $timezone_phpini))) {
+    date_default_timezone_set($timezone_phpini);
+}
+/* ---------------------------------------------------------------- */
 $cookiedir = '';
 if(dirname($_SERVER['SCRIPT_NAME'])!='/') $cookiedir=dirname($_SERVER["SCRIPT_NAME"]).'/';
 session_set_cookie_params(0, $cookiedir);
