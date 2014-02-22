@@ -8,9 +8,6 @@
 
 class Plugin{
 
-    // Répertoire du greffon courant, base de l'inclusion des fichiers
-    static $currentPluginDir = '';
-
     const FOLDER = '/plugins';
     protected $name,$author,$mail,$link,$licence,$path,$description,$version,$state,$type;
 
@@ -25,7 +22,6 @@ class Plugin{
                 // Chargement du fichier de Langue du plugin
                 $i18n->append(new Translation(dirname($pluginFile)));
                 // Inclusion du coeur de plugin
-                self::$currentPluginDir = dirname($pluginFile);
                 include $pluginFile;
                 // Gestion des css du plugin en fonction du thème actif
                 $cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
@@ -127,7 +123,11 @@ class Plugin{
     }
 
     public static function addCss($css) {
-        $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',self::$currentPluginDir.$css));
+        $bt =  debug_backtrace();
+        $pathInfo = explode('/',dirname($bt[0]['file']));
+        $count = count($pathInfo);
+        $name = $pathInfo[$count-1];
+        $path =  '.'.Plugin::FOLDER.'/'.$name.$css;
 
         $GLOBALS['hooks']['css_files'][] = $path;
     }
@@ -157,11 +157,20 @@ class Plugin{
     }
 
     public static function path(){
-        return Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',self::$currentPluginDir)).'/';
+        $bt =  debug_backtrace();
+        $pathInfo = explode('/',dirname($bt[0]['file']));
+        $count = count($pathInfo);
+        $name = $pathInfo[$count-1];
+        return '.'.Plugin::FOLDER.'/'.$name.'/';
     }
 
     public static function addJs($js) {
-        $path = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',self::$currentPluginDir.$js));
+        $bt =  debug_backtrace();
+        $pathInfo = explode('/',dirname($bt[0]['file']));
+        $count = count($pathInfo);
+        $name = $pathInfo[$count-1];
+        $path = '.'.Plugin::FOLDER.'/'.$name.$js;
+
         $GLOBALS['hooks']['js_files'][] = $path;
     }
 
