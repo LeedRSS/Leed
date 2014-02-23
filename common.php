@@ -10,15 +10,17 @@ define('VERSION_NUMBER_CODE','1.6');
 define('VERSION_NAME_CODE','dev');
 
 /* ----------MAJ de la version du constant.php--------------------- */
-$content = file_get_contents('constant.php');
-preg_match('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_version);
-preg_match('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_name);
-if ($matches_version[1]!=VERSION_NUMBER_CODE or $matches_name[1]!=VERSION_NAME_CODE)
-{
-    $content = preg_replace('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NUMBER\',\''.VERSION_NUMBER_CODE.'\');', $content);
-    $content = preg_replace('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NAME\',\''.VERSION_NAME_CODE.'\');', $content);
-    file_put_contents('constant.php', $content);
-}
+if (is_writable('constant.php')) {
+    $content = file_get_contents('constant.php');
+    preg_match('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_version);
+    preg_match('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_name);
+    if ($matches_version[1]!=VERSION_NUMBER_CODE or $matches_name[1]!=VERSION_NAME_CODE)
+    {
+        $content = preg_replace('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NUMBER\',\''.VERSION_NUMBER_CODE.'\');', $content);
+        $content = preg_replace('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NAME\',\''.VERSION_NAME_CODE.'\');', $content);
+        file_put_contents('constant.php', $content);
+    }
+};
 /* ---------------------------------------------------------------- */
 // Mise en place d'un timezone par default pour utiliser les fonction de date en php
 $timezone_default = 'Europe/Paris'; // valeur par défaut :)
