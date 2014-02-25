@@ -7,7 +7,7 @@
  */
 
 define('VERSION_NUMBER_CODE','1.6');
-define('VERSION_NAME_CODE','dev');
+define('VERSION_NAME_CODE','Stable');
 
 /* ----------MAJ de la version du constant.php--------------------- */
 if (is_writable('constant.php')) {

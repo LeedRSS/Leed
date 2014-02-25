@@ -112,7 +112,7 @@ if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
 if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, l'installation peut se faire.
     $constant = "<?php
     define('VERSION_NUMBER','1.6');
-    define('VERSION_NAME','Dev');
+    define('VERSION_NAME','Stable');
 
     //Host de Mysql, le plus souvent localhost ou 127.0.0.1
     define('MYSQL_HOST','{$mysqlHost}');
