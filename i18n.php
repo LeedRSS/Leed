@@ -38,12 +38,10 @@ class Translation {
     protected function listLanguages() {
         $files = glob($this->location.'/'.self::LOCALE_DIR.'/*.json');
         assert('is_array($files)');
-        //~ die(var_dump($files));
         $this->languages = array();
         foreach($files as $file){
             preg_match('/([a-z]{2})\.json$/', $file, $matches);
             assert('!empty($matches)');
-            //~ error_log(var_dump($file));
             $this->languages [] = $matches[1];
         }
     }
