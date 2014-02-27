@@ -77,6 +77,8 @@ class Translation {
             $translations = array();
         } else {
             $translations = json_decode($content, true);
+            if (!empty($content) && empty($translations))
+                error_log("Error while loading '$fileName'");
         }
         return $translations;
     }
