@@ -36,13 +36,17 @@ class Translation {
 
     /* Peuple la liste des langues avec une traduction */
     protected function listLanguages() {
-        $files = glob($this->location.'/'.self::LOCALE_DIR.'/*.json');
-        assert('is_array($files)');
         $this->languages = array();
-        foreach($files as $file){
-            preg_match('/([a-z]{2})\.json$/', $file, $matches);
-            assert('!empty($matches)');
-            $this->languages [] = $matches[1];
+        $dir = $this->location.'/'.self::LOCALE_DIR.'/*.json';
+        $files = glob($dir);
+        if (is_array($files)) {
+            foreach($files as $file){
+                preg_match('/([a-z]{2})\.json$/', $file, $matches);
+                assert('!empty($matches)');
+                $this->languages [] = $matches[1];
+            }
+        } else {
+            error_log("Unable to browse the language files! ($dir)");
         }
     }
 
