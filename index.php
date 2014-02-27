@@ -25,7 +25,9 @@ $tpl->assign('allFeeds',$allFeeds);
 $tpl->assign('allFeedsPerFolder',$allFeeds['folderMap']);
 //recuperation de tous les event nons lu par dossiers
 $tpl->assign('allEvents',$eventManager->getEventCountPerFolder());
-
+//utilisé pour récupérer le statut d'un feed dans le template (en erreur ou ok)
+$feedState = new Feed();
+$tpl->assign('feedState',$feedState);
 
 $articleDisplayContent = $configurationManager->get('articleDisplayContent');
 $articleView = $configurationManager->get('articleView');
