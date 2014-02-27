@@ -79,6 +79,7 @@ class Feed extends MysqlEntity{
         $feed->force_feed($forceFeed);
         $feed->set_feed_url($this->url);
         $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
+        $this->state = 0;
         if (!$feed->init()) {
             $this->error = $feed->error;
             $this->state = 1;
