@@ -419,6 +419,19 @@ function readThis(element,id,from,callback){
     var nextEvent = $('#'+id).next();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
+        // cas de la page d'accueil
+        parent.addClass('eventRead');
+        parent.fadeOut(200,function(){
+            if(callback){
+                callback();
+            }else{
+                targetThisEvent(nextEvent,true);
+            }
+            // on simule un scroll si tous les events sont cachés
+            if($('article section:last').attr('style')=='display: none;') {
+                $(window).scrollTop($(document).height());
+            }
+        });
         $.ajax({
             url: "./action.php?action=readContent",
             data:{id:id},
@@ -429,19 +442,6 @@ function readThis(element,id,from,callback){
                     if( console && console.log && msg!="" ) console.log(msg);
                     switch (activeScreen){
                         case '':
-                            // cas de la page d'accueil
-                            parent.addClass('eventRead');
-                            parent.fadeOut(200,function(){
-                                if(callback){
-                                    callback();
-                                }else{
-                                    targetThisEvent(nextEvent,true);
-                                }
-                                // on simule un scroll si tous les events sont cachés
-                                if($('article section:last').attr('style')=='display: none;') {
-                                    $(window).scrollTop($(document).height());
-                                }
-                            });
                             // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
                             $(window).data('nblus', $(window).data('nblus')+1);
                             // on diminue le nombre d'article en haut de page
