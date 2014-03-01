@@ -1,7 +1,6 @@
-Leed
-====
+# Leed
 
-fr [en](#leed-english-documentation) es
+fr [en](#leed-english-documentation) [es](#leed-span-documentation)
 
 Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
@@ -19,16 +18,14 @@ A noter que Leed est compatible toutes résolutions, sur pc, tablette et smartph
 
 Leed est également compatible avec le format d'import/export [OPML](https://fr.wikipedia.org/wiki/OPML) ce qui le rend compatible avec les agrégateurs respectant ce standard.
 
-Pré-requis
-====
+### Pré-requis
 
 - Serveur Apache conseillé (non testé sur les autres serveurs type Nginx…)
 - PHP 5.3 minimum
 - MySQL
 - Un peu de bon sens :-)
 
-Installation
-====
+### Installation
 
 1. Récupérez le projet sur [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) ou sur la page [github](https://github.com/ldleman/Leed).
 2. Placez le projet dans votre répertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
@@ -37,34 +34,32 @@ Installation
 5. [Optionnel] Si vous souhaitez que les mises à jour de flux se fassent automatiquement, mettez en place un cron. Voir ci-après. Il est conseillé de ne pas mettre une fréquence trop rapide pour laisser le temps au script de s'exécuter.
 6. Le script est installé, merci d'avoir choisi Leed, l'agrégateur RSS svelte :p
 
-Tâches programmées avec cron
-====
+### Tâches programmées avec cron
 
 On peut éditer les tâches programmées avec _crontab -e_. Il y a deux façons de mettre à jour les flux. Les exemples qui suivent mettent à jour toutes les heures.
 
 1. En appelant directement Leed. Cette méthode a l'avantage d'être directe et de produire une sortie formatée pour la console mais requiert un accès local :
-``` crontab
+crontab
+```Batchfile
 0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
 ```
 
 1. En appelant Leed depuis le client web _wget_. Cette méthode nécessite un accès réseau mais a l'avantage de pouvoir être déclenchée à distance. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation :
-```
+```Batchfile
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
  Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
 
-Foire Aux Questions (F.A.Q.)
-====
+### Foire Aux Questions (F.A.Q.)
 
 Vous pouvez retrouver la FAQ du projet ici : http://projet.idleman.fr/leed/?page=FAQ
 
-Plugins
-====
+### Plugins
+
 Le dépot [Leed market](https://github.com/ldleman/Leed-market) contient tous les plugins à jour et approuvés officiellement pour le logiciel Leed.
 
-Bibliothèques utilisées
-==
+### Bibliothèques utilisées
 
 - Responsive / Cross browser : Initializr (http://www.initializr.com)
 - Javascript : JQuery (http://www.jquery.com)
@@ -75,8 +70,7 @@ Bibliothèques utilisées
 ---------
 
 
-Leed (English documentation)
-====
+# Leed (English documentation)
 
 Leed (short for Light Feed) is an aggregator [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimalist allowing consultation RSS rapid and non-intrusive.
 
@@ -94,16 +88,14 @@ Note that Leed is compatible with all resolutions on pc, tablet and smartphone.
 
 Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import / export which makes it compatible with aggregators applying the standard .
 
-Prerequisites
-====
+### Prerequisites
 
 - Recommended Apache server ( not tested on other types Nginx servers ...)
 - PHP 5.3 minimum
 - MySQL
 - A little common sense :-)
 
-Installation
-====
+### Installation
 
 1. Retrieve the project [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or on [github](https://github.com/ldleman/Leed).
 2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get a error 500) on the folder and its contents .
@@ -112,34 +104,32 @@ Installation
 5. [Optional] If you want the updates to make stream automatically set up a cron. See below. It is advisable not to put too rapid frequency to allow time to run the script.
 6. The script is installed, thank you for choosing Leed , slender RSS aggregator :p
 
-Scheduled tasks with cron
-====
+### Scheduled tasks with cron
 
 You can edit scheduled tasks with _crontab -e_. There are two ways to update feeds. The following examples update every hour.
 
 1. Calling directly Leed. This method has the advantage of being direct and produce formatted output to the console but requires local access :
-``` Crontab
+Crontab
+```Batchfile
 0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
 ```
 
 1. Leed calling from the web client _wget_. This method requires network access but has the advantage that it can be triggered remotely. To control access, it is necessary to provide the synchronization code :
-```
+```Batchfile
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
  If you do not have access to the _wget_ command on your server, you can try the full path _/usr/bin/wget_.
 
-Frequently Asked Questions (F.A.Q.)
-====
+### Frequently Asked Questions (F.A.Q.)
 
 You can find the project FAQ here : http://projet.idleman.fr/leed/?page=FAQ
 
-Plugins
-====
+### Plugins
+
 The deposit [Leed-market](https://github.com/ldleman/Leed-market) contains all the plugins up to date and officially approved for Leed software.
 
-Libraries used
-==
+### Libraries used
 
 - Responsive / Cross browser: Initializr ( http://www.initializr.com )
 - Javascript: JQuery ( http://www.jquery.com )
