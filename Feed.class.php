@@ -8,7 +8,7 @@
 
 class Feed extends MysqlEntity{
 
-    protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose;
+    protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose,$state;
     protected $TABLE_NAME = 'feed';
     protected $CLASS_NAME = 'Feed';
     protected $object_fields =
@@ -21,6 +21,7 @@ class Feed extends MysqlEntity{
         'lastupdate'=>'string',
         'folder'=>'integer',
         'isverbose'=>'boolean',
+        'state'=>'boolean',
     );
 
     protected $object_fields_index =
@@ -50,6 +51,7 @@ class Feed extends MysqlEntity{
     }
 
     function getError() { return $this->error; }
+    function getState() { return $this->state; }
 
     /*@TODO: fournir un extrait quand il 'y a pas de description. De même pour les médias.
     @TODO: SimplePie remplace "é" par "&eacute;", il ne devrait pas le faire.
@@ -77,8 +79,10 @@ class Feed extends MysqlEntity{
         $feed->force_feed($forceFeed);
         $feed->set_feed_url($this->url);
         $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Agrgegator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
+        $this->state = 0;
         if (!$feed->init()) {
             $this->error = $feed->error;
+            $this->state = 1;
             $this->lastupdate = $_SERVER['REQUEST_TIME'];
             $this->save();
             return false;

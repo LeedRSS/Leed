@@ -2,6 +2,7 @@
 --#####
 --#####     MISE À JOUR Base de données de Leed
 --#####			Date : 13/02/2014
+--#####			Version Leed : v1.6
 --#####
 --#####				Préfixe des tables : ##MYSQL_PREFIX## est remplacé automatiquement
 --#####
