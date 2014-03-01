@@ -43,9 +43,9 @@ class Feed extends MysqlEntity{
     function getInfos(){
         $xml = @simplexml_load_file($this->url);
         if($xml!=false){
-            $this->name = array_shift ($xml->xpath('channel/title'));
-            $this->description = array_shift ($xml->xpath('channel/description'));
-            $this->website = array_shift ($xml->xpath('channel/link'));
+            $this->name = $xml->xpath('channel/title')[0];
+            $this->description = $xml->xpath('channel/description')[0];
+            $this->website = $xml->xpath('channel/link')[0];
         }
     }
 
