@@ -435,6 +435,10 @@ function readThis(element,id,from,callback){
                         $(window).scrollTop($(document).height());
                     }
                 });
+                // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
+                $(window).data('nblus', $(window).data('nblus')+1);
+                // on diminue le nombre d'article en haut de page
+                $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
         }
         $.ajax({
             url: "./action.php?action=readContent",
@@ -446,10 +450,6 @@ function readThis(element,id,from,callback){
                     if( console && console.log && msg!="" ) console.log(msg);
                     switch (activeScreen){
                         case '':
-                            // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
-                            $(window).data('nblus', $(window).data('nblus')+1);
-                            // on diminue le nombre d'article en haut de page
-                            $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
                         break;
                         case 'selectedFolder':
                         case 'selectedFeedNonLu':
