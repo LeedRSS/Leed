@@ -419,19 +419,23 @@ function readThis(element,id,from,callback){
     var nextEvent = $('#'+id).next();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
-        // cas de la page d'accueil
-        parent.addClass('eventRead');
-        parent.fadeOut(200,function(){
-            if(callback){
-                callback();
-            }else{
-                targetThisEvent(nextEvent,true);
-            }
-            // on simule un scroll si tous les events sont cachés
-            if($('article section:last').attr('style')=='display: none;') {
-                $(window).scrollTop($(document).height());
-            }
-        });
+        switch (activeScreen){
+            // Ce 'switch' n'est pas justifié, c'est pour tester temporairement.
+            case '':
+                // cas de la page d'accueil
+                parent.addClass('eventRead');
+                parent.fadeOut(200,function(){
+                    if(callback){
+                        callback();
+                    }else{
+                        targetThisEvent(nextEvent,true);
+                    }
+                    // on simule un scroll si tous les events sont cachés
+                    if($('article section:last').attr('style')=='display: none;') {
+                        $(window).scrollTop($(document).height());
+                    }
+                });
+        }
         $.ajax({
             url: "./action.php?action=readContent",
             data:{id:id},
