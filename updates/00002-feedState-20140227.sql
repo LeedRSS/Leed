@@ -12,5 +12,5 @@
 --######################################################################################################
 
 -- Mise à jour table FEED (Obligatoire)
-ALTER TABLE `##MYSQL_PREFIX##feed` DROP `state`;
-ALTER TABLE `##MYSQL_PREFIX##feed` ADD `state` INT(1) DEFAULT 0 NOT NULL;
+ALTER TABLE `##MYSQL_PREFIX##feed` DROP `lastSyncInError`;
+ALTER TABLE `##MYSQL_PREFIX##feed` ADD `lastSyncInError` INT(1) DEFAULT 0 NOT NULL;

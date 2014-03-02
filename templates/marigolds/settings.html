@@ -89,7 +89,7 @@
                         <ul class="feedsList">
                             {if="count($feeds)!=0"}
                             {loop="$feedsForFolder"}
-                                {if="$value->getState()==0"}
+                                {if="$value->getLastSyncInError()==0"}
                                 <li class="feedListItem">
                                     <span class="feedTitle js-feedTitle">
                                         <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>

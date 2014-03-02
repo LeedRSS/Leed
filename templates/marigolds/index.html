@@ -100,7 +100,7 @@
                                         {if="$displayOnlyUnreadFeedFolder=='true'"}
                                         <!-- Affichage des feeds ayant des articles non lus -->
                                             {if="isset($unread[$value2['id']])"}
-                                                {if="$feedState->getById($value2['id'])->getState()==0"}
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
                                                 <li>
                                                 {else}
                                                 <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
@@ -113,7 +113,7 @@
                                                 </li>
                                             {else}
                                                 <!-- On cache les feeds n'ayant pas d'article non lus -->
-                                                    {if="$feedState->getById($value2['id'])->getState()==0"}
+                                                    {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
                                                     <li class="hidefeed" style="display:none;">
                                                     {else}
                                                     <li class="hidefeed errorSync" style="display:none;" title="{function="_t('SYNCHRONISATION_ERROR')"}">
@@ -130,13 +130,13 @@
 									    {else}
                                         <!-- Affichage de tous les feeds -->
                                             {if="isset($unread[$value2['id']])"}
-                                                {if="$feedState->getById($value2['id'])->getState()==0"}
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
                                                 <li>
                                                 {else}
                                                 <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                 {/if}
                                             {else} <!-- On affiche même ceux qui non pas d'article non lus -->
-                                                {if="$feedState->getById($value2['id'])->getState()==0"}
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
                                                 <li class="hidefeed">
                                                 {else}
                                                 <li class="hidefeed errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
