@@ -1,6 +1,6 @@
 # Leed
 
-fr [en](#leed-english-documentation) [es](#leed-span-documentation)
+fr [en](#leed-english-documentation) [es](#leed-traducci%C3%B3n-al-espa%C3%B1ol)
 
 Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
@@ -39,12 +39,11 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 On peut éditer les tâches programmées avec _crontab -e_. Il y a deux façons de mettre à jour les flux. Les exemples qui suivent mettent à jour toutes les heures.
 
 1. En appelant directement Leed. Cette méthode a l'avantage d'être directe et de produire une sortie formatée pour la console mais requiert un accès local :
-crontab
 ```Batchfile
+crontab
 0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
 ```
-
-1. En appelant Leed depuis le client web _wget_. Cette méthode nécessite un accès réseau mais a l'avantage de pouvoir être déclenchée à distance. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation :
+2. En appelant Leed depuis le client web _wget_. Cette méthode nécessite un accès réseau mais a l'avantage de pouvoir être déclenchée à distance. Afin de contrôler l'accès, il est nécessaire de fournir le code de synchronisation :
 ```Batchfile
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
@@ -109,12 +108,11 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 You can edit scheduled tasks with _crontab -e_. There are two ways to update feeds. The following examples update every hour.
 
 1. Calling directly Leed. This method has the advantage of being direct and produce formatted output to the console but requires local access :
-Crontab
 ```Batchfile
+Crontab
 0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
 ```
-
-1. Leed calling from the web client _wget_. This method requires network access but has the advantage that it can be triggered remotely. To control access, it is necessary to provide the synchronization code :
+2. Leed calling from the web client _wget_. This method requires network access but has the advantage that it can be triggered remotely. To control access, it is necessary to provide the synchronization code :
 ```Batchfile
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
@@ -132,6 +130,14 @@ The deposit [Leed-market](https://github.com/ldleman/Leed-market) contains all t
 ### Libraries used
 
 - Responsive / Cross browser: Initializr ( http://www.initializr.com )
-- Javascript: JQuery ( http://www.jquery.com )
+- Javascript : JQuery ( http://www.jquery.com )
 - Template Engine: RainTPL ( http://www.raintpl.com )
 - RSS Parser : SimplePie ( http://simplepie.org )
+ 
+
+---------
+
+
+# Leed (traducción al español)
+
+
