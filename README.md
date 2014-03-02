@@ -1,6 +1,6 @@
 # Leed
 
-fr [en](#leed-english-documentation) [es](#leed-traducci%C3%B3n-al-espa%C3%B1ol)
+> Français - [English](#leed-english-documentation) - [Español](#leed-traducci%C3%B3n-al-espa%C3%B1ol)
 
 Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
