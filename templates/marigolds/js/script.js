@@ -147,7 +147,9 @@ function scrollInfini() {
         if ($(window).data('ajaxready') == false) return;
 
         if(($(window).scrollTop() + $(window).height()) + 50 >= $(document).height()
-           || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
+           || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height()
+           || $('article').position().top + $('article').height() < $('aside').height()
+           )
         {
             // lorsqu'on commence un traitement, on met ajaxready à false
             $(window).data('ajaxready', false);
