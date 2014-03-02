@@ -71,9 +71,9 @@ Le dépot [Leed market](https://github.com/ldleman/Leed-market) contient tous le
 
 # Leed (English documentation)
 
-Leed (short for Light Feed) is an aggregator [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimalist allowing consultation RSS rapid and non-intrusive.
+Leed (short for Light Feed) is a minimalist [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) aggregator which offers fast RSS consultation and non-intrusive features.
 
-This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display quickly possible when you connect to.
+This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quick as possible when you connect to it.
 
 - Application: Leed (Light Feed)
 - Version : Branch Development
@@ -81,27 +81,27 @@ This reader can be installed on your own server and works with a system of [cron
 - Project page: http://projet.idleman.fr/leed
 - License: [CC by-nc -sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
 
-All tasks are performed treatments flows invisibly by a scheduled task (cron), so the user does not experience delays due to the recovery and processing of each of the monitored flow.
+All tasks are performed in the background thanks to a scheduled task (cron), so the user does not experience delays due to the recovery and processing of each of the monitored feed.
 
 Note that Leed is compatible with all resolutions on pc, tablet and smartphone.
 
-Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import / export which makes it compatible with aggregators applying the standard .
+Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import / export which makes it compatible with aggregators applying the standard.
 
 ### Prerequisites
 
-- Recommended Apache server ( not tested on other types Nginx servers ...)
+- Recommended Apache server (not tested on other webservers such as Nginx…)
 - PHP 5.3 minimum
 - MySQL
 - A little common sense :-)
 
 ### Installation
 
-1. Retrieve the project [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or on [github](https://github.com/ldleman/Leed).
-2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get a error 500) on the folder and its contents .
+1. Retrieve the project archive at [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or at [github](https://github.com/ldleman/Leed).
+2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get an error 500) onto the folder and its contents .
 3. From your browser, go to the setup page _install.php_ (eg your.domaine.fr/leed/install.ph ) and follow the instructions.
-4. Once the installation is complete , remove the _install.php_ for security file.
-5. [Optional] If you want the updates to make stream automatically set up a cron. See below. It is advisable not to put too rapid frequency to allow time to run the script.
-6. The script is installed, thank you for choosing Leed , slender RSS aggregator :p
+4. Once the installation is complete, remove the _install.php_ as a security measure.
+5. [Optional] If you want the update process to run in the background, set up a crontask. See below for more info. It is advisable not to put too rapid frequency to allow time to run the script.
+6. The script is installed, thank you for choosing Leed, slender RSS aggregator :p
 
 ### Scheduled tasks with cron
 
@@ -117,7 +117,7 @@ Crontab
 0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
- If you do not have access to the _wget_ command on your server, you can try the full path _/usr/bin/wget_.
+ If you do not have access to the _wget_ command on your server, you can try the full path _/usr/bin/wget_.
 
 ### Frequently Asked Questions (F.A.Q.)
 
@@ -125,19 +125,18 @@ You can find the project FAQ here : http://projet.idleman.fr/leed/?page=FAQ
 
 ### Plugins
 
-The deposit [Leed-market](https://github.com/ldleman/Leed-market) contains all the plugins up to date and officially approved for Leed software.
+The [Leed-market](https://github.com/ldleman/Leed-market) repository contains all the plugins up to date and officially approved for Leed software.
 
 ### Libraries used
 
 - Responsive / Cross browser: Initializr ( http://www.initializr.com )
-- Javascript : JQuery ( http://www.jquery.com )
+- Javascript: JQuery ( http://www.jquery.com )
 - Template Engine: RainTPL ( http://www.raintpl.com )
-- RSS Parser : SimplePie ( http://simplepie.org )
+- RSS Parser: SimplePie ( http://simplepie.org )
  
 
 ---------
 
 
 # Leed (traducción al español)
-
 
