@@ -100,7 +100,11 @@
                                         {if="$displayOnlyUnreadFeedFolder=='true'"}
                                         <!-- Affichage des feeds ayant des articles non lus -->
                                             {if="isset($unread[$value2['id']])"}
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
                                                 <li>
+                                                {else}
+                                                <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
+                                                {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
@@ -109,7 +113,11 @@
                                                 </li>
                                             {else}
                                                 <!-- On cache les feeds n'ayant pas d'article non lus -->
-                                                <li class="hidefeed" style="display:none;">
+                                                    {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
+                                                    <li class="hidefeed" style="display:none;">
+                                                    {else}
+                                                    <li class="hidefeed errorSync" style="display:none;" title="{function="_t('SYNCHRONISATION_ERROR')"}">
+                                                    {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     {if="isset($unread[$value2['id']])"}
                                                     <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
@@ -122,9 +130,17 @@
 									    {else}
                                         <!-- Affichage de tous les feeds -->
                                             {if="isset($unread[$value2['id']])"}
-                                            <li>
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
+                                                <li>
+                                                {else}
+                                                <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
+                                                {/if}
                                             {else} <!-- On affiche même ceux qui non pas d'article non lus -->
-                                            <li class="hidefeed">
+                                                {if="$feedState->getById($value2['id'])->getLastSyncInError()==0"}
+                                                <li class="hidefeed">
+                                                {else}
+                                                <li class="hidefeed errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
+                                                {/if}
                                             {/if}
                                                 {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                 {if="isset($unread[$value2['id']])"}

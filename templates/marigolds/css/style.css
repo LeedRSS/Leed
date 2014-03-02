@@ -590,6 +590,10 @@ footer a,#main aside a{
     color:#ffffff;
 }
 
+#main article a.inError {
+    color:#ffffff;
+}
+
 .sync{
     padding-left:10px;
 }
