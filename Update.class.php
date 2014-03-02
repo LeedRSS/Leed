@@ -47,18 +47,18 @@ class Update{
 
         $jsonFiles = Update::getUpdateFile();
 
-        $alreadyPassed = array();
         $notPassed = array();
 
-        if ($jsonFiles==''){
-            $jsonFiles[0] = array();
-        }
+        if ($jsonFiles=='') $jsonFiles[0] = array();
+
         foreach($files as $file){
-            if(in_array(basename($file), $jsonFiles[0])){
-                $alreadyPassed [] =  basename($file);
-            }else{
-                $notPassed [] =  basename($file);
+            $found = false;
+            foreach($jsonFiles as $jsonfile){
+                if (isset($jsonfile[0])) {
+                    if(in_array(basename($file), $jsonfile)) $found = true;
+                }
             }
+            if (!$found) $notPassed [] =  basename($file);
         }
         return $notPassed;
     }
