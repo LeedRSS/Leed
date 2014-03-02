@@ -241,9 +241,12 @@ class Feed extends MysqlEntity{
         $unreads = array();
         $results = Feed::customQuery("SELECT COUNT(".MYSQL_PREFIX."event.id), ".MYSQL_PREFIX."event.feed FROM ".MYSQL_PREFIX."event WHERE ".MYSQL_PREFIX."event.unread = 1 GROUP BY ".MYSQL_PREFIX."event.feed") ;
         if($results!=false){
+            $total = 0;
             while($item = mysql_fetch_array($results)){
                 $unreads[$item[1]] = $item[0];
+                $total += $item[0];
             }
+            $unreads['total'] = $total;
         }
         return $unreads;
     }
