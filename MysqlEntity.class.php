@@ -28,6 +28,9 @@ class MysqlEntity
             case 'longstring':
                 $return = 'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
             break;
+            case 'extralongstring':
+                $return = 'MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
+                break;
             case 'key':
                 $return = 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY';
             break;
