@@ -7,6 +7,9 @@
  */
 
 include ('common.php');
+
+Plugin::callHook("index_pre_treatment", array(&$_));
+
 $view = "article";
 //recuperation de tous les flux
 $allFeeds = $feedManager->getFeedsPerFolder();
