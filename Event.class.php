@@ -17,7 +17,7 @@ class Event extends MysqlEntity{
         'guid'=>'longstring',
         'title'=>'string',
         'creator'=>'string',
-        'content'=>'longstring',
+        'content'=>'extralongstring',
         'description'=>'longstring',
         'link'=>'longstring',
         'unread'=>'integer',
