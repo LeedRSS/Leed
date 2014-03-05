@@ -188,24 +188,24 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
         $configurationManager->truncate();
     }
     $configurationManager->create();
-    $configurationManager->add('root',$root);
-    $configurationManager->add('articleView','partial');
-    $configurationManager->add('articleDisplayContent','1');
     $configurationManager->add('articleDisplayAnonymous','0');
-    $configurationManager->add('articlePerPages','5');
-    $configurationManager->add('articleDisplayLink','1');
-    $configurationManager->add('articleDisplayDate','1');
     $configurationManager->add('articleDisplayAuthor','1');
-    $configurationManager->add('articleDisplayHomeSort','1');
+    $configurationManager->add('articleDisplayContent','1');
+    $configurationManager->add('articleDisplayDate','1');
     $configurationManager->add('articleDisplayFolderSort','1');
+    $configurationManager->add('articleDisplayHomeSort','1');
+    $configurationManager->add('articleDisplayLink','1');
+    $configurationManager->add('articlePerPages','5');
+    $configurationManager->add('articleView','partial');
+    $configurationManager->add('cryptographicSalt', $cryptographicSalt);
     $configurationManager->add('displayOnlyUnreadFeedFolder','false');
-    $configurationManager->add('optionFeedIsVerbose',1);
-    $configurationManager->add('synchronisationType','auto');
     $configurationManager->add('feedMaxEvents','50');
+    $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','1');
     $configurationManager->add('synchronisationForceFeed','0');
-    $configurationManager->add('cryptographicSalt', $cryptographicSalt);
+    $configurationManager->add('synchronisationType','auto');
+    $configurationManager->add('root',$root);
 
     $install_terminee=true;
 } /* Ci-dessous, on y va si :
