@@ -130,8 +130,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('PAGINATION_SCALE',5);
     //Nombre de flux mis à jour lors de la synchronisation graduée
     define('SYNC_GRAD_COUNT',10);
-    //Langue utilisée
-    define('LANGUAGE','".$_POST['install_changeLngLeed']."');
 ?>";
 
     file_put_contents('constant.php', $constant);
@@ -199,6 +197,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('cryptographicSalt', $cryptographicSalt);
     $configurationManager->add('displayOnlyUnreadFeedFolder','false');
     $configurationManager->add('feedMaxEvents','50');
+    $configurationManager->add('language', $_POST['install_changeLngLeed']);
     $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','0');
