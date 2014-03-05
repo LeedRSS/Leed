@@ -100,7 +100,7 @@ switch ($action){
             } else {
 
                 if (!$parseOk) echo '<div class="errorSync">';
-                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+                echo "<dt><a href='settings.php#".$feed->getId()."'>"._t('MODIFY')."</a> | <i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
 
             }
             foreach($errors as $error) {
