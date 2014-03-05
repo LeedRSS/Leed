@@ -255,7 +255,7 @@ switch ($action){
 
     case 'importForm':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-        echo '<html style="height:auto;"><link rel="stylesheet" href="templates/marigolds/css/style.css">
+        echo '<html style="height:auto;"><link rel="stylesheet" href="templates/'.DEFAULT_THEME.'/css/style.css">
                 <body style="height:auto;">
                     <form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
                     <p>'._t('OPML_FILE').' : <input name="newImport" type="file"/> <button name="importButton">'._t('IMPORT').'</button></p>
@@ -269,7 +269,7 @@ switch ($action){
 
     case 'synchronizeForm':
      if(isset($myUser) && $myUser!=false){
-        echo '<link rel="stylesheet" href="templates/marigolds/css/style.css">
+        echo '<link rel="stylesheet" href="templates/'.DEFAULT_THEME.'/css/style.css">
                 <a class="button" href="action.php?action=synchronize">'._t('SYNCHRONIZE_NOW').'</a>
                     <p>'._t('SYNCHRONIZE_COFFEE_TIME').'</p>
 
