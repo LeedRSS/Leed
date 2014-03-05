@@ -199,6 +199,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('articleDisplayHomeSort','1');
     $configurationManager->add('articleDisplayFolderSort','1');
     $configurationManager->add('displayOnlyUnreadFeedFolder','false');
+    $configurationManager->add('eventDisplayMode','summary');
     $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationType','auto');
     $configurationManager->add('feedMaxEvents','50');
