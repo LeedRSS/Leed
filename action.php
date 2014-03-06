@@ -185,7 +185,7 @@ switch ($action){
             $configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
             $configurationManager->put('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
             $configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
-            $configurationManager->put('eventDisplayMode',$_['eventDisplayMode']);
+            $configurationManager->put('articleDisplayMode',$_['articleDisplayMode']);
             $configurationManager->put('synchronisationType',$_['synchronisationType']);
             $configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
             $configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);

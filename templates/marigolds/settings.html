@@ -221,9 +221,9 @@
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_CONTENT')"}</legend>
-                            <input type="radio" {if="$eventDisplayMode=='title'"} checked="checked" {/if} value="title" id="eventDisplayModeTitle" name="eventDisplayMode" /><label for="eventDisplayModeTitle">Title</label>
-                            <input type="radio" {if="$eventDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="eventDisplayModeSummary" name="eventDisplayMode" /><label for="eventDisplayModeSummary">Summary</label>
-                            <input type="radio" {if="$eventDisplayMode=='content'"} checked="checked" {/if} value="content" id="eventDisplayModeContent" name="eventDisplayMode" /><label for="eventDisplayModeContent">Content</label>
+                            <input type="radio" {if="$articleDisplayMode=='title'"} checked="checked" {/if} value="title" id="articleDisplayModeTitle" name="articleDisplayMode" /><label for="articleDisplayModeTitle">Title</label>
+                            <input type="radio" {if="$articleDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="articleDisplayModeSummary" name="articleDisplayMode" /><label for="articleDisplayModeSummary">Summary</label>
+                            <input type="radio" {if="$articleDisplayMode=='content'"} checked="checked" {/if} value="content" id="articleDisplayModeContent" name="articleDisplayMode" /><label for="articleDisplayModeContent">Content</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
