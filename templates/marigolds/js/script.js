@@ -19,13 +19,6 @@ $(document).ready(function(){
     // Page settings
     if($('.settings').length){
 
-        // Gestion affichage partiel ou complet en fonction de affichage du contenu
-        if($("input[name='articleDisplayContent']").length){
-            $("input[name='articleDisplayContent']").click(function(){
-                toggleArticleView();
-            });
-        }
-
         // Si nom du bloc en hash dans url
         var hash=window.location.hash;
         if(hash.length){
@@ -538,12 +531,6 @@ function synchronize(code){
     }else{
         alert(_t('YOU_MUST_BE_CONNECTED_FEED'));
     }
-}
-
-// Active ou desactive inputs type affichage des events
-function toggleArticleView(){
-    var element = $("input[name=articleView]");
-    element.prop("disabled",!element.prop("disabled"));
 }
 
 // Disparition block et affichage block clique

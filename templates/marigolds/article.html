@@ -37,9 +37,9 @@
         </h3>
 
         <!-- CONTENU/DESCRIPTION -->
-        {if="$articleDisplayContent"}
+        {if="$articleDisplayMode!='title'"}
             <div class="articleContent">
-                {if="$articleView=='partial'"}
+                {if="$articleDisplayMode=='summary'"}
                     {function="Plugin::callHook("event_pre_description", array(&$value))"}
                     {$value->getDescription()}
                     {function="Plugin::callHook("event_post_description", array(&$value))"}
@@ -50,7 +50,7 @@
                 {/if}
             </div>
 
-            {if="$articleView!='partial'"}
+            {if="$articleDisplayMode=='content'"}
             <!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
             <h3 class="articleDetails">
                 {function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}

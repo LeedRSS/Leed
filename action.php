@@ -173,12 +173,7 @@ switch ($action){
 
             //Ajout des préférences et réglages
             $configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
-            //$configurationManager->put('view',$_['view']);
-            if(isset($_['articleView']))
-                $configurationManager->put('articleView',$_['articleView']);
-            $configurationManager->put('articleDisplayContent',$_['articleDisplayContent']);
             $configurationManager->put('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
-
             $configurationManager->put('articlePerPages',$_['articlePerPages']);
             $configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
             $configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
