@@ -136,6 +136,7 @@
  "MARK_AS_READ":"Marcar como leído",
  "MARK_AS_READ_FOLDER_ITEMS":"marcar como leído el (los) $1 evento(s) no leído(s) de este directorio",
  "NAME":"Nombre",
+ "MODIFY":"M",
  "NEW_FOLDER":"Nuevo directorio",
  "NO":"No",
  "NO_INSTALLED_PLUGINS":"No se ha instalado ningún complemento ya.",
