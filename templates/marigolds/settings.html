@@ -97,7 +97,7 @@
                                 <!-- feed dernière synchro en erreur -->
                                 <li class="feedListItem errorSync">
                                     <span class="feedTitle js-feedTitle" title="{function="_t('SYNCHRONISATION_ERROR')"}">
-                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}" id="{$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                 {/if}
                                     </span>
                                     <div class="feedButtons">

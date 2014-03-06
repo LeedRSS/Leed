@@ -549,7 +549,15 @@ function toggleArticleView(){
 // Disparition block et affichage block clique
 function toggleBlocks(target){
     target=target.substring(1);
-    $('#main article > section').hide();$('.'+target).fadeToggle(200);
+    // Si c'est un numero de flux on force l'affichage manageBloc et on scroll dessus
+    if (target == parseInt(target)) {  
+	var memtarget = target;
+	target = "manageBloc";
+	$('#main article > section').hide();$('.'+target).fadeToggle(200);	
+	$('html, body').animate({scrollTop: $('#'+memtarget).offset().top}, 'slow');
+    } else {
+      $('#main article > section').hide();$('.'+target).fadeToggle(200);
+    }
 }
 
 // affiche ou cache les feeds n'ayant pas d'article non lus.
