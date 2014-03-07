@@ -124,8 +124,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('MYSQL_BDD','{$mysqlBase}');
     //Prefix des noms des tables leed pour les bases de données uniques
     define('MYSQL_PREFIX','{$mysqlPrefix}');
-    //Theme graphique
-    define('DEFAULT_THEME','marigolds');
     //Nombre de pages affichées dans la barre de pagination
     define('PAGINATION_SCALE',5);
     //Nombre de flux mis à jour lors de la synchronisation graduée
@@ -199,6 +197,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('cryptographicSalt', $cryptographicSalt);
     $configurationManager->add('displayOnlyUnreadFeedFolder','false');
     $configurationManager->add('feedMaxEvents','50');
+    $configurationManager->add('theme','marigolds');
     $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','0');

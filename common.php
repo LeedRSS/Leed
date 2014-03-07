@@ -88,11 +88,17 @@ $folderManager = new Folder();
 $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
 
+$theme = $configurationManager->get('theme');
+if (empty($theme)) {
+    $configurationManager->put('theme', 'marigolds');
+    $theme = $configurationManager->get('theme');
+}
+
 //Instanciation du template
 $tpl = new RainTPL();
 //Definition des dossiers de template
 raintpl::configure("base_url", null );
-raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
+raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
 i18n_init(LANGUAGE);
