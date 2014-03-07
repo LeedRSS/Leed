@@ -128,8 +128,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('DEFAULT_THEME','marigolds');
     //Nombre de pages affichées dans la barre de pagination
     define('PAGINATION_SCALE',5);
-    //Nombre de flux mis à jour lors de la synchronisation graduée
-    define('SYNC_GRAD_COUNT',10);
     //Langue utilisée
     define('LANGUAGE','".$_POST['install_changeLngLeed']."');
 ?>";
@@ -204,6 +202,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('synchronisationType','auto');
+    $configurationManager->add('syncGradCount','10');
     $configurationManager->add('root',$root);
 
     $install_terminee=true;
