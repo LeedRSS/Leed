@@ -29,26 +29,42 @@
             {/if}
             {if="$value->getFavorite()!=1"} -  <a class="pointer favorite" onclick="addFavorite(this,{$value->getId()});" >{function="_t('FAVORIZE')"}</a>
             {else}
-             <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="_t('UNFAVORIZE')"}</a>
-             {/if}
-
-             <a class="pointer right readUnreadButton">({function="_t('READ')"}/{function="_t('UNREAD')"})</a>
-             {function="Plugin::callHook("event_post_top_options", array(&$value))"}
+            <a class="pointer favorite" onclick="removeFavorite(this,{$value->getId()});" >{function="_t('UNFAVORIZE')"}</a>
+            {/if}
+            {if="$articleDisplayMode=='title'"}
+            <a class="pointer" id="btnDisplayMode_{$value->getId()}" onclick="toggleArticleDisplayMode(this,{$value->getId()})" title="{function="_t('EVENT_DISPLAY_TITLE')"}">|&nbsp;&nbsp;</a>
+            {/if}
+            {if="$articleDisplayMode=='summary'"}
+            <a class="pointer" id="btnDisplayMode_{$value->getId()}" onclick="toggleArticleDisplayMode(this,{$value->getId()})" title="{function="_t('EVENT_DISPLAY_SUMMARY')"}">||&nbsp;</a>
+            {/if}
+            {if="$articleDisplayMode=='content'"}
+            <a class="pointer" id="btnDisplayMode_{$value->getId()}" onclick="toggleArticleDisplayMode(this,{$value->getId()})" title="{function="_t('EVENT_DISPLAY_CONTENT')"}">|||</a>
+            {/if}
+            <a class="pointer right readUnreadButton">({function="_t('READ')"}/{function="_t('UNREAD')"})</a>
+            {function="Plugin::callHook("event_post_top_options", array(&$value))"}
         </h3>
 
         <!-- CONTENU/DESCRIPTION -->
         {if="$articleDisplayMode!='title'"}
-            <div class="articleContent">
-                {if="$articleDisplayMode=='summary'"}
-                    {function="Plugin::callHook("event_pre_description", array(&$value))"}
-                    {$value->getDescription()}
-                    {function="Plugin::callHook("event_post_description", array(&$value))"}
-                {else}
-                    {function="Plugin::callHook("event_pre_content", array(&$value))"}
-                    {$value->getContent()}
-                    {function="Plugin::callHook("event_post_content", array(&$value))"}
-                {/if}
-            </div>
+            {if="$articleDisplayMode=='summary'"}
+                <div class="articleContent summary">
+                {function="Plugin::callHook("event_pre_description", array(&$value))"}
+                {$value->getDescription()}
+                {function="Plugin::callHook("event_post_description", array(&$value))"}
+                </div>
+            {else}
+                <div class="articleContent summary" style="display: none;"></div>
+            {/if}
+
+            {if="$articleDisplayMode=='content'"}
+                <div class="articleContent content">
+                {function="Plugin::callHook("event_pre_content", array(&$value))"}
+                {$value->getContent()}
+                {function="Plugin::callHook("event_post_content", array(&$value))"}
+                </div>
+            {else}
+                <div class="articleContent content" style="display: none;"></div>
+            {/if}
 
             {if="$articleDisplayMode=='content'"}
             <!-- RAPPEL DETAILS + OPTIONS POUR LES ARTICLES AFFICHES EN ENTIER -->
@@ -64,6 +80,9 @@
                 {function="Plugin::callHook("event_post_bottom_options", array(&$value))"}
             </h3>
             {/if}
+        {else}
+            <div class="articleContent summary" style="display: none;"></div>
+            <div class="articleContent content" style="display: none;"></div>
         {/if}
     </section>
     {function="Plugin::callHook("event_post_section", array(&$value))"}

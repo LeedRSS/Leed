@@ -589,6 +589,28 @@ switch ($action){
 
         break;
 
+    case 'articleDisplayMode':
+        if($myUser==false) {
+            $response_array['status'] = 'noconnect';
+            $response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
+            header('Content-type: application/json');
+            echo json_encode($response_array);
+            exit();
+        }
+        // chargement du content de l'article souhaité
+        $newEvent = new Event();
+        $event = $newEvent->getById($_['event_id']);
+
+        if ($_['articleDisplayMode']=='content'){
+            //error_log(print_r($_SESSION['events'],true));
+            $content = $event->getContent();
+        } else {
+            $content = $event->getDescription();
+        }
+        echo $content;
+
+        break;
+
     default:
         require_once("SimplePie.class.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));

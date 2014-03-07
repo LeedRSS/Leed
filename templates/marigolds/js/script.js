@@ -12,6 +12,7 @@ keyCode['p'] = 80;
 keyCode['k'] = 75;
 keyCode['o'] = 79;
 keyCode['h'] = 72;
+keyCode['j'] = 74;
 keyCode['space'] = 32;
 
 $(document).ready(function(){
@@ -122,6 +123,11 @@ $(document).keydown(function (e) {
         case keyCode['h']:
             //ouvrir/fermer le panneau d'aide
             document.getElementById( 'helpPanel' ).style.display == 'block' ? document.getElementById( 'helpPanel' ).style.display = 'none' : document.getElementById( 'helpPanel' ).style.display = 'block';
+            return false;
+        break;
+        case keyCode['j']:
+            // Affiche / cache les blocs résumé / content
+            toggleArticleDisplayMode(document.getElementById('btnDisplayMode_'+$('.eventSelected').attr('id')),$('.eventSelected').attr('id'));
             return false;
         break;
     }
@@ -530,6 +536,79 @@ function synchronize(code){
         '</section>');
     }else{
         alert(_t('YOU_MUST_BE_CONNECTED_FEED'));
+    }
+}
+
+// Affiche / cache les blocs résumé / content
+function toggleArticleDisplayMode(button, target){
+    if ($('#'+target+' > .summary').length>0 && $('#'+target+' > .summary').attr('style')!='display: none;'){
+
+        // je suis en mode affichage réduit et je passe en affichage mode complet
+        action = 'content';
+        $('#'+target+' > .summary').hide();
+        // chargement de l'article complet (content)
+        if ($.trim($('#'+target+' > .content').text()).length==0){
+            $.ajax({
+                url: "./action.php?action=articleDisplayMode&articleDisplayMode="+action+'&event_id='+target,
+                success:function(msg){
+                    if(msg.status == 'noconnect') {
+                        alert(msg.texte)
+                    } else {
+                        if( console && console.log && msg!="" ) console.log(msg);
+                        $('#'+target+' > .content').html(msg);
+                        $('#'+target+' > .content').show()
+                        // btn pour passer en mode title
+                        button.innerHTML = '|||';
+                        button.title = _t('EVENT_DISPLAY_CONTENT');
+                        $('#'+target+' > .articleDetails').last().show();
+                    }
+                }
+            });
+        } else {
+            $('#'+target+' > .content').show()
+            // btn pour passer en mode title
+            button.innerHTML = '|||';
+            button.title = _t('EVENT_DISPLAY_CONTENT');
+            $('#'+target+' > .articleDetails').last().show();
+        }
+
+    }else{
+        if ($('#'+target+' > .content').length>0 && $('#'+target+' > .content').attr('style')!='display: none;'){
+            // je suis en mode affichage complet et je passe en affichage mode title
+            $('#'+target+' > .content').hide();
+            // btn pour passer en mode reduit
+            button.innerHTML = '|&nbsp;&nbsp;';
+            button.title = _t('EVENT_DISPLAY_TITLE');
+            $('#'+target+' > .articleDetails').last().hide();
+
+        }  else {
+
+            // je suis en mode affichage titre et je passe en affichage mode réduit
+            action = 'summary';
+            // chargement de l'article réduit (description)
+            if ($.trim($('#'+target+' > .summary').text()).length==0){
+                $.ajax({
+                    url: "./action.php?action=articleDisplayMode&articleDisplayMode="+action+'&event_id='+target,
+                    success:function(msg){
+                        if(msg.status == 'noconnect') {
+                            alert(msg.texte)
+                        } else {
+                            if( console && console.log && msg!="" ) console.log(msg);
+                            $('#'+target+' > .summary').html(msg);
+                            $('#'+target+' > .summary').show();
+                            // btn pour passer en mode complet
+                            button.innerHTML = '||&nbsp;';
+                            button.title = _t('EVENT_DISPLAY_SUMMARY');
+                        }
+                    }
+                });
+            } else {
+                $('#'+target+' > .summary').show();
+                // btn pour passer en mode complet
+                button.innerHTML = '||&nbsp;';
+                button.title = _t('EVENT_DISPLAY_SUMMARY');
+            }
+        }
     }
 }
 
