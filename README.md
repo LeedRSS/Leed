@@ -140,3 +140,65 @@ The [Leed-market](https://github.com/ldleman/Leed-market) repository contains al
 
 # Leed (traducción al español)
 
+Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimalista que permite leer sus RSS rapidamente y facilmente.
+
+Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://fr.wikipedia.org/wiki/Cron) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
+
+- Script : Leed (Light Feed)
+- Versión : Branche de Développement
+- Autor : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
+- Página del proyecto : http://projet.idleman.fr/leed
+- Licencia : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+
+Todas las tareas de tratamiento de los RSS se efectuan de manera invisible gracias a una tarea sincronizada (Cron). Así, el usuario no debe sufrir los largos tiempos necesarios para recuperar y tratar los RSS.
+
+Se debe notar que Leed es compatible con todas las resoluciones, sobre un ordenador, una tablet o un móvil y funciona con todos los navegadores.
+
+El script también está compatible con los archivos de exportación/importación [OPML](https://fr.wikipedia.org/wiki/OPML) para permitir una migración rápida y fácil a partir de todos los agregadores que respetan el formato [OPML](https://fr.wikipedia.org/wiki/OPML).
+
+### Prerrequisito
+
+- Se recomienda Apache (non testé sur les autres serveurs type Nginx…)
+- PHP versión 5.3 mínima
+- MySQL
+- Un poco de sentido común ;-)
+
+### Instalación
+
+1. Recuperar el proyecto sobre [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) o sobre [github](https://github.com/ldleman/Leed).
+2. Poner el proyecto en su directorio web y aplicar un permiso _chmod 775_ sobre el directorio y su contenido (si su _web host_ es OVH, aplicar un permiso _0755_ para no tener un error 500).
+3. Desde el navegador, ir a la página de configuración _install.php_ (por ejemplo : http://su.sitio.fr/leed/install.php) y seguir las instrucciones.
+4. Una vez terminada la instalación, suprimir el archivo _install.php_ por medida de seguridad.
+5. [Opcional] Si desea que las actualizaciones sean automaticas, necesita una tarea cron. Véase más abajo. Es aconsejable no poner frecuencia demasiado rápida para que el script tenga tiempo para ejecutarse.
+6. Se ha instalado el script, gracias por elegir Leed, delgado agregador RSS: p
+
+### Tareas cron
+
+Se puede modificar las tareas cron con _crontab -e_. Hay dos maneras de actualizar los RSS. Los ejemplos siguientes actualizan los RSS cada hora.
+
+1. Llamando directamente Leed. Esta manera es directa y genera una salida formatada para el terminal, pero necesita un acceso local :
+```Batchfile
+crontab
+0 * * * * cd (...)/leed && php action.php >> logs/cron.log 2>&1
+```
+2. Llamando directamente Leed desde el cliente web _wget_. Esta manera necesita un acceso a la red pero se puede utilizarla de manera remota. Para controlar el acceso, se necesita un código de sincronización :
+```Batchfile
+0 * * * * wget --no-check-certificate --quiet --output-document /var/www/leed/cron.log
+"http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
+```
+ Si no tiene _wget_ en su servido, puede intentar con el camino complejo _/usr/bin/wget_.
+
+### Preguntas más frecuentes
+
+Puede ver las preguntas más frecuentes sobre el proyecto aquí : http://projet.idleman.fr/leed/?page=FAQ
+
+### Complementos
+
+El repositorio [Leed market](https://github.com/ldleman/Leed-market) contiene todos los complementos oficialemente aprobados para Leed.
+
+### Bibliotecas usadas
+
+- Responsive / Cross browser : Initializr (http://www.initializr.com)
+- Javascript : JQuery (http://www.jquery.com)
+- PHP Template : RainTPL (http://www.raintpl.com)
+- RSS parser : SimplePie (http://simplepie.org)
