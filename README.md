@@ -1,6 +1,6 @@
 # Leed
 
-> Français - [English](#leed-english-documentation) - [Español](#leed-traducci%C3%B3n-al-espa%C3%B1ol)
+> Français - [English](#leed-english-documentation) - [Español](#leed-documentaci%C3%B3n-espa%C3%B1ola)
 
 Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
@@ -138,7 +138,7 @@ The [Leed-market](https://github.com/ldleman/Leed-market) repository contains al
 ---------
 
 
-# Leed (traducción al español)
+# Leed (Documentación española)
 
 Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimalista que permite leer sus RSS rapidamente y facilmente.
 
