@@ -579,7 +579,9 @@ function toggleArticleDisplayMode(button, target){
             // btn pour passer en mode reduit
             button.innerHTML = '|&nbsp;&nbsp;';
             button.title = _t('EVENT_DISPLAY_TITLE');
-            $('#'+target+' > .articleDetails').last().hide();
+            if ($('#'+target+' > .articleDetails').length > 1) {
+                $('#'+target+' > .articleDetails').last().hide();
+            }
 
         }  else {
 
