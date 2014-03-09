@@ -201,7 +201,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('feedMaxEvents','50');
     $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('synchronisationCode',$synchronisationCode);
-    $configurationManager->add('synchronisationEnableCache','1');
+    $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('synchronisationType','auto');
     $configurationManager->add('root',$root);
