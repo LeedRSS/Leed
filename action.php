@@ -27,10 +27,6 @@ switch ($action){
         require_once("SimplePie.class.php");
         $syncCode = $configurationManager->get('synchronisationCode');
         $syncGradCount = $configurationManager->get('syncGradCount');
-        if (empty($syncGradCount)) {
-            $configurationManager->put('syncGradCount', '10');
-            $syncGradCount = $configurationManager->get('syncGradCount');
-        }
         if (   false==$myUser
             && !$commandLine
             && !(isset($_['code'])
