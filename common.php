@@ -89,10 +89,6 @@ $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
 
 $theme = $configurationManager->get('theme');
-if (empty($theme)) {
-    $configurationManager->put('theme', 'marigolds');
-    $theme = $configurationManager->get('theme');
-}
 
 //Instanciation du template
 $tpl = new RainTPL();
