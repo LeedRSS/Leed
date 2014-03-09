@@ -88,7 +88,7 @@
  "INSTALLATION_PARAGRAPH":"<ul><li>1. Get the current version of the project from the <a href='https://github.com/ldleman/Leed.git'>GIT repository</a> or the <a href='http://projet.idleman.fr/leed/?page=Téléchargement'>archive</a></li><li>2. Place the content on your web folder and give it and its content all the read/write rights (chmod 777)</li><li>3. From your browser, navigate to the installation page (http://mysite.com/leed/install.php) and follow the instructions.</li><li>4. Once the installation is finished, delete the install.php file for security reasons.</li><li>5. Edit your cron (to access the cron file: sudo crontab -e) and place a call to the following page http://mysite.com/leed/action.php?action=synchronize&code=votre_code_synchronisation ex : <br/><code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron 'http://mysite.com/leed/action.php?action=synchronize&code=votre_code_synchronisation'</code><br/>The synchronization code is indicated in <a href=settings.php#preferenceBloc>Manage > Preferences</a><br/>To update all the feeds every hour at minute 0 (do not place too frequent call to the script to allow it to takes place correctly).</li>6. The script is installed, thank you for choosing Leed, the free and svelte RSS aggregator :p.</li></ul>",
  "INSTALL_BDD":"Base",
  "INSTALL_BTN":"Start the installation",
- "INSTALL_BTN_END":"Acces to my Leed",
+ "INSTALL_BTN_END":"Access to my Leed",
  "INSTALL_COMMENT_BDD":"(to be created before)",
  "INSTALL_COMMENT_HOST":"(Generally 'localhost')",
  "INSTALL_DISPLAY_CLEAR":"(will be displayed in clear)",
