@@ -221,13 +221,9 @@
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_CONTENT')"}</legend>
-                            <input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='1'"} checked="checked" {/if} value="1" id="articleDisplayContentYes" name="articleDisplayContent" /><label for="articleDisplayContentYes">{function="_t('YES')"}</label>
-                            <input type="radio" onchange="$('.articleView').slideToggle(200);" {if="$articleDisplayContent=='0'"} checked="checked" {/if} value="0" id="articleDisplayContentNo" name="articleDisplayContent" /><label for="articleDisplayContentNo">{function="_t('NO')"}</label>
-                            <div class="articleView"{$articleDisplayContent==0 ? 'style="display: none;"':''}>
-                                <input type="radio" {if="$articleView=='partial'"} checked="checked" {/if} value="partial" id="articleViewPartial" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewPartial">{function="_t('PARTIAL')"}</label>
-                                <input type="radio" {if="$articleView=='complete'"} checked="checked" {/if} value="complete" id="articleViewComplete" name="articleView"{if="$articleDisplayContent=='0'"} disabled="disabled"{/if} /><label for="articleViewComplete">{function="_t('FULL')"}</label>
-                            </div>
-                            <h4>{function="_t('SHOW_PARTIAL_CONTENT_DESC')"}</h4>
+                            <input type="radio" {if="$articleDisplayMode=='title'"} checked="checked" {/if} value="title" id="articleDisplayModeTitle" name="articleDisplayMode" /><label for="articleDisplayModeTitle">{function="_t('TITLE')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="articleDisplayModeSummary" name="articleDisplayMode" /><label for="articleDisplayModeSummary">{function="_t('SUMMARY')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='content'"} checked="checked" {/if} value="content" id="articleDisplayModeContent" name="articleDisplayMode" /><label for="articleDisplayModeContent">{function="_t('CONTENT')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>

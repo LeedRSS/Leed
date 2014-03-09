@@ -16,21 +16,19 @@ $allFeeds = $feedManager->getFeedsPerFolder();
 $tpl->assign('allFeeds',$allFeeds);
 $tpl->assign('scrollpage',$_['scroll']);
 // récupération des variables pour l'affichage
-$articleDisplayContent = $configurationManager->get('articleDisplayContent');
-$articleView = $configurationManager->get('articleView');
 $articlePerPages = $configurationManager->get('articlePerPages');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
 $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
+$articleDisplayMode = $configurationManager->get('articleDisplayMode');
 $optionFeedIsVerbose = $configurationManager->get('optionFeedIsVerbose');
 
-$tpl->assign('articleView',$articleView);
-$tpl->assign('articleDisplayLink',$articleDisplayLink);
-$tpl->assign('articleDisplayDate',$articleDisplayDate);
 $tpl->assign('articleDisplayAuthor',$articleDisplayAuthor);
-$tpl->assign('articleDisplayContent',$articleDisplayContent);
+$tpl->assign('articleDisplayDate',$articleDisplayDate);
+$tpl->assign('articleDisplayLink',$articleDisplayLink);
+$tpl->assign('articleDisplayMode',$articleDisplayMode);
 
 
 $hightlighted = $_['hightlighted'];
@@ -39,8 +37,8 @@ $tpl->assign('hightlighted',$hightlighted);
 $tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
 $target = MYSQL_PREFIX.'event.title,'.MYSQL_PREFIX.'event.unread,'.MYSQL_PREFIX.'event.favorite,'.MYSQL_PREFIX.'event.feed,';
-if($articleDisplayContent && $articleView=='partial') $target .= MYSQL_PREFIX.'event.description,';
-if($articleDisplayContent && $articleView!='partial') $target .= MYSQL_PREFIX.'event.content,';
+if($articleDisplayMode=='summary') $target .= MYSQL_PREFIX.'event.description,';
+if($articleDisplayMode=='content') $target .= MYSQL_PREFIX.'event.content,';
 if($articleDisplayLink) $target .= MYSQL_PREFIX.'event.link,';
 if($articleDisplayDate) $target .= MYSQL_PREFIX.'event.pubdate,';
 if($articleDisplayAuthor) $target .= MYSQL_PREFIX.'event.creator,';

@@ -21,8 +21,7 @@ $tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDat
 $tpl->assign('articleDisplayAuthor', $configurationManager->get('articleDisplayAuthor'));
 $tpl->assign('articleDisplayHomeSort', $configurationManager->get('articleDisplayHomeSort'));
 $tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisplayFolderSort'));
-$tpl->assign('articleDisplayContent', $configurationManager->get('articleDisplayContent'));
-$tpl->assign('articleView', $configurationManager->get('articleView'));
+$tpl->assign('articleDisplayMode', $configurationManager->get('articleDisplayMode'));
 $tpl->assign('optionFeedIsVerbose', $configurationManager->get('optionFeedIsVerbose'));
 
 //Suppression de l'état des plugins inexistants

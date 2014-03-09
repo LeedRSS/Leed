@@ -173,18 +173,14 @@ switch ($action){
 
             //Ajout des préférences et réglages
             $configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
-            //$configurationManager->put('view',$_['view']);
-            if(isset($_['articleView']))
-                $configurationManager->put('articleView',$_['articleView']);
-            $configurationManager->put('articleDisplayContent',$_['articleDisplayContent']);
             $configurationManager->put('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
-
             $configurationManager->put('articlePerPages',$_['articlePerPages']);
             $configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
             $configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
             $configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
             $configurationManager->put('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
             $configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
+            $configurationManager->put('articleDisplayMode',$_['articleDisplayMode']);
             $configurationManager->put('synchronisationType',$_['synchronisationType']);
             $configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
             $configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);
@@ -590,6 +586,28 @@ switch ($action){
         $configurationManager = new Configuration();
         $conf = $configurationManager->getAll();
         $configurationManager->put('optionFeedIsVerbose',($_['optionFeedIsVerbose']=="0"?0:1));
+
+        break;
+
+    case 'articleDisplayMode':
+        if($myUser==false) {
+            $response_array['status'] = 'noconnect';
+            $response_array['texte'] = _t('YOU_MUST_BE_CONNECTED_ACTION');
+            header('Content-type: application/json');
+            echo json_encode($response_array);
+            exit();
+        }
+        // chargement du content de l'article souhaité
+        $newEvent = new Event();
+        $event = $newEvent->getById($_['event_id']);
+
+        if ($_['articleDisplayMode']=='content'){
+            //error_log(print_r($_SESSION['events'],true));
+            $content = $event->getContent();
+        } else {
+            $content = $event->getDescription();
+        }
+        echo $content;
 
         break;
 
