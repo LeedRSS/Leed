@@ -44,7 +44,8 @@ class MysqlConnector
 
 
     public function connect(){
-        $this->connection = mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
+        // @TODO use PDO or mysqli
+        $this->connection = @mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
         mysql_query('SET NAMES utf8');
         mysql_select_db(MYSQL_BDD,$this->connection);
     }
