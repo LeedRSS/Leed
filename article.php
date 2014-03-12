@@ -47,6 +47,7 @@ $target .= MYSQL_PREFIX.'event.id';
 $startArticle = ($_['scroll']*$articlePerPages)-$_['nblus'];
 if ($startArticle < 0) $startArticle=0;
 $action = $_['action'];
+$tpl->assign('action',$action);
 
 switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
