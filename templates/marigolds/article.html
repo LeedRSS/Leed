@@ -73,7 +73,7 @@
         {/if}
             {function="Plugin::callHook("event_pre_bottom_options", array(&$value))"}
 
-            <a class="pointer right readUnreadButton">(lu/non lu)</a>
+            <a class="pointer right readUnreadButton">({function="_t('READ')"}/{function="_t('UNREAD')"})</a>
             {if="$value->getFavorite()!=1"}<a class="right pointer favorite"  onclick="addFavorite(this,{$value->getId()});">{function="_t('FAVORIZE')"}</a>
             {else}
             <a class="right pointer favorite" onclick="removeFavorite(this,{$value->getId()});">{function="_t('UNFAVORIZE')"}</a>

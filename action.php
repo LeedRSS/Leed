@@ -360,6 +360,7 @@ switch ($action){
             $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
             $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
             $newFeed->parse(time(), $_, $enableCache, $forceFeed);
+            Plugin::callHook("action_after_addFeed", array(&$newFeed));
         }
         header('location: ./settings.php#manageBloc');
     break;
@@ -377,6 +378,7 @@ switch ($action){
         if(isset($_GET['id'])){
             $feedManager->delete(array('id'=>$_['id']));
             $eventManager->delete(array('feed'=>$_['id']));
+            Plugin::callHook("action_after_removeFeed", array($_['id']));
         }
         header('location: ./settings.php');
     break;
