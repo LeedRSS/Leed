@@ -128,9 +128,14 @@ class Event extends MysqlEntity{
             $hour = floor($alpha/3600);
             $alpha = ($hour!=0?$alpha-($hour*3600):$alpha);
             $minuts = floor($alpha/60);
-            return 'il y a '.($hour!=0?$hour.'h et':'').' '.$minuts.'min';
+            if ($hour!=0) {
+                return _t('PUBDATE_WITHINSTANT_LOWERH24',array($hour,$minuts));
+            } else {
+                return _t('PUBDATE_WITHINSTANT_LOWERH1',array($minuts));
+            }
         }else{
-            return 'le '.$this->getPubdate('d/m/Y à H:i:s');
+            $date=$this->getPubdate(_t('FORMAT_DATE_HOURS'));
+            return _t('PUBDATE_WITHINSTANT',array($date));
         }
     }
 
