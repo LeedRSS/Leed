@@ -283,7 +283,15 @@
                     <li>
                         <ul>
                             <li><h4>{function="_t('NAME')"}: </h4>{$value->getName()}</li>
-                            <li><h4>{function="_t('AUTHOR')"}: </h4><a href="mailto:{$value->getMail()}">{$value->getAuthor()}</a></li>
+                            {$authors=$value->getAuthor()}
+                            {$mails=$value->getMail()}
+                            {if="is_array($authors)"}
+                                {loop="authors"}
+                                    <li><h4>{function="_t('AUTHOR')"}: </h4><a href="mailto:{$mails[$key2]}">{$value}</a></li>
+                                {/loop}
+                            {else}
+                                <li><h4>{function="_t('AUTHOR')"}: </h4><a href="mailto:{$mails}">{$authors}</a></li>
+                            {/if}
                             <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
                             <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
                             <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
