@@ -69,11 +69,23 @@ class Plugin{
         $plugin = new Plugin();
         $fileLines = file_get_contents($pluginFile);
 
-        if(preg_match("#@author\s(.+)\s\<#", $fileLines, $match))
-            $plugin->setAuthor(trim($match[1]));
+        if(preg_match_all("#@author\s(.+)\s\<#", $fileLines, $matches)) {
+            foreach($matches[1] as $match) {
+                $authors[] = trim($match);
+            }
+            if(count($authors) == 1)
+                $authors = implode('', $authors);
+            $plugin->setAuthor($authors);
+        }
 
-        if(preg_match("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $match))
-            $plugin->setMail(strtolower($match[2]));
+        if(preg_match_all("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $matches)) {
+            foreach($matches[2] as $match) {
+                $mails[] = strtolower($match);
+            }
+            if(count($mails) == 1)
+                $mails = implode('', $mails);
+            $plugin->setMail($mails);
+        }
 
         if(preg_match("#@name\s(.+)[\r\n]#", $fileLines, $match))
             $plugin->setName($match[1]);
