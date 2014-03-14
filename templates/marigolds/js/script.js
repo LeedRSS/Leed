@@ -253,6 +253,7 @@ function targetThisEvent(event,focusOn){
         $('.eventSelected').removeClass('eventSelected');
         target.addClass('eventSelected');
     }
+    $(window).scroll();
     // on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
 }
 function openTargetEvent(){
