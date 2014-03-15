@@ -270,9 +270,13 @@ class Plugin{
 
 
     static function sortPlugin($a, $b){
-        if ($a->getName() == $b->getName())
-        return 0;
-        return ($a->getName() < $b->getName()) ? -1 : 1;
+        if ($a->getState() == $b->getState())
+            if ($a->getName() == $b->getName())
+                return 0;
+            else
+                return $a->getName() < $b->getName() ? -1 : 1;
+        else
+            return $a->getState() < $b->getState() ? -1 : 1;
     }
 
 
