@@ -479,6 +479,7 @@ function readThis(element,id,from,callback){
     }else{  // sur les éléments lus
             // si ce n'est pas un clic sur le titre de l'event
         if(from!='title'){
+            addOrRemoveFeedNumber('+');
             $.ajax({
                     url: "./action.php?action=unreadContent",
                     data:{id:id},
