@@ -253,7 +253,6 @@ function targetThisEvent(event,focusOn){
         $('.eventSelected').removeClass('eventSelected');
         target.addClass('eventSelected');
     }
-    $(window).scroll();
     // on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
 }
 function openTargetEvent(){
@@ -266,6 +265,7 @@ function readTargetEvent(){
     readThis(buttonElement,id,null,function(){
         // on fait un focus sur l'Event suivant
         targetThisEvent($('.eventSelected').next(),true);
+        $(window).scroll();
     });
 }
 
@@ -323,7 +323,7 @@ function addFavorite(element,id){
                 // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
                 if (activeScreen=='favorites') {
                     $(window).data('nblus', $(window).data('nblus')-1);
-                    $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
+                    addOrRemoveFeedNumber('+');
                 }
             }
         }
@@ -344,7 +344,7 @@ function removeFavorite(element,id){
                 // on compte combien d'article ont été remis en favoris sur la pages favoris (scroll infini)
                 if (activeScreen=='favorites') {
                     $(window).data('nblus', $(window).data('nblus')+1);
-                    $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1);
+                    addOrRemoveFeedNumber('-');
                 }
             }
         }
@@ -436,9 +436,9 @@ function readThis(element,id,from,callback){
                         $(window).scrollTop($(document).height());
                     }
                 });
-                // on diminue le nombre d'article en haut de page
-                $('#nbarticle').html(parseInt($('#nbarticle').html()) - 1)
+            break;
         }
+        addOrRemoveFeedNumber('-');
         $.ajax({
             url: "./action.php?action=readContent",
             data:{id:id},
@@ -519,8 +519,8 @@ function unReadThis(element,id,from){
                         // on compte combien d'article ont été remis à non lus
                         if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeedNonLu'))
                             $(window).data('nblus', $(window).data('nblus')-1);
-                        // on augmente le nombre d'article en haut de page
-                        if (activeScreen=='') $('#nbarticle').html(parseInt($('#nbarticle').html()) + 1);
+
+                        addOrRemoveFeedNumber('+');
                     }
                 }
             });
@@ -716,4 +716,52 @@ function toggleOptionFeedVerbose(button,action){
             }
         }
     });
+}
+
+// fonction d'ajout ou de retrait d'un article dans les compteurs
+// operator = '-' pour les soustraction '+' pour les ajouts
+function addOrRemoveFeedNumber(operator){
+    if (operator == '-') {
+        // on diminue le nombre d'article en haut de page
+        var nb = parseInt($('#nbarticle').html()) - 1;
+        if (nb > 0) {
+            $('#nbarticle').html(nb);
+        } else {
+            $('#nbarticle').html(0);
+        }
+        // on diminue le nombre sur le flux en question
+        var feed_id = ($('.eventSelected').eq(0).data('feed'));
+        var feed = $('#menuBar ul a[href$="feed=' + feed_id + '"]').next().find('span');
+        nb = parseInt($(feed).text()) - 1;
+        if (nb > 0) {
+            $(feed).text(nb);
+        } else {
+            $(feed).text(0);
+        }
+        // on diminue le nombre sur le dossier
+        var feed_folder = ($(feed).closest('ul').prev('h1').find('.unreadForFolder'));
+        var regex='[0-9]+';
+        var found = feed_folder.html().match(regex);
+        nb = parseInt(found[0])-1;
+        var regex2='[a-zA-Z ]+';
+        var lib = feed_folder.html().match(regex2);
+        feed_folder.html(nb + ' ' +lib[0])
+    } else {
+        // on augmente le nombre d'article en haut de page
+        var nb = parseInt($('#nbarticle').html()) + 1;
+        $('#nbarticle').html(nb);
+        // on augmente le nombre sur le flux en question
+        var feed_id = ($('.eventSelected').eq(0).data('feed'));
+        var feed = $('#menuBar ul a[href$="feed=' + feed_id + '"]').next().find('span');
+        nb = parseInt($(feed).text()) + 1;
+        $(feed).text(nb);
+        // on augmente le nombre sur le dossier
+        var feed_folder = ($(feed).closest('ul').prev('h1').find('.unreadForFolder'));
+        var regex='[0-9]+';
+        var found = feed_folder.html().match(regex);
+        nb = parseInt(found[0])+1;
+        var regex2='[a-zA-Z ]+';
+        var lib = feed_folder.html().match(regex2);
+        feed_folder.html(nb + ' ' +lib[0])
+    }
 }
