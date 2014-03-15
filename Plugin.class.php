@@ -20,7 +20,7 @@ class Plugin{
         if(is_array($pluginFiles)) {
             foreach($pluginFiles as $pluginFile) {
                 // Chargement du fichier de Langue du plugin
-                $i18n->append(new Translation(dirname($pluginFile)));
+                $i18n->append(new Translation(dirname($pluginFile),LANGUAGE));
                 // Inclusion du coeur de plugin
                 include $pluginFile;
                 // Gestion des css du plugin en fonction du thème actif
@@ -29,7 +29,7 @@ class Plugin{
                 if(isset($cssTheme[0])){
                     $GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssTheme[0]));
                 }else if(isset($cssDefault[0])){
-                    $GLOBALS['hooks']['css_files'][] =  Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssDefault[0]));
+                    $GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssDefault[0]));
                 }
             }
         }
