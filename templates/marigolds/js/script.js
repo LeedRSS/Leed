@@ -421,6 +421,7 @@ function readThis(element,id,from,callback){
     var nextEvent = $('#'+id).next();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
+        addOrRemoveFeedNumber('-');
         $.ajax({
             url: "./action.php?action=readContent",
             data:{id:id},
@@ -446,7 +447,6 @@ function readThis(element,id,from,callback){
                             });
                             // on compte combien d'article ont été lus afin de les soustraires de la requête pour le scroll infini
                             $(window).data('nblus', $(window).data('nblus')+1);
-                            addOrRemoveFeedNumber('-');
                         break;
                         case 'selectedFolder':
                         case 'selectedFeedNonLu':
