@@ -154,15 +154,15 @@ class Plugin{
         return $return;
     }
 
-    public static function addLink($rel, $link) {
-        $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link);
+    public static function addLink($rel, $link, $type='', $title='') {
+        $GLOBALS['hooks']['head_link'][] = array("rel"=>$rel, "link"=>$link, "type"=>$type, "title"=>$title);
     }
 
     public static function callLink(){
         $return='';
         if(isset($GLOBALS['hooks']['head_link'])) {
             foreach($GLOBALS['hooks']['head_link'] as $head_link) {
-                $return .='<link rel="'.$head_link['rel'].'" href="'.$head_link['link'].'" />'."\n";
+                $return .='<link rel="'.$head_link['rel'].'" href="'.$head_link['link'].'" type="'.$head_link['type'].'" title="'.$head_link['title'].'" />'."\n";
             }
         }
         return $return;
