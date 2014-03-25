@@ -26,6 +26,7 @@ switch ($action){
     case 'synchronize':
         require_once("SimplePie.class.php");
         $syncCode = $configurationManager->get('synchronisationCode');
+        $syncGradCount = $configurationManager->get('syncGradCount');
         if (   false==$myUser
             && !$commandLine
             && !(isset($_['code'])
@@ -48,7 +49,7 @@ switch ($action){
         $maxEvents = $configurationManager->get('feedMaxEvents');
         if('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
-            $feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
+            $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
         }else{
             // sélectionne tous les flux, triés par le nom
