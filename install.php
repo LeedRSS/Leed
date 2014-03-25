@@ -126,8 +126,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('MYSQL_PREFIX','{$mysqlPrefix}');
     //Theme graphique
     define('DEFAULT_THEME','marigolds');
-    //Nombre de pages affichées dans la barre de pagination
-    define('PAGINATION_SCALE',5);
     //Nombre de flux mis à jour lors de la synchronisation graduée
     define('SYNC_GRAD_COUNT',10);
 ?>";
@@ -199,6 +197,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('feedMaxEvents','50');
     $configurationManager->add('language', $_POST['install_changeLngLeed']);
     $configurationManager->add('optionFeedIsVerbose',1);
+    $configurationManager->add('paginationScale',5);
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
