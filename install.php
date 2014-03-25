@@ -124,8 +124,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('MYSQL_BDD','{$mysqlBase}');
     //Prefix des noms des tables leed pour les bases de données uniques
     define('MYSQL_PREFIX','{$mysqlPrefix}');
-    //Theme graphique
-    define('DEFAULT_THEME','marigolds');
 ?>";
 
     file_put_contents('constant.php', $constant);
@@ -196,11 +194,12 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('language', $_POST['install_changeLngLeed']);
     $configurationManager->add('optionFeedIsVerbose',1);
     $configurationManager->add('paginationScale',5);
+    $configurationManager->add('syncGradCount','10');
     $configurationManager->add('synchronisationCode',$synchronisationCode);
     $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('synchronisationType','auto');
-    $configurationManager->add('syncGradCount','10');
+    $configurationManager->add('theme','marigolds');
     $configurationManager->add('root',$root);
 
     $install_terminee=true;

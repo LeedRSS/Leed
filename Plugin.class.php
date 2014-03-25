@@ -15,7 +15,7 @@ class Plugin{
     }
 
     public static function includeAll(){
-        global $i18n, $i18n_js, $language;
+        global $i18n, $i18n_js, $language, $theme;
         $pluginFiles = Plugin::getFiles(true);
         if(is_array($pluginFiles)) {
             foreach($pluginFiles as $pluginFile) {
@@ -24,7 +24,7 @@ class Plugin{
                 // Inclusion du coeur de plugin
                 include $pluginFile;
                 // Gestion des css du plugin en fonction du thème actif
-                $cssTheme = glob(dirname($pluginFile).'/*/'.DEFAULT_THEME.'.css');
+                $cssTheme = glob(dirname($pluginFile).'/*/'.$theme.'.css');
                 $cssDefault = glob(dirname($pluginFile).'/*/default.css');
                 if(isset($cssTheme[0])){
                     $GLOBALS['hooks']['css_files'][] = Functions::relativePath(str_replace('\\','/',dirname(__FILE__)),str_replace('\\','/',$cssTheme[0]));
