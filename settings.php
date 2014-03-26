@@ -8,8 +8,24 @@
 
 require_once('header.php');
 
+// gestion de la langue
+$languageList = $i18n->languages;
+$tpl->assign('languageList',$languageList);
+$tpl->assign('currentLanguage',$configurationManager->get('language'));
 
+// gestion des thèmes
+$themesDir = 'templates/';
+$dirs = scandir($themesDir);
+foreach($dirs as $dir){
+    if(is_dir($themesDir.$dir) && !in_array($dir,array(".","..")) ){
+        $themeList[]=$dir;
+    }
+}
+sort($themeList);
+$tpl->assign('themeList',$themeList);
+$tpl->assign('currentTheme',$configurationManager->get('theme'));
 
+//autres variables de configuration
 $tpl->assign('feeds',$feedManager->populate('name'));
 $tpl->assign('folders',$folderManager->populate('name'));
 $tpl->assign('synchronisationType',$configurationManager->get('synchronisationType'));

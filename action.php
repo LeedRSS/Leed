@@ -26,6 +26,7 @@ switch ($action){
     case 'synchronize':
         require_once("SimplePie.class.php");
         $syncCode = $configurationManager->get('synchronisationCode');
+        $syncGradCount = $configurationManager->get('syncGradCount');
         if (   false==$myUser
             && !$commandLine
             && !(isset($_['code'])
@@ -40,7 +41,7 @@ switch ($action){
         if (!$commandLine)
             echo '<html>
                 <head>
-                <link rel="stylesheet" href="./templates/'.DEFAULT_THEME.'/css/style.css">
+                <link rel="stylesheet" href="./templates/'.$theme.'/css/style.css">
                 </head>
                 <body>
                 <div class="sync">';
@@ -48,7 +49,7 @@ switch ($action){
         $maxEvents = $configurationManager->get('feedMaxEvents');
         if('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
-            $feeds = $feedManager->loadAll(null,'lastupdate',defined('SYNC_GRAD_COUNT') ? SYNC_GRAD_COUNT : 10);
+            $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
         }else{
             // sélectionne tous les flux, triés par le nom
@@ -185,6 +186,8 @@ switch ($action){
             $configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
             $configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
+            $configurationManager->put('language',$_['ChgLanguage']);
+            $configurationManager->put('theme',$_['ChgTheme']);
 
             $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
             if(trim($_['password'])!='') {
@@ -251,7 +254,7 @@ switch ($action){
 
     case 'importForm':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-        echo '<html style="height:auto;"><link rel="stylesheet" href="templates/'.DEFAULT_THEME.'/css/style.css">
+        echo '<html style="height:auto;"><link rel="stylesheet" href="templates/'.$theme.'/css/style.css">
                 <body style="height:auto;">
                     <form action="action.php?action=importFeed" method="POST" enctype="multipart/form-data">
                     <p>'._t('OPML_FILE').' : <input name="newImport" type="file"/> <button name="importButton">'._t('IMPORT').'</button></p>
@@ -265,7 +268,7 @@ switch ($action){
 
     case 'synchronizeForm':
      if(isset($myUser) && $myUser!=false){
-        echo '<link rel="stylesheet" href="templates/'.DEFAULT_THEME.'/css/style.css">
+        echo '<link rel="stylesheet" href="templates/'.$theme.'/css/style.css">
                 <a class="button" href="action.php?action=synchronize">'._t('SYNCHRONIZE_NOW').'</a>
                     <p>'._t('SYNCHRONIZE_COFFEE_TIME').'</p>
 
