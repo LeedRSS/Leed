@@ -123,6 +123,7 @@ class Event extends MysqlEntity{
     }
 
     function getPubdateWithInstant($instant){
+        if (empty($this->pubdate)) return '';
         $alpha = $instant - $this->pubdate;
         if ($alpha < 86400 ){
             $hour = floor($alpha/3600);
