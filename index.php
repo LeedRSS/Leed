@@ -142,12 +142,18 @@ switch($action){
 $tpl->assign('pages',$pages);
 $tpl->assign('page',$page);
 
-for($i=($page-PAGINATION_SCALE<=0?1:$page-PAGINATION_SCALE);$i<($page+PAGINATION_SCALE>$pages+1?$pages+1:$page+PAGINATION_SCALE);$i++){
+$paginationScale = $configurationManager->get('paginationScale');
+if (empty($paginationScale)) {
+    $configurationManager->put('paginationScale', 5);
+    $paginationScale = $configurationManager->get('paginationScale');
+}
+
+for($i=($page-$paginationScale<=0?1:$page-$paginationScale);$i<($page+$paginationScale>$pages+1?$pages+1:$page+$paginationScale);$i++){
     $pagesArray[]=$i;
 }
 $tpl->assign('pagesArray',$pagesArray);
-$tpl->assign('previousPages',($page-PAGINATION_SCALE<0?-1:$page-PAGINATION_SCALE-1));
-$tpl->assign('nextPages',($page+PAGINATION_SCALE>$pages+1?-1:$page+PAGINATION_SCALE));
+$tpl->assign('previousPages',($page-$paginationScale<0?-1:$page-$paginationScale-1));
+$tpl->assign('nextPages',($page+$paginationScale>$pages+1?-1:$page+$paginationScale));
 
 
 Plugin::callHook("index_post_treatment", array(&$events));

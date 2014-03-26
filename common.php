@@ -37,22 +37,6 @@ session_start();
 mb_internal_encoding('UTF-8'); // UTF8 pour fonctions mb_*
 $start=microtime(true);
 require_once('constant.php');
-//@todo requis pour la MAJ 1.5 vers 1.6 mais pourra être supprimé.
-if (!defined('LANGUAGE')) {
-    preg_match('#define\(\'LANGAGE\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_language);
-    if (isset($matches_language[1]) && isset($matches_language[1])!='') {
-        // pour ceux qui viennent de la branche de dev avant update en LANGUAGE.
-        $content = preg_replace('#define\(\'LANGAGE\',\'([A-Za-z0-9.]+)\'\);?#','define(\'LANGUAGE\',\''.$matches_language[1].'\');', $content);
-        file_put_contents('constant.php', $content);
-        define('LANGUAGE', $matches_language[1]); // ancienne constante encore utilisée
-    } else {
-        // pour ceux qui viennent de la v1.5. la variable n'existait pas
-        $content = preg_replace('#\?\>#',"//Langue utilisée\ndefine('LANGUAGE','fr');\n?>", $content);
-        file_put_contents('constant.php', $content);
-        define('LANGUAGE', 'fr');
-    }
-}
-// fin MAJ 1.5 vers 1.6
 require_once('RainTPL.php');
 require_once('i18n.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
@@ -88,14 +72,27 @@ $folderManager = new Folder();
 $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
 
+$language = $configurationManager->get('language');
+//@todo requis pour la MAJ mais pourra être supprimé.
+if (empty($language)) {
+    // On tente de récupérer la valeur issue de 'constant.php'
+    if (defined('LANGUAGE')) $language = LANGUAGE;
+    elseif (defined('LANGAGE')) $language = LANGAGE; // ancien bug de nommage
+    else $language = Translation::DEFAULT_LANGUAGE;
+    $configurationManager->put('language', $language);
+}
+// Faut-il supprimer la variable /langu?age/ de 'constant.php'?
+
+$theme = $configurationManager->get('theme');
+
 //Instanciation du template
 $tpl = new RainTPL();
 //Definition des dossiers de template
 raintpl::configure("base_url", null );
-raintpl::configure("tpl_dir", './templates/'.DEFAULT_THEME.'/' );
+raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-i18n_init(LANGUAGE);
+i18n_init($language);
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';
