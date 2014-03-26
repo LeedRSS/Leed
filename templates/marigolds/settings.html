@@ -146,6 +146,26 @@
                         <h3>{function="_t('GENERALITY')"}</h3>
                         <p><label for="root">{function="_t('PROJECT_ROOT')"} :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
                         <h4>{function="_t('LET_SLASH_AT_END')"}</h4>
+                        <p>{function="_t('INSTALL_LANGUAGE')"} :
+                        <select name="ChgLanguage">
+                            {loop="$languageList"}
+                                {if="$value==$currentLanguage"}
+                                    <option selected=selected value='{$value}'>{$value}</option>";
+                                {else}
+                                    <option value='{$value}'>{$value}</option>";
+                                {/if}
+                            {/loop}
+                        </select></p>
+                        <p>{function="_t('THEMES')"} :
+                            <select name="ChgTheme">
+                                {loop="$themeList"}
+                                {if="$value==$currentTheme"}
+                                <option selected=selected value='{$value}'>{$value}</option>";
+                                {else}
+                                <option value='{$value}'>{$value}</option>";
+                                {/if}
+                                {/loop}
+                            </select></p>
                     </section>
 
                     <section>

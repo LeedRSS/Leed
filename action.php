@@ -186,6 +186,8 @@ switch ($action){
             $configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
             $configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
+            $configurationManager->put('language',$_['ChgLanguage']);
+            $configurationManager->put('theme',$_['ChgTheme']);
 
             $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
             if(trim($_['password'])!='') {
