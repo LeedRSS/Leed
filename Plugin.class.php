@@ -9,7 +9,7 @@
 class Plugin{
 
     const FOLDER = '/plugins';
-    protected $name,$author,$mail,$link,$licence,$path,$description,$version,$state,$type;
+    protected $name,$author,$address,$link,$licence,$path,$description,$version,$state,$type;
 
     function __construct(){
     }
@@ -69,22 +69,16 @@ class Plugin{
         $plugin = new Plugin();
         $fileLines = file_get_contents($pluginFile);
 
-        if(preg_match_all("#@author\s(.+)\s\<#", $fileLines, $matches)) {
+        if(preg_match_all("#@author\s(.+)\s\<(.*)\>#", $fileLines, $matches)) {
             foreach($matches[1] as $match) {
                 $authors[] = trim($match);
             }
-            if(count($authors) == 1)
-                $authors = implode('', $authors);
             $plugin->setAuthor($authors);
-        }
 
-        if(preg_match_all("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $matches)) {
             foreach($matches[2] as $match) {
-                $mails[] = strtolower($match);
+                $address[] = strtolower($match);
             }
-            if(count($mails) == 1)
-                $mails = implode('', $mails);
-            $plugin->setMail($mails);
+            $plugin->setAddress($address);
         }
 
         if(preg_match("#@name\s(.+)[\r\n]#", $fileLines, $match))
@@ -297,12 +291,12 @@ class Plugin{
         return $this->author;
     }
 
-    function getMail(){
-        return $this->mail;
+    function getAddress(){
+        return $this->address;
     }
 
-    function setMail($mail){
-        $this->mail = $mail;
+    function setAddress($address){
+        $this->address = $address;
     }
 
     function getLicence(){
