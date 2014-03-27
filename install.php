@@ -12,9 +12,9 @@ global $i18n;
 $install_terminee=false;
 
 if (isset($_GET['lang']))
-    $currentLanguage = i18n_init($_GET['lang']);
+    $currentLanguage = i18n_init($_GET['lang'],dirname(__FILE__).'/templates/marigolds/');
 else
-    $currentLanguage = i18n_init(Functions::getBrowserLanguages());
+    $currentLanguage = i18n_init(Functions::getBrowserLanguages(),dirname(__FILE__).'/templates/marigolds/');
 
 $languageList = $i18n->languages;
 

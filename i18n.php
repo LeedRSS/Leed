@@ -112,10 +112,10 @@ class Translation {
 }
 
 // Initialise le singleton, avec les langues possibles
-function i18n_init($languages){
+function i18n_init($languages, $location){
     global $i18n,$i18n_js;
     if (!isset($i18n)) {
-        $i18n = new Translation(dirname(__FILE__), $languages);
+        $i18n = new Translation($location, $languages);
         $i18n_js = $i18n->getJson();
     }
     return $i18n->language;
