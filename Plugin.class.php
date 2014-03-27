@@ -78,7 +78,7 @@ class Plugin{
             $plugin->setAuthor($authors);
         }
 
-        if(preg_match_all("#@author\s(.+)\s\<([a-z\@\.A-Z\s\-]+)\>#", $fileLines, $matches)) {
+        if(preg_match_all("#@author\s(.+)\s\<(.*)\>#", $fileLines, $matches)) {
             foreach($matches[2] as $match) {
                 $mails[] = strtolower($match);
             }
