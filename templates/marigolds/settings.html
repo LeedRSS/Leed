@@ -307,11 +307,9 @@
                             {$addresses=$value->getAddress()}
                             {if="is_array($authors)"}
                                 {loop="authors"}
-                                    {$mail_address=$addresses[$key2]}
-                                    <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$mail_address"}<a href="{if="strpos($mail_address, '@')"}mailto:{/if}{$mail_address}">{/if}{$value}{if="$mail_address"}</a>{/if}</li>
+                                    {$address=$addresses[$key2]}
+                                    <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$address"}<a href="{if="strpos($address, '@')"}mailto:{/if}{$address}">{/if}{$value}{if="$address"}</a>{/if}</li>
                                 {/loop}
-                            {else}
-                                <li><h4>{function="_t('AUTHOR')"}: </h4><a href="mailto:{$addresses}">{$authors}</a></li>
                             {/if}
                             <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
                             <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>

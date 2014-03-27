@@ -69,21 +69,15 @@ class Plugin{
         $plugin = new Plugin();
         $fileLines = file_get_contents($pluginFile);
 
-        if(preg_match_all("#@author\s(.+)\s\<#", $fileLines, $matches)) {
+        if(preg_match_all("#@author\s(.+)\s\<(.*)\>#", $fileLines, $matches)) {
             foreach($matches[1] as $match) {
                 $authors[] = trim($match);
             }
-            if(count($authors) == 1)
-                $authors = implode('', $authors);
             $plugin->setAuthor($authors);
-        }
 
-        if(preg_match_all("#@author\s(.+)\s\<(.*)\>#", $fileLines, $matches)) {
             foreach($matches[2] as $match) {
                 $address[] = strtolower($match);
             }
-            if(count($address) == 1)
-                $address = implode('', $address);
             $plugin->setAddress($address);
         }
 
