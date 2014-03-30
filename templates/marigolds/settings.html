@@ -292,36 +292,53 @@
                 <section class="pluginBloc">
                     <h2>{function="_t('PLUGINS')"} :</h2>
                     <p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/ldleman/Leed-market/"> Leed Market</a>.</p>
-                    <h3>{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
+                    
                     {if="$myUser!=false"}
-                    <ul class="pluginList">
-                    {if="count($plugins)==0"}
-                    {function="_t('NO_INSTALLED_PLUGINS')"}
-
-                    {else}
-                    {loop="$plugins"}
-                    <li>
-                        <ul>
-                            <li><h4>{function="_t('NAME')"}: </h4>{$value->getName()}</li>
-                            {$authors=$value->getAuthor()}
-                            {$addresses=$value->getAddress()}
-                            {if="is_array($authors)"}
-                                {loop="authors"}
-                                    {$address=$addresses[$key2]}
-                                    <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$address"}<a href="{if="strpos($address, '@')"}mailto:{/if}{$address}">{/if}{$value}{if="$address"}</a>{/if}</li>
-                                {/loop}
-                            {/if}
-                            <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
-                            <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
-                            <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
-                            <li>{$value->getDescription()}</li>
-                            <li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?_t('ENABLE'):_t('DISABLE')}</a></li>
-                        </ul>
-                    </li>
-                    {/loop}
-                    {/if}
+                    <ul class="pluginMenu">
+                        <li class="selected" onclick="togglePluginMenu(this,'installed');">Plugins installés</li>
+                        <li  onclick="togglePluginMenu(this,'market');">Market</li>
+                        <div class="clear"></div>
                     </ul>
 
+                    <div class="marketZone">
+                        <p>Recherchez et ajoutez les plugins proposés par la communauté en utilisant le formulaire ci dessous ! (<a href="http://market.idleman.fr/index.php?software=leed&amp;page=submit">Proposer un nouveau plugin</a>)</p>
+                        <form class="form-inline">
+                        <input type="text" id="keywordPlugin"> <button class="btn" id="btnSearchPlugin" onclick="searchPlugin($('#keywordPlugin').val());return false;">Rechercher</button>
+                        </form>
+                        <ul id="resultsPlugin"></ul>
+                        <br/><br/>
+                    </div>
+
+                    <div class="installedZone">
+                        <h3>{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
+                        <ul class="pluginList">
+                        {if="count($plugins)==0"}
+                        {function="_t('NO_INSTALLED_PLUGINS')"}
+
+                        {else}
+                        {loop="$plugins"}
+                        <li>
+                            <ul>
+                                <li><h4>{function="_t('NAME')"}: </h4>{$value->getName()}</li>
+                                {$authors=$value->getAuthor()}
+                                {$addresses=$value->getAddress()}
+                                {if="is_array($authors)"}
+                                    {loop="authors"}
+                                        {$address=$addresses[$key2]}
+                                        <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$address"}<a href="{if="strpos($address, '@')"}mailto:{/if}{$address}">{/if}{$value}{if="$address"}</a>{/if}</li>
+                                    {/loop}
+                                {/if}
+                                <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
+                                <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
+                                <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+                                <li>{$value->getDescription()}</li>
+                                <li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?_t('ENABLE'):_t('DISABLE')}</a></li>
+                            </ul>
+                        </li>
+                        {/loop}
+                        {/if}
+                        </ul>
+                    </div>
                     {else}
                     <p>{function="_t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>
                     {/if}
