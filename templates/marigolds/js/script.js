@@ -234,11 +234,11 @@ function addEventsButtonLuNonLus(){
 }
 
 function targetPreviousEvent(){
-    targetThisEvent($('.eventSelected').prev(':visible'),true);
+    targetThisEvent($('.eventSelected').prevAll(':visible').first(),true);
 }
 function targetNextEvent(){
 
-    targetThisEvent($('.eventSelected').next(':visible'),true);
+    targetThisEvent($('.eventSelected').nextAll(':visible').first(),true);
 }
 
 function targetThisEvent(event,focusOn){
@@ -264,7 +264,7 @@ function readTargetEvent(){
     var id = $(target).attr('id');
     readThis(buttonElement,id,null,function(){
         // on fait un focus sur l'Event suivant
-        targetThisEvent($('.eventSelected').next(),true);
+        targetThisEvent($('.eventSelected').nextAll(':visible').first(),true);
         $(window).scroll();
     });
 }
@@ -418,7 +418,7 @@ function changeFeedFolder(element,id){
 function readThis(element,id,from,callback){
     var activeScreen = $('#pageTop').html();
     var parent = $(element).parent().parent();
-    var nextEvent = $('#'+id).next();
+    var nextEvent = $('#'+id).nextAll(':visible').first();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
         addOrRemoveFeedNumber('-');
