@@ -418,7 +418,7 @@ switch ($action){
     case 'removeFolder':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         if(isset($_['id']) && is_numeric($_['id']) && $_['id']>0){
-            $eventManager->customExecute('DELETE FROM '.MYSQL_PREFIX.'event WHERE '.MYSQL_PREFIX.'event.feed in (SELECT '.MYSQL_PREFIX.'feed.id FROM '.MYSQL_PREFIX.'feed WHERE '.MYSQL_PREFIX.'feed.folder =\''.intval($_['id']).'\') ;');
+            $eventManager->customExecute('DELETE FROM `'.MYSQL_PREFIX.'event` WHERE `'.MYSQL_PREFIX.'event`.`feed` in (SELECT `'.MYSQL_PREFIX.'feed`.`id` FROM `'.MYSQL_PREFIX.'feed` WHERE `'.MYSQL_PREFIX.'feed`.`folder` =\''.intval($_['id']).'\') ;');
             $feedManager->delete(array('folder'=>$_['id']));
             $folderManager->delete(array('id'=>$_['id']));
         }
