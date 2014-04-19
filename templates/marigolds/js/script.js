@@ -17,6 +17,7 @@ keyCode['space'] = 32;
 
 $(document).ready(function(){
 
+    $.getJSON("http://update.idleman.fr/leed?callback=?",function(data){});
     // Page settings
     if($('.settings').length){
 
@@ -50,6 +51,17 @@ $(document).ready(function(){
     // focus sur l'input du login
     if (document.getElementById('inputlogin')) document.getElementById('inputlogin').focus();
 });
+
+
+
+function maj(data){
+   server = data.maj["leed"];
+        if(server!=null && server.version!=null && server.version!=$(".versionBloc").html()){
+            $(".versionBloc").addClass('newVersion');
+            $('.versionBloc').attr('title','Version '+server.version+' disponible.');
+            if(server.link != null) $('.versionBloc').attr('onclick','window.location="'+server.link+'";');
+        }
+}
 
 function _t(key,args){
     value = i18n[key];
