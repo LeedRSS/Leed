@@ -122,7 +122,7 @@ $(document).keydown(function (e) {
         break;
         case keyCode['h']:
             //ouvrir/fermer le panneau d'aide
-            document.getElementById( 'helpPanel' ).style.display == 'block' ? document.getElementById( 'helpPanel' ).style.display = 'none' : document.getElementById( 'helpPanel' ).style.display = 'block';
+            $('#helpPanel').fadeToggle(200);
             return false;
         break;
         case keyCode['j']:

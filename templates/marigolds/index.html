@@ -10,7 +10,7 @@
 {if="($configurationManager->get('articleDisplayAnonymous')=='1') || ($myUser!=false)"}
 
 
-        <div id="helpPanel">
+        <div id="helpPanel" onclick="$(this).fadeOut(200);">
             <h3>Raccourcis clavier</h3>
             <ul>
                 <li>{function="_t('HELP_M')"}</li>
@@ -37,7 +37,7 @@
                 {function="Plugin::callHook("menu_pre_folder_menu", array(&$myUser))"}
             <aside>
                 <!-- TITRE MENU + OPTION TOUT MARQUER COMME LU -->
-                <h3 class="left">{function="_t('FEED')"}</h3> <button style="margin: 25px 0px 0px 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="_t('MARK_ALL_AS_READ')"}</button>
+                <h3 class="left">{function="_t('FEED')"}</h3> <button style="margin: 10px 0px 0px 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="_t('MARK_ALL_AS_READ')"}</button>
                 <div class="readingFolderButton" onclick="toggleUnreadFeedFolder(this,{$displayOnlyUnreadFeedFolder_reverse});" title="{function="_t('DISPLAY_ONLY_UNREAD_FEEDFOLDER')"}"><i class="icon-resize-{if="$displayOnlyUnreadFeedFolder=='true'"}small{else}full{/if}"></i></div>
                 {function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
                 <ul class="clear">
@@ -180,9 +180,9 @@
                 <!-- AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER -->
 
 
-                    <h1 class="articleSection"><a target="_blank" href="{$currentFeed->getWebSite()}">{$currentFeed->getName()}</a></h1>
-                    <div class="clear"></div>
-                        {$currentFeed->getDescription()}
+                    <h1 class="articleSection"><a target="_blank" href="{$currentFeed->getWebSite()}">{$currentFeed->getName()}</a> :</h1>
+                   
+                        {$currentFeed->getDescription()} <div class="clear"></div>
                             {function="_t('SEE_THE')"}
                     <a href="index.php?action=selectedFeedNonLu&amp;feed={$_['feed']}&amp;page={$page}">{function="ucfirst(_t('UNREAD'))"}</a> |
                     <a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">{function="_t('OLDER')"}</a> {function="_t('IN_FIRST')"}
@@ -202,7 +202,8 @@
 
                 {if="($action=='unreadEvents') || ($action=='')"}
                 <!-- AFFICHAGE DES EVENEMENTS NON LU (COMPORTEMENT PAR DEFAUT) -->
-                    <h1 class="articleSection">{function="_t('UNREAD')"} (<span id="nbarticle">{$numberOfItem}</span>)</h1><div class="pointer right readUnreadButton" onmouseout="document.getElementById( 'helpPanel' ).style.display = 'none'" onmouseover="document.getElementById( 'helpPanel' ).style.display = 'block'" title="{function="_t('HELP_H_?')"}">?</div>
+                    <h1 class="articleSection">{function="_t('UNREAD')"} (<span id="nbarticle">{$numberOfItem}</span>)</h1>
+                    <i title="{function="_t('HELP_H_?')"}" onclick="$('#helpPanel').fadeIn(200);" class="icon-keyboard right pointer"></i>
                 {/if}
 
                  <div class="clear"></div>

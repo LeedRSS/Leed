@@ -77,12 +77,60 @@ td { vertical-align: top; }
    Author: Jonathan Verrecchia - verekia.com/initializr/responsive-template
    ========================================================================== */
 
-body{ font:16px/26px Helvetica, Helvetica Neue, Arial; }
+body{ font:16px/26px 'Open Sans',Helvetica, Helvetica Neue, Arial; }
 
 .wrapper{
     width:96%;
     margin:0 2%;
 }
+
+
+
+/**********/
+/** FONTS **/
+/***********/
+
+@font-face {
+    font-family: "Open Sans Light";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../font/OpenSans-Light-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-Light-webfont.woff?2013") format("woff"), url("../font/OpenSans-Light-webfont.ttf?2013") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans Light";
+    font-style: normal;
+    font-weight: bold;
+    src: url("../font/OpenSans-Semibold-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-Semibold-webfont.woff?2013") format("woff"), url("../font/OpenSans-Semibold-webfont.ttf?2013") format("truetype");
+}
+@font-face {
+    font-family: "Open Sans Light";
+    font-style: italic;
+    font-weight: normal;
+    src: url("../font/OpenSans-LightItalic-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-LightItalic-webfont.woff?2013") format("woff"), url("../font/OpenSans-LightItalic-webfont.ttf?2013") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../font/OpenSans-Regular-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-Regular-webfont.woff?2013") format("woff"), url("../font/OpenSans-Regular-webfont.ttf?2013") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: bold;
+    src: url("../font/OpenSans-Bold-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-Bold-webfont.woff?2013") format("woff"), url("../font/OpenSans-Bold-webfont.ttf?2013") format("truetype");
+}
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: normal;
+    src: url("../font/OpenSans-Italic-webfont.eot?#iefix2013") format("embedded-opentype"), url("../font/OpenSans-Italic-webfont.woff?2013") format("woff"), url("../font/OpenSans-Italic-webfont.ttf?2013") format("truetype");
+}
+
+
 
 /* ===================
    ICON POLICE (via fontello.com)
@@ -255,7 +303,7 @@ header a,header a:hover,header a:visited{
 
 .readingFolderButton{ 
     float:right;
-    margin: 25px 4px 0px 10px;
+    margin: 5px 4px 0px 10px;
     color:#ffffff;
     cursor:pointer;
 }
@@ -288,6 +336,18 @@ header a,header a:hover,header a:visited{
 #main aside ul li h1.folder{
     text-align:left;
     padding-left:5px;
+    
+    font-size: 14px;
+}
+
+
+#main aside ul li h1.folder a{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#menuBar aside h3{
+    margin:5px;
 }
 
 .loginBloc span{
@@ -316,14 +376,16 @@ header a,header a:hover,header a:visited{
     margin:10px 0px 0px 0px;
     text-align: justify;
     clear:both;
+
 }
+
 
 #main article header h1.articleSection{
     font-size:1em;
     color:#ffffff;
     margin:0px;
-    float:left;
-    margin-right:10px;
+    margin-right:5px;
+    display: inline-block;
 }
 #main article section h2 a{
     text-decoration:none;
@@ -465,6 +527,7 @@ header a,header a:hover,header a:visited{
 
 .logo i{
     font-size:0.7em;
+    font-family: 'Open Sans Light';
 }
 
 #main aside ul li ul li:hover{
