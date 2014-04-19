@@ -275,13 +275,14 @@ header a,header a:hover,header a:visited{
 }
 
 #main article a.goTopButton{
-    background-color:#CECECE;
-    border:0px;
-    color:#ffffff;
-    padding:10px 5px 0px 5px;
-    line-height: 5px;
-    float:right;
-    text-decoration:none;
+  background-color: #CECECE;
+  border: 0 none;
+  color: #FFFFFF;
+  float: right;
+  font-size: 11px;
+  line-height: 15px;
+  padding: 2px;
+  text-decoration: none;
 }
 
 #main button, .loginBloc button,.button,.readUnreadButton{
@@ -597,6 +598,10 @@ header a,header a:hover,header a:visited{
     font-size: 16px;
 }
 
+#main.settings aside ul li,#main.about aside ul li {
+   padding-left: 5px;
+}
+
 .settings article > section:not(:first-child){
     display:none;
 }
@@ -807,12 +812,15 @@ footer a,#main aside a{
     }
 
     nav a {
-    margin-bottom: 3px;
+      margin-bottom: 3px;
     }
     .wrapper {
-    margin: 0;
-    width: 100%;
-}
+      margin: 0;
+      width: 100%;
+    }
+    .versionBloc{
+      display:none;
+    }
 }
 
 @media only screen and (min-width: 480px) {
@@ -898,7 +906,7 @@ footer a,#main aside a{
         width:32%;
     }
     #main #menuBar aside{
-        padding:5px;
+        padding:0px;
     }
 }
 
@@ -993,8 +1001,26 @@ article #loader{
     display: none;
 }
 #helpPanel ul{
-    list-style-type: square;
+    list-style-type: none;
+}
+#helpPanel ul li{
+  margin:5px;
 }
 #helpPanel strong {
-    color: #FFBA00;
+  background-color: #DDDDDD;
+  border: 2px solid #F9F7F7;
+  border-bottom:4px solid #898989  ;
+  border-right:4px solid #898989  ;
+  border-radius: 3px;
+  box-shadow: 0 0 10px #111010;
+  color: #777777;
+  font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif !important;
+  font-size: 12px;
+  font-weight: normal;
+  min-width: 80px;
+  padding: 0px 10px 10px 3px;
+  text-align: left;
+  display:inline-block;
+  min-width: 20px;
 }
+
