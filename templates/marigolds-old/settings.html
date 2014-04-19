@@ -1,0 +1,365 @@
+{include="header"}
+
+<!--
+ @nom: settings
+ @auteur: Idleman (idleman@idleman.fr)
+ @description: Page de gestion de toutes les préférences/configurations administrateur
+-->
+
+{if="($configurationManager->get('articleDisplayAnonymous')=='1') || ($myUser!=false)"}
+
+
+        <div id="main" class="wrapper clearfix settings">
+            <div id="menuBar">
+                <aside>
+                    <h3>{function="_t('FEED_OPTION')"}</h3>
+                    <ul>
+                        <li><a class="toggle" href="#manageBloc">{function="_t('FEED_MANAGING')"}</a></li>
+                        <li><a class="toggle" href="#synchronizeBloc">{function="_t('MANUAL_FEED_UPDATE')"}</a></li>
+                        <li><a class="toggle" href="#preferenceBloc">{function="_t('PREFERENCES')"}</a></li>
+                        <li><a class="toggle" href="#importBloc">{function="_t('IMPORT')"}</a></li>
+                        <li><a class="toggle" href="#exportBloc">{function="_t('EXPORT')"}</a></li>
+                        <li><a class="toggle" href="#bookBloc">{function="_t('BOOKMARKLET')"}</a></li>
+                        <li><a class="toggle" href="#pluginBloc">{function="_t('AVAILABLES_PLUGINS')"}</a></li>
+                        <li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purge';}">{function="_t('TRASH_EVENTS')"}</li>
+                    </ul>
+                    <h3>{function="_t('PLUGINS_INSTALLED')"}</h3>
+                    <ul>
+                        {function="Plugin::callHook("setting_post_link", array(&$myUser))"}
+                    </ul>
+                </aside>
+            </div>
+            <article>
+
+
+            <section class="manageBloc">
+
+                    <h2>{function="_t('FEED_MANAGING')"} :</h2>
+
+                    <form action="action.php?action=addFeed" method="POST">
+                <section class="addBloc">
+                    <h3>{function="_t('ADD_FEED')"}</h3>
+                    <p>{function="_t('FEED_RSS_LINK')"} : <input type="text" name="newUrl" placeholder="http://monflux.com/rss"/>&nbsp;
+                     <select name="newUrlCategory">
+                        {loop="$folders"}
+                            <option {if="$value->getId()==1"}selected="selected"{/if} value="{$value->getId()}">{$value->getName()}</option>
+                        {/loop}
+                    </select>
+                     <button>{function="_t('ADD')"}</button></p>
+
+                </section>
+                </form>
+
+                <section class="addBloc">
+                <h3>{function="_t('ADD_FOLDER')"}</h3>
+
+                    <form method="POST" action="action.php?action=addFolder">
+                        {function="_t('NEW_FOLDER')"} <input type="text" name="newFolder"> <button>{function="_t('ADD')"}</button>
+                    </form>
+
+                </section>
+
+                <section class="addBloc">
+                    <h3>{function="_t('FEED_OPTION')"}</h3>
+                    <span>{function="_t('FEED_OPTION_ISVERBOSE')"}</span>
+                    {if="$optionFeedIsVerbose==0"}
+                    <input class="" onclick="toggleOptionFeedVerbose(this,1)" type="checkbox" checked>
+                    {else}
+                    <input class="" onclick="toggleOptionFeedVerbose(this,0)" type="checkbox">
+                    {/if}
+                </section>
+
+                    <ul class="clear nochip">
+                    {$feedsForFolder=""}
+                    {loop="$folders"}
+
+                    {$feedsForFolder=$value->getFeeds()}
+
+                    <li>{if="$value->getId()==1"}<a id="defaultFolder"></a>{/if}
+                        <h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
+
+                        <button  onclick="renameFolder(this,{$value->getId()})">{function="_t('RENAME')"}</button>
+                        {if="$value->getId()!='1'"}
+                        <button  onclick="if(confirm('{function="_t('CONFIRM_DELETE_FOLDER')"}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="_t('DELETE')"}</button>
+                        {/if}
+
+<div class="clear"></div>
+                        </h1>
+<div class="clear"></div>
+                        <ul class="feedsList">
+                            {if="count($feeds)!=0"}
+                            {loop="$feedsForFolder"}
+                                {if="$value->getLastSyncInError()==0"}
+                                <li class="feedListItem">
+                                    <span class="feedTitle js-feedTitle">
+                                        <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                {else}
+                                <!-- feed dernière synchro en erreur -->
+                                <li class="feedListItem errorSync">
+                                    <span class="feedTitle js-feedTitle" title="{function="_t('SYNCHRONISATION_ERROR')"}">
+                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                {/if}
+                                    </span>
+                                    <div class="feedButtons">
+                                        <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
+                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
+                                    </div>
+                                    <div class="feedAction"">
+                                        <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
+                                            {loop="$folders"}
+                                            <option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
+                                            {/loop}
+                                        </select>
+                                        {if="$optionFeedIsVerbose==0"}
+                                            {if="$value2->getIsverbose()==0"}
+                                            <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}">
+                                            {else}
+                                            <input class="feedVerbose" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}" checked>
+                                            {/if}
+                                        {else}
+                                            {if="$value2->getIsverbose()==0"}
+                                            <input class="feedVerbose" style="display: none;" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}">
+                                            {else}
+                                            <input class="feedVerbose" style="display: none;" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}" checked>
+                                            {/if}
+                                        {/if}
+                                    </div>
+                                </li>
+                            {/loop}
+                            {/if}
+                        </ul>
+                    </li>
+                    {/loop}
+                </ul>
+                </section>
+
+                <section class="synchronizeBloc">
+                     <h2>{function="_t('FEED_SYNCHRONISATION')"} :</h2>
+                     <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
+                </section>
+
+                {if="(isset($myUser)) && ($myUser!=false)"}
+                <section class="preferenceBloc">
+                    <h2>{function="_t('PREFERENCES')"} :</h2>
+                    <form method="POST" action="action.php?action=updateConfiguration">
+                    <section>
+                        <h3>{function="_t('GENERALITY')"}</h3>
+                        <p><label for="root">{function="_t('PROJECT_ROOT')"} :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
+                        <h4>{function="_t('LET_SLASH_AT_END')"}</h4>
+                        <p>{function="_t('INSTALL_LANGUAGE')"} :
+                        <select name="ChgLanguage">
+                            {loop="$languageList"}
+                                {if="$value==$currentLanguage"}
+                                    <option selected=selected value='{$value}'>{$value}</option>";
+                                {else}
+                                    <option value='{$value}'>{$value}</option>";
+                                {/if}
+                            {/loop}
+                        </select></p>
+                        <p>{function="_t('THEMES')"} :
+                            <select name="ChgTheme">
+                                {loop="$themeList"}
+                                {if="$value==$currentTheme"}
+                                <option selected=selected value='{$value}'>{$value}</option>";
+                                {else}
+                                <option value='{$value}'>{$value}</option>";
+                                {/if}
+                                {/loop}
+                            </select></p>
+                    </section>
+
+                    <section>
+                        <h3>{function="_t('USER')"}</h3>
+                        <p><label for="login">{function="_t('LOGIN')"} :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
+                        <p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="{function="_t('INSTALL_DISPLAY_CLEAR')"}"></p>
+                        <h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
+                        <h4>{function="_t('HOWTO_RESET_PASSWORD')"}</h4>
+                    </section>
+
+                    <section>
+                        <h3>{function="_t('SYNCHRONISATION')"}</h3>
+                        <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
+                            {function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
+                        <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
+
+                        <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
+                        {$synchronisationCode}
+                        </p>
+                        <p><strong>{function="_t('SYNCHRONISATION_OPTION')"}</strong>
+                        <fieldset>
+                            <legend>{function="_t('ENABLE_CACHE')"}</legend>
+                            <input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">{function="_t('NO')"}</label>
+                            <p>{function="_t('ENABLE_CACHE_DESC')"}</p>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('FORCE_INTEGRATION')"}</legend>
+                            <input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">{function="_t('NO')"}</label>
+                            <p>{function="_t('FORCE_INTEGRATION_DESC')"}</p>
+                        </fieldset>
+                        </p>
+                    </section>
+
+                    <section>
+                        {if="$myUser!=false"}
+                        <h3>{function="_t('PREFERENCES')"}</h3>
+                        <fieldset>
+                            <legend>{function="_t('ALLOW_ANONYMOUS_READ')"}</legend>
+                            <input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">{function="_t('NO')"}</label>
+                            <h4>{function="_t('ALLOW_ANONYMOUS_READ_DESC')"}</h4>
+                        </fieldset>
+                        <fieldset>
+                            <legend><label for="articlePerPages">{function="_t('EVENT_NUMBER_PER_PAGES')"}</label></legend>
+                            <input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SORT_BY_RECENT_EVENT_HOME')"}</legend>
+                            <input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortNo">{function="_t('NO')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SORT_BY_RECENT_EVENT_FOLDER')"}</legend>
+                            <input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSorttNo" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortNo">{function="_t('NO')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SHOW_EVENT_LINK')"}</legend>
+                            <input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="articleDisplayLink" /><label for="articleDisplayLinkYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="articleDisplayLink" /><label for="articleDisplayLinkNo">{function="_t('NO')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SHOW_EVENT_DATE')"}</legend>
+                            <input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" id="articleDisplayDateYes" name="articleDisplayDate" /><label for="articleDisplayDateYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" id="articleDisplayDateNo" name="articleDisplayDate" /><label for="articleDisplayDateNo">{function="_t('NO')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SHOW_EVENT_AUTHOR')"}</legend>
+                            <input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="articleDisplayAuthor" /><label for="articleDisplayAuthorYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">{function="_t('NO')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('SHOW_EVENT_CONTENT')"}</legend>
+                            <input type="radio" {if="$articleDisplayMode=='title'"} checked="checked" {/if} value="title" id="articleDisplayModeTitle" name="articleDisplayMode" /><label for="articleDisplayModeTitle">{function="_t('TITLE')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="articleDisplayModeSummary" name="articleDisplayMode" /><label for="articleDisplayModeSummary">{function="_t('SUMMARY')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='content'"} checked="checked" {/if} value="content" id="articleDisplayModeContent" name="articleDisplayMode" /><label for="articleDisplayModeContent">{function="_t('CONTENT')"}</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
+                            <h4>{function="_t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</h4>
+                        </fieldset>
+
+                    </section>
+
+
+
+
+                    <button name="installButton">{function="_t('SAVE')"}</button>
+                    </form>
+                    {else}
+                    <p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
+                    {/if}
+                </section>
+            {/if}
+
+
+                <section class="importBloc">
+                    <h2>{function="_t('IMPORT_FEED_OPML_FORMAT')"}</h2>
+                    <iframe class="importFrame" src="action.php?action=importForm" name="idFrame" id="idFrame" width="100%" height="300" ></iframe>
+                </section>
+
+
+                <section class="exportBloc">
+                    <form action="action.php?action=exportFeed" method="POST">
+                        <h2>{function="_t('EXPORT_FEED_OPML_FORMAT')"}</h2>
+                        <p>{function="_t('OPML_FILE')"} : <button name="exportButton">{function="_t('EXPORT')"}</button></p>
+                    </form>
+                </section>
+
+                <section class="bookBloc">
+                    <h2>{function="_t('USE_BOOKMARK')"} :</h2>
+                    {if="$myUser!=false"}
+                    <a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="$myUser->getToken()"}'">+ {function="_t('ADD_TO_LEED')"}</a>
+                    <p>{function="_t('USE_BOOKMARK_DESC')"}</p>
+                    {else}
+                    <p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
+                    {/if}
+                </section>
+
+
+
+                <section class="pluginBloc">
+                    <h2>{function="_t('PLUGINS')"} :</h2>
+                    <p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/ldleman/Leed-market/"> Leed Market</a>.</p>
+                    
+                    {if="$myUser!=false"}
+                    <ul class="pluginMenu">
+                        <li class="selected" onclick="togglePluginMenu(this,'installed');">Plugins installés</li>
+                        <li  onclick="togglePluginMenu(this,'market');">Market</li>
+                        <div class="clear"></div>
+                    </ul>
+
+                    <div class="marketZone">
+                        <p>Recherchez et ajoutez les plugins proposés par la communauté en utilisant le formulaire ci dessous ! (<a href="http://market.idleman.fr/index.php?software=leed&amp;page=submit">Proposer un nouveau plugin</a>)</p>
+                        <form class="form-inline">
+                        <input type="text" id="keywordPlugin"> <button class="btn" id="btnSearchPlugin" onclick="searchPlugin($('#keywordPlugin').val());return false;">Rechercher</button>
+                        </form>
+                        <ul id="resultsPlugin"></ul>
+                        <br/><br/>
+                    </div>
+
+                    <div class="installedZone">
+                        <h3>{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
+                        <ul class="pluginList">
+                        {if="count($plugins)==0"}
+                        {function="_t('NO_INSTALLED_PLUGINS')"}
+
+                        {else}
+                        {loop="$plugins"}
+                        <li>
+                            <ul>
+                                <li><h4>{function="_t('NAME')"}: </h4>{$value->getName()}</li>
+                                {$authors=$value->getAuthor()}
+                                {$addresses=$value->getAddress()}
+                                {if="is_array($authors)"}
+                                    {loop="authors"}
+                                        {$address=$addresses[$key2]}
+                                        <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$address"}<a href="{if="strpos($address, '@')"}mailto:{/if}{$address}">{/if}{$value}{if="$address"}</a>{/if}</li>
+                                    {/loop}
+                                {/if}
+                                <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
+                                <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
+                                <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
+                                <li>{$value->getDescription()}</li>
+                                <li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?_t('ENABLE'):_t('DISABLE')}</a></li>
+                            </ul>
+                        </li>
+                        {/loop}
+                        {/if}
+                        </ul>
+                    </div>
+                    {else}
+                    <p>{function="_t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>
+                    {/if}
+                </section>
+
+
+
+
+                {function="Plugin::callHook("setting_post_section", array(&$myUser))"}
+            </article>
+
+
+        </div> <!-- #main -->
+
+{else}
+    <div id="main" class="wrapper clearfix">
+        <article>
+                <h3>{function="_t('YOU_MUST_BE_CONNECTED_FEED')"}</h3>
+                <p>{function="_t('IF_ADMIN_THEN_CONFIG')"}</p>
+        </article>
+    </div>
+
+{/if}
+{include="footer"}

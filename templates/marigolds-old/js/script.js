@@ -364,7 +364,7 @@ function toggleFolder(element,folder){
     open = 0;
     if(feedBloc.css('display')=='none') open = 1;
     feedBloc.slideToggle(200);
-    $(element).html(!open?'<i class="icon-folder-empty"></i>':'<i class="icon-folder-open-empty"></i>');
+    $(element).html((!open?_t('UNFOLD'):_t('FOLD')));
     $.ajax({
                   url: "./action.php?action=changeFolderState",
                   data:{id:folder,isopen:open}
@@ -692,12 +692,8 @@ function toggleUnreadFeedFolder(button,action){
                 //Afficher ou cacher les feeds
                 if(action){
                     $('.hidefeed').hide();
-                    $(button).find('i').addClass('icon-resize-small').removeClass('icon-resize-full');
                 }else{
                     $('.hidefeed').show();
-                     $(button).find('i').addClass('icon-resize-full').removeClass('icon-resize-small');
-                    
-                  
                 }
                 //changement de l'évènement onclick pour faire l'inverse lors du prochain clic
                 $(button).attr('onclick','toggleUnreadFeedFolder(this,'+!action+');');

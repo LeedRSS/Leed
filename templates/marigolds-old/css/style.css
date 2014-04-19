@@ -85,68 +85,6 @@ body{ font:16px/26px Helvetica, Helvetica Neue, Arial; }
 }
 
 /* ===================
-   ICON POLICE (via fontello.com)
-   =================== */
-
-@font-face {
-  font-family: 'fontello';
-  src: url('../font/fontello.eot?9759399');
-  src: url('../font/fontello.eot?9759399#iefix') format('embedded-opentype'),
-       url('../font/fontello.woff?9759399') format('woff'),
-       url('../font/fontello.ttf?9759399') format('truetype'),
-       url('../font/fontello.svg?9759399#fontello') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
- [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  margin-left: .2em;
-}
- 
-.icon-star:before { content: '\e800'; } /* '' */
-.icon-progress-3:before { content: '\e81d'; } /* '' */
-.icon-user:before { content: '\e816'; } /* '' */
-.icon-ok:before { content: '\e812'; } /* '' */
-.icon-cancel:before { content: '\e811'; } /* '' */
-.icon-plus:before { content: '\e810'; } /* '' */
-.icon-help:before { content: '\e813'; } /* '' */
-.icon-home:before { content: '\e805'; } /* '' */
-.icon-link:before { content: '\e809'; } /* '' */
-.icon-eye:before { content: '\e80b'; } /* '' */
-.icon-eye-off:before { content: '\e80a'; } /* '' */
-.icon-tag:before { content: '\e815'; } /* '' */
-.icon-bookmark:before { content: '\e814'; } /* '' */
-.icon-pencil:before { content: '\e808'; } /* '' */
-.icon-keyboard:before { content: '\e80f'; } /* '' */
-.icon-star-empty:before { content: '\e801'; } /* '' */
-.icon-folder-open-empty:before { content: '\e818'; } /* '' */
-.icon-rss:before { content: '\e806'; } /* '' */
-.icon-cog:before { content: '\e807'; } /* '' */
-.icon-resize-full:before { content: '\e803'; } /* '' */
-.icon-resize-small:before { content: '\e804'; } /* '' */
-.icon-zoom-in:before { content: '\e81a'; } /* '' */
-.icon-zoom-out:before { content: '\e819'; } /* '' */
-.icon-down-dir:before { content: '\e80e'; } /* '' */
-.icon-up-dir:before { content: '\e80d'; } /* '' */
-.icon-right-dir:before { content: '\e80c'; } /* '' */
-.icon-arrows-cw:before { content: '\e802'; } /* '' */
-.icon-progress-1:before { content: '\e81b'; } /* '' */
-.icon-progress-2:before { content: '\e81c'; } /* '' */
-.icon-folder-empty:before { content: '\e817'; } /* '' */
-
-
-/* ===================
     ALL: Orange Theme
    =================== */
 
@@ -166,7 +104,9 @@ html, body { position: relative; height: 100%; }
 }
 
 #main aside{
-
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 #title{ color:#ffffff; }
@@ -181,7 +121,9 @@ html, body { position: relative; height: 100%; }
 code{
     padding:5px;
     color:#f16529;
-
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     display:block;
     margin:5px;
     font-size:12px;
@@ -197,11 +139,11 @@ nav a{
     text-align:center;
     text-decoration:none;
     font-weight:bold;
-    font-size:30px;
 }
 
 nav a.synchronyzeButton{
     cursor:pointer;
+    font-size:40px;
 }
 
 nav a:hover, nav a:visited{
@@ -243,20 +185,19 @@ header a,header a:hover,header a:visited{
     padding:3px 8px 3px 8px;
     font-size:10px;
     font-weight:bold;
-
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     min-width: 35px;
     text-align: center;
 }
 
 .readUnreadButton{
-    line-height:20px;
-}
+-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 
-.readingFolderButton{ 
-    float:right;
-    margin: 25px 4px 0px 10px;
-    color:#ffffff;
-    cursor:pointer;
+    line-height:20px;
 }
 
 #main aside a.unreadForFolder,#main aside a.readFolder{
@@ -269,7 +210,9 @@ header a,header a:hover,header a:visited{
     font-weight:bold;
     padding:0px 3px 0px 3px;
     line-height: 20px;
-
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     min-width:55px;
     display:block;
     text-align: center;
@@ -279,8 +222,7 @@ header a,header a:hover,header a:visited{
 #main aside a.readFolder{
     background-color:#222222;
     margin-left:3px;
-    font-weight: 15px;
-    min-width: 0;
+    min-width: 36px;
     text-align: center;
 }
 
@@ -311,7 +253,7 @@ header a,header a:hover,header a:visited{
 }
 
 #main article div.articleContent{
-    padding: 5px;
+
     margin:10px 0px 0px 0px;
     text-align: justify;
     clear:both;
@@ -398,26 +340,16 @@ header a,header a:hover,header a:visited{
 #main aside ul li h1 {
     font-size:1em;
     padding:0px;
+    margin:3px;
     text-align:center;
     background-color:#666666;
     cursor: pointer;
 }
 
 .favorite:before{
-     font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  margin-left: .2em;
-  content: '\e801 '; 
+    content: "✰ ";
+    font-size: 15px;
+    font-weight: bold;
 }
 .favorite{
     margin-right:10px;
@@ -430,7 +362,7 @@ header a,header a:hover,header a:visited{
 
 .logo{
     background: url(data:image/png;base64,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) 0 center no-repeat;
-    padding-left:45px;
+    padding-left:60px;
     padding-top:15px;
     height:40px;
     font-size:3em;
@@ -439,7 +371,7 @@ header a,header a:hover,header a:visited{
 
 .loginBloc{
     background-color: #222222;
-
+    border-radius: 5px 5px 5px 5px;
     float: none;
     margin: 10px 0px 10px;
     padding: 5px;
@@ -448,6 +380,9 @@ header a,header a:hover,header a:visited{
 .loginBloc input{
     width:100px;
     border:none;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
     margin-right:1%;
 
 }
@@ -670,7 +605,7 @@ footer a,#main aside a{
     background-color:#C94141;
     color:#ffffff;
     padding:5px;
-
+    border-radius:5px;
     margin:10px 0px 10px 0px;
     box-shadow: 0 0 3px 0 #810000;
 }
@@ -716,25 +651,6 @@ footer a,#main aside a{
    Media Queries
    ========================================================================== */
 
-@media only screen and (max-width: 480px) {
-
- .logo{
-        display:none;
-    }
-    
-.loginBloc {
-        margin:0px;
-    }
-
-    nav a {
-    margin-bottom: 3px;
-    }
-    .wrapper {
-    margin: 0;
-    width: 100%;
-}
-}
-
 @media only screen and (min-width: 480px) {
 
 /* ====================
@@ -746,15 +662,18 @@ footer a,#main aside a{
     nav a{
         float:left;
         width:20%;
-        margin:1px;
+        margin:0 1.7%;
         padding:15px 1%;
+        margin-bottom:0;
+        border-bottom: 5px solid #E44D26;
     }
 
     nav a:hover{
-        background-color:#000000;
+        border-bottom: 5px solid #F7BC79;
     }
 
-
+    nav li:first-child a{ margin-left:0;  }
+    nav li:last-child  a{ margin-right:0; }
 
 /* ========================
     INTERMEDIATE: IE Fixes
@@ -801,7 +720,6 @@ footer a,#main aside a{
     nav{
         float:right;
         width:38%;
-        margin-right: -40px;
     }
 
 /* ============
@@ -904,17 +822,19 @@ article #loader{
     filter:alpha(opacity=90); /* For IE8 and earlier */
     color: #fff;
     padding: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    top: 50%;
+    width: 500px;
+    height: 23em;
+    margin-top: -200px; /* moitié de la hauteur */
+    margin-left: -250px; /* moitié de la largeur */
     z-Index: 1;
     display: none;
 }
-#helpPanel ul{
-    list-style-type: square;
-}
 #helpPanel strong {
-    color: #FFBA00;
+    color: #ff0;
 }
