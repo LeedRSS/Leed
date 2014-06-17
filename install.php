@@ -98,6 +98,11 @@ if (!@function_exists('file_put_contents')){
 }else{
     $test[$lib_success][] = _t('INSTALL_INFO_FILEPUT');
 }
+if (!@function_exists('curl_exec')){
+    $test[$lib_errors][] = _t('INSTALL_ERROR_CURL');
+}else{
+    $test[$lib_success][] = _t('INSTALL_INFO_CURL');
+}
 if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
     $test[$lib_errors][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
 }else{
