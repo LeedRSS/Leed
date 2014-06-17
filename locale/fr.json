@@ -143,6 +143,7 @@
  "MARK_AS_READ":"Marquer comme lu",
  "MARK_AS_READ_FOLDER_ITEMS":"marquer comme lu le(s) $1 evenement(s) non lu(s) de ce dossier",
  "NAME":"Nom",
+ "NEW_ARTICLES":"nouveaux articles",
  "NEW_FOLDER":"Nouveau dossier",
  "NO":"Non",
  "NO_INSTALLED_PLUGINS":"Aucun plugin n’est installé pour le moment.",

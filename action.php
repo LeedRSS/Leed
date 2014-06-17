@@ -135,7 +135,7 @@ switch ($action){
             echo "<li>{$nbOk} "._t('GOOD')."\n";
             echo "<li>{$nbTotal} "._t('AT_TOTAL')."\n";
             echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
-            echo "<li>{$nbTotalEvents} nouveaux articles\n";
+            echo "<li>{$nbTotalEvents} "._t('NEW_ARTICLES')."\n";
             echo "</ul>\n";
             echo "</div>\n";
         }

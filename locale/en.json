@@ -143,6 +143,7 @@
  "MARK_AS_READ":"Mark as read",
  "MARK_AS_READ_FOLDER_ITEMS":"mark as read the first $1 unread events of this folder",
  "NAME":"Name",
+ "NEW_ARTICLES":"new articles",
  "NEW_FOLDER":"New folder",
  "NO":"No",
  "NO_INSTALLED_PLUGINS":"There is no installed plugin yet.",
