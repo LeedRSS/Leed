@@ -11,10 +11,18 @@ require_once('i18n.php');
 global $i18n;
 $install_terminee=false;
 
-if (isset($_GET['lang']))
-    $currentLanguage = i18n_init($_GET['lang']);
-else
+/* Prend le choix de langue de l'utilisateur, soit :
+ * - lorsqu'il vient de changer la langue du sélecteur ($lang)
+ * - lorsqu'il vient de lancer l'installeur ($install_changeLngLeed)
+ */
+$lang = '';
+if (isset($_GET['lang'])) $lang = $_GET['lang'];
+elseif (isset($_POST['install_changeLngLeed'])) $lang = $_POST['install_changeLngLeed'];
+
+if (empty($lang))
     $currentLanguage = i18n_init(Functions::getBrowserLanguages());
+else
+    $currentLanguage = i18n_init($lang);
 
 $languageList = $i18n->languages;
 
