@@ -95,7 +95,7 @@ class MysqlEntity
     */
     public function destroy($debug=false)
     {
-        $query = 'DROP TABLE IF EXISTS '.MYSQL_PREFIX.$this->TABLE_NAME.';';
+        $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
         $myQuery = $this->customQuery($query);
     }
@@ -109,7 +109,7 @@ class MysqlEntity
     */
     public function truncate($debug=false)
     {
-        $query = 'TRUNCATE TABLE '.MYSQL_PREFIX.$this->TABLE_NAME.';';
+        $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
         $myQuery = $this->customQuery($query);
     }
@@ -357,7 +357,7 @@ class MysqlEntity
                 $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
             }
         }
-        $query = 'SELECT COUNT(1) FROM '.MYSQL_PREFIX.$this->TABLE_NAME.$whereClause;
+        $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
         $myQuery = $this->customQuery($query);
         $number = mysql_fetch_array($myQuery);
@@ -440,7 +440,7 @@ class MysqlEntity
     */
 
     public function tableExists() {
-        $table = MYSQL_PREFIX.$this->TABLE_NAME;
+        $table = '`'.MYSQL_PREFIX.$this->TABLE_NAME.'';
         $result = $this->customQuery("SHOW TABLES LIKE '$table'");
         $assoc = mysql_fetch_assoc($result);
         return false===$assoc ? false : true;
