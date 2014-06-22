@@ -295,7 +295,7 @@ function addEventsButtonLuNonLus(){
     var handler = function(event){
     var target = event.target;
     var id = this.id;
-    if($(target).hasClass('readUnreadButton')){
+    if($(target).hasClass('readUnreadButton') || $(target).hasClass('icon-eye')){
         buttonAction(target,id);
     }else{
         targetThisEvent(this);
@@ -491,7 +491,7 @@ function changeFeedFolder(element,id){
 
 function readThis(element,id,from,callback){
     var activeScreen = $('#pageTop').html();
-    var parent = $(element).parent().parent();
+    var parent = $(element).closest('section');
     var nextEvent = $('#'+id).nextAll(':visible').first();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
