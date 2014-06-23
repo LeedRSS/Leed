@@ -68,7 +68,7 @@ if (empty($root)) {
 }
 if (!isset($_['mysqlPrefix'])) {
     // Le formulaire n'étant pas soumis, on met cette valeur par défaut.
-    $mysqlPrefix = 'leed_';
+    $mysqlPrefix = 'leed__'; // séparation en groupe de tables PhpMyAdmin
 }
 
 $lib_errors = _t('ERROR');
