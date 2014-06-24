@@ -495,6 +495,7 @@ function readThis(element,id,from,callback){
     var nextEvent = $('#'+id).nextAll(':visible').first();
     //sur les éléments non lus
     if(!parent.hasClass('eventRead')){
+        parent.addClass('eventRead');
         addOrRemoveFeedNumber('-');
         $.ajax({
             url: "./action.php?action=readContent",
@@ -507,7 +508,6 @@ function readThis(element,id,from,callback){
                     switch (activeScreen){
                         case '':
                             // cas de la page d'accueil
-                            parent.addClass('eventRead');
                             parent.fadeOut(200,function(){
                                 if(callback){
                                     callback();
@@ -524,7 +524,6 @@ function readThis(element,id,from,callback){
                         break;
                         case 'selectedFolder':
                         case 'selectedFeedNonLu':
-                            parent.addClass('eventRead');
                             if(callback){
                                 callback();
                             }else{
@@ -535,7 +534,6 @@ function readThis(element,id,from,callback){
                         break;
                         default:
                             // autres cas : favoris, selectedFeed ...
-                            parent.addClass('eventRead');
                             if(callback){
                                 callback();
                             }else{
