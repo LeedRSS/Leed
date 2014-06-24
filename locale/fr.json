@@ -44,7 +44,7 @@
  "EVENT_NUMBER_PER_PAGES":"Nombre d’articles par page",
  "EXPORT":"Export",
  "EXPORT_FEED_OPML_FORMAT":"Exporter les flux au format OPML",
- "FABULOUS_AGREGATOR_LAUNCHED_IN":"fabuleux agrégateur exécuté en $1 secondes par $2",
+ "FABULOUS_AGGREGATOR_LAUNCHED_IN":"fabuleux agrégateur exécuté en $1 secondes par $2",
  "FAVORITES":"Favoris",
  "FAVORITES_EVENTS":"Articles favoris ($1)",
  "FAVORIZE":"Favoriser",

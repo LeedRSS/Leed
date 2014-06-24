@@ -44,7 +44,7 @@
  "EVENT_NUMBER_PER_PAGES":"Number of articles per page",
  "EXPORT":"Export",
  "EXPORT_FEED_OPML_FORMAT":"Export feeds as opml format",
- "FABULOUS_AGREGATOR_LAUNCHED_IN":"fabulous news aggregator executed in $1 secondes by $2",
+ "FABULOUS_AGGREGATOR_LAUNCHED_IN":"fabulous news aggregator executed in $1 secondes by $2",
  "FAVORITES":"Favorites",
  "FAVORITES_EVENTS":"Favorite articles ($1)",
  "FAVORIZE":"Favorize",

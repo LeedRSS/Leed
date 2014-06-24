@@ -44,7 +44,7 @@
  "EVENT_NUMBER_PER_PAGES":"Número de articulos por página",
  "EXPORT":"Exportación ",
  "EXPORT_FEED_OPML_FORMAT":"Exportar los RSS con el formato OPML",
- "FABULOUS_AGREGATOR_LAUNCHED_IN":"fabuloso agregador ejecutado en $1 segundos por $2",
+ "FABULOUS_AGGREGATOR_LAUNCHED_IN":"fabuloso agregador ejecutado en $1 segundos por $2",
  "FAVORITES":"Favoritos",
  "FAVORITES_EVENTS":"Articulos favoritos ($1)",
  "FAVORIZE":"Marcar favorito",
