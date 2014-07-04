@@ -1,5 +1,5 @@
 {loop="$events"}
-    {$plainDescription=strip_tags($value->getDescription())}
+    {$plainDescription=htmlspecialchars(strip_tags($value->getDescription()))}
 
     <!-- CORPS ARTICLE -->
 
