@@ -59,7 +59,7 @@
  "FOLD_UNFOLD_FOLDER":"Faldi/malfaldi la fluujon",
  "FORCE_INTEGRATION":"Trudi integradon",
  "FORCE_INTEGRATION_DESC":"La fluoj RSS-aj kaj Atom-aj havu tipojn MIME asociitajn specifajn, por ke la softvaro sciu pri kiaj datumtipo temas. Certaj fluoj ne sekvas tiun regulojn (ekzemple text/plain). SimplePie sekvas la pli bonajn praktikojn defaŭlte, sed vi povas trudi integradon per tiu agordo.",
- "FORMAT_DATE_HOURS":"",
+ "FORMAT_DATE_HOURS":"d/m/Y, H:i:s",
  "FULL_SYNCHRONISATION":"Sinkrono kompleta…",
  "GENERALITY":"Ĝeneralaĵoj",
  "GENERAL_FOLDER":"Ĝenerala",
