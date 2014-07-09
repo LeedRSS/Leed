@@ -396,6 +396,7 @@ function addFavorite(element,id){
                     addOrRemoveFeedNumber('+');
                 }
             }
+            $(element).css('color', ''); // Retour au style de classe
         }
     });
 }
@@ -403,7 +404,7 @@ function addFavorite(element,id){
 function removeFavorite(element,id){
     var activeScreen = $('#pageTop').html();
     // Colorise l'élément pour indiquer la bonne réception de la demande
-    $(element).css('color', ''); // Retour au style de classe
+    $(element).css('color', 'black');
     $.ajax({
         url: "./action.php?action=removeFavorite",
         data:{id:id},
@@ -419,6 +420,7 @@ function removeFavorite(element,id){
                     addOrRemoveFeedNumber('-');
                 }
             }
+            $(element).css('color', ''); // Retour au style de classe
         }
     });
 }
