@@ -359,13 +359,7 @@ function readAllDisplayedEvents(){
 }
 
 function switchFavoriteTargetEvent(){
-    var id = $(target).attr('id');
-    if($('.favorite',target).html()=='Favoriser'){
-        addFavorite($('.favorite',target),id);
-    }else{
-        removeFavorite($('.favorite',target),id);
-    }
-    // on débloque les touches le plus tard possible afin de passer derrière l'appel ajax
+    $('.favorite',target).click();
 }
 
 /* Fonctions de séléctions fin */
