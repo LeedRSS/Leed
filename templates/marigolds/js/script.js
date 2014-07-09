@@ -385,6 +385,8 @@ function toggleFolder(element,folder){
 
 function addFavorite(element,id){
     var activeScreen = $('#pageTop').html();
+    // Colorise l'élément pour indiquer la bonne réception de la demande
+    $(element).css('color', 'black');
     $.ajax({
         url: "./action.php?action=addFavorite",
         data:{id:id},
@@ -406,6 +408,8 @@ function addFavorite(element,id){
 
 function removeFavorite(element,id){
     var activeScreen = $('#pageTop').html();
+    // Colorise l'élément pour indiquer la bonne réception de la demande
+    $(element).css('color', ''); // Retour au style de classe
     $.ajax({
         url: "./action.php?action=removeFavorite",
         data:{id:id},
