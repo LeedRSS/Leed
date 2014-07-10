@@ -19,10 +19,11 @@ $lang = '';
 if (isset($_GET['lang'])) $lang = $_GET['lang'];
 elseif (isset($_POST['install_changeLngLeed'])) $lang = $_POST['install_changeLngLeed'];
 
+$installDirectory = dirname(__FILE__).'/install';
 if (empty($lang))
-    $currentLanguage = i18n_init(Functions::getBrowserLanguages());
+    $currentLanguage = i18n_init(Functions::getBrowserLanguages(),$installDirectory);
 else
-    $currentLanguage = i18n_init($lang);
+    $currentLanguage = i18n_init($lang,$installDirectory);
 
 $languageList = $i18n->languages;
 
