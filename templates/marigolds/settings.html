@@ -80,7 +80,7 @@
 
                         <button  onclick="renameFolder(this,{$value->getId()})">{function="_t('RENAME')"}</button>
                         {if="$value->getId()!='1'"}
-                        <button  onclick="if(confirm('{function="_t('CONFIRM_DELETE_FOLDER')"}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="_t('DELETE')"}</button>
+                        <button  onclick="if(confirm('{function="_t('CONFIRM_DELETE_FOLDER')"}\n\n{$value->getName()}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="_t('DELETE')"}</button>
                         {/if}
 
 <div class="clear"></div>
