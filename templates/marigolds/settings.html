@@ -89,20 +89,21 @@
                         <ul class="feedsList">
                             {if="count($feeds)!=0"}
                             {loop="$feedsForFolder"}
+                                {$feedName=Functions::truncate($value2->getName(),40)}
                                 {if="$value->getLastSyncInError()==0"}
                                 <li class="feedListItem">
                                     <span class="feedTitle js-feedTitle">
-                                        <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                        <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                 {else}
                                 <!-- feed dernière synchro en erreur -->
                                 <li class="feedListItem errorSync">
                                     <span class="feedTitle js-feedTitle" title="{function="_t('SYNCHRONISATION_ERROR')"}">
-                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{function="Functions::truncate($value2->getName(),40)"}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                 {/if}
                                     </span>
                                     <div class="feedButtons">
                                         <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
-                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
+                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n{$feedName}')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
                                     </div>
                                     <div class="feedAction"">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
