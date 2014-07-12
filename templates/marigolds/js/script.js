@@ -471,7 +471,7 @@ function saveRenameFeed(element,feed,url){
     var feedNameValue = feedNameCase.val();
     var feedUrlCase = feedLine.children('.js-feedTitle:first').children('input[name="feedUrl"]');
     var feedUrlValue = feedUrlCase.val();
-    $(element).html('Renommer');
+    $(element).html(_t('RENAME'));
     $(element).attr('style','background-color:#F16529;');
     $(element).attr('onclick','renameFeed(this,'+feed+')');
     feedNameCase.replaceWith('<a href="'+url+'">'+feedNameValue+'</a>');
