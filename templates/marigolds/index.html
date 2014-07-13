@@ -64,14 +64,14 @@
                             <!-- cas de dossier avec des non lus -->
                             <h1 class="folder">
                                 {function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}\n\n{$value->getName()}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
                                 {function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
                             </h1>
                             {else}
                             <!-- cas de dossier sans non lus -->
                                 <h1 class="folder hidefeed"  style="display:none;">
                                 {function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}\n\n{$value->getName()}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
                                 {function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
                             </h1>
                             {/if}
@@ -81,14 +81,14 @@
                             <!-- cas de dossier avec des non lus -->
                             <h1 class="folder">
                                 {function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}\n\n{$value->getName()}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
                                 {function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
                             </h1>
                             {else}
                             <!-- cas de dossier sans non lus donc à cacher si on passe dans l'autre mode -->
                             <h1 class="folder hidefeed">
                                 {function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+                                <a  title="{function="_t('READ_FOLDER_ITEMS')"}" href="index.php?action=selectedFolder&amp;folder={$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" onclick="if(confirm('{function="_t('READ_ALL_FOLDER_CONFIRM')"}\n\n{$value->getName()}'))window.location='action.php?action=readFolder&amp;folder={$value->getId()}';">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
                                 {function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
                             </h1>
                             {/if}
@@ -107,7 +107,7 @@
                                                 <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                 {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
-                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}\n\n{$value2['name']}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                     {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
@@ -121,7 +121,7 @@
                                                     {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     {if="isset($unread[$value2['id']])"}
-                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}\n\n{$value2['name']}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
                                                     <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                     {/if}
@@ -145,7 +145,7 @@
                                             {/if}
                                                 {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                 {if="isset($unread[$value2['id']])"}
-                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
+                                                    <button class="right" style="margin:5px 0 0 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_FEED_AS_READ')"}\n\n{$value2['name']}'))window.location='action.php?action=readAll&amp;feed={$value2['id']}';">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                 {/if}
