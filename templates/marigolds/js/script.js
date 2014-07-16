@@ -17,10 +17,6 @@ keyCode['space'] = 32;
 
 $(document).ready(function(){
 
-    // Désactivé en attendant d'optimiser la fréquence des mises à jour
-    // Ce chargement était fait à tous les chargements de page
-    // $.getJSON("http://update.idleman.fr/leed?callback=?",function(data){});
-
     // Page settings
     if($('.settings').length){
 
