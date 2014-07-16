@@ -531,6 +531,9 @@ header a,header a:hover,header a:visited{
     margin-right:1%;
 
 }
+.wrongLogin input{
+    background-color: #fdd;
+}
 
 #rememberMe span{
     color:#ccc;

@@ -509,22 +509,24 @@ switch ($action){
         if(isset($_['usr'])){
             $user = User::existAuthToken($_['usr']);
             if($user==false){
-                exit("erreur identification : le compte est inexistant");
+                exit("error"); //@TODO: traduire
             }else{
                 $_SESSION['currentUser'] = serialize($user);
                 header('location: ./action.php?action=addFeed&newUrl='.$_['newUrl']);
+                exit();
             }
         }else{
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
             $user = $userManager->exist($_['login'],$_['password'],$salt);
             if($user==false){
-                exit("erreur identification : le compte est inexistant");
+                header('location: ./index.php?action=wrongLogin');
             }else{
                 $_SESSION['currentUser'] = serialize($user);
                 if (isset($_['rememberMe'])) $user->setStayConnected();
+                header('location: ./index.php');
             }
-            header('location: ./index.php');
+            exit();
         }
 
 

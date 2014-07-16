@@ -25,7 +25,12 @@
                 <h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
                 <div class="loginBloc">
                     {if="!$myUser"}
-                    <form action="action.php?action=login" method="POST">
+                    {if="$wrongLogin"}
+                        {$wrongLoginClass=' wrongLogin'}
+                    {else}
+                        {$wrongLoginClass=''}
+                    {/if}
+                    <form action="action.php?action=login" method="POST" class="{$wrongLoginClass}">
                         <input id="inputlogin" type="text" class="miniInput left" name="login" placeholder="{function="_t('LOGIN')"}"/>
                         <input type="password" class="miniInput left" name="password" placeholder="{function="_t('PASSWORD')"}"/>
                         <button class="left">GO!!</button>

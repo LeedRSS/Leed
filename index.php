@@ -119,7 +119,10 @@ switch($action){
 
     /* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
     case 'unreadEvents':
+    case 'wrongLogin':
+        $wrongLogin = true;
     default:
+        $wrongLogin = !empty($wrongLogin);
         $filter = array('unread'=>1);
         if($optionFeedIsVerbose) {
             $numberOfItem = $eventManager->rowCount($filter);
@@ -136,6 +139,7 @@ switch($action){
             $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
         }
         $tpl->assign('numberOfItem',$numberOfItem);
+        $tpl->assign('wrongLogin',$wrongLogin);
 
     break;
 }
