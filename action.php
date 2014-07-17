@@ -450,7 +450,7 @@ switch ($action){
         }else{
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
-            $user = $userManager->exist($_['login'],$_['password'],$salt);
+            $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
             if($user==false){
                 header('location: ./index.php?action=wrongLogin');
             }else{

@@ -15,7 +15,8 @@ class User extends MysqlEntity{
     array(
         'id'=>'key',
         'login'=>'string',
-        'password'=>'string'
+        'password'=>'string',
+        'otpSeed'=>'string',
     );
 
     function __construct(){
@@ -26,9 +27,23 @@ class User extends MysqlEntity{
         $this->id = $id;
     }
 
-    function exist($login,$password,$salt=''){
+    function exist($login,$password,$salt='',$otpEntered=Null){
         $userManager = new User();
-        return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
+        $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
+
+        if (false!=$user) {
+            $otpSeed = @$user->otpSeed; # Si champ null, la propriété n'existe pas !
+            if (!defined('OTP') || is_null($otpSeed) && is_null($otpEntered) ) {
+                return $user;
+            } else {
+                $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
+                if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
+                    return $user;
+                }
+            }
+        }
+
+        return false;
     }
 
     function get($login){

@@ -29,6 +29,8 @@ $tpl->assign('allEvents',$eventManager->getEventCountPerFolder());
 $feedState = new Feed();
 $tpl->assign('feedState',$feedState);
 
+$tpl->assign('otpEnabled', defined('OTP') && OTP);
+
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
