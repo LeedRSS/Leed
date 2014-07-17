@@ -176,7 +176,7 @@
                 <!-- ENTETE ARTICLE -->
                 <header class="articleHead">
 
-                {if="$action=='selectedFeed' || ($action=='selectedFeedNonLu')"}
+                {if="$action=='selectedFeed'"}
                 <!-- AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER -->
 
 
@@ -184,7 +184,7 @@
                     <div class="clear"></div>
                         {$currentFeed->getDescription()}
                             {function="_t('SEE_THE')"}
-                    <a href="index.php?action=selectedFeedNonLu&amp;feed={$_['feed']}&amp;page={$page}">{function="ucfirst(_t('UNREAD'))"}</a> |
+                    <a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">{function="ucfirst(_t('UNREAD'))"}</a> |
                     <a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">{function="_t('OLDER')"}</a> {function="_t('IN_FIRST')"}
                 {/if}
 

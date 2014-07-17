@@ -54,15 +54,8 @@ switch($action){
     case 'selectedFeed':
         $currentFeed = $feedManager->getById($_['feed']);
         $allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
-        $order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['date']);
+        $order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['unread']);
         $events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
-    break;
-    /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER en mode non lus */
-    case 'selectedFeedNonLu':
-        $currentFeed = $feedManager->getById($_['feed']);
-        $filter = array('unread'=>1, 'feed'=>$currentFeed->getId());
-        $order = 'pubdate DESC';
-        $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
     break;
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':

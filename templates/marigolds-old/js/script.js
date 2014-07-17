@@ -511,7 +511,7 @@ function readThis(element,id,from,callback){
                             $(window).data('nblus', $(window).data('nblus')+1);
                         break;
                         case 'selectedFolder':
-                        case 'selectedFeedNonLu':
+                        case 'selectedFeed':
                             parent.addClass('eventRead');
                             if(callback){
                                 callback();
@@ -548,7 +548,7 @@ function readThis(element,id,from,callback){
                             if( console && console.log && msg!="" ) console.log(msg);
                             parent.removeClass('eventRead');
                             // on compte combien d'article ont été remis à non lus
-                            if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeedNonLu'))
+                            if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeed'))
                                 $(window).data('nblus', $(window).data('nblus')-1);
                             if(callback){
                                 callback();
@@ -576,7 +576,7 @@ function unReadThis(element,id,from){
                         if( console && console.log && msg!="" ) console.log(msg);
                         parent.removeClass('eventRead');
                         // on compte combien d'article ont été remis à non lus
-                        if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeedNonLu'))
+                        if ((activeScreen=='') || (activeScreen=='selectedFolder')|| (activeScreen=='selectedFeed'))
                             $(window).data('nblus', $(window).data('nblus')-1);
 
                         addOrRemoveFeedNumber('+');
