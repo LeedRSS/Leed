@@ -92,7 +92,7 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-i18n_init($language);
+i18n_init($language, dirname(__FILE__).'/templates/'.$theme.'/');
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';
