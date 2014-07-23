@@ -115,7 +115,10 @@ class Translation {
 function i18n_init($languages, $location){
     global $i18n,$i18n_js;
     if (!isset($i18n)) {
-        $i18n = new Translation($location, $languages);
+        // Charge d'abord les traductions de base
+        $i18n = new Translation(dirname(__FILE__), $languages);
+        // Charge ensuite la traduction demandée (celle du thème courant)
+        $i18n->append(new Translation($location, $languages));
         $i18n_js = $i18n->getJson();
     }
     return $i18n->language;
