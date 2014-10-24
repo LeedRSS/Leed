@@ -118,13 +118,25 @@ html, body { position: relative; height: 100%; }
     MOBILE: Menu
    ============== */
 
-code{
+pre{
     padding:5px;
     color:#f16529;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
     display:block;
+    margin:5px;
+    font-size:12px;
+    font-family:Courier,Verdana,Arial;
+    background:#FFEBE2;
+}
+
+code{
+    padding:5px;
+    color:#f16529;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
     margin:5px;
     font-size:12px;
     font-family:Courier,Verdana,Arial;
