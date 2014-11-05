@@ -4,7 +4,7 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-    <title>Leed</title>
+    <title>{$delimiter=' · '}{if="isset($currentFeed)"}{$currentFeed->getName()}{$delimiter}{/if}{if="isset($currentFolder)"}{$currentFolder->getName()}{$delimiter}{/if}Leed</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=100,chrome=1">
     <meta name="description" content="Agrégateur de flux RSS Leed">
