@@ -13,6 +13,9 @@ $languageList = $i18n->languages;
 $tpl->assign('languageList',$languageList);
 $tpl->assign('currentLanguage',$configurationManager->get('language'));
 
+$wrongLogin = !empty($wrongLogin);
+$tpl->assign('wrongLogin',$wrongLogin);
+
 // gestion des thèmes
 $themesDir = 'templates/';
 $dirs = scandir($themesDir);
