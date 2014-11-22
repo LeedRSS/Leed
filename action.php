@@ -47,6 +47,7 @@ switch ($action){
                 <div class="sync">';
         $synchronisationType = $configurationManager->get('synchronisationType');
 
+        $synchronisationCustom = array();
         if('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
             $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
@@ -57,7 +58,7 @@ switch ($action){
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
         }
 
-            $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager);
+            $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
     break;
 
 

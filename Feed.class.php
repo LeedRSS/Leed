@@ -235,9 +235,10 @@ class Feed extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*'){
+    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+        $filter['feed'] = $this->getId();
         $eventManager = new Event();
-        $events = $eventManager->loadAllOnlyColumn($columns,array('feed'=>$this->getId()),$order,$start.','.$limit);
+        $events = $eventManager->loadAllOnlyColumn($columns,$filter,$order,$start.','.$limit);
         return $events;
     }
 
@@ -306,7 +307,7 @@ class Feed extends MysqlEntity{
         return $this->rowCount(array('url' => $this->url)) == 0;
     }
 
-    public function synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager) {
+    public function synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start) {
         $currentDate = date('d/m/Y H:i:s');
         if (!$commandLine) {
             echo "<p>{$syncTypeStr} {$currentDate}</p>\n";

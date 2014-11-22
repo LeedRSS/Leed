@@ -11,12 +11,14 @@ include ('common.php');
 Plugin::callHook("index_pre_treatment", array(&$_));
 
 $view = "article";
+$articleConf = array();
 //recuperation de tous les flux
 $allFeeds = $feedManager->getFeedsPerFolder();
 $tpl->assign('allFeeds',$allFeeds);
-$tpl->assign('scrollpage',$_['scroll']);
+$scroll = isset($_['scroll']) ? $_['scroll'] : 0;
+$tpl->assign('scrollpage',$scroll);
 // récupération des variables pour l'affichage
-$articlePerPages = $configurationManager->get('articlePerPages');
+$articleConf['articlePerPages'] = $configurationManager->get('articlePerPages');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
@@ -30,9 +32,10 @@ $tpl->assign('articleDisplayDate',$articleDisplayDate);
 $tpl->assign('articleDisplayLink',$articleDisplayLink);
 $tpl->assign('articleDisplayMode',$articleDisplayMode);
 
-
-$hightlighted = $_['hightlighted'];
-$tpl->assign('hightlighted',$hightlighted);
+if(isset($_['hightlighted'])) {
+    $hightlighted = $_['hightlighted'];
+    $tpl->assign('hightlighted',$hightlighted);
+}
 
 $tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
@@ -44,43 +47,46 @@ if($articleDisplayDate) $target .= '`'.MYSQL_PREFIX.'event`.`pubdate`,';
 if($articleDisplayAuthor) $target .= '`'.MYSQL_PREFIX.'event`.`creator`,';
 $target .= '`'.MYSQL_PREFIX.'event`.`id`';
 
-$startArticle = ($_['scroll']*$articlePerPages)-$_['nblus'];
-if ($startArticle < 0) $startArticle=0;
+$nblus = isset($_['nblus']) ? $_['nblus'] : 0;
+$articleConf['startArticle'] = ($scroll*$articleConf['articlePerPages'])-$nblus;
+if ($articleConf['startArticle'] < 0) $articleConf['startArticle']=0;
 $action = $_['action'];
 $tpl->assign('action',$action);
 
+$filter = array();
 switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
     case 'selectedFeed':
         $currentFeed = $feedManager->getById($_['feed']);
         $allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
         $order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['unread']);
-        $events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
+        $events = $currentFeed->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);
         if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` asc';}
-        $events = $currentFolder->getEvents($startArticle,$articlePerPages,$order,$target);
+        $events = $currentFolder->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS FAVORIS */
     case 'favorites':
-        $events = $eventManager->loadAllOnlyColumn($target,array('favorite'=>1),'pubdate DESC',$startArticle.','.$articlePerPages);
+        $filter['favorite'] = 1;
+        $events = $eventManager->loadAllOnlyColumn($target,$filter,'pubdate DESC',$articleConf['startArticle'].','.$articleConf['articlePerPages']);
     break;
     /* AFFICHAGE DES EVENEMENTS NON LUS (COMPORTEMENT PAR DEFAUT) */
     case 'unreadEvents':
     default:
-        $filter = array('unread'=>1);
+        $filter['unread'] = 1;
         if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
         if($optionFeedIsVerbose) {
-            $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
+            $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$articleConf['startArticle'].','.$articleConf['articlePerPages']);
         } else {
-            $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
+            $events = $eventManager->getEventsNotVerboseFeed($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target);
         }
         break;
 }
 $tpl->assign('events',$events);
-$tpl->assign('scroll',$_['scroll']);
+$tpl->assign('scroll',$scroll);
 $view = "article";
 Plugin::callHook("index_post_treatment", array(&$events));
 $html = $tpl->draw($view);
