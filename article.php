@@ -54,6 +54,7 @@ $action = $_['action'];
 $tpl->assign('action',$action);
 
 $filter = array();
+Plugin::callHook("article_pre_action", array(&$_,&$filter,&$articleConf));
 switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
     case 'selectedFeed':

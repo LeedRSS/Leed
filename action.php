@@ -48,6 +48,7 @@ switch ($action){
         $synchronisationType = $configurationManager->get('synchronisationType');
 
         $synchronisationCustom = array();
+        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom));
         if('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
             $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
