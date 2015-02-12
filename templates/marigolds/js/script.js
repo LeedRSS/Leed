@@ -146,7 +146,8 @@ function scrollInfini() {
         // On teste si ajaxready vaut false, auquel cas on stoppe la fonction
         if ($(window).data('ajaxready') == false) return;
 
-        if(($(window).scrollTop() + $(window).height()) + 50 >= $(document).height()
+        if($('section.eventSelected').height() + $('section.eventSelected').position().top >= $('article').height()
+           || ($(window).scrollTop() + $(window).height()) + 50 >= $(document).height()
            || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
         {
             // lorsqu'on commence un traitement, on met ajaxready à false
