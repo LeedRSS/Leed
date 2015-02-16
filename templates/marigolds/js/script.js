@@ -212,15 +212,12 @@ function installPlugin(url){
 
 function scrollInfini() {
     var deviceAgent = navigator.userAgent.toLowerCase();
-    var agentID = deviceAgent.match(/(iphone|ipod|ipad)/);
 
     if($('.index').length) {
         // On teste si ajaxready vaut false, auquel cas on stoppe la fonction
         if ($(window).data('ajaxready') == false) return;
 
-        if($('section.eventSelected').height() + $('section.eventSelected').position().top >= $('article').height()
-           || ($(window).scrollTop() + $(window).height()) + 50 >= $(document).height()
-           || agentID && ($(window).scrollTop() + $(window).height()) + 150 > $(document).height())
+        if(isIntoView($($('section:last'))))
         {
             // lorsqu'on commence un traitement, on met ajaxready à false
             $(window).data('ajaxready', false);
@@ -788,7 +785,6 @@ function toggleOptionFeedVerbose(button,action){
         }
     });
 }
-<<<<<<< HEAD
 
 // fonction d'ajout ou de retrait d'un article dans les compteurs
 // operator = '-' pour les soustraction '+' pour les ajouts
@@ -848,4 +844,9 @@ function addOrRemoveFeedNumber(operator){
             }
         }
     }
+}
+function isIntoView(elem){
+    var windowEl = $(window);
+    // ( windowScrollPosition + windowHeight ) > last entry top position
+    return ( windowEl.scrollTop() + windowEl.height()  ) > $('section:last').offset().top;
 }
