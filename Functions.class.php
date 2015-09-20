@@ -21,7 +21,7 @@ class Functions
 
     public static function secure($var,$level = 1){
         $var = htmlspecialchars($var, ENT_QUOTES, "UTF-8");
-        if($level<1)$var = mysql_real_escape_string($var);
+        if($level<1)$var = mysqli_real_escape_string($var);
         if($level<2)$var = addslashes($var);
         return $var;
     }
@@ -348,10 +348,9 @@ class Functions
         /* Méthode hors des classes dédiées aux BDD afin de supporter le moins
            de dépendances possibles. En particulier, pas besoin que le fichier
            de configuration existe. */
-        $link = mysql_connect($server, $login, $pass);
+        $link = mysqli_connect($server, $login, $pass, $db);
         if (false===$link) return false;
-        if (!is_null($db) && false===mysql_select_db($db, $link)) return false;
-        mysql_close($link);
+        mysqli_close($link);
         return true;
     }
 

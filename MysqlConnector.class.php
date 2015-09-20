@@ -16,11 +16,12 @@ class MysqlConnector
     private $bdd;
     private $port;
     public $debug=0;
-    private $connection = null;
+    public $connection = null;
     public static $instance = null;
 
-    private function __construct(){
-        $this->connect();
+    public function __construct(){
+        $this->connection = new mysqli(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP,MYSQL_BDD);
+        $this->connection->query('SET NAMES utf8');
     }
 
 
@@ -40,16 +41,6 @@ class MysqlConnector
         }
         return MysqlConnector::$instance;
     }
-
-
-
-    public function connect(){
-        // @TODO use PDO or mysqli
-        $this->connection = @mysql_connect(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP);
-        mysql_query('SET NAMES utf8');
-        mysql_select_db(MYSQL_BDD,$this->connection);
-    }
-
 
 
     public function __toString(){
