@@ -38,13 +38,14 @@ switch ($action){
         }
         Functions::triggerDirectOutput();
 
-        if (!$commandLine)
+        if (!$commandLine){
             echo '<html>
                 <head>
                 <link rel="stylesheet" href="./templates/'.$theme.'/css/style.css">
                 </head>
                 <body>
                 <div class="sync">';
+        }
         $synchronisationType = $configurationManager->get('synchronisationType');
 
         $synchronisationCustom = array();

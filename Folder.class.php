@@ -33,17 +33,16 @@ class Folder extends MysqlEntity{
         $filter['folder'] = $this->getId();
         $whereClause = $this->getWhereClause($filter,'=');
 
-        $eventManager = new Event();
         $objects = array();
-        $results = $this->customQuery(
+        $query = 
             'SELECT '.$columns.' '.
             'FROM `'.MYSQL_PREFIX.'event` '.
             'INNER JOIN `'.MYSQL_PREFIX.'feed` '.
             'ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) '.
             $whereClause.' '.
             'ORDER BY '.$order.' '.
-            'LIMIT '.$start.','.$limit
-        );
+            'LIMIT '.$start.','.$limit;
+        $results = $this->customQuery($query);
         if($results!=false){
             while($item = $results->fetch_array()){
                 $object = new Event();
