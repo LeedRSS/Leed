@@ -98,7 +98,7 @@
                                         <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
                                         <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n'+getFeedName({$value2->getId()}))){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
                                     </div>
-                                    <div class="feedAction"">
+                                    <div class="feedAction">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
                                             {loop="$folders"}
                                             <option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
@@ -342,7 +342,7 @@
 
 
 
-                {function="Plugin::callHook("setting_post_section", array(&$myUser))"}
+                {function="Plugin::callHook("setting_post_section", array(&$myUser,&$feeds))"}
             </article>
 
 

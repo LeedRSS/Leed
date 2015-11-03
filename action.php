@@ -49,8 +49,11 @@ switch ($action){
         $synchronisationType = $configurationManager->get('synchronisationType');
 
         $synchronisationCustom = array();
-        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom));
-        if('graduate'==$synchronisationType){
+        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom,&$synchronisationType,&$commandLine,$configurationManager,$start));
+        if(isset($synchronisationCustom['type'])){
+            $feeds = $synchronisationCustom['feeds'];
+            $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t($synchronisationCustom['type']);
+        }elseif('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
             $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
@@ -60,7 +63,9 @@ switch ($action){
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
         }
 
+        if(!isset($synchronisationCustom['no_normal_synchronize'])){
             $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
+        }
     break;
 
 

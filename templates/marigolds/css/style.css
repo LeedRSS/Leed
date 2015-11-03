@@ -775,11 +775,8 @@ footer a,#main aside a{
     box-shadow: 0 0 3px 0 #810000;
 }
 
-.errorSync a{
-    color:#ffffff;
-}
-
-#main article a.inError {
+.errorSync a,
+#main .errorSync a{
     color:#ffffff;
 }
 
