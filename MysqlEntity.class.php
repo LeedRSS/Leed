@@ -184,8 +184,8 @@ class MysqlEntity
     * @param  Aucun
     * @return Aucun retour
     */
-    public function save(){
-        if(isset($this->id)){
+    public function save($id_field='id'){
+        if(isset($this->$id_field)){
             $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
             $query .= ' SET ';
 
@@ -196,7 +196,7 @@ class MysqlEntity
                 $query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
             }
 
-            $query .= ' WHERE `id`="'.$this->id.'";';
+            $query .= ' WHERE `'.$id_field.'`="'.$this->$id_field.'";';
         }else{
             $query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
             $i=false;
@@ -215,7 +215,7 @@ class MysqlEntity
         }
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
-        $this->id =  (!isset($this->id)?$this->dbconnector->connection->insert_id:$this->id);
+        $this->$id_field =  (!isset($this->$id_field)?$this->dbconnector->connection->insert_id:$this->$id_field);
     }
 
     /**
