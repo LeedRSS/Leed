@@ -14,7 +14,7 @@ require_once('MysqlConnector.class.php');
 class MysqlEntity
 {
 
-    private $dbconnector = false;
+    protected $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;
 
