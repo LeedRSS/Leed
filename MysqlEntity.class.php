@@ -14,6 +14,7 @@ require_once('MysqlConnector.class.php');
 class MysqlEntity
 {
 
+    private $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;
 
@@ -70,14 +71,14 @@ class MysqlEntity
             case 'timestamp':
             case 'longstring':
             default;
-                $return = mysql_real_escape_string((string)$value);
+                $return = $this->dbconnector->connection->real_escape_string((string)$value);
             break;
         }
         return $return ;
     }
 
     public function __construct(){
-        MysqlConnector::getInstance();
+        $this->dbconnector = MysqlConnector::getInstance();
     }
 
     public function __destruct(){
@@ -96,7 +97,7 @@ class MysqlEntity
     public function destroy($debug=false)
     {
         $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -110,7 +111,7 @@ class MysqlEntity
     public function truncate($debug=false)
     {
         $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -138,7 +139,7 @@ class MysqlEntity
         ENGINE InnoDB,
         DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
         ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -171,7 +172,7 @@ class MysqlEntity
             }
 
             $query .=';';
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
 
         $this->customQuery($query);
     }
@@ -212,9 +213,9 @@ class MysqlEntity
 
             $query .=');';
         }
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
-        $this->id =  (!isset($this->id)?mysql_insert_id():$this->id);
+        $this->id =  (!isset($this->id)?$this->dbconnector->connection->insert_id:$this->id);
     }
 
     /**
@@ -241,7 +242,7 @@ class MysqlEntity
             if($i){$query .='AND ';}else{$i=true;}
             $query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
         }
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
     }
 
@@ -288,9 +289,9 @@ class MysqlEntity
             if($limit!=null) $query .='LIMIT '.$limit.' ';
             $query .=';';
 
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
-            $execQuery = $this->customQuery($query);
-            while($queryReturn = mysql_fetch_assoc($execQuery)){
+            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+            $result = $this->customQuery($query);
+            while($queryReturn = $result->fetch_assoc()){
 
                 $object = new $this->CLASS_NAME();
                 foreach($this->object_fields as $field=>$type){
@@ -358,9 +359,9 @@ class MysqlEntity
             }
         }
         $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
-        $number = mysql_fetch_array($myQuery);
+        $number = $myQuery->fetch_array();
         return $number[0];
     }
 
@@ -383,27 +384,23 @@ class MysqlEntity
             $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
         }
         $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.mysql_error();
+        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
 
     }
 
     ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
     public function customExecute($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.mysql_error();
-        $result = mysql_query($request);
+        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
+        $result = $this->dbconnector->connection->query($request);
         if (false===$result) {
-            throw new Exception(mysql_error());
+            throw new Exception($this->dbconnector->connection->error);
         }
         return $result;
     }
     public function customQuery($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.mysql_error();
-        $result = mysql_query($request);
-        if (false===$result) {
-            throw new Exception(mysql_error());
-        }
-        return $result;
+        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
+        return $this->dbconnector->connection->query($request);
     }
 
 
@@ -442,7 +439,7 @@ class MysqlEntity
     public function tableExists() {
         $table = '`'.MYSQL_PREFIX.$this->TABLE_NAME.'';
         $result = $this->customQuery("SHOW TABLES LIKE '$table'");
-        $assoc = mysql_fetch_assoc($result);
+        $assoc = $result->fetch_assoc();
         return false===$assoc ? false : true;
     }
 }

@@ -92,10 +92,10 @@ if(!is_writable('./')){
 }else{
     $test[$lib_success][]=_t('INSTALL_INFO_RIGHT');
 }
-if (!@function_exists('mysql_connect')){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_MYSQLCONNECT');
+if (!@function_exists('mysqli_connect')){
+    $test[$lib_errors][] = _t('INSTALL_ERROR_MYSQLICONNECT');
 }else{
-    $test[$lib_success][] = _t('INSTALL_INFO_MYSQLCONNECT');
+    $test[$lib_success][] = _t('INSTALL_INFO_MYSQLICONNECT');
 }
 if (!@function_exists('file_get_contents')){
     $test[$lib_errors][] =  _t('INSTALL_ERROR_FILEGET');

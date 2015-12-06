@@ -246,7 +246,7 @@ class Feed extends MysqlEntity{
         $results = Feed::customQuery("SELECT COUNT(`".MYSQL_PREFIX."event`.`id`), `".MYSQL_PREFIX."event`.`feed` FROM `".MYSQL_PREFIX."event` WHERE `".MYSQL_PREFIX."event`.`unread` = 1 GROUP BY `".MYSQL_PREFIX."event`.`feed`") ;
         if($results!=false){
             $total = 0;
-            while($item = mysql_fetch_array($results)){
+            while($item = $results->fetch_array()){
                 $unreads[$item[1]] = $item[0];
                 $total += $item[0];
             }
@@ -261,7 +261,7 @@ class Feed extends MysqlEntity{
 
         $results = Feed::customQuery("SELECT `".MYSQL_PREFIX."feed`.`name` AS name, `".MYSQL_PREFIX."feed`.`id`   AS id, `".MYSQL_PREFIX."feed`.`url`  AS url, `".MYSQL_PREFIX."folder`.`id` AS folder FROM `".MYSQL_PREFIX."feed` INNER JOIN `".MYSQL_PREFIX."folder` ON ( `".MYSQL_PREFIX."feed`.`folder` = `".MYSQL_PREFIX."folder`.`id` ) ORDER BY `".MYSQL_PREFIX."feed`.`name` ;");
         if($results!=false){
-            while($item = mysql_fetch_array($results)){
+            while($item = $results->fetch_array()){
                 $name = $item['name'];
                 $feedsIdMap[$item['id']]['name'] = $name;
 

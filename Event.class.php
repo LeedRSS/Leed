@@ -52,7 +52,7 @@ class Event extends MysqlEntity{
     function getEventCountPerFolder(){
         $events = array();
         $results = $this->customQuery('SELECT COUNT(`'.MYSQL_PREFIX.$this->TABLE_NAME.'`.`id`),`'.MYSQL_PREFIX.'feed`.`folder` FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`.`unread`=1 GROUP BY `'.MYSQL_PREFIX.'feed`.`folder`');
-        while($item = mysql_fetch_array($results)){
+        while($item = $results->fetch_array()){
             $events[$item[1]] = $item[0];
         }
 
@@ -61,7 +61,7 @@ class Event extends MysqlEntity{
 
     function getEventCountNotVerboseFeed(){
         $results = $this->customQuery('SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`isverbose`=0');
-        while($item = mysql_fetch_array($results)){
+        while($item = $results->fetch_array()){
             $nbitem =  $item[0];
         }
 
@@ -73,7 +73,7 @@ class Event extends MysqlEntity{
         $objects = array();
         $results = $this->customQuery('SELECT '.$columns.' FROM `'.MYSQL_PREFIX.'event` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.'event`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`isverbose` = 0 ORDER BY '.$order.' LIMIT '.$start.','.$limit);
         if($results!=false){
-            while($item = mysql_fetch_array($results)){
+            while($item = $results->fetch_array()){
                 $object = new Event();
                 foreach($object->getObject_fields() as $field=>$type){
                     $setter = 'set'.ucFirst($field);
