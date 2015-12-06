@@ -442,5 +442,13 @@ class MysqlEntity
         $assoc = $result->fetch_assoc();
         return false===$assoc ? false : true;
     }
+
+    /**
+    * Protège les requêtes contre l'injection
+    */
+    public function escape_string($argument) {
+        return $this->dbconnector->connection->escape_string($argument);
+    }
+
 }
 ?>
