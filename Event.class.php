@@ -53,7 +53,7 @@ class Event extends MysqlEntity{
         $events = array();
         $results = $this->customQuery('SELECT COUNT(`'.MYSQL_PREFIX.$this->TABLE_NAME.'`.`id`),`'.MYSQL_PREFIX.'feed`.`folder` FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`.`unread`=1 GROUP BY `'.MYSQL_PREFIX.'feed`.`folder`');
         while($item = $results->fetch_array()){
-            $events[$item[1]] = $item[0];
+            $events[$item[1]] = intval($item[0]);
         }
 
         return $events;
