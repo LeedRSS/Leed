@@ -850,3 +850,7 @@ function isIntoView(elem){
     // ( windowScrollPosition + windowHeight ) > last entry top position
     return ( windowEl.scrollTop() + windowEl.height()  ) > $('section:last').offset().top;
 }
+
+function getFeedName(id){
+    return $('[data-feed-id='+id+']').html();
+}
