@@ -90,16 +90,9 @@
                             {if="count($feeds)!=0"}
                             {loop="$feedsForFolder"}
                                 {$feedName=Functions::truncate($value2->getName(),40)}
-                                {if="$value->getLastSyncInError()==0"}
-                                <li class="feedListItem">
-                                    <span class="feedTitle js-feedTitle">
-                                        <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
-                                {else}
-                                <!-- feed dernière synchro en erreur -->
-                                <li class="feedListItem errorSync">
-                                    <span class="feedTitle js-feedTitle" title="{function="_t('SYNCHRONISATION_ERROR')"}">
-                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
-                                {/if}
+                                <li class="feedListItem{if="$value->getLastSyncInError()==1"} errorSync{/if}">
+                                    <span class="feedTitle js-feedTitle"{if="$value->getLastSyncInError()==1"} title="{function="_t('SYNCHRONISATION_ERROR')"}"{/if}>
+                                        <a{if="$value->getLastSyncInError()==1"} class="inError"{/if} href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                     </span>
                                     <div class="feedButtons">
                                         <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
