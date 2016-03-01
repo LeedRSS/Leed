@@ -210,7 +210,16 @@ function jsonp(data){
 }
 
 function installPlugin(url){
-    $('#resultsPlugin').load('action.php?action=installPlugin&zip='+encodeURIComponent(url));
+    $.ajax({
+        url: 'action.php?action=installPlugin&zip='+encodeURIComponent(url)
+    })
+        .done(function(data) {
+            var items = '';
+            $($.parseJSON(data)).each(function(key, val){
+                items += "<p>"+val+"</p>";
+            });
+            $('#resultsPlugin').html(items);
+        })
 }
 
 /** FIN MARKET & PLUGINS **/

@@ -8,6 +8,9 @@
 
 require_once('header.php');
 
+$logger = new Logger('settings');
+$tpl->assign('logs',$logger->loadLogs());
+
 // gestion de la langue
 $languageList = $i18n->languages;
 $tpl->assign('languageList',$languageList);

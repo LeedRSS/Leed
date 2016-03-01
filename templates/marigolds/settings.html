@@ -31,6 +31,14 @@
             </div>
             <article>
 
+            {if="$logs"}
+                <section>
+                    <h2>{function="_t('LOG')"}</h2>
+                    {loop="$logs"}
+                        <div>{$value}</div>
+                    {/loop}
+                </section>
+            {/if}
 
             <section class="manageBloc">
 

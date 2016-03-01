@@ -181,7 +181,12 @@ class Plugin{
         }else{
             $logger->appendLogs('Echec du téléchargement <span class="readUnreadButton">Erreur</span>');
         }
-        $logger->save();
+        if(Functions::isAjaxCall()){
+            echo json_encode($logger->getLogs(), JSON_HEX_QUOT | JSON_HEX_TAG);
+        } else {
+            $logger->save();
+            header('location: ./settings.php#pluginBloc');
+        }
     }
 
     public static function addHook($hookName, $functionName) {
