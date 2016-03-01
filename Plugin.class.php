@@ -125,7 +125,8 @@ class Plugin{
     public static function install($url) {
         $pluginBaseFolder = str_replace('/', '', self::FOLDER).'/';
         $tempZipName = $pluginBaseFolder.md5(microtime());
-        echo '<br/>Téléchargement du plugin...';
+        $logger = new Logger('settings');
+        $logger->appendLogs('Téléchargement du plugin...');
         $context = stream_context_create(
                 array (
                     'http' => array (
@@ -136,8 +137,8 @@ class Plugin{
             );
         file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, $context);
         if(file_exists($tempZipName)){
-            echo '<br/>Plugin téléchargé <span class="label label-success">OK</span>';
-            echo '<br/>Extraction du plugin...';
+            $logger->appendLogs('Plugin téléchargé <span class="label label-success">OK</span>');
+            $logger->appendLogs('Extraction du plugin...');
             $zip = new ZipArchive;
             $res = $zip->open($tempZipName);
             if ($res === TRUE) {
@@ -145,7 +146,7 @@ class Plugin{
                 $pluginFolder = $tempZipFolder;
                 $zip->extractTo($tempZipFolder);
                 $zip->close();
-                echo '<br/>Plugin extrait <span class="readUnreadButton">OK</span>';
+                $logger->appendLogs('Plugin extrait <span class="readUnreadButton">OK</span>');
                 $fi = new FilesystemIterator($tempZipFolder, FilesystemIterator::SKIP_DOTS);
                 if(iterator_count($fi)) {
                     foreach($fi as $file){
@@ -159,27 +160,28 @@ class Plugin{
                 if(count($pluginName)>0){
                     $pluginName = str_replace(array($pluginFolder.'/','.enabled','.disabled','.plugin','.php'),'',$pluginName[0]);
                     if(!file_exists($pluginBaseFolder.$pluginName)){
-                        echo '<br/>Renommage...';
+                        $logger->appendLogs('Renommage...');
                         if(rename($pluginFolder,$pluginBaseFolder.$pluginName)){
-                            echo '<br/>Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>';
+                            $logger->appendLogs('Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>');
                         }else{
                             Functions::rmFullDir($pluginFolder);
-                            echo '<br/>Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>';
+                            $logger->appendLogs('Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>');
                         }
                     }else{
-                        echo '<br/>Plugin déjà installé <span class="readUnreadButton">OK</span>';
+                        $logger->appendLogs('Plugin déjà installé <span class="readUnreadButton">OK</span>');
                     }
                 }else{
-                    echo '<br/>Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>';
+                    $logger->appendLogs('Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>');
                 }
 
             } else {
-                echo '<br/>Echec de l\'extraction <span class="readUnreadButton">Erreur</span>';
+                $logger->appendLogs('Echec de l\'extraction <span class="readUnreadButton">Erreur</span>');
             }
             unlink($tempZipName);
         }else{
-            echo '<br/>Echec du téléchargement <span class="readUnreadButton">Erreur</span>';
+            $logger->appendLogs('Echec du téléchargement <span class="readUnreadButton">Erreur</span>');
         }
+        $logger->save();
     }
 
     public static function addHook($hookName, $functionName) {
