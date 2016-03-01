@@ -556,63 +556,7 @@ switch ($action){
 
     //Installation d'un nouveau plugin
     case 'installPlugin':
-    $pluginBaseFolder = str_replace('/', '', Plugin::FOLDER).'/';
-    $tempZipName = $pluginBaseFolder.md5(microtime());
-    echo '<br/>Téléchargement du plugin...';
-        $context = stream_context_create(
-                array (
-                    'http' => array (
-                        'follow_location' => true,
-                        'user_agent' => $_SERVER['HTTP_USER_AGENT']
-                    )
-                )
-            );
-    file_put_contents($tempZipName,file_get_contents(urldecode($_['zip'])), false, $context);
-    if(file_exists($tempZipName)){
-        echo '<br/>Plugin téléchargé <span class="label label-success">OK</span>';
-        echo '<br/>Extraction du plugin...';
-        $zip = new ZipArchive;
-        $res = $zip->open($tempZipName);
-        if ($res === TRUE) {
-            $tempZipFolder = $tempZipName.'_';
-            $pluginFolder = $tempZipFolder;
-            $zip->extractTo($tempZipFolder);
-            $zip->close();
-            echo '<br/>Plugin extrait <span class="readUnreadButton">OK</span>';
-            $fi = new FilesystemIterator($tempZipFolder, FilesystemIterator::SKIP_DOTS);
-            if(iterator_count($fi)) {
-                foreach($fi as $file){
-                    $filename = $file->getFilename();
-                    $pluginFolder = $pluginBaseFolder.$filename;
-                    rename($tempZipFolder.'/'.$filename, $pluginFolder);
-                    rmdir($tempZipFolder);
-                }
-            }
-            $pluginName = glob($pluginFolder.'/*.plugin*.php');
-            if(count($pluginName)>0){
-            $pluginName = str_replace(array($pluginFolder.'/','.enabled','.disabled','.plugin','.php'),'',$pluginName[0]);
-                if(!file_exists($pluginBaseFolder.$pluginName)){
-                    echo '<br/>Renommage...';
-                    if(rename($pluginFolder,$pluginBaseFolder.$pluginName)){
-                        echo '<br/>Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>';
-                    }else{
-                        Functions::rmFullDir($pluginFolder);
-                        echo '<br/>Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>';
-                    }
-                }else{
-                    echo '<br/>Plugin déjà installé <span class="readUnreadButton">OK</span>';
-                }
-            }else{
-                echo '<br/>Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>';
-            }
-
-        } else {
-          echo '<br/>Echec de l\'extraction <span class="readUnreadButton">Erreur</span>';
-        }
-         unlink($tempZipName);
-        }else{
-            echo '<br/>Echec du téléchargement <span class="readUnreadButton">Erreur</span>';
-        }
+        Plugin::install($_['zip']);
     break;
 }
 
