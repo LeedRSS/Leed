@@ -366,5 +366,12 @@ class Functions
         foreach($chunks as $chunk) $languages []= substr($chunk, 0, 2);
         return array_unique($languages);
     }
+
+    /**
+    * @return boolean
+    */
+    public static function isAjaxCall() {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
 }
 ?>

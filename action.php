@@ -11,7 +11,6 @@ require_once("common.php");
 
 ///@TODO: déplacer dans common.php?
 $commandLine = 'cli'==php_sapi_name();
-$ajaxCall = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
 if ($commandLine) {
     $action = 'commandLine';
@@ -77,7 +76,7 @@ switch ($action){
         if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
         if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
         $eventManager->change(array('unread'=>'0'),$whereClause);
-        if(!$ajaxCall){
+        if(!Functions::isAjaxCall()){
             header('location: ./index.php');
         }
     break;
@@ -93,7 +92,7 @@ switch ($action){
             $eventManager->change(array('unread'=>'0'),$whereClause);
         }
 
-        if (!$ajaxCall){
+        if (!Functions::isAjaxCall()){
             header('location: ./index.php');
         }
 
