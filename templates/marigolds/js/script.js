@@ -45,6 +45,10 @@ $(document).ready(function(){
 
         if ($(window).scrollTop()==0) scrollInfini();
     }
+
+    $('[data-toggle-group]').click(function(){
+        toggleTab($(this));
+    });
     //alert(_t('IDENTIFIED_WITH',['idleman']));
 
     // focus sur l'input du login
@@ -151,17 +155,19 @@ $(window).scroll(function(){
 
 /** SECTION MARKET & PLUGINS **/
 
-function togglePluginMenu(element,page){
-    $(element).parent().find('li').removeClass('selected');
-    $(element).addClass('selected');
-    if(page=='market'){
-        $('.marketZone').fadeIn(300);
-        $('.installedZone').hide();
+function toggleTab(el){
+    var tab = el.data('toggle-tab'),
+        group = el.data('toggle-group');
+    el.parent().find('li').removeClass('selected');
+    el.addClass('selected');
+    $('[data-zone='+tab+'][data-group='+group+']').fadeIn( 300, function() {
+        $(this).attr('aria-hidden', 'false');
+    });
+    $('[data-group='+group+'][aria-hidden="false"]').hide( 400, function() {
+        $(this).attr('aria-hidden', 'true');
+    });
+    if(tab==='market'){
         $('#btnSearchPlugin').trigger("click");
-
-    }else{
-        $('.marketZone').hide();
-        $('.installedZone').fadeIn(300);
     }
 }
 
