@@ -75,6 +75,7 @@ switch ($action){
         $whereClause = array();
         $whereClause['unread'] = '1';
         if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
+        if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
         $eventManager->change(array('unread'=>'0'),$whereClause);
         if(!$ajaxCall){
             header('location: ./index.php');
@@ -87,7 +88,9 @@ switch ($action){
         $feeds = $feedManager->loadAllOnlyColumn('id',array('folder'=>$_['folder']));
 
         foreach($feeds as $feed){
-            $eventManager->change(array('unread'=>'0'),array('feed'=>$feed->getId()));
+            $whereClause['feed'] = $feed->getId();
+            if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
+            $eventManager->change(array('unread'=>'0'),$whereClause);
         }
 
         if (!$ajaxCall){

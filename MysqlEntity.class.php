@@ -235,13 +235,8 @@ class MysqlEntity
             if($i){$query .=',';}else{$i=true;}
             $query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
         }
-        $query .=' WHERE ';
+        $query .= $this->getWhereClause($columns2, $operation);
 
-        $i = false;
-        foreach ($columns2 as $column=>$value){
-            if($i){$query .='AND ';}else{$i=true;}
-            $query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
-        }
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
     }
