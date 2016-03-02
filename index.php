@@ -62,7 +62,7 @@ $target .= '`'.MYSQL_PREFIX.'event`.`id`';
 $tpl->assign('target',$target);
 $tpl->assign('feeds','');
 $tpl->assign('order','');
-$tpl->assign('unreadEventsForFolder','');
+$tpl->assign('unreadEventsForFolder',0);
 $pagesArray = array();
 
 switch($action){

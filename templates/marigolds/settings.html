@@ -96,7 +96,7 @@
                                         <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
                                         <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n'+getFeedName({$value2->getId()}))){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
                                     </div>
-                                    <div class="feedAction"">
+                                    <div class="feedAction">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
                                             {loop="$folders"}
                                             <option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
@@ -173,6 +173,7 @@
                         <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
                             {function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
                         <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
+                        {function="Plugin::callHook("setting_post_synchronisation_options", array($synchronisationType))"}
 
                         <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
                         {$synchronisationCode}
@@ -339,7 +340,7 @@
 
 
 
-                {function="Plugin::callHook("setting_post_section", array(&$myUser))"}
+                {function="Plugin::callHook("setting_post_section", array(&$myUser,&$feeds))"}
             </article>
 
 

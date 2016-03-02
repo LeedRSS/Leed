@@ -235,9 +235,10 @@ class Feed extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*'){
+    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+        $filter['feed'] = $this->getId();
         $eventManager = new Event();
-        $events = $eventManager->loadAllOnlyColumn($columns,array('feed'=>$this->getId()),$order,$start.','.$limit);
+        $events = $eventManager->loadAllOnlyColumn($columns,$filter,$order,$start.','.$limit);
         return $events;
     }
 
@@ -304,6 +305,96 @@ class Feed extends MysqlEntity{
     /** @returns vrai si l'url n'est pas déjà connue .*/
     function notRegistered() {
         return $this->rowCount(array('url' => $this->url)) == 0;
+    }
+
+    public function synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start) {
+        $currentDate = date('d/m/Y H:i:s');
+        if (!$commandLine) {
+            echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
+            echo "<dl>\n";
+        } else {
+            echo "{$syncTypeStr}\t{$currentDate}\n";
+        }
+        $maxEvents = $configurationManager->get('feedMaxEvents');
+        $nbErrors = 0;
+        $nbOk = 0;
+        $nbTotal = 0;
+        $localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+        $nbTotalEvents = 0;
+        $syncId = time();
+        $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
+        $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+
+        foreach ($feeds as $feed) {
+            $nbEvents = 0;
+            $nbTotal++;
+            $startLocal = microtime(true);
+            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
+            $parseTime = microtime(true)-$startLocal;
+            $localTotal += $parseTime;
+            $parseTimeStr = number_format($parseTime, 3);
+            if ($parseOk) { // It's ok
+                $errors = array();
+                $nbTotalEvents += $nbEvents;
+                $nbOk++;
+            } else {
+                // tableau au cas où il arrive plusieurs erreurs
+                $errors = array($feed->getError());
+
+                $nbErrors++;
+            }
+            $feedName = Functions::truncate($feed->getName(),30);
+            $feedUrl = $feed->getUrl();
+            $feedUrlTxt = Functions::truncate($feedUrl, 30);
+            if ($commandLine) {
+                echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
+                echo "{$feedName}\t{$feedUrlTxt}\n";
+            } else {
+
+                if (!$parseOk) echo '<div class="errorSync">';
+                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+
+            }
+            foreach($errors as $error) {
+                if ($commandLine)
+                    echo "$error\n";
+                else
+                    echo "<dd>$error</dd>\n";
+            }
+            if (!$parseOk && !$commandLine) echo '</div>';
+//             if ($commandLine) echo "\n";
+            $feed->removeOldEvents($maxEvents, $syncId);
+        }
+        assert('$nbTotal==$nbOk+$nbErrors');
+        $totalTime = microtime(true)-$start;
+        assert('$totalTime>=$localTotal');
+        $totalTimeStr = number_format($totalTime, 3);
+        $currentDate = date('d/m/Y H:i:s');
+        if ($commandLine) {
+            echo "\t{$nbErrors}\t"._t('ERRORS')."\n";
+            echo "\t{$nbOk}\t"._t('GOOD')."\n";
+            echo "\t{$nbTotal}\t"._t('AT_TOTAL')."\n";
+            echo "\t$currentDate\n";
+            echo "\t$nbTotalEvents\n";
+            echo "\t{$totalTimeStr}\t"._t('SECONDS')."\n";
+        } else {
+            echo "</dl>\n";
+            echo "<div id='syncSummary'\n";
+            echo "<p>"._t('SYNCHRONISATION_COMPLETE')."</p>\n";
+            echo "<ul>\n";
+            echo "<li>{$nbErrors}\t"._t('ERRORS')."\n";
+            echo "<li>{$nbOk}\t"._t('GOOD')."\n";
+            echo "<li>{$nbTotal}\t"._t('AT_TOTAL')."\n";
+            echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
+            echo "<li>{$nbTotalEvents}\t"._t('NEW_ARTICLES')."\n";
+            echo "</ul>\n";
+            echo "</div>\n";
+        }
+
+        if (!$commandLine) {
+            echo '</div></body></html>';
+        }
+
     }
 
 }
