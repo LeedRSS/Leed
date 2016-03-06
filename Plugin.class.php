@@ -148,7 +148,7 @@ class Plugin{
                 $zip->close();
                 $logger->appendLogs('Plugin extrait <span class="readUnreadButton">OK</span>');
                 $fi = new FilesystemIterator($tempZipFolder, FilesystemIterator::SKIP_DOTS);
-                if(iterator_count($fi)) {
+                if(iterator_count($fi) === 1) {
                     foreach($fi as $file){
                         $filename = $file->getFilename();
                         $pluginFolder = $pluginBaseFolder.$filename;
