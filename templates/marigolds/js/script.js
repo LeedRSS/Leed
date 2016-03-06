@@ -32,6 +32,12 @@ $(document).ready(function(){
             }
         );
 
+        $('[data-zone="installation"] form').submit(function(event){
+            var form = $(this);
+            installPlugin(form.find('[name="zip"]').val(),form);
+            event.preventDefault();
+        });
+
     }else{
 
         targetThisEvent($('article section:first'),true);
@@ -194,7 +200,7 @@ function jsonp(data){
                             <li><h4>Version: </h4><code>'+plugin.version+'</code></li>\
                             <li><h4>Site web: </h4><a href="'+plugin.link+'">'+plugin.link+'</a></li>\
                             <li>'+plugin.description+'</li>\
-                            <li><button class="btn" onclick="installPlugin(\''+plugin.dll+'\');">Installer</button></li>\
+                            <li><button class="btn" onclick="installPlugin(\''+plugin.dll+'\',$(this).parent());">Installer</button></li>\
                         </ul>\
                     </li>';
                     $('#resultsPlugin').append(tpl);
@@ -209,16 +215,25 @@ function jsonp(data){
     }
 }
 
-function installPlugin(url){
+function installPlugin(url,el){
+    var logsContainerClass = 'logs-container',
+        logsContainer = el.find('.'+logsContainerClass),
+        loading = _t('Chargement en cours...');
+    if(logsContainer.length){
+        logsContainer.html(loading);
+    } else {
+        logsContainer = $('<div class="'+logsContainerClass+'">'+loading+'</div>').appendTo(el);
+    }
+
     $.ajax({
         url: 'action.php?action=installPlugin&zip='+encodeURIComponent(url)
     })
         .done(function(data) {
-            var items = '';
+            var text = '';
             $($.parseJSON(data)).each(function(key, val){
-                items += "<p>"+val+"</p>";
+                text += "<p>"+val+"</p>";
             });
-            $('#resultsPlugin').html(items);
+            logsContainer.html(text);
         })
 }
 
