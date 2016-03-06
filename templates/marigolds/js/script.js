@@ -73,11 +73,15 @@ function maj(data){
 }
 
 function _t(key,args){
-    value = i18n[key];
-    if(args!=null){
-        for(i=0;i<args.length;i++){
-            value = value.replace('$'+(i+1),args[i]);
+    var value = i18n[key];
+    if(typeof(value)!=='undefined'){
+        if(args!=null){
+            for(i=0;i<args.length;i++){
+                value = value.replace('$'+(i+1),args[i]);
+            }
         }
+    } else {
+        value = key;
     }
     return value;
 }
