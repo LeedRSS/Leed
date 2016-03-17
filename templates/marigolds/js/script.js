@@ -166,6 +166,9 @@ $(window).scroll(function(){
 /** SECTION MARKET & PLUGINS **/
 
 function toggleTab(el){
+    if(el.hasClass('selected')) {
+        return false;
+    }
     var tab = el.data('toggle-tab'),
         group = el.data('toggle-group');
     el.parent().find('li').removeClass('selected');
