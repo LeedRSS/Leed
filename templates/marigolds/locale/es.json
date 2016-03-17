@@ -107,6 +107,7 @@
  "PLUGINS_INSTALLATION": "Instalación de los complementos",
  "PLUGINS_INSTALL": "Instalar",
  "PLUGINS_INSTALL_FROM_URL": "Instalar desde una URL",
+ "PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET": "Instalar desde el Github Leed Market",
  "PREFERENCES":"Preferencias",
  "PRESENTATION":"PRESENTACIÓN",
  "PRESENTATION_PARAGRAPH":"<b>Leed (contracción de Light Feed)</b> es un agregator RSS minimalista que permite leer sus RSS rapidamente y facilmente.</p><p>Todas las tareas de tratamiento de los RSS se efectuan de manera invisible gracias a una tarea sincronizada (Cron). Así, el usuario no debe sufrir los largos tiempos necesarios para recuperar y tratar los RSS.</p><p>Se debe notar que Leed es compatible con todas las resoluciones, sobre un ordenador, una tablet o un móvil y funciona con todos los navegadores.</p><p>El script también está compatible con los archivos de exportación/importación OPML para permitir una migración rápida y fácil a partir de todos los agregadores que respetan el formato OPML.</p>",

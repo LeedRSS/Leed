@@ -132,15 +132,7 @@ class Plugin{
             $logger->appendLogs('Téléchargement du plugin...');
             $pluginBaseFolder = str_replace('/', '', self::FOLDER).'/';
             $tempZipName = $pluginBaseFolder.md5(microtime());
-            $context = stream_context_create(
-                    array (
-                        'http' => array (
-                            'follow_location' => true,
-                            'user_agent' => $_SERVER['HTTP_USER_AGENT']
-                        )
-                    )
-                );
-            file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, $context);
+            file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, self::getContext());
             if(file_exists($tempZipName)){
                 $logger->appendLogs('Plugin téléchargé <span class="label label-success">OK</span>');
                 $logger->appendLogs('Extraction du plugin...');
@@ -193,6 +185,54 @@ class Plugin{
             $logger->save();
             header('location: ./settings.php#pluginBloc');
         }
+    }
+
+    public function getGithubMarketRepos() {
+        header('Content-Type: application/json');
+        echo json_encode($this->getGithubMarketReposInfos($this->getGithubMarketReposList()));
+    }
+
+    protected function getGithubMarketReposList() {
+        return json_decode(file_get_contents('https://api.github.com/orgs/Leed-market/repos', false, $this->getContext()));
+    }
+
+    protected function getGithubMarketReposInfos($repos) {
+        $infos = array();
+        $installedPluginsNames = $this->getInstalledPluginsNames();
+        foreach($repos as $repo) {
+            $repoName = $repo->name;
+            if(!in_array(strtolower($repoName), $installedPluginsNames)) {
+                $infos[] = array(
+                    'name' => $repoName,
+                    'description' => $repo->description,
+                    'zipUrl' => 'https://github.com/'.$repo->full_name.'/archive/'.$repo->default_branch.'.zip'
+                );
+            }
+        }
+        return $infos;
+    }
+
+    protected function getInstalledPluginsNames() {
+        $names = array();
+        $installedPlugins = self::getAll();
+        if(!$installedPlugins || empty($installedPlugins)) {
+            return $names;
+        }
+        foreach($installedPlugins as $installedPlugin) {
+            $names[] = strtolower($installedPlugin->getName());
+        }
+        return $names;
+    }
+
+    protected static function getContext() {
+        return stream_context_create(
+                array (
+                    'http' => array (
+                        'follow_location' => true,
+                        'user_agent' => $_SERVER['HTTP_USER_AGENT']
+                    )
+                )
+            );
     }
 
     public static function addHook($hookName, $functionName) {

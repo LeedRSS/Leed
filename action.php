@@ -557,6 +557,10 @@ switch ($action){
     case 'installPlugin':
         Plugin::install($_['zip']);
     break;
+    case 'getGithubMarket':
+        $plugin = new Plugin();
+        $plugin->getGithubMarketRepos();
+    break;
 }
 
 

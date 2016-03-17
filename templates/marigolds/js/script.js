@@ -179,6 +179,38 @@ function toggleTab(el){
     if(tab==='market'){
         $('#btnSearchPlugin').trigger("click");
     }
+    if(tab==='installation'){
+        var ghZoneClass = 'gh-leed-market';
+        var ghZone = $('.'+ghZoneClass);
+        if(ghZone.length === 0){
+            ghZone = $('<div class="gh-leed-market">'+_t('LOADING')+'</div>');
+            ghZone.appendTo('[data-zone=installation]');
+        }
+        $.ajax({
+            url: 'action.php?action=getGithubMarket'
+        })
+            .done(function(data) {
+                if(data.length > 0){
+                var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
+                    tpl += '<ul>';
+                    for(i=0;i<data.length;i++){
+                        var plugin = data[i];
+                        tpl +=
+                        '<li>'+
+                            '<ul>'+
+                                '<li><h4>Nom: </h4>'+plugin.name+'</li>'+
+                                '<li>'+plugin.description+'</li>'+
+                                '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
+                            '</ul>'+
+                        '</li>';
+                    }
+                    tpl += '</ul>';
+                    ghZone.html(tpl);
+                } else {
+                    ghZone.remove();
+                }
+            });
+    }
 }
 
 function searchPlugin(keyword){
