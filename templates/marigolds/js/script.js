@@ -182,7 +182,7 @@ function toggleTab(el){
 }
 
 function searchPlugin(keyword){
-    $('#resultsPlugin').html('Chargement en cours...');
+    $('#resultsPlugin').html(_t('LOADING'));
     var baseUrl = (location.protocol == 'https:'?"https://market.idleman.fr:666":"http://market.idleman.fr")
     $.getJSON(baseUrl+"/api.php?s=leed&m=search&k="+keyword+"&callback=?");
 }
@@ -222,7 +222,7 @@ function jsonp(data){
 function installPlugin(url,el){
     var logsContainerClass = 'logs-container',
         logsContainer = el.find('.'+logsContainerClass),
-        loading = _t('Chargement en cours...');
+        loading = _t('LOADING');
     if(logsContainer.length){
         logsContainer.html(loading);
     } else {

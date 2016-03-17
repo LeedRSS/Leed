@@ -297,7 +297,7 @@
                     {if="$myUser!=false"}
                     <ul class="pluginMenu">
                         <li class="selected" data-toggle-group="plugins" data-toggle-tab="installed">Plugins installés</li>
-                        <li data-toggle-group="plugins" data-toggle-tab="installation">{function="_t('PLUGINS_INSTALL')"}</li>
+                        <li data-toggle-group="plugins" data-toggle-tab="installation">{function="_t('PLUGINS_INSTALLATION')"}</li>
                         <li data-toggle-group="plugins" data-toggle-tab="market">Market</li>
                         <div class="clear"></div>
                     </ul>
@@ -335,9 +335,10 @@
 
                     <div data-zone="installation" data-group="plugins" aria-hidden="true">
                         <form action="action.php" method="get">
+                            <h3>{function="_t('PLUGINS_INSTALL_FROM_URL')"}</h3>
                             <input type="text" name="zip" />
                             <input type="hidden" name="action" value="installPlugin" />
-                            <button type="submit">{function="_t('PLUGINS_INTALL')"}</button>
+                            <button type="submit">{function="_t('PLUGINS_INSTALL')"}</button>
                         </form>
                     </div>
 
