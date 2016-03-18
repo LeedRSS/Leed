@@ -283,7 +283,6 @@ switch ($action){
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
         if ($newFeed->notRegistered()) {
-            ///@TODO: avertir l'utilisateur du doublon non ajouté
             $newFeed->getInfos();
             $newFeed->setFolder(
                 (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
@@ -293,6 +292,10 @@ switch ($action){
             $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
             $newFeed->parse(time(), $_, $enableCache, $forceFeed);
             Plugin::callHook("action_after_addFeed", array(&$newFeed));
+        } else {
+            $logger = new Logger('settings');
+            $logger->appendLogs(_t("FEED_ALREADY_STORED"));
+            $logger->save();
         }
         header('location: ./settings.php#manageBloc');
     break;

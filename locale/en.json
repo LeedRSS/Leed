@@ -4,6 +4,7 @@
  "CLIC_HERE_SYNC_IMPORT":"Click here to synchronize your imported feeds.",
  "ERROR":"Errors",
  "ERRORS":"error(s)",
+ "FEED_ALREADY_STORED": "Feed already stored.",
  "FORMAT_DATE_HOURS":"m.d.Y \\a\\t h:i:s A",
  "FULL_SYNCHRONISATION":"Complete synchronization…",
  "GENERAL_FOLDER":"General",
