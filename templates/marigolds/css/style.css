@@ -752,11 +752,14 @@ footer a,#main aside a{
     float:left;
     padding:5px;
     border:none;
-    margin:0;
+    margin:0 2px 0 0;
     cursor:pointer;
     transition: background .2s ease-in;
      background:#222222;
     color:#ffffff;
+}
+.pluginBloc .pluginMenu li:last-of-type{
+    margin-right: 0;
 }
 .pluginMenu li:hover,.pluginMenu li.selected{
    
@@ -829,6 +832,12 @@ footer a,#main aside a{
     }
     .versionBloc{
       display:none;
+    }
+    .pluginBloc .pluginMenu li {
+        float: none;
+        display: block;
+        margin-right: 0;
+        margin-bottom: 3px;
     }
 }
 
