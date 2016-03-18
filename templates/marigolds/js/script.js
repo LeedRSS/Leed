@@ -751,7 +751,7 @@ function toggleArticleDisplayMode(button, target){
 // Disparition block et affichage block clique
 function toggleBlocks(target){
     target=target.substring(1);
-    $('#main article > section').hide();$('.'+target).fadeToggle(200);
+    $('#main article > section').not('.logs').hide();$('.'+target).fadeToggle(200);
 }
 
 // affiche ou cache les feeds n'ayant pas d'article non lus.
