@@ -9,7 +9,7 @@
 require_once('header.php');
 
 $logger = new Logger('settings');
-$tpl->assign('logs',$logger->loadLogs());
+$tpl->assign('logs',$logger->flushLogs());
 
 // gestion de la langue
 $languageList = $i18n->languages;

@@ -18,7 +18,7 @@ class Logger {
         $this->logs[] = $msg;
     }
 
-    public function loadLogs()
+    public function flushLogs()
     {
         $logs = $this->getLogs();
         $this->destroy();
