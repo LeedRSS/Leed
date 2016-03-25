@@ -29,9 +29,12 @@ class Logger {
         unset($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()]);
     }
 
-    protected function isEmpty(){
-        return ! isset($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()])
-            || empty($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()]);
+    protected function mergeLogsInSession(){
+        if( isset($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()])
+            || !empty($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()])
+        ) {
+            $this->logs = array_unique(array_merge($this->logs, unserialize($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()])));
+        }
     }
 
     public function setName($name)
@@ -51,10 +54,8 @@ class Logger {
 
     public function getLogs()
     {
-        if($this->isEmpty()){
-            return $this->logs;
-        }
-        return unserialize( $_SESSION[self::LOGGER_IDENTIFIER][$this->getName()] );
+        $this->mergeLogsInSession();
+        return $this->logs;
     }
 
 }
