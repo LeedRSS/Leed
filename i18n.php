@@ -87,7 +87,7 @@ class Translation {
      * get('TEST_TRANS', array('4'))
      * Retournera 'Nombre : 4' si TEST_TRANS == 'Nombre : $1' */
     function get($key, $args=array()) {
-        if (isset($this->trans[$key])) {
+        if (isset($this->trans[$key])&&!empty($this->trans[$key])) {
             $value = $this->trans[$key];
             for($i=0;$i<count($args);$i++){
                 $value = str_replace('$'.($i+1), $args[$i], $value);

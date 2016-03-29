@@ -4,6 +4,7 @@
  "CLIC_HERE_SYNC_IMPORT":"Haz clic aquí para actualisar los RSS importados.",
  "ERROR":"Errores",
  "ERRORS":"error(es)",
+ "FEED_ALREADY_STORED": "Fuente ya presente.",
  "FORMAT_DATE_HOURS":"d/m/Y à H:i:s",
  "FULL_SYNCHRONISATION":"Syncronización completa…",
  "GENERAL_FOLDER":"General",

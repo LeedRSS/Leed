@@ -32,6 +32,12 @@ $(document).ready(function(){
             }
         );
 
+        $('[data-zone="installation"] form').submit(function(event){
+            var form = $(this);
+            installPlugin(form.find('[name="zip"]').val(),form);
+            event.preventDefault();
+        });
+
     }else{
 
         targetThisEvent($('article section:first'),true);
@@ -45,6 +51,10 @@ $(document).ready(function(){
 
         if ($(window).scrollTop()==0) scrollInfini();
     }
+
+    $('[data-toggle-group]').click(function(){
+        toggleTab($(this));
+    });
     //alert(_t('IDENTIFIED_WITH',['idleman']));
 
     // focus sur l'input du login
@@ -63,11 +73,15 @@ function maj(data){
 }
 
 function _t(key,args){
-    value = i18n[key];
-    if(args!=null){
-        for(i=0;i<args.length;i++){
-            value = value.replace('$'+(i+1),args[i]);
+    var value = i18n[key];
+    if(typeof(value)!=='undefined'){
+        if(args!=null){
+            for(i=0;i<args.length;i++){
+                value = value.replace('$'+(i+1),args[i]);
+            }
         }
+    } else {
+        value = key;
     }
     return value;
 }
@@ -151,22 +165,59 @@ $(window).scroll(function(){
 
 /** SECTION MARKET & PLUGINS **/
 
-function togglePluginMenu(element,page){
-    $(element).parent().find('li').removeClass('selected');
-    $(element).addClass('selected');
-    if(page=='market'){
-        $('.marketZone').fadeIn(300);
-        $('.installedZone').hide();
+function toggleTab(el){
+    if(el.hasClass('selected')) {
+        return false;
+    }
+    var tab = el.data('toggle-tab'),
+        group = el.data('toggle-group');
+    el.parent().find('li').removeClass('selected');
+    el.addClass('selected');
+    $('[data-zone='+tab+'][data-group='+group+']').fadeIn( 300, function() {
+        $(this).attr('aria-hidden', 'false');
+    });
+    $('[data-group='+group+'][aria-hidden="false"]').hide( 400, function() {
+        $(this).attr('aria-hidden', 'true');
+    });
+    if(tab==='market'){
         $('#btnSearchPlugin').trigger("click");
-
-    }else{
-        $('.marketZone').hide();
-        $('.installedZone').fadeIn(300);
+    }
+    if(tab==='installation'){
+        var ghZoneClass = 'gh-leed-market';
+        var ghZone = $('.'+ghZoneClass);
+        if(ghZone.length === 0){
+            ghZone = $('<div class="gh-leed-market">'+_t('LOADING')+'</div>');
+            ghZone.appendTo('[data-zone=installation]');
+        }
+        $.ajax({
+            url: 'action.php?action=getGithubMarket'
+        })
+            .done(function(data) {
+                if(data.length > 0){
+                var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
+                    tpl += '<ul>';
+                    for(i=0;i<data.length;i++){
+                        var plugin = data[i];
+                        tpl +=
+                        '<li>'+
+                            '<ul>'+
+                                '<li><h4>Nom: </h4>'+plugin.name+'</li>'+
+                                '<li>'+plugin.description+'</li>'+
+                                '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
+                            '</ul>'+
+                        '</li>';
+                    }
+                    tpl += '</ul>';
+                    ghZone.html(tpl);
+                } else {
+                    ghZone.remove();
+                }
+            });
     }
 }
 
 function searchPlugin(keyword){
-    $('#resultsPlugin').html('Chargement en cours...');
+    $('#resultsPlugin').html(_t('LOADING'));
     var baseUrl = (location.protocol == 'https:'?"https://market.idleman.fr:666":"http://market.idleman.fr")
     $.getJSON(baseUrl+"/api.php?s=leed&m=search&k="+keyword+"&callback=?");
 }
@@ -188,7 +239,7 @@ function jsonp(data){
                             <li><h4>Version: </h4><code>'+plugin.version+'</code></li>\
                             <li><h4>Site web: </h4><a href="'+plugin.link+'">'+plugin.link+'</a></li>\
                             <li>'+plugin.description+'</li>\
-                            <li><button class="btn" onclick="installPlugin(\''+plugin.dll+'\');">Installer</button></li>\
+                            <li><button class="btn" onclick="installPlugin(\''+plugin.dll+'\',$(this).parent());">Installer</button></li>\
                         </ul>\
                     </li>';
                     $('#resultsPlugin').append(tpl);
@@ -203,8 +254,26 @@ function jsonp(data){
     }
 }
 
-function installPlugin(url){
-    $('#resultsPlugin').load('action.php?action=installPlugin&zip='+encodeURIComponent(url));
+function installPlugin(url,el){
+    var logsContainerClass = 'logs-container',
+        logsContainer = el.find('.'+logsContainerClass),
+        loading = _t('LOADING');
+    if(logsContainer.length){
+        logsContainer.html(loading);
+    } else {
+        logsContainer = $('<div class="'+logsContainerClass+'">'+loading+'</div>').appendTo(el);
+    }
+
+    $.ajax({
+        url: 'action.php?action=installPlugin&zip='+encodeURIComponent(url)
+    })
+        .done(function(data) {
+            var text = '';
+            $($.parseJSON(data)).each(function(key, val){
+                text += "<p>"+val+"</p>";
+            });
+            logsContainer.html(text);
+        })
 }
 
 /** FIN MARKET & PLUGINS **/
@@ -682,7 +751,7 @@ function toggleArticleDisplayMode(button, target){
 // Disparition block et affichage block clique
 function toggleBlocks(target){
     target=target.substring(1);
-    $('#main article > section').hide();$('.'+target).fadeToggle(200);
+    $('#main article > section').not('.logs').hide();$('.'+target).fadeToggle(200);
 }
 
 // affiche ou cache les feeds n'ayant pas d'article non lus.

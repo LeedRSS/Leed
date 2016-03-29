@@ -11,7 +11,6 @@ require_once("common.php");
 
 ///@TODO: déplacer dans common.php?
 $commandLine = 'cli'==php_sapi_name();
-$ajaxCall = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
 if ($commandLine) {
     $action = 'commandLine';
@@ -77,7 +76,7 @@ switch ($action){
         if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
         if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
         $eventManager->change(array('unread'=>'0'),$whereClause);
-        if(!$ajaxCall){
+        if(!Functions::isAjaxCall()){
             header('location: ./index.php');
         }
     break;
@@ -93,7 +92,7 @@ switch ($action){
             $eventManager->change(array('unread'=>'0'),$whereClause);
         }
 
-        if (!$ajaxCall){
+        if (!Functions::isAjaxCall()){
             header('location: ./index.php');
         }
 
@@ -284,7 +283,6 @@ switch ($action){
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
         if ($newFeed->notRegistered()) {
-            ///@TODO: avertir l'utilisateur du doublon non ajouté
             $newFeed->getInfos();
             $newFeed->setFolder(
                 (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
@@ -294,6 +292,10 @@ switch ($action){
             $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
             $newFeed->parse(time(), $_, $enableCache, $forceFeed);
             Plugin::callHook("action_after_addFeed", array(&$newFeed));
+        } else {
+            $logger = new Logger('settings');
+            $logger->appendLogs(_t("FEED_ALREADY_STORED"));
+            $logger->save();
         }
         header('location: ./settings.php#manageBloc');
     break;
@@ -556,44 +558,11 @@ switch ($action){
 
     //Installation d'un nouveau plugin
     case 'installPlugin':
-    $tempZipName = 'plugins/'.md5(microtime());
-    echo '<br/>Téléchargement du plugin...';
-    file_put_contents($tempZipName,file_get_contents(urldecode($_['zip'])));
-    if(file_exists($tempZipName)){
-        echo '<br/>Plugin téléchargé <span class="label label-success">OK</span>';
-        echo '<br/>Extraction du plugin...';
-        $zip = new ZipArchive;
-        $res = $zip->open($tempZipName);
-        if ($res === TRUE) {
-            $tempZipFolder = $tempZipName.'_';
-            $zip->extractTo($tempZipFolder);
-            $zip->close();
-            echo '<br/>Plugin extrait <span class="readUnreadButton">OK</span>';
-            $pluginName = glob($tempZipFolder.'/*.plugin*.php');
-            if(count($pluginName)>0){
-            $pluginName = str_replace(array($tempZipFolder.'/','.enabled','.disabled','.plugin','.php'),'',$pluginName[0]);
-                if(!file_exists('plugins/'.$pluginName)){
-                    echo '<br/>Renommage...';
-                    if(rename($tempZipFolder,'plugins/'.$pluginName)){
-                        echo '<br/>Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>';
-                    }else{
-                        Functions::rmFullDir($tempZipFolder);
-                        echo '<br/>Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>';
-                    }
-                }else{
-                    echo '<br/>Plugin déjà installé <span class="readUnreadButton">OK</span>';
-                }
-            }else{
-                echo '<br/>Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>';
-            }
-
-        } else {
-          echo '<br/>Echec de l\'extraction <span class="readUnreadButton">Erreur</span>';
-        }
-         unlink($tempZipName);
-        }else{
-            echo '<br/>Echec du téléchargement <span class="readUnreadButton">Erreur</span>';
-        }
+        Plugin::install($_['zip']);
+    break;
+    case 'getGithubMarket':
+        $plugin = new Plugin();
+        $plugin->getGithubMarketRepos();
     break;
 }
 

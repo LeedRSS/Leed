@@ -4,6 +4,7 @@
  "CLIC_HERE_SYNC_IMPORT":"Cliquez ici pour synchroniser vos flux importés.",
  "ERROR":"Erreurs",
  "ERRORS":"erreur(s)",
+ "FEED_ALREADY_STORED": "Flux déjà présent.",
  "FORMAT_DATE_HOURS":"d/m/Y à H:i:s",
  "FULL_SYNCHRONISATION":"Synchronisation complète…",
  "GENERAL_FOLDER":"Générale",
