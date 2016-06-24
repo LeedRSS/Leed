@@ -77,7 +77,7 @@ class Update{
                 // récupération du contenu du sql
                 $sql = file_get_contents(dirname(__FILE__).Update::FOLDER.'/'.$file);
 
-                $conn = new MysqlEntity();
+                $conn = MysqlConnector::getInstance()->connection;
                 //on sépare chaque requête par les ;
                 $sql_array = explode (";",$sql);
                 foreach ($sql_array as $val) {
@@ -85,14 +85,14 @@ class Update{
                     if ($val != '') {
                         //remplacement des préfixes de table
                         $val = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$val);
-                        $result = mysqli_query($val);
+                        $result = $conn->query($val);
                         $ficlog = dirname(__FILE__).Update::FOLDER.'/'.substr($file,0,strlen($file)-3).'log';
                         if (false===$result) {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.mysqli_error()."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$conn->error."\n", FILE_APPEND);
                         } else {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.mysqli_affected_rows().' rows affected'."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$conn->affected_rows.' rows affected'."\n", FILE_APPEND);
                         }
                     }
                 }
