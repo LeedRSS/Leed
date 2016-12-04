@@ -43,6 +43,14 @@ $(document).ready(function(){
         targetThisEvent($('article section:first'),true);
         addEventsButtonLuNonLus();
 
+        $('.unreadForFolder').click(function() {
+            markAllAsRead($(this), 'folder');
+        });
+
+        $('.unreadForFeed').click(function() {
+            markAllAsRead($(this), 'feed');
+        });
+
         // on initialise ajaxready à true au premier chargement de la fonction
         $(window).data('ajaxready', true);
         $('article').append('<div id="loader">'+_t('LOADING')+'</div>');
@@ -922,4 +930,25 @@ function isIntoView(elem){
 
 function getFeedName(id){
     return $('[data-feed-id='+id+']').html();
+}
+
+function markAllAsRead(el, type) {
+    var infoLink = {};
+    var translation = '';
+    var action = '';
+    switch (type) {
+        case 'folder':
+            infoLink = el.siblings('.folderLink');
+            translation = 'READ_ALL_FOLDER_CONFIRM';
+            action = 'readFolder&folder';
+            break;
+        case 'feed':
+            infoLink = el.siblings('.feedLink');
+            translation = 'CONFIRM_MARK_FEED_AS_READ';
+            action = 'readAll&feed';
+            break;
+    }
+    if(confirm(_t( translation ) + '\n\n' + infoLink.html())) {
+        window.location = 'action.php?action=' + action + '=' + infoLink.data('id');
+    }
 }
