@@ -1,6 +1,8 @@
 {
  "ALREADY_INSTALLED":"Leed ya está configurado. Suprimir o renombrar el archivo de configuración.",
  "AT_TOTAL":"en total",
+ "BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED": "Tu navegador no implementa el elemento audio",
+ "BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED": "Tu navegador no implementa el elemento video",
  "CLIC_HERE_SYNC_IMPORT":"Haz clic aquí para actualisar los RSS importados.",
  "ERROR":"Errores",
  "ERRORS":"error(es)",

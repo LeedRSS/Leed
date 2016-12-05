@@ -1,6 +1,8 @@
 {
  "ALREADY_INSTALLED":"Leed is already configured. Delete or rename the configuration file.",
  "AT_TOTAL":"in total",
+ "BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED": "Your browser does not support the audio element.",
+ "BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED": "Your browser does not support the video element.",
  "CLIC_HERE_SYNC_IMPORT":"Click here to synchronize your imported feeds.",
  "ERROR":"Errors",
  "ERRORS":"error(s)",

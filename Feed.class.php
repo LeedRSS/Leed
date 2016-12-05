@@ -126,27 +126,7 @@ class Feed extends MysqlEntity{
 
             $event->setFeed($this->id);
             $event->setUnread(1); // inexistant, donc non-lu
-
-            //Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
-            $enclosure = $item->get_enclosure();
-            if($enclosure!=null && $enclosure->link!=''){
-                $enclosureName = substr(
-                    $enclosure->link,
-                    strrpos($enclosure->link, '/')+1,
-                    strlen($enclosure->link)
-                );
-                $enclosureArgs = strpos($enclosureName, '?');
-                if($enclosureArgs!==false)
-                    $enclosureName = substr($enclosureName,0,$enclosureArgs);
-                $enclosureFormat = isset($enclosure->handler)
-                    ? $enclosure->handler
-                    : substr($enclosureName, strrpos($enclosureName,'.')+1);
-
-                $enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span></div>';
-            }else{
-                $enclosure = '';
-            }
-
+            $enclosure = $this->getEnclosureHtml($item->get_enclosure());
             $event->setContent($item->get_content().$enclosure);
             $event->setDescription($item->get_description().$enclosure);
 
@@ -174,6 +154,38 @@ class Feed extends MysqlEntity{
         $this->lastupdate = $_SERVER['REQUEST_TIME'];
         $this->save();
         return true;
+    }
+
+    protected function getEnclosureHtml($enclosure) {
+        global $i18n;
+	$html = '';
+        if($enclosure!=null && $enclosure->link!=''){
+            $enclosureName = substr(
+                $enclosure->link,
+                strrpos($enclosure->link, '/')+1,
+                strlen($enclosure->link)
+            );
+            $enclosureArgs = strpos($enclosureName, '?');
+            if($enclosureArgs!==false)
+                $enclosureName = substr($enclosureName,0,$enclosureArgs);
+            $enclosureFormat = isset($enclosure->handler)
+                ? $enclosure->handler
+                : substr($enclosureName, strrpos($enclosureName,'.')+1);
+
+            $html ='<div class="enclosure"><h1>Fichier média :</h1>';
+            $enclosureType = $enclosure->get_type();
+            if (strpos($enclosureType, 'image/') === 0) {
+                $html .= '<img src="' . $enclosure->link . '" />';
+            } elseif (strpos($enclosureType, 'audio/') === 0) {
+                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
+            } elseif (strpos($enclosureType, 'video/') === 0) {
+                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
+            } else {
+                $html .= '<a href="'.$enclosure->link.'"> '.$enclosureName.'</a>';
+            }
+            $html .= ' <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span></div>';
+        }
+        return $html;
     }
 
 
