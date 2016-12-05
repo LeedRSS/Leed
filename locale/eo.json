@@ -1,8 +1,8 @@
 {
  "ALREADY_INSTALLED":"Leed estas jam agordita. Forviŝu aû alinomu la dosieron agordan.",
  "AT_TOTAL":"Sume",
- "BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED": "",
- "BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED": "",
+ "BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED": "Via retumilo ne apogas la sonan elementon.",
+ "BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED": "Via retumilo ne apogas la videan elementon.",
  "CLIC_HERE_SYNC_IMPORT":"klaku tie por sinkroni viajn fluojn enportitajn.",
  "ERROR":"Eraro",
  "ERRORS":"eraro(j)",
