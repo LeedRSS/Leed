@@ -1,6 +1,8 @@
 {
  "ALREADY_INSTALLED":"Leed est déjà configuré. Supprimez ou renommez le fichier de configuration.",
  "AT_TOTAL":"au total",
+ "BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED": "Votre navigateur ne gère pas l'élément audio",
+ "BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED": "Votre navigateur ne gère pas l'élément video",
  "CLIC_HERE_SYNC_IMPORT":"Cliquez ici pour synchroniser vos flux importés.",
  "ERROR":"Erreurs",
  "ERRORS":"erreur(s)",
