@@ -56,6 +56,7 @@ class Base32 {
     
     public static function decode($input) {
         if(empty($input)) return;
+        $input = strtoupper($input);
         $paddingCharCount = substr_count($input, self::$map[32]);
         $allowedValues = array(6,4,3,1,0);
         if(!in_array($paddingCharCount, $allowedValues)) return false;
