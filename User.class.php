@@ -8,7 +8,12 @@
 
 class User extends MysqlEntity{
 
-    protected $id,$login,$password;
+    const OTP_INTERVAL = 30;
+    const OTP_DIGITS   = 8;
+    const OTP_DIGEST   = 'sha1';
+    private $otpControler;
+
+    protected $id,$login,$password,$otpSecret;
     protected $TABLE_NAME = 'user';
     protected $CLASS_NAME = 'User';
     protected $object_fields =
@@ -16,7 +21,7 @@ class User extends MysqlEntity{
         'id'=>'key',
         'login'=>'string',
         'password'=>'string',
-        'otpSeed'=>'string',
+        'otpSecret'=>'string',
     );
 
     function __construct(){
@@ -27,19 +32,40 @@ class User extends MysqlEntity{
         $this->id = $id;
     }
 
+    function isOtpSecretValid($otpSecret) {
+        // Teste si la longueur est d'au moins 8 caractères
+        // et en Base32: [A-Z] + [2-7]
+        return is_string($otpSecret) && preg_match('/^[a-zA-Z2-7]{8,}$/', $otpSecret);
+    }
+
+    protected function getOtpControler() {
+        if (empty($this->otpControler))
+            $this->otpControler = new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));
+        return $this->otpControler;
+    }
+
+    function getOtpKey() {
+        $otp = $this->getOtpControler();
+        return str_pad($otp->now(), $otp->digits, '0', STR_PAD_LEFT);
+    }
+
     function exist($login,$password,$salt='',$otpEntered=Null){
         $userManager = new User();
         $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
 
         if (false!=$user) {
-            $otpSeed = @$user->otpSeed; # Si champ null, la propriété n'existe pas !
-            if (!defined('OTP') || is_null($otpSeed) && is_null($otpEntered) ) {
-                return $user;
-            } else {
-                $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
-                if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
+            $otpSecret = $user->otpSecret;
+
+            global $configurationManager;
+            switch (True) {
+                case !$configurationManager->get('otpEnabled'):
+                case empty($otpSecret) && empty($otpEntered):
+                    // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
-                }
+            }
+            $otp = $user->getOtpControler();
+            if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
+                return $user;
             }
         }
 
@@ -99,6 +125,20 @@ class User extends MysqlEntity{
 
     function setPassword($password,$salt=''){
         $this->password = User::encrypt($password,$salt);
+    }
+
+    function getOtpSeed(){
+        return $this->otpSecret;
+    }
+
+    function setOtpSeed($otpSecret){
+        return $this->otpSecret = $otpSecret;
+    }
+
+    function resetPassword($resetPassword, $salt=''){
+        $this->setPassword($resetPassword, $salt);
+        $this->otpSecret = '';
+        $this->save();
     }
 
     static function encrypt($password, $salt=''){

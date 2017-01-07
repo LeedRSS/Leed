@@ -117,8 +117,8 @@ switch ($action){
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
+            $configurationManager->put('otpEnabled',$_['otpEnabled']);
 
-            $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();
                 $userManager->change(array('password'=>User::encrypt($_['password'], $salt)),array('id'=>$myUser->getId()));
@@ -135,6 +135,16 @@ switch ($action){
                 else
                     $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
 
+            }
+
+            # Modifications dans la base de données, la portée courante et la sesssion
+            # @TODO: gérer cela de façon centralisée
+            $otpSecret = $_['otpSecret'];
+            if ($myUser->isOtpSecretValid($otpSecret)) {
+                $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
+                $myUser->setLogin($_['login']);
+                $myUser->setOtpSeed($otpSecret);
+                $_SESSION['currentUser'] = serialize($myUser);
             }
 
     header('location: ./settings.php#preferenceBloc');
@@ -426,13 +436,8 @@ switch ($action){
                 if (false===$tmpUser) {
                     $message = "Unknown user '{$_['login']}'! No password reset.";
                 } else {
-                    $id = $tmpUser->getId();
-                    $salt = $configurationManager->get('cryptographicSalt');
-                    $userManager->change(
-                        array('password'=>User::encrypt($resetPassword, $salt)),
-                        array('id'=>$id)
-                    );
-                    $message = "User '{$_['login']}' (id=$id) Password reset to '$resetPassword'.";
+                    $tmpUser->resetPassword($resetPassword, $configurationManager->get('cryptographicSalt'));
+                    $message = "User '{$_['login']}' (id={$tmpUser->getId()}) Password reset to '$resetPassword'.";
                 }
             }
             error_log($message);
