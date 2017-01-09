@@ -39,7 +39,7 @@
  "EVENT_NUMBER_PER_PAGES":"Nombro da artikoloj paĝe",
  "EXPORT":"Elporto",
  "EXPORT_FEED_OPML_FORMAT":"Elporti la fluojn per formato OPML",
- "FABULOUS_AGGREGATOR_LAUNCHED_IN":"Miriga abonrilatilo lanĉita dum $1 sekundoj far $2",
+ "FABULOUS_AGGREGATOR_LAUNCHED_IN":"Miriga abonrilatilo lanĉita dum $1 sekundoj | far $2",
  "FAVORITES":"Legosignoj",
  "FAVORITES_EVENTS":"Artikoloj legosignitaj ($1)",
  "FAVORIZE":"Legosignigi",
