@@ -188,46 +188,41 @@ function toggleTab(el){
         $(this).attr('aria-hidden', 'true');
     });
     if(tab==='market'){
-        $('#btnSearchPlugin').trigger("click");
-    }
-    if(tab==='installation'){
-        var ghZoneClass = 'gh-leed-market';
-        var ghZone = $('.'+ghZoneClass);
-        if(ghZone.length === 0){
-            ghZone = $('<div class="gh-leed-market">'+_t('LOADING')+'</div>');
-            ghZone.appendTo('[data-zone=installation]');
-        }
-        $.ajax({
-            url: 'action.php?action=getGithubMarket'
-        })
-            .done(function(data) {
-                if(data.length > 0){
-                var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
-                    tpl += '<ul>';
-                    for(i=0;i<data.length;i++){
-                        var plugin = data[i];
-                        tpl +=
-                        '<li>'+
-                            '<ul>'+
-                                '<li><h4>Nom: </h4>'+plugin.name+'</li>'+
-                                '<li>'+plugin.description+'</li>'+
-                                '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
-                            '</ul>'+
-                        '</li>';
-                    }
-                    tpl += '</ul>';
-                    ghZone.html(tpl);
-                } else {
-                    ghZone.remove();
-                }
-            });
+        searchPlugin();
     }
 }
 
 function searchPlugin(keyword){
-    $('#resultsPlugin').html(_t('LOADING'));
-    var baseUrl = (location.protocol == 'https:'?"https://market.idleman.fr:666":"http://market.idleman.fr")
-    $.getJSON(baseUrl+"/api.php?s=leed&m=search&k="+keyword+"&callback=?");
+    var ghZoneClass = 'gh-leed-market';
+    var ghZone = $('.'+ghZoneClass);
+    if(ghZone.length === 0){
+        ghZone = $('<div class="gh-leed-market">'+_t('LOADING')+'</div>');
+        ghZone.appendTo('[data-zone="market"]');
+    }
+    $.ajax({
+        url: 'action.php?action=getGithubMarket'
+    })
+        .done(function(data) {
+            if(data.length > 0){
+            var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
+                tpl += '<ul>';
+                for(i=0;i<data.length;i++){
+                    var plugin = data[i];
+                    tpl +=
+                    '<li>'+
+                        '<ul>'+
+                            '<li><h4>Nom: </h4>'+plugin.name+'</li>'+
+                            '<li>'+plugin.description+'</li>'+
+                            '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
+                        '</ul>'+
+                    '</li>';
+                }
+                tpl += '</ul>';
+                ghZone.html(tpl);
+            } else {
+                ghZone.html('<p>' + _t('PLUGINS_ALL_INSTALLED_OR_NONE_FOUND') + '</p>');
+            }
+        });
 }
 
 function jsonp(data){

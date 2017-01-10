@@ -109,6 +109,7 @@
  "PLUGINS_INSTALL": "",
  "PLUGINS_INSTALL_FROM_URL": "",
  "PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET": "",
+ "PLUGINS_ALL_INSTALLED_OR_NONE_FOUND": "",
  "PREFERENCES":"Preferoj",
  "PRESENTATION":"Sinprezento",
  "PRESENTATION_PARAGRAPH":"<b>Leed (mallongigo de Light Feed)</b> estas abonrilatilo RSS-a eteca kiu ebligas konsultadon de fluoj RSS-aj rapide kaj diskreta.</p><p>Ĉiuj prilaboroj pri fluoj estas nevideblaj per planita tasko (Cron). Tiel, uzanto ne suferas malrapidigojn pro elŝutado kaj traktado de ĉiu fluo sekvita.</p><p>Rimarkinde Leed kongruas kun ĉiuj distingivoj, sur pc, tabletoj kaj poŝtelefonoj kaj funkcias kun ĉiuj retumiloj.</p><p>La skripto same kongruas kun dosieroj pri elporto/enporto OPML, tiu igas migradon de ĉiuj abonrilatilojn sekvantajn la normon simplaj kaj rapidaj.",
