@@ -108,6 +108,7 @@
  "PLUGINS_INSTALLATION": "Instalación de los complementos",
  "PLUGINS_INSTALL": "Instalar",
  "PLUGINS_INSTALL_FROM_URL": "Instalar desde una URL",
+ "PLUGINS_INSTALL_FROM_URL_FILE_SHOULD_BE_ZIP": "Esa URL debe apuntar a un archivo ZIP (ej. https://github.com/Leed-market/LeedSmartFeedsUpdate/archive/dev.zip).",
  "PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET": "Instalar desde el Github Leed Market",
  "PLUGINS_ALL_INSTALLED_OR_NONE_FOUND": "Todos los complementos estan instalados ya o no se encontró ninguno.",
  "PREFERENCES":"Preferencias",
