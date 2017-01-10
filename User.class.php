@@ -8,7 +8,7 @@
 
 class User extends MysqlEntity{
 
-    protected $id,$login,$password;
+    protected $id,$login,$password,$otpSeed;
     protected $TABLE_NAME = 'user';
     protected $CLASS_NAME = 'User';
     protected $object_fields =
@@ -99,6 +99,10 @@ class User extends MysqlEntity{
 
     function setPassword($password,$salt=''){
         $this->password = User::encrypt($password,$salt);
+    }
+
+    function getOtpSeed(){
+        return $this->otpSeed;
     }
 
     static function encrypt($password, $salt=''){
