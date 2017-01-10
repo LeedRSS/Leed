@@ -108,6 +108,7 @@
  "PLUGINS_INSTALLATION": "Installation de plugins",
  "PLUGINS_INSTALL": "Installation",
  "PLUGINS_INSTALL_FROM_URL": "Installation depuis une URL",
+ "PLUGINS_INSTALL_FROM_URL_FILE_SHOULD_BE_ZIP": "Cette URL doit pointer vers une archive au format ZIP (e.g. https://github.com/Leed-market/LeedSmartFeedsUpdate/archive/dev.zip).",
  "PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET": "Installation depuis le Github Leed Market",
  "PLUGINS_ALL_INSTALLED_OR_NONE_FOUND": "Tous les plugins sont déjà installés ou aucun n'a pu être trouvé.",
  "PREFERENCES":"Préférences",
