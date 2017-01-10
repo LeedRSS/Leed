@@ -302,8 +302,8 @@
                         <div class="clear"></div>
                     </ul>
 
-                    <div data-zone="installed" data-group="plugins" aria-hidden="false">
-                        <h3>{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
+                    <div class="plugin-tab" data-zone="installed" data-group="plugins" aria-hidden="false">
+                        <h3 class="plugin-title">{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
                         <ul class="pluginList">
                         {if="count($plugins)==0"}
                         {function="_t('NO_INSTALLED_PLUGINS')"}
@@ -333,16 +333,16 @@
                         </ul>
                     </div>
 
-                    <div data-zone="installation" data-group="plugins" aria-hidden="true">
+                    <div class="plugin-tab" data-zone="installation" data-group="plugins" aria-hidden="true">
                         <form action="action.php" method="get">
-                            <h3>{function="_t('PLUGINS_INSTALL_FROM_URL')"}</h3>
+                            <h3 class="plugin-title">{function="_t('PLUGINS_INSTALL_FROM_URL')"}</h3>
                             <input type="text" name="zip" />
                             <input type="hidden" name="action" value="installPlugin" />
                             <button type="submit">{function="_t('PLUGINS_INSTALL')"}</button>
                         </form>
                     </div>
 
-                    <div data-zone="market" data-group="plugins" aria-hidden="true">
+                    <div class="plugin-tab" data-zone="market" data-group="plugins" aria-hidden="true">
                     </div>
                     {else}
                     <p>{function="_t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>

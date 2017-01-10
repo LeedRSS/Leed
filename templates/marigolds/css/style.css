@@ -723,6 +723,14 @@ footer a,#main aside a{
     text-decoration:none;
 }
 
+.plugin-tab {
+    padding: 20px;
+}
+
+.plugin-title {
+    margin-top: 0;
+}
+
 .pluginBloc li,.pluginBloc ul{
     list-style-type: none;
     margin: 0px;
