@@ -33,7 +33,7 @@ class User extends MysqlEntity{
 
         if (false!=$user) {
             $otpSeed = @$user->otpSeed; # Si champ null, la propriété n'existe pas !
-            if (!defined('OTP') || is_null($otpSeed) && is_null($otpEntered) ) {
+            if (!defined('OTP') || empty($otpSeed) && empty($otpEntered) ) {
                 return $user;
             } else {
                 $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
