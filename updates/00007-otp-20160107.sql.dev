@@ -12,4 +12,4 @@
 --######################################################################################################
 
 -- Mise à jour table user
-ALTER TABLE `##MYSQL_PREFIX##user` ADD `otpSeed` VARCHAR(256) NULL DEFAULT NULL;
+ALTER TABLE `##MYSQL_PREFIX##user` ADD `otpSeed` VARCHAR(225) NULL DEFAULT NULL;
