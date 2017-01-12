@@ -80,10 +80,10 @@ class Feed extends MysqlEntity{
         $feed->set_feed_url($this->url);
         $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
         $this->lastSyncInError = 0;
+        $this->lastupdate = $_SERVER['REQUEST_TIME'];
         if (!$feed->init()) {
             $this->error = $feed->error;
             $this->lastSyncInError = 1;
-            $this->lastupdate = $_SERVER['REQUEST_TIME'];
             $this->save();
             return false;
         }
@@ -151,7 +151,6 @@ class Feed extends MysqlEntity{
         $query='UPDATE `'.MYSQL_PREFIX.'event` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
         $myQuery = $this->customQuery($query);
 
-        $this->lastupdate = $_SERVER['REQUEST_TIME'];
         $this->save();
         return true;
     }
