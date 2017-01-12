@@ -116,7 +116,11 @@ class Feed extends MysqlEntity{
             $event->setSyncId($syncId);
             $event->setGuid($item->get_id());
             $event->setTitle($item->get_title());
-            $event->setPubdate($item->get_date());
+            $event->setPubdate(
+                ''==$item->get_date()
+                    ? $this->lastupdate
+                    : $item->get_date()
+            );
             $event->setCreator(
                 ''==$item->get_author()
                     ? ''
