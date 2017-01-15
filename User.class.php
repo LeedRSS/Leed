@@ -35,7 +35,7 @@ class User extends MysqlEntity{
             $otpSeed = $user->otpSeed;
 
             switch (True) {
-                case !$configuration->get('otpEnabled'):
+                #case !$configuration->get('otpEnabled'):
                 case empty($otpSeed) && empty($otpEntered):
                     // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
