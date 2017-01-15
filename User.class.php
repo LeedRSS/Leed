@@ -32,12 +32,10 @@ class User extends MysqlEntity{
         $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
 
         if (false!=$user) {
-            $conf = new Configuration();
-            $conf->getAll();
             $otpSeed = $user->otpSeed;
 
             switch (True) {
-                case !$conf->get('otpEnabled'):
+                case !$configuration->get('otpEnabled'):
                 case empty($otpSeed) && empty($otpEntered):
                     // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
