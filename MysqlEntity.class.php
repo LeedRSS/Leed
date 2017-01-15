@@ -276,8 +276,6 @@ class MysqlEntity
             if($limit!=null) $query .='LIMIT '.$limit.' ';
             $query .=';';
 
-            error_log('ZERZER '.$query);
-
             if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
             $result = $this->customQuery($query);
             while($queryReturn = $result->fetch_assoc()){

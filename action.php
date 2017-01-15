@@ -427,16 +427,8 @@ switch ($action){
                 if (false===$tmpUser) {
                     $message = "Unknown user '{$_['login']}'! No password reset.";
                 } else {
-                    $id = $tmpUser->getId();
-                    $salt = $configurationManager->get('cryptographicSalt');
-                    $userManager->change(
-                        array(
-                            'password'=>User::encrypt($resetPassword, $salt),
-                            'otpSeed'=>''
-                        ),
-                        array('id'=>$id)
-                    );
-                    $message = "User '{$_['login']}' (id=$id) Password reset to '$resetPassword'.";
+                    $tmpUser->resetPassword($resetPassword, $configurationManager->get('cryptographicSalt'));
+                    $message = "User '{$_['login']}' (id={$tmpUser->getId()}) Password reset to '$resetPassword'.";
                 }
             }
             error_log($message);

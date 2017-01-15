@@ -109,6 +109,12 @@ class User extends MysqlEntity{
         return $this->otpSeed = $otpSeed;
     }
 
+    function resetPassword($resetPassword, $salt=''){
+        $this->setPassword($resetPassword, $salt);
+        $this->otpSeed = '';
+        $this->save();
+    }
+
     static function encrypt($password, $salt=''){
         return sha1($password.$salt);
     }
