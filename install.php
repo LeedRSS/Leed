@@ -138,8 +138,6 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     define('MYSQL_BDD','{$mysqlBase}');
     //Prefix des noms des tables leed pour les bases de données uniques
     define('MYSQL_PREFIX','{$mysqlPrefix}');
-    //One Time Password
-    define('OTP', False);
 ?>";
 
     file_put_contents('constant.php', $constant);
