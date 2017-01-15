@@ -430,7 +430,10 @@ switch ($action){
                     $id = $tmpUser->getId();
                     $salt = $configurationManager->get('cryptographicSalt');
                     $userManager->change(
-                        array('password'=>User::encrypt($resetPassword, $salt)),
+                        array(
+                            'password'=>User::encrypt($resetPassword, $salt),
+                            'otpSeed'=>''
+                        ),
                         array('id'=>$id)
                     );
                     $message = "User '{$_['login']}' (id=$id) Password reset to '$resetPassword'.";
