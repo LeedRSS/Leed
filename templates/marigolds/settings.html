@@ -174,7 +174,13 @@
                         <p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="{function="_t('INSTALL_DISPLAY_CLEAR')"}"></p>
                         <h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
                         <h4>{function="_t('HOWTO_RESET_PASSWORD')"}</h4>
+                        <fieldset>
+                            <legend>{function="_t('OTP_ENABLED')"}</legend>
+                            <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
+                            <p>{function="_t('OTP_ENABLED_DESC')"}</p>
                         <p><label for="otpSeed">{function="_t('ONE_TIME_PASSWORD')"} :</label> <input type="text" id="otpSeed" name="otpSeed" autocomplet="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}"></p>
+                        </fieldset>
                     </section>
 
                     <section>

@@ -117,6 +117,7 @@ switch ($action){
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
+            $configurationManager->put('otpEnabled',$_['otpEnabled']);
 
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();

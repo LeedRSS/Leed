@@ -32,15 +32,19 @@ class User extends MysqlEntity{
         $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
 
         if (false!=$user) {
-            $otpSeed = @$user->otpSeed; # Si champ null, la propriété n'existe pas !
-            if ( !@constant('OTP') || empty($otpSeed) && empty($otpEntered) ) {
-                // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
-                return $user;
-            } else {
-                $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
-                if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
+            $conf = new Configuration();
+            $conf->getAll();
+            $otpSeed = $user->otpSeed;
+
+            switch (True) {
+                case !$conf->get('otpEnabled'):
+                case empty($otpSeed) && empty($otpEntered):
+                    // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
-                }
+            }
+            $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
+            if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
+                return $user;
             }
         }
 
