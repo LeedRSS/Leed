@@ -174,7 +174,7 @@
                         <p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="{function="_t('INSTALL_DISPLAY_CLEAR')"}"></p>
                         <h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
                         <h4>{function="_t('HOWTO_RESET_PASSWORD')"}</h4>
-                        <p><label for="otpSeed">{function="_t('ONE_TIME_PASSWORD')"} :</label> <input type="text" id="otpSeed" name="otpSeed" value="{$myUser->getOtpSeed()}"></p>
+                        <p><label for="otpSeed">{function="_t('ONE_TIME_PASSWORD')"} :</label> <input type="text" id="otpSeed" name="otpSeed" autocomplet="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}"></p>
                     </section>
 
                     <section>
