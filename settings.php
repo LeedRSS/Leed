@@ -8,6 +8,8 @@
 
 require_once('header.php');
 
+$tpl->assign('serviceUrl', rtrim($_SERVER['HTTP_HOST'].$cookiedir,'/'));
+
 $logger = new Logger('settings');
 $tpl->assign('logs',$logger->flushLogs());
 
