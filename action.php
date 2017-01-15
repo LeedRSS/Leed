@@ -136,7 +136,8 @@ switch ($action){
                     $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
 
             }
-            $userManager->change(array('otpSeed'=>$_['otpSeed']),array('id'=>$myUser->getId()));
+            #$userManager->change(array('otpSeed'=>$_['otpSeed']),array('id'=>$myUser->getId()));
+            $userManager->change(array('otpSeed'=>"azer"),array('id'=>$myUser->getId()));
 
     header('location: ./settings.php#preferenceBloc');
     break;
