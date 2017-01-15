@@ -25,8 +25,12 @@ function chargeVarRequest() {
 $methode = array_keys($_REQUEST)[0];
 switch($methode) {
     case 'qr':
-        chargeVarRequest('label', 'user', 'key');
+        chargeVarRequest('label', 'user', 'key', 'issuer', 'algorithm', 'digits', 'period');
         $qrCode = "otpauth://totp/{$label}:{$user}?secret={$key}";
+        if (!empty($issuer))    $qrCode.="&issuer={$issuer}";
+        if (!empty($algorithm)) $qrCode.="&algorithm={$algorithm}";
+        if (!empty($digits))    $qrCode.="&digits={$digits}";
+        if (!empty($period))    $qrCode.="&period={$period}";
         break;
     case 'txt':
         $qrCode = substr($_SERVER['QUERY_STRING'], 1+strlen($methode));

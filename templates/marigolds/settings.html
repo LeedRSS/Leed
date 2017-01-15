@@ -179,7 +179,9 @@
                             <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
                             <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
                             <p>{function="_t('OTP_ENABLED_DESC')"}</p>
-                        <p><label for="otpSeed">{function="_t('ONE_TIME_PASSWORD')"} :</label> <input type="text" id="otpSeed" name="otpSeed" autocomplet="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}"></p>
+                        <p><label for="otpSeed">{function="_t('ONE_TIME_PASSWORD')"} :</label> <input type="text" id="otpSeed" name="otpSeed" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}">
+                        <img src="../../qrcode.php?qr&label=Leed&user={$myUser->getLogin()}&key={$myUser->getOtpSeed()}&issuer=https://github.com/ldleman/Leed/&algorithm=sha1&digits=8&period=30&_qrSize=2&_qrMargin=1" />
+                        </p>
                         </fieldset>
                     </section>
 
