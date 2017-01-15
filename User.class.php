@@ -33,7 +33,7 @@ class User extends MysqlEntity{
 
         if (false!=$user) {
             $otpSeed = @$user->otpSeed; # Si champ null, la propriété n'existe pas !
-            if ( !constant('OTP') || empty($otpSeed) && empty($otpEntered) ) {
+            if ( !@constant('OTP') || empty($otpSeed) && empty($otpEntered) ) {
                 // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                 return $user;
             } else {

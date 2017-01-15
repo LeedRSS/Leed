@@ -118,7 +118,6 @@ switch ($action){
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
 
-            $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();
                 $userManager->change(array('password'=>User::encrypt($_['password'], $salt)),array('id'=>$myUser->getId()));
@@ -136,7 +135,13 @@ switch ($action){
                     $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
 
             }
-            $userManager->change(array('otpSeed'=>$_['otpSeed']),array('id'=>$myUser->getId()));
+
+            # Modifications dans la base de données, la portée courante et la sesssion
+            # @TODO: gérer cela de façon centralisée
+            $userManager->change(array('login'=>$_['login'], 'otpSeed'=>$_['otpSeed']),array('id'=>$myUser->getId()));
+            $myUser->setLogin($_['login']);
+            $myUser->setOtpSeed($_['otpSeed']);
+            $_SESSION['currentUser'] = serialize($myUser);
 
     header('location: ./settings.php#preferenceBloc');
     break;
