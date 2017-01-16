@@ -8,7 +8,7 @@
 
 class User extends MysqlEntity{
 
-    protected $id,$login,$password,$otpSeed;
+    protected $id,$login,$password,$otpSecret;
     protected $TABLE_NAME = 'user';
     protected $CLASS_NAME = 'User';
     protected $object_fields =
@@ -16,7 +16,7 @@ class User extends MysqlEntity{
         'id'=>'key',
         'login'=>'string',
         'password'=>'string',
-        'otpSeed'=>'string',
+        'otpSecret'=>'string',
     );
 
     function __construct(){
@@ -32,15 +32,15 @@ class User extends MysqlEntity{
         $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
 
         if (false!=$user) {
-            $otpSeed = $user->otpSeed;
+            $otpSecret = $user->otpSecret;
 
             switch (True) {
                 #case !$configuration->get('otpEnabled'):
-                case empty($otpSeed) && empty($otpEntered):
+                case empty($otpSecret) && empty($otpEntered):
                     // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
             }
-            $otp = new \OTPHP\TOTP($otpSeed, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
+            $otp = new \OTPHP\TOTP($otpSecret, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
             if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
                 return $user;
             }
@@ -105,16 +105,16 @@ class User extends MysqlEntity{
     }
 
     function getOtpSeed(){
-        return $this->otpSeed;
+        return $this->otpSecret;
     }
 
-    function setOtpSeed($otpSeed){
-        return $this->otpSeed = $otpSeed;
+    function setOtpSeed($otpSecret){
+        return $this->otpSecret = $otpSecret;
     }
 
     function resetPassword($resetPassword, $salt=''){
         $this->setPassword($resetPassword, $salt);
-        $this->otpSeed = '';
+        $this->otpSecret = '';
         $this->save();
     }
 
