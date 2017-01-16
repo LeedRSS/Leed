@@ -204,7 +204,7 @@ class Plugin{
             if(!in_array(strtolower($repoName), $installedPluginsNames)) {
                 $infos[] = array(
                     'name' => $repoName,
-                    'description' => $repo->description,
+                    'description' => isset($repo->description) ? $repo->description : false,
                     'zipUrl' => 'https://github.com/'.$repo->full_name.'/archive/'.$repo->default_branch.'.zip'
                 );
             }

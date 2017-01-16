@@ -204,18 +204,17 @@ function searchPlugin(keyword){
     })
         .done(function(data) {
             if(data.length > 0){
-            var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
+                var tpl = '<h3>'+_t('PLUGINS_INSTALL_FROM_GITHUB_LEED_MARKET')+'</h3>';
                 tpl += '<ul>';
                 for(i=0;i<data.length;i++){
                     var plugin = data[i];
-                    tpl +=
-                    '<li>'+
-                        '<ul>'+
-                            '<li><h4>Nom: </h4>'+plugin.name+'</li>'+
-                            '<li>'+plugin.description+'</li>'+
-                            '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
-                        '</ul>'+
-                    '</li>';
+                    tpl += '<li><ul>'+
+                        '<li><h4>Nom: </h4>'+plugin.name+'</li>';
+                    if(typeof(plugin.description) === 'string') {
+                        tpl += '<li>'+plugin.description+'</li>';
+                    }
+                    tpl += '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
+                        '</ul></li>';
                 }
                 tpl += '</ul>';
                 ghZone.html(tpl);
