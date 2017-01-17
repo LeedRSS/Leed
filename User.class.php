@@ -32,6 +32,12 @@ class User extends MysqlEntity{
         $this->id = $id;
     }
 
+    function isOtpSecretValid($otpSecret) {
+        // Teste si la longueur est d'au moins 8 caractères
+        // et en Base32: [A-Z] + [2-7]
+        return is_string($otpSecret) && preg_match('/^[a-zA-Z2-7]{8,}$/', $otpSecret);
+    }
+
     protected function getOtpControler() {
         if (empty($this->otpControler))
             $this->otpControler = new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));

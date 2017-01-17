@@ -139,10 +139,13 @@ switch ($action){
 
             # Modifications dans la base de données, la portée courante et la sesssion
             # @TODO: gérer cela de façon centralisée
-            $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$_['otpSecret']),array('id'=>$myUser->getId()));
-            $myUser->setLogin($_['login']);
-            $myUser->setOtpSeed($_['otpSecret']);
-            $_SESSION['currentUser'] = serialize($myUser);
+            $otpSecret = $_['otpSecret'];
+            if ($myUser->isOtpSecretValid($otpSecret)) {
+                $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
+                $myUser->setLogin($_['login']);
+                $myUser->setOtpSeed($otpSecret);
+                $_SESSION['currentUser'] = serialize($myUser);
+            }
 
     header('location: ./settings.php#preferenceBloc');
     break;
