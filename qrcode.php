@@ -9,6 +9,9 @@ $methode = array_keys($_REQUEST)[0];
 switch($methode) {
     case 'qr': # qrcode.php?qr&label=A&user=B&key=C
         Functions::chargeVarRequest('label', 'user', 'key', 'issuer', 'algorithm', 'digits', 'period');
+        if (empty($key)) {
+            $key = "*****";
+        }
         $qrCode = "otpauth://totp/{$label}:{$user}?secret={$key}";
         foreach (array('issuer', 'algorithm', 'digits', 'period') as $champ)
             if (!empty(${$champ}))

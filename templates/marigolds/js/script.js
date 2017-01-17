@@ -946,3 +946,16 @@ function markAllAsRead(el, type) {
         window.location = 'action.php?action=' + action + '=' + infoLink.data('id');
     }
 }
+
+function randomOtpSecret(otpSecretInput) {
+    base32chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    secretLength = 16;
+    otpSecret = '';
+    for (i=0;i<secretLength;i++) {
+        otpSecret = otpSecret + base32chars[Math.floor(Math.random()*base32chars.length)];
+    }
+    //DEBUG: ajout du secret dans le label, donc visible !
+    url = $('#qrCodeOtp').attr("src").replace(/key=[a-zA-Z2-7]*/, 'key='+otpSecret).replace(/label=[a-zA-Z2-7]*/, 'label='+otpSecret);
+    $('#qrCodeOtp').attr("src", url);
+    $(otpSecretInput).val(otpSecret);
+}

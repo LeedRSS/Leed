@@ -172,15 +172,17 @@
                         <h3>{function="_t('USER')"}</h3>
                         <p><label for="login">{function="_t('LOGIN')"} :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
                         <p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="{function="_t('INSTALL_DISPLAY_CLEAR')"}"></p>
-                        <h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
-                        <h4>{function="_t('HOWTO_RESET_PASSWORD')"}</h4>
+                        <p>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}<br/>
+                        {function="_t('HOWTO_RESET_PASSWORD')"}</p>
                         <fieldset>
-                            <img src="../../qrcode.php?qr&label={$serviceUrl}&user={$myUser->getLogin()}&key={$myUser->getOtpSeed()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1" style='float:left;margin:0em 1em 1em 0em'/>
+                            <!-- <img id="qrCodeOtp" src="../../qrcode.php?qr&label={$serviceUrl}&user={$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1" style='float:left;margin:0em 1em 1em 0em'/> -->
+                            <img id="qrCodeOtp" src="../../qrcode.php?qr&label={$myUser->getOtpSecret()}&user=DEBUG%20{$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1" style='float:left;margin:0em 1em 1em 0em'/>
                             <legend>{function="_t('OTP_SETTINGS')"}</legend>
                             <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
                             <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
                             <p>{function="_t('OTP_SETTINGS_DESC')"}{$myUser->getOtpKey()}.</p>
-                        <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="otpSecret" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}">
+                        <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="otpSecret" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSecret()}">
+                        <i class="icon-random-otp" onclick="randomOtpSecret('#otpSecret')" style="cursor:pointer" title="Random OTP secret"></i>
                         </p>
                         </fieldset>
                     </section>
