@@ -955,12 +955,14 @@ function markAllAsRead(el, type) {
 
 function randomOtpSecret(otpSecretInput) {
     base32chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-    secretLength = 10;
+    base32chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    secretLength = 8;
     otpSecret = '';
     for (i=0;i<secretLength;i++) {
         otpSecret = otpSecret + base32chars[Math.floor(Math.random()*base32chars.length)];
     }
+    //otpSecret = "AAAAAAAA";
+    url = $('#qrCodeOtp').attr("src").replace(/key=[a-zA-Z2-7]*/, 'key='+otpSecret);
+    $('#qrCodeOtp').attr("src", url);
     $(otpSecretInput).val(otpSecret);
-    //#$('#qrCodeOtp').src = $('#qrCodeOtp').src;
-    $('#qrCodeOtp').attr("src", $('#qrCodeOtp').attr("src")+"#"+new Date().getTime());
 }
