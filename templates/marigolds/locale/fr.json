@@ -106,7 +106,7 @@
  "OTP_DISABLED_EMPTY":"(désactivé si vide)",
  "OTP_SECRET":"Secret OTP",
  "OTP_SETTINGS":"Réglages One Time Password",
- "OTP_SETTINGS_DESC":"Ajoute un code à la connexion, qui change toutes les 30 secondes. Indiquer ici le secret OTP et le scanner (ou recopier) dans une application comme <a href='https://freeotp.github.io/'>Free OTP</a>. Clé actuelle : ",
+ "OTP_SETTINGS_DESC":"Ajoute un code à la connexion, qui change toutes les 30 secondes. Indiquer ici le secret OTP (au moins 8 lettres ou chiffres de 2 à 7) et le scanner (ou recopier) dans une application comme <a href='https://freeotp.github.io/'>Free OTP</a>. Clé actuelle : ",
  "PASSWORD":"Mot de passe",
  "PLUGINS":"Plugins",
  "PLUGINS_INSTALLED":"Configuration des plugins",
