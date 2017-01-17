@@ -143,7 +143,7 @@ switch ($action){
             if ($myUser->isOtpSecretValid($otpSecret)) {
                 $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
                 $myUser->setLogin($_['login']);
-                $myUser->setOtpSeed($otpSecret);
+                $myUser->setOtpSecret($otpSecret);
                 $_SESSION['currentUser'] = serialize($myUser);
             }
 

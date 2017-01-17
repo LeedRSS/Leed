@@ -127,11 +127,11 @@ class User extends MysqlEntity{
         $this->password = User::encrypt($password,$salt);
     }
 
-    function getOtpSeed(){
+    function getOtpSecret(){
         return $this->otpSecret;
     }
 
-    function setOtpSeed($otpSecret){
+    function setOtpSecret($otpSecret){
         return $this->otpSecret = $otpSecret;
     }
 
