@@ -64,7 +64,7 @@ if (empty($root)) {
     $root = str_replace(
         basename(__FILE__),
         '',
-        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
+        $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
     );
 }
 if (!isset($_['mysqlPrefix'])) {
