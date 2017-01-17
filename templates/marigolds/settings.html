@@ -179,7 +179,7 @@
                             <legend>{function="_t('OTP_SETTINGS')"}</legend>
                             <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
                             <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
-                            <p>{function="_t('OTP_SETTINGS_DESC')"}</p>
+                            <p>{function="_t('OTP_SETTINGS_DESC')"}{$myUser->getOtpKey()}.</p>
                         <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="otpSecret" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSeed()}">
                         </p>
                         </fieldset>

@@ -106,7 +106,7 @@
  "OTP_DISABLED_EMPTY":"(malŝaltita se malplena)",
  "OTP_SECRET":"OTP Sekretaĵo",
  "OTP_SETTINGS":"One Time Password Agordoj",
- "OTP_SETTINGS_DESC":"Aldonas konektan kodon, kiu ŝanĝiĝas ĉiuj 30 sekundoj. Enigu tie la OTP sekretaĵon kaj skani ĝin (aŭ reskribu) en aplikaĵon kiel <a href='https://freeotp.github.io/'>Free OTP</a>.",
+ "OTP_SETTINGS_DESC":"Aldonas konektan kodon, kiu ŝanĝiĝas ĉiuj 30 sekundoj. Enigu tie la OTP sekretaĵon kaj skani ĝin (aŭ reskribu) en aplikaĵon kiel <a href='https://freeotp.github.io/'>Free OTP</a>. Nuna ŝlosilo: ",
  "PASSWORD":"Pasvorto",
  "PLUGINS":"Kromaĵoj",
  "PLUGINS_INSTALLED":"Agordoj de kromaĵoj",

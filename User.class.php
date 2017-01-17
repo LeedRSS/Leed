@@ -8,6 +8,11 @@
 
 class User extends MysqlEntity{
 
+    const OTP_INTERVAL = 30;
+    const OTP_DIGITS   = 8;
+    const OTP_DIGEST   = 'sha1';
+    private $otpControler;
+
     protected $id,$login,$password,$otpSecret;
     protected $TABLE_NAME = 'user';
     protected $CLASS_NAME = 'User';
@@ -27,6 +32,16 @@ class User extends MysqlEntity{
         $this->id = $id;
     }
 
+    protected function getOtpControler() {
+        if (empty($this->otpControler))
+            $this->otpControler = new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));
+        return $this->otpControler;
+    }
+
+    function getOtpKey() {
+        return $this->getOtpControler()->now();
+    }
+
     function exist($login,$password,$salt='',$otpEntered=Null){
         $userManager = new User();
         $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
@@ -41,7 +56,7 @@ class User extends MysqlEntity{
                     // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
             }
-            $otp = new \OTPHP\TOTP($otpSecret, array('interval'=>30, 'digits'=>8, 'digest'=>'sha1'));
+            $otp = $this->getOtpControler();
             if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
                 return $user;
             }

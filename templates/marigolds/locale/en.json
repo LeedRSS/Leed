@@ -106,7 +106,7 @@
  "OTP_DISABLED_EMPTY":"(disabled if empty)",
  "OTP_SECRET":"OTP Secret",
  "OTP_SETTINGS":"One Time Password Settings",
- "OTP_SETTINGS_DESC":"Adds a connexion code, which changes every 30 secondes. Put here the OTP secret and scan it (of write it) in an application like <a href='https://freeotp.github.io/'>Free OTP</a>.",
+ "OTP_SETTINGS_DESC":"Adds a connexion code, which changes every 30 secondes. Put here the OTP secret and scan it (of write it) in an application like <a href='https://freeotp.github.io/'>Free OTP</a>. Updated key: ",
  "PASSWORD":"Password",
  "PLUGINS":"Plugins",
  "PLUGINS_INSTALLED":"Plugins configuration",
