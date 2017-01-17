@@ -961,4 +961,6 @@ function randomOtpSecret(otpSecretInput) {
         otpSecret = otpSecret + base32chars[Math.floor(Math.random()*base32chars.length)];
     }
     $(otpSecretInput).val(otpSecret);
+    //#$('#qrCodeOtp').src = $('#qrCodeOtp').src;
+    $('#qrCodeOtp').attr("src", $('#qrCodeOtp').attr("src")+"#"+new Date().getTime());
 }
