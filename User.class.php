@@ -45,7 +45,8 @@ class User extends MysqlEntity{
     }
 
     function getOtpKey() {
-        return $this->getOtpControler()->now();
+        $otp = $this->getOtpControler();
+        return str_pad($otp->now(), $otp->digits, '0', STR_PAD_LEFT);
     }
 
     function exist($login,$password,$salt='',$otpEntered=Null){
@@ -62,7 +63,7 @@ class User extends MysqlEntity{
                     // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
                     return $user;
             }
-            $otp = $this->getOtpControler();
+            $otp = $user->getOtpControler();
             if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
                 return $user;
             }
