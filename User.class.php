@@ -39,9 +39,7 @@ class User extends MysqlEntity{
     }
 
     protected function getOtpControler() {
-        if (empty($this->otpControler))
-            $this->otpControler = new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));
-        return $this->otpControler;
+        return new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));
     }
 
     function getOtpKey() {
@@ -132,7 +130,7 @@ class User extends MysqlEntity{
     }
 
     function setOtpSecret($otpSecret){
-        return $this->otpSecret = $otpSecret;
+        $this->otpSecret = $otpSecret;
     }
 
     function resetPassword($resetPassword, $salt=''){
