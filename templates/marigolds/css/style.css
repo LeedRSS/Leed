@@ -41,7 +41,7 @@ sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: b
 sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
-ul, ol { margin: 1em 0; padding: 0 0 0 40px; }
+ul, ol { margin: 1em 0; padding: 0; }
 dd { margin: 0 0 0 40px; }
 nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 
@@ -318,7 +318,7 @@ header a,header a:hover,header a:visited{
     border:0px;
     color:#ffffff;
     text-decoration:none;
-    padding: 0.5em 1.8em;
+    padding: 0.5em 0.8em;
     font-size:10px;
     font-weight:bold;
 
@@ -618,10 +618,6 @@ header a,header a:hover,header a:visited{
     width:70%;
 }
 
-.addBloc{
-    margin-left: 40px;
-}
-
 #main.settings aside a {
     font-size: 16px;
 }
@@ -653,26 +649,30 @@ header a,header a:hover,header a:visited{
     vertical-align: top;
 }
 
-#main.settings .feedAction {
-    width: 25%;
-    float: right;
+.feedAction,
+.feedButtons {
+    display: inline-block;
+    vertical-align: top;
 }
 
-#main.settings .feedFolder {
+.settings .feedAction {
+    width: 25%;
+}
+
+.settings .feedFolder {
     width: 72%;
 }
 
-#main.settings .feedVerbose {
+.settings .feedVerbose {
     min-width: 1em;
     float:left;
 }
 
 .settings .feedButtons {
-    float: right;
     width: 28%;
 }
-#main.settings .feedRename,
-#main.settings .feedDelete {
+.settings .feedRename,
+.settings .feedDelete {
     min-width: 7em;
     width: 48%;
 }
@@ -874,9 +874,34 @@ footer a,#main aside a{
         margin-right: 0;
         margin-bottom: 3px;
     }
+
+    .settings .feedTitle,
+    .settings .feedAction,
+    .settings .feedButtons {
+        display: block;
+        margin-bottom: 3%;
+        width: 100%;
+    }
+
+    .settings .feedTitle > input,
+    .settings .feedFolder {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #main.settings .feedRename,
+    #main.settings .feedDelete {
+        width: 49%;
+    }
 }
 
 @media only screen and (min-width: 480px) {
+
+    ul,
+    ol,
+    .addBloc {
+        margin-left: 40px;
+    }
 
 /* ====================
     INTERMEDIATE: Menu
