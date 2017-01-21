@@ -192,6 +192,7 @@ body{ font:16px/26px 'Open Sans',Helvetica, Helvetica Neue, Arial; }
 .icon-progress-1:before { content: '\e81b'; } /* '' */
 .icon-progress-2:before { content: '\e81c'; } /* '' */
 .icon-folder-empty:before { content: '\e817'; } /* '' */
+.icon-random-otp:before { content: '\e802'; } /* '' */
 
 
 /* ===================
@@ -1051,3 +1052,14 @@ article #loader{
   min-width: 20px;
 }
 
+/* =============================================================================
+   OTP
+   ========================================================================== */
+.qrcodeOtp {
+    float: left;
+    margin: 0em 1em 1em 0em;
+}
+
+.icon-random-otp {
+    cursor: pointer;
+}
