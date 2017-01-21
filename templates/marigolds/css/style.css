@@ -318,7 +318,7 @@ header a,header a:hover,header a:visited{
     border:0px;
     color:#ffffff;
     text-decoration:none;
-    padding:3px 8px 3px 8px;
+    padding: 0.5em 1.8em;
     font-size:10px;
     font-weight:bold;
 
