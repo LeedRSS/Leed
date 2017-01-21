@@ -959,8 +959,8 @@ function randomOtpSecret(inputEl, qrcodeEl) {
     for (i=0;i<secretLength;i++) {
         otpSecret = otpSecret + base32chars[Math.floor(Math.random()*base32chars.length)];
     }
-    //DEBUG: ajout du secret dans le label, donc visible !
-    url = qrcodeEl.attr("src").replace(/key=[a-zA-Z2-7]*/, 'key='+otpSecret).replace(/label=[a-zA-Z2-7]*/, 'label='+otpSecret);
+    url = qrcodeEl.attr("src").replace(/key=[a-zA-Z2-7]*/, 'key='+otpSecret);
+    //url = url.replace(/label=[a-zA-Z2-7]*/, 'label='+otpSecret); //DEBUG: ajout du secret dans le label, donc visible !
     qrcodeEl.attr("src", url);
     inputEl.val(otpSecret);
 }
