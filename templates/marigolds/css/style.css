@@ -298,7 +298,7 @@ header a,header a:hover,header a:visited{
   text-decoration: none;
 }
 
-#main button, .loginBloc button,.button,.readUnreadButton{
+#main button, .loginButton, .button,.readUnreadButton{
     background-color:#f16529;
     border:0px;
     color:#ffffff;
@@ -309,6 +309,7 @@ header a,header a:hover,header a:visited{
 
     min-width: 35px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .readUnreadButton{
@@ -533,16 +534,12 @@ header a,header a:hover,header a:visited{
 .loginBloc{
     background-color: #222222;
 
-    float: none;
     margin: 10px 0px 10px;
     padding: 5px;
-    width: auto;
 }
-.loginBloc input{
+.miniInput {
     width:100px;
     border:none;
-    margin-right:1%;
-
 }
 .wrongLogin input{
     background-color: #fdd;
@@ -823,17 +820,31 @@ footer a,#main aside a{
    ========================================================================== */
 
 @media only screen and (max-width: 480px) {
-
- .logo{
+    .logo{
         display:none;
     }
-    
-.loginBloc {
-        margin:0px;
+
+    .loginBloc {
+        text-align: center;
+    }
+
+    .loginButton {
+        padding: 1em 2em;
+    }
+
+    .miniInput {
+        display: block;
+        margin-bottom: 2%;
+        padding: 0.6em 1em;
+        width: 100%;
+        box-sizing: border-box;
+        vertical-align: middle;
     }
 
     nav a {
       margin-bottom: 3px;
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
     }
     .wrapper {
       margin: 0;
@@ -886,7 +897,7 @@ footer a,#main aside a{
 @media only screen and (min-width: 768px) {
     .loginBloc{
            float: left;
-           width: 40%;
+           width: 50%;
            margin: 15px 20px 0;
    }
 
