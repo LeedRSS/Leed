@@ -45,7 +45,7 @@
                         <div class="clear"></div>
                     </form>
                     {else}
-                        <span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><button onclick="window.location='action.php?action=logout'">{function="_t('DISCONNECT')"}</button>
+                        <span>{function="_t('IDENTIFIED_WITH',array('<span>'.$myUser->getLogin().'</span>'))"} </span><a href="action.php?action=logout" class="loginButton">{function="_t('DISCONNECT')"}</a>
                     {/if}
                     <div class="clear"></div>
                 </div>
