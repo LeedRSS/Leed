@@ -28,8 +28,8 @@ $tpl->assign('allEvents',$eventManager->getEventCountPerFolder());
 //utilisé pour récupérer le statut d'un feed dans le template (en erreur ou ok)
 $feedState = new Feed();
 $tpl->assign('feedState',$feedState);
-
-$tpl->assign('otpEnabled', defined('OTP') && OTP);
+//afficher ou non le champ OTP
+$tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
 
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');

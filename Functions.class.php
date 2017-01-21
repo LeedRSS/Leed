@@ -374,5 +374,22 @@ class Functions
     public static function isAjaxCall() {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
+
+    /**
+    * Charge dans la portée locale des variables de $_REQUEST
+    * Ex: chargeVarRequest('liste', 'var') créera $liste et $var venant de $_REQUEST
+    */ 
+    public static function chargeVarRequest() {
+        foreach (func_get_args() as $arg) {
+            global ${$arg};
+            if (array_key_exists($arg, $_REQUEST)) {
+                $valeur = $_REQUEST[$arg];
+            } else {
+                $valeur = '';
+            }
+            ${$arg} = $valeur;
+        }
+    }
+
 }
 ?>
