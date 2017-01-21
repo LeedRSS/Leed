@@ -72,6 +72,21 @@ td { vertical-align: top; }
 
 .chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
 
+.notice,
+.button.notice {
+    background-color: #4caf50;
+}
+
+.warning,
+.button.warning {
+    background-color: #ff9800;
+}
+
+.error,
+.button.error {
+    background-color: #d32f2f;
+}
+
 
 /* ===== Initializr Styles =====================================================
    Author: Jonathan Verrecchia - verekia.com/initializr/responsive-template
