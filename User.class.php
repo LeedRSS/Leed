@@ -70,7 +70,7 @@ class User extends MysqlEntity{
         return false;
     }
 
-    function get($login){
+    static function get($login){
         $userManager = new User();
         return $userManager->load(array('login'=>$login,));
     }
