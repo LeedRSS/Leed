@@ -695,6 +695,15 @@ footer a,#main aside a{
     font-size:12px;
 }
 
+#main aside a {
+    max-width: 70%;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
 #main aside a span{
     font-weight:bold;
     font-size:14px;
