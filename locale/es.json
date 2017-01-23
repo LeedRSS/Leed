@@ -48,6 +48,7 @@
  "INSTALL_TAB_ADMIN":"Administrador",
  "INSTALL_TAB_BDD":"Base de datos",
  "INSTALL_TAB_GENERAL":"General",
+ "INSTALL_TEMPLATE":"Tema",
  "INSTALL_TITLE":"Instalación de Leed",
  "INSTALL_TITLE_END":"Instalación de Leed terminada !",
  "LEED_UPDATE_MESSAGE":"Se ha actualizado Leed. Actualizar la página para volver a Leed.",
