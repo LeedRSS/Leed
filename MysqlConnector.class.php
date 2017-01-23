@@ -187,5 +187,10 @@ class MysqlConnector
     public function setPort($port){
         $this->port = $port;
     }
+
+    public function error() {
+        return mysqli_error($this->connection);
+    }
+
 }
 ?>

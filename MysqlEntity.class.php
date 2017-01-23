@@ -380,14 +380,26 @@ class MysqlEntity
     public function customExecute($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $result = $this->dbconnector->connection->query($request);
+        $error = $this->error();
+        if ($error) {
+            error_log('Leed error: '.$this->error());
+            error_log('Leed query: '.$query);
+        }
         if (false===$result) {
             throw new Exception($this->dbconnector->connection->error);
         }
         return $result;
     }
+
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        return $this->dbconnector->connection->query($request);
+        $result = $this->dbconnector->connection->query($request);
+        $error = $this->error();
+        if ($error) {
+            error_log('Leed error: '.$this->error());
+            error_log('Leed query: '.$request);
+        }
+        return $result;
     }
 
 
@@ -482,5 +494,10 @@ class MysqlEntity
 
         return $whereClause;
     }
+
+    public function error() {
+        return $this->dbconnector->error();
+    }
+
 }
 ?>
