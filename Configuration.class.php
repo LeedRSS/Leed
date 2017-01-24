@@ -15,8 +15,13 @@ class Configuration extends MysqlEntity{
     protected $object_fields =
     array(
         'id'=>'key',
-        'key'=>'longstring',
+        'key'=>'string',
         'value'=>'longstring'
+    );
+
+    protected $object_fields_uniques =
+    array(
+        'key'
     );
 
     function __construct(){

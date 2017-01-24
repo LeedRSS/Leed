@@ -135,6 +135,11 @@ class MysqlEntity
                 $query .= ',KEY `index'.$field.'` (`'.$field.'`)';
             }
         }
+        if (isset($this->object_fields_uniques)){
+            foreach($this->object_fields_uniques as $field){
+                $query .= ',UNIQUE `unique'.$field.'` (`'.$field.'`)';
+            }
+        }
         $query .= ')
         ENGINE InnoDB,
         DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
