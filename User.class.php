@@ -23,6 +23,11 @@ class User extends MysqlEntity{
         'otpSecret'=>'string',
     );
 
+    protected $object_fields_uniques =
+    array(
+        'login'
+    );
+
     function __construct(){
         parent::__construct();
     }
