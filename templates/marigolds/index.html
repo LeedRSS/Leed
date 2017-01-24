@@ -76,7 +76,7 @@
                                                 <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                 {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
-                                                    <button class="right unreadForFeed" style="margin:5px 0 0 10px;">
+                                                    <button class="right unreadForFeed">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                     {function="Plugin::callHook("menu_post_feed_link", array(&$value))"}
@@ -90,7 +90,7 @@
                                                     {/if}
                                                     {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     {if="isset($unread[$value2['id']])"}
-                                                    <button class="right unreadForFeed" style="margin:5px 0 0 10px;">
+                                                    <button class="right unreadForFeed">
                                                     <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                     {/if}
@@ -114,7 +114,7 @@
                                             {/if}
                                                 {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                 {if="isset($unread[$value2['id']])"}
-                                                    <button class="right unreadForFeed" style="margin:5px 0 0 10px;">
+                                                    <button class="right unreadForFeed">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
                                                 {/if}

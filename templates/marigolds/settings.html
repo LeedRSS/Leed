@@ -100,10 +100,6 @@
                                     <span class="feedTitle js-feedTitle"{if="$value->getLastSyncInError()==1"} title="{function="_t('SYNCHRONISATION_ERROR')"}"{/if}>
                                         <a{if="$value->getLastSyncInError()==1"} class="inError"{/if} href="index.php?action=selectedFeed&feed={$value2->getId();}" data-feed-id="{$value2->getId()}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                     </span>
-                                    <div class="feedButtons">
-                                        <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
-                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n'+getFeedName({$value2->getId()}))){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
-                                    </div>
                                     <div class="feedAction">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
                                             {loop="$folders"}
@@ -123,6 +119,10 @@
                                             <input class="feedVerbose" style="display: none;" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}" checked>
                                             {/if}
                                         {/if}
+                                    </div>
+                                    <div class="feedButtons">
+                                        <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
+                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n'+getFeedName({$value2->getId()}))){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
                                     </div>
                                 </li>
                             {/loop}

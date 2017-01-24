@@ -134,7 +134,7 @@ class Plugin{
             $tempZipName = $pluginBaseFolder.md5(microtime());
             file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, self::getContext());
             if(file_exists($tempZipName)){
-                $logger->appendLogs('Plugin téléchargé <span class="label label-success">OK</span>');
+                $logger->appendLogs('Plugin téléchargé <span class="button notice">OK</span>');
                 $logger->appendLogs('Extraction du plugin...');
                 $zip = new ZipArchive;
                 $res = $zip->open($tempZipName);
@@ -143,7 +143,7 @@ class Plugin{
                     $pluginFolder = $tempZipFolder;
                     $zip->extractTo($tempZipFolder);
                     $zip->close();
-                    $logger->appendLogs('Plugin extrait <span class="readUnreadButton">OK</span>');
+                    $logger->appendLogs('Plugin extrait <span class="button notice">OK</span>');
                     $fi = new FilesystemIterator($tempZipFolder, FilesystemIterator::SKIP_DOTS);
                     if(iterator_count($fi) === 1) {
                         foreach($fi as $file){
@@ -159,24 +159,24 @@ class Plugin{
                         if(!file_exists($pluginBaseFolder.$pluginName)){
                             $logger->appendLogs('Renommage...');
                             if(rename($pluginFolder,$pluginBaseFolder.$pluginName)){
-                                $logger->appendLogs('Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>');
+                                $logger->appendLogs('Plugin installé, rechargez la page pour voir le plugin <span class="button notice">pensez à l\'activer</span>');
                             }else{
                                 Functions::rmFullDir($pluginFolder);
-                                $logger->appendLogs('Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>');
+                                $logger->appendLogs('Impossible de renommer le plugin <span class="button error">Erreur</span>');
                             }
                         }else{
-                            $logger->appendLogs('Plugin déjà installé <span class="readUnreadButton">OK</span>');
+                            $logger->appendLogs('Plugin déjà installé <span class="button warning">OK</span>');
                         }
                     }else{
-                        $logger->appendLogs('Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>');
+                        $logger->appendLogs('Plugin invalide, fichier principal manquant <span class="button error">Erreur</span>');
                     }
 
                 } else {
-                    $logger->appendLogs('Echec de l\'extraction <span class="readUnreadButton">Erreur</span>');
+                    $logger->appendLogs('Echec de l\'extraction <span class="button error">Erreur</span>');
                 }
                 unlink($tempZipName);
             }else{
-                $logger->appendLogs('Echec du téléchargement <span class="readUnreadButton">Erreur</span>');
+                $logger->appendLogs('Echec du téléchargement <span class="button error">Erreur</span>');
             }
         }
         if(Functions::isAjaxCall()){
