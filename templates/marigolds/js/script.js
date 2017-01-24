@@ -48,12 +48,8 @@ $(document).ready(function(){
         targetThisEvent($('article section:first'),true);
         addEventsButtonLuNonLus();
 
-        $('.unreadForFolder').click(function() {
-            markAllAsRead($(this), 'folder');
-        });
-
-        $('.unreadForFeed').click(function() {
-            markAllAsRead($(this), 'feed');
+        $('[data-mark-all-read]').click(function() {
+            markAllAsRead($(this));
         });
 
         // on initialise ajaxready à true au premier chargement de la fonction
@@ -931,10 +927,11 @@ function getFeedName(id){
     return $('[data-feed-id='+id+']').html();
 }
 
-function markAllAsRead(el, type) {
+function markAllAsRead(el) {
     var infoLink = {};
     var translation = '';
     var action = '';
+    var type = el.data('mark-all-read');
     switch (type) {
         case 'folder':
             infoLink = el.siblings('.folderLink');
