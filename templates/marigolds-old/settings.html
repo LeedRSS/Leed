@@ -6,7 +6,7 @@
  @description: Page de gestion de toutes les préférences/configurations administrateur
 -->
 
-{if="($configurationManager->get('articleDisplayAnonymous')=='1') || ($myUser!=false)"}
+{if="$isAlwaysDisplayed"}
 
 
         <div id="main" class="wrapper clearfix settings">

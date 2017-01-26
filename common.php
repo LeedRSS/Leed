@@ -109,6 +109,12 @@ $tpl->assign('folderManager',$folderManager);
 $tpl->assign('configurationManager',$configurationManager);
 $tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCode'));
 
+$articleDisplayAnonymous = $configurationManager->get('articleDisplayAnonymous');
+$tpl->assign('articleDisplayAnonymous',$articleDisplayAnonymous);
+
+$isAlwaysDisplayed = ($articleDisplayAnonymous=='1') || ($myUser!=false);
+$tpl->assign('isAlwaysDisplayed',$isAlwaysDisplayed);
+
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
 foreach($_POST as $key=>$val){
