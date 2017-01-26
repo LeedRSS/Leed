@@ -14,20 +14,22 @@ Plugin::callHook("index_pre_treatment", array(&$_));
 //Récuperation de l'action (affichage) demandée
 $action = (isset($_['action'])?$_['action']:'');
 $tpl->assign('action',$action);
-//Récuperation des dossiers de flux par ordre de nom
-$tpl->assign('folders',$folderManager->populate('name'));
-//Recuperation de tous les non Lu
-$tpl->assign('unread',$feedManager->countUnreadEvents());
-//recuperation de tous les flux
-$allFeeds = $feedManager->getFeedsPerFolder();
-$tpl->assign('allFeeds',$allFeeds);
-//recuperation de tous les flux par dossier
-$tpl->assign('allFeedsPerFolder',$allFeeds['folderMap']);
-//recuperation de tous les event nons lu par dossiers
-$tpl->assign('allEvents',$eventManager->getEventCountPerFolder());
-//utilisé pour récupérer le statut d'un feed dans le template (en erreur ou ok)
-$feedState = new Feed();
-$tpl->assign('feedState',$feedState);
+if($isAlwaysDisplayed) {
+    //Récuperation des dossiers de flux par ordre de nom
+    $tpl->assign('folders',$folderManager->populate('name'));
+    //Recuperation de tous les non Lu
+    $tpl->assign('unread',$feedManager->countUnreadEvents());
+    //recuperation de tous les flux
+    $allFeeds = $feedManager->getFeedsPerFolder();
+    $tpl->assign('allFeeds',$allFeeds);
+    //recuperation de tous les flux par dossier
+    $tpl->assign('allFeedsPerFolder',$allFeeds['folderMap']);
+    //recuperation de tous les event nons lu par dossiers
+    $tpl->assign('allEvents',$eventManager->getEventCountPerFolder());
+    //utilisé pour récupérer le statut d'un feed dans le template (en erreur ou ok)
+    $feedState = new Feed();
+    $tpl->assign('feedState',$feedState);
+}
 //afficher ou non le champ OTP
 $tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
 
@@ -42,6 +44,9 @@ $displayOnlyUnreadFeedFolder = $configurationManager->get('displayOnlyUnreadFeed
 if (!isset($displayOnlyUnreadFeedFolder)) $displayOnlyUnreadFeedFolder=false;
 ($displayOnlyUnreadFeedFolder=='true')?$displayOnlyUnreadFeedFolder_reverse='false':$displayOnlyUnreadFeedFolder_reverse='true';
 $optionFeedIsVerbose = $configurationManager->get('optionFeedIsVerbose');
+
+$page = 0;
+$pages = 0;
 
 $tpl->assign('articleDisplayAuthor',$articleDisplayAuthor);
 $tpl->assign('articleDisplayDate',$articleDisplayDate);
@@ -112,6 +117,10 @@ switch($action){
         $wrongLogin = true;
     default:
         $wrongLogin = !empty($wrongLogin);
+        $tpl->assign('wrongLogin',$wrongLogin);
+        if(!$isAlwaysDisplayed) {
+            break;
+        }
         $filter = array('unread'=>1);
         if($optionFeedIsVerbose) {
             $numberOfItem = $eventManager->rowCount($filter);
@@ -128,7 +137,6 @@ switch($action){
             $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
         }
         $tpl->assign('numberOfItem',$numberOfItem);
-        $tpl->assign('wrongLogin',$wrongLogin);
 
     break;
 }
