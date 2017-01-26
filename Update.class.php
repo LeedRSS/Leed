@@ -74,18 +74,17 @@ class Update{
         if(count($newFilesForUpdate)==0) return false;
         if (!$simulation) {
             Functions::purgeRaintplCache();
+            $conn = MysqlConnector::getInstance()->connection;
             foreach($newFilesForUpdate as $file){
                 // récupération du contenu du sql
                 $sql = file_get_contents(dirname(__FILE__).Update::FOLDER.'/'.$file);
 
-                $conn = MysqlConnector::getInstance()->connection;
                 //on sépare chaque requête par les ;
                 $sql_array = explode (";",$sql);
                 foreach ($sql_array as $val) {
                     $val = preg_replace('#([-].*)|(\n)#','',$val);
                     if ($val != '') {
-                        //remplacement des préfixes de table
-                        $val = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$val);
+                        $val = self::queryFilter($val,$conn);
                         $result = $conn->query($val);
                         $ficlog = dirname(__FILE__).Update::FOLDER.'/'.substr($file,0,strlen($file)-3).'log';
                         if (false===$result) {
@@ -97,8 +96,8 @@ class Update{
                         }
                     }
                 }
-                unset($conn);
             }
+            unset($conn);
             $_SESSION = array();
             session_unset();
             session_destroy();
@@ -107,6 +106,21 @@ class Update{
         Update::addUpdateFile(array($newFilesForUpdate));
 
         return true;
+    }
+
+    protected function queryFilter($query,$conn) {
+        $query = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$query);
+        if (strpos($query,'##FIRST_USER_LOGIN##')) {
+            $firstUserLogin = $conn->query('SELECT login FROM '.MYSQL_PREFIX.'user ORDER BY id LIMIT 1;');
+            include('User.class.php');
+            $userManager = new User();
+            $user = $userManager->load(array('id'=>1));
+            $query = str_replace('##FIRST_USER_LOGIN##',$user->getLogin().'_',$query);
+        }
+        if(strpos($query,'##')) {
+            throw new Exception('Remaining unreplaced keys before a query:'.$query);
+        }
+        return $query;
     }
 
 }
