@@ -457,6 +457,7 @@ switch ($action){
             if (empty($salt)) $salt = '';
             $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
             if($user==false){
+                error_log("Leed: wrong login for '".$_['login']."'");
                 header('location: ./index.php?action=wrongLogin');
             }else{
                 $_SESSION['currentUser'] = serialize($user);
