@@ -365,9 +365,11 @@ class Feed extends MysqlEntity{
                 echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
                 echo "{$feedName}\t{$feedUrlTxt}\n";
             } else {
-
-                if (!$parseOk) echo '<div class="errorSync">';
-                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+                if (!$parseOk)
+                    echo '<div class="errorSync">';
+                else
+                    echo '<div>';
+                echo "<dt><i>{$parseTimeStr}s</i> | <a target='_blank' href='{$feedUrl}'>{$feedName}</a></dt>\n";
 
             }
             foreach($errors as $error) {
