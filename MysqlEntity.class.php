@@ -381,11 +381,6 @@ class MysqlEntity
 
     }
 
-    ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
-    public function customExecute($request){
-        return self::customQuery($request);
-    }
-
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $requestFiltered = $this->queryFilter($request);
