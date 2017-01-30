@@ -110,14 +110,14 @@ class Update{
 
     protected function queryFilter($query,$conn) {
         $query = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$query);
-        if (strpos($query,'##FIRST_USER_LOGIN##')) {
-            $firstUserLogin = $conn->query('SELECT login FROM '.MYSQL_PREFIX.'user ORDER BY id LIMIT 1;');
+        if (strpos($query,'##FIRST_USER_LOGIN##') !== false) {
+            $firstUserLogin = $conn->query('SELECT login FROM `'.MYSQL_PREFIX.User::TABLE_NAME.'` ORDER BY id LIMIT 1;');
             include('User.class.php');
             $userManager = new User();
             $user = $userManager->load(array('id'=>1));
             $query = str_replace('##FIRST_USER_LOGIN##',$user->getLogin().'_',$query);
         }
-        if(strpos($query,'##')) {
+        if(strpos($query,'##') !== false) {
             throw new Exception('Remaining unreplaced keys before a query:'.$query);
         }
         return $query;
