@@ -10,7 +10,6 @@ class Event extends MysqlEntity{
 
     const TABLE_NAME = '##USER##_event';
     protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
-    protected $CLASS_NAME = 'Event';
     protected $object_fields =
     array(
         'id'=>'key',

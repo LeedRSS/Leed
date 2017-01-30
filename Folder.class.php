@@ -10,7 +10,6 @@ class Folder extends MysqlEntity{
 
     const TABLE_NAME = '##USER##_folder';
     protected $id,$name,$parent,$isopen;
-    protected $CLASS_NAME = 'Folder';
     protected $object_fields =
     array(
         'id'=>'key',
