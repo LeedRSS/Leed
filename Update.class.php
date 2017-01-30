@@ -73,6 +73,7 @@ class Update{
         //si aucun nouveau fichier de mise à jour à traiter @return : false
         if(count($newFilesForUpdate)==0) return false;
         if (!$simulation) {
+            Functions::purgeRaintplCache();
             foreach($newFilesForUpdate as $file){
                 // récupération du contenu du sql
                 $sql = file_get_contents(dirname(__FILE__).Update::FOLDER.'/'.$file);

@@ -40,13 +40,12 @@ require_once('constant.php');
 require_once('RainTPL.php');
 require_once('i18n.php');
 require_once('otphp/lib/otphp.php');
+class_exists('Functions') or require_once('Functions.class.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Update') or require_once('Update.class.php');
-$resultUpdate = Update::ExecutePatch();
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
-class_exists('Functions') or require_once('Functions.class.php');
 class_exists('User') or require_once('User.class.php');
 class_exists('Folder') or require_once('Folder.class.php');
 class_exists('Configuration') or require_once('Configuration.class.php');
@@ -58,6 +57,20 @@ class_exists('Logger') or require_once('Logger.class.php');
 
 //Calage de la date
 date_default_timezone_set('Europe/Paris');
+
+$configurationManager = new Configuration();
+$conf = $configurationManager->getAll();
+
+$theme = $configurationManager->get('theme');
+
+//Instanciation du template
+$tpl = new RainTPL();
+//Definition des dossiers de template
+raintpl::configure("base_url", null );
+raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
+raintpl::configure("cache_dir", "./cache/tmp/" );
+
+$resultUpdate = Update::ExecutePatch();
 
 $userManager = new User();
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
@@ -71,8 +84,6 @@ if (empty($myUser)) {
 $feedManager = new Feed();
 $eventManager = new Event();
 $folderManager = new Folder();
-$configurationManager = new Configuration();
-$conf = $configurationManager->getAll();
 
 $language = $configurationManager->get('language');
 //@todo requis pour la MAJ mais pourra être supprimé.
@@ -85,14 +96,6 @@ if (empty($language)) {
 }
 // Faut-il supprimer la variable /langu?age/ de 'constant.php'?
 
-$theme = $configurationManager->get('theme');
-
-//Instanciation du template
-$tpl = new RainTPL();
-//Definition des dossiers de template
-raintpl::configure("base_url", null );
-raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
-raintpl::configure("cache_dir", "./cache/tmp/" );
 
 i18n_init($language, dirname(__FILE__).'/templates/'.$theme.'/');
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
