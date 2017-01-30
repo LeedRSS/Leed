@@ -8,13 +8,13 @@
 
 class User extends MysqlEntity{
 
+    const TABLE_NAME = 'user';
     const OTP_INTERVAL = 30;
     const OTP_DIGITS   = 8;
     const OTP_DIGEST   = 'sha1';
     private $otpControler;
 
     protected $id,$login,$password,$otpSecret;
-    protected $TABLE_NAME = 'user';
     protected $CLASS_NAME = 'User';
     protected $object_fields =
     array(

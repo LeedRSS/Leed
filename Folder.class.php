@@ -8,8 +8,8 @@
 
 class Folder extends MysqlEntity{
 
+    const TABLE_NAME = '##USER##_folder';
     protected $id,$name,$parent,$isopen;
-    protected $TABLE_NAME = 'folder';
     protected $CLASS_NAME = 'Folder';
     protected $object_fields =
     array(
@@ -20,7 +20,7 @@ class Folder extends MysqlEntity{
     );
 
     function unreadCount(){
-        $results = $this->customQuery('SELECT COUNT(`'.MYSQL_PREFIX.'event`.`id`) FROM `'.MYSQL_PREFIX.'event` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.'event`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`folder` = '.$this->getId());
+        $results = $this->customQuery('SELECT COUNT(`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`id`) FROM `'.MYSQL_PREFIX.Event::TABLE_NAME.'` INNER JOIN `'.MYSQL_PREFIX.Feed::TABLE_NAME.'` ON (`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`feed` = `'.MYSQL_PREFIX.Feed::TABLE_NAME.'`.`id`) WHERE `'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`unread`=1 AND `'.MYSQL_PREFIX.Feed::TABLE_NAME.'`.`folder` = '.$this->getId());
         $number = $results->fetch_array();
         return $number[0];
     }
@@ -36,9 +36,9 @@ class Folder extends MysqlEntity{
         $objects = array();
         $query = 
             'SELECT '.$columns.' '.
-            'FROM `'.MYSQL_PREFIX.'event` '.
-            'INNER JOIN `'.MYSQL_PREFIX.'feed` '.
-            'ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) '.
+            'FROM `'.MYSQL_PREFIX.Event::TABLE_NAME.'` '.
+            'INNER JOIN `'.MYSQL_PREFIX.Feed::TABLE_NAME.'` '.
+            'ON (`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`feed` = `'.MYSQL_PREFIX.Feed::TABLE_NAME.'`.`id`) '.
             $whereClause.' '.
             'ORDER BY '.$order.' '.
             'LIMIT '.$start.','.$limit;

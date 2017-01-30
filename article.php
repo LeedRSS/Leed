@@ -39,13 +39,13 @@ if(isset($_['hightlighted'])) {
 
 $tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
-$target = '`'.MYSQL_PREFIX.'event`.`title`,`'.MYSQL_PREFIX.'event`.`unread`,`'.MYSQL_PREFIX.'event`.`favorite`,`'.MYSQL_PREFIX.'event`.`feed`,';
-if($articleDisplayMode=='summary') $target .= '`'.MYSQL_PREFIX.'event`.`description`,';
-if($articleDisplayMode=='content') $target .= '`'.MYSQL_PREFIX.'event`.`content`,';
-if($articleDisplayLink) $target .= '`'.MYSQL_PREFIX.'event`.`link`,';
-if($articleDisplayDate) $target .= '`'.MYSQL_PREFIX.'event`.`pubdate`,';
-if($articleDisplayAuthor) $target .= '`'.MYSQL_PREFIX.'event`.`creator`,';
-$target .= '`'.MYSQL_PREFIX.'event`.`id`';
+$target = '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`title`,`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`unread`,`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`favorite`,`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`feed`,';
+if($articleDisplayMode=='summary') $target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`description`,';
+if($articleDisplayMode=='content') $target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`content`,';
+if($articleDisplayLink) $target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`link`,';
+if($articleDisplayDate) $target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`pubdate`,';
+if($articleDisplayAuthor) $target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`creator`,';
+$target .= '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`id`';
 
 $nblus = isset($_['nblus']) ? $_['nblus'] : 0;
 $articleConf['startArticle'] = ($scroll*$articleConf['articlePerPages'])-$nblus;
@@ -66,7 +66,7 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);
-        if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` asc';}
+        if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.Event::TABLE_NAME.'`.`pubdate` asc';}
         $events = $currentFolder->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS FAVORIS */

@@ -96,7 +96,7 @@ class MysqlEntity
     */
     public function destroy($debug=false)
     {
-        $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
+        $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
@@ -110,7 +110,7 @@ class MysqlEntity
     */
     public function truncate($debug=false)
     {
-        $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
+        $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
@@ -123,7 +123,7 @@ class MysqlEntity
     * @return Aucun retour
     */
     public function create($debug=false){
-        $query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'` (';
+        $query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'` (';
 
         $i=false;
         foreach($this->object_fields as $field=>$type){
@@ -150,7 +150,7 @@ class MysqlEntity
 
     public function massiveInsert($events){
         if (empty($events)) return;
-        $query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
+        $query = 'INSERT INTO `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`(';
             $i=false;
             foreach($this->object_fields as $field=>$type){
                 if($type!='key'){
@@ -191,7 +191,7 @@ class MysqlEntity
     */
     public function save($id_field='id'){
         if(isset($this->$id_field)){
-            $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
+            $query = 'UPDATE `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`';
             $query .= ' SET ';
 
             $i=false;
@@ -203,7 +203,7 @@ class MysqlEntity
 
             $query .= ' WHERE `'.$id_field.'`="'.$this->$id_field.'";';
         }else{
-            $query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
+            $query = 'INSERT INTO `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`(';
             $i=false;
             foreach($this->object_fields as $field=>$type){
                 if($i){$query .=',';}else{$i=true;}
@@ -234,7 +234,7 @@ class MysqlEntity
     * @return Aucun retour
     */
     public function change($columns,$columns2,$operation='=',$debug=false){
-        $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
+        $query = 'UPDATE `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'` SET ';
         $i=false;
         foreach ($columns as $column=>$value){
             if($i){$query .=',';}else{$i=true;}
@@ -276,7 +276,7 @@ class MysqlEntity
         $objects = array();
         $whereClause = $this->getWhereClause($columns,$operation);
 
-            $query = 'SELECT '.$selColumn.' FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
+            $query = 'SELECT '.$selColumn.' FROM `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'` '.$whereClause.' ';
             if($order!=null) $query .='ORDER BY '.$order.' ';
             if($limit!=null) $query .='LIMIT '.$limit.' ';
             $query .=';';
@@ -350,7 +350,7 @@ class MysqlEntity
                 $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
             }
         }
-        $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
+        $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'`'.$whereClause;
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
         $number = $myQuery->fetch_array();
@@ -375,7 +375,7 @@ class MysqlEntity
             if($i){$whereClause .=' AND ';}else{$i=true;}
             $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
         }
-        $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
+        $query = 'DELETE FROM `'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'` WHERE '.$whereClause.' ;';
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
 
@@ -383,22 +383,13 @@ class MysqlEntity
 
     ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
     public function customExecute($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $result = $this->dbconnector->connection->query($request);
-        $error = $this->error();
-        if ($error) {
-            error_log('Leed error: '.$this->error());
-            error_log('Leed query: '.$query);
-        }
-        if (false===$result) {
-            throw new Exception($this->dbconnector->connection->error);
-        }
-        return $result;
+        return self::customQuery($request);
     }
 
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $result = $this->dbconnector->connection->query($request);
+        $requestFiltered = $this->queryFilter($request);
+        $result = $this->dbconnector->connection->query($requestFiltered);
         $error = $this->error();
         if ($error) {
             error_log('Leed error: '.$this->error());
@@ -441,7 +432,7 @@ class MysqlEntity
     */
 
     public function tableExists() {
-        $table = '`'.MYSQL_PREFIX.$this->TABLE_NAME.'';
+        $table = '`'.MYSQL_PREFIX.get_class($this)::TABLE_NAME.'';
         $result = $this->customQuery("SHOW TABLES LIKE '$table'");
         $assoc = $result->fetch_assoc();
         return false===$assoc ? false : true;
@@ -502,6 +493,27 @@ class MysqlEntity
 
     public function error() {
         return $this->dbconnector->error();
+    }
+
+    protected function queryFilter($query) {
+        $query = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$query);
+        if (strpos($query,'##FIRST_USER_LOGIN##')) {
+            $firstUserLogin = $this->dbconnector->connection->query('SELECT login FROM '.MYSQL_PREFIX.User::TABLE_NAME.' ORDER BY id LIMIT 1;');
+            include('User.class.php');
+            $userManager = new User();
+            $user = $userManager->load(array('id'=>1));
+            $query = str_replace('##FIRST_USER_LOGIN##',$user->getLogin().'_',$query);
+        }
+        if (strpos($query,'##USER##') !== false) {
+		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
+		if ($myUser!=false) {
+                    $query = str_replace('##USER##',$myUser->getLogin(),$query);
+                }
+        }
+        if(strpos($query,'##')) {
+            throw new Exception('Remaining unreplaced keys before a query:'.$query);
+        }
+        return $query;
     }
 
 }
