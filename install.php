@@ -31,6 +31,18 @@ if (file_exists('constant.php')) {
     die(_t('ALREADY_INSTALLED'));
 }
 
+/* Nombres de thèmes disponibles
+ * 0 - Pas possible, car il y aura au moins Marigolds
+ * 1 - Indique le thème (Marigolds), mais ne permet pas la modification
+ * 2 - Indique un thème et permet la sélection. Marigolds est mis en premier. 
+ */
+define('DEFAULT_TEMPLATE', 'marigolds');
+$templates = scandir('templates');
+if (!in_array(DEFAULT_TEMPLATE, $templates)) die('Missing default template : '.DEFAULT_TEMPLATE);
+$templates = array_diff($templates, array(DEFAULT_TEMPLATE, '.', '..')); // Répertoires non voulus sous Linux
+sort($templates);
+$templates = array_merge(array(DEFAULT_TEMPLATE), $templates); // le thème par défaut en premier
+
 // Cookie de la session
 $cookiedir = '';
 if(dirname($_SERVER['SCRIPT_NAME'])!='/') $cookiedir=dirname($_SERVER["SCRIPT_NAME"]).'/';
@@ -64,7 +76,7 @@ if (empty($root)) {
     $root = str_replace(
         basename(__FILE__),
         '',
-        'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
+        $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
     );
 }
 if (!isset($_['mysqlPrefix'])) {
@@ -213,7 +225,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('synchronisationType','auto');
-    $configurationManager->add('theme','marigolds');
+    $configurationManager->add('theme', $_POST['template']);
     $configurationManager->add('root',$root);
 
     $install_terminee=true;
@@ -340,6 +352,17 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
                     foreach($languageList as $lang){
                         $sel = $lang==$currentLanguage?'selected=selected':'';
                         echo "<option $sel value='$lang'>$lang</option>";
+                    }
+                ?>
+                </select>
+            </li>
+            <li>
+                <span><?php echo _t('INSTALL_TEMPLATE') ?></span>
+                <?php
+                    $disabled = count($templates)<2 ? "disabled" : "";
+                    echo "<select name='template' $disabled>\n";
+                    foreach($templates as $name){
+                        echo "<option value='$name'>$name</option>";
                     }
                 ?>
                 </select>

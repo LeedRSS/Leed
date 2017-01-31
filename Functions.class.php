@@ -143,14 +143,14 @@ class Functions
      * @return<String> chaine tronquée
      */
     public static function truncate($msg,$limit){
-        if(mb_strlen($msg)>$limit){
-            $fin='…' ;
-            $nb=$limit-mb_strlen($fin) ;
-        }else{
-            $nb=mb_strlen($msg);
-            $fin='';
+        $str = html_entity_decode($msg, ENT_QUOTES, 'UTF-8');
+        $count = preg_match_all('/\X/u', $str);
+        if($count<=$limit){
+            return $msg;
         }
-        return mb_substr($msg, 0, $nb).$fin;
+        $fin='…' ;
+        $nb=$limit-1;
+        return mb_substr($str, 0, $nb, 'UTF-8').$fin;
     }
 
 
@@ -367,5 +367,29 @@ class Functions
         foreach($chunks as $chunk) $languages []= substr($chunk, 0, 2);
         return array_unique($languages);
     }
+
+    /**
+    * @return boolean
+    */
+    public static function isAjaxCall() {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+
+    /**
+    * Charge dans la portée locale des variables de $_REQUEST
+    * Ex: chargeVarRequest('liste', 'var') créera $liste et $var venant de $_REQUEST
+    */ 
+    public static function chargeVarRequest() {
+        foreach (func_get_args() as $arg) {
+            global ${$arg};
+            if (array_key_exists($arg, $_REQUEST)) {
+                $valeur = $_REQUEST[$arg];
+            } else {
+                $valeur = '';
+            }
+            ${$arg} = $valeur;
+        }
+    }
+
 }
 ?>

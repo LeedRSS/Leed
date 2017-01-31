@@ -31,6 +31,14 @@
             </div>
             <article>
 
+            {if="$logs"}
+                <section class="logs">
+                    <h2>{function="_t('LOGS')"}</h2>
+                    {loop="$logs"}
+                        <div>{$value}</div>
+                    {/loop}
+                </section>
+            {/if}
 
             <section class="manageBloc">
 
@@ -75,13 +83,11 @@
 
                     {$feedsForFolder=$value->getFeeds()}
 
-                    <li>{if="$value->getId()==1"}<a id="defaultFolder"></a>{/if}
+                    <li>
                         <h1 class="folder left" ><span>{$value->getName()}</span> ({function="count($feedsForFolder)"})
 
                         <button  onclick="renameFolder(this,{$value->getId()})">{function="_t('RENAME')"}</button>
-                        {if="$value->getId()!='1'"}
                         <button  onclick="if(confirm('{function="_t('CONFIRM_DELETE_FOLDER')"}\n\n{$value->getName()}'))window.location='action.php?action=removeFolder&amp;id={$value->getId()}'">{function="_t('DELETE')"}</button>
-                        {/if}
 
 <div class="clear"></div>
                         </h1>
@@ -90,22 +96,11 @@
                             {if="count($feeds)!=0"}
                             {loop="$feedsForFolder"}
                                 {$feedName=Functions::truncate($value2->getName(),40)}
-                                {if="$value->getLastSyncInError()==0"}
-                                <li class="feedListItem">
-                                    <span class="feedTitle js-feedTitle">
-                                        <a href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
-                                {else}
-                                <!-- feed dernière synchro en erreur -->
-                                <li class="feedListItem errorSync">
-                                    <span class="feedTitle js-feedTitle" title="{function="_t('SYNCHRONISATION_ERROR')"}">
-                                        <a class="inError" href="index.php?action=selectedFeed&feed={$value2->getId();}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
-                                {/if}
+                                <li class="feedListItem{if="$value->getLastSyncInError()==1"} errorSync{/if}">
+                                    <span class="feedTitle js-feedTitle"{if="$value->getLastSyncInError()==1"} title="{function="_t('SYNCHRONISATION_ERROR')"}"{/if}>
+                                        <a{if="$value->getLastSyncInError()==1"} class="inError"{/if} href="index.php?action=selectedFeed&feed={$value2->getId();}" data-feed-id="{$value2->getId()}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                     </span>
-                                    <div class="feedButtons">
-                                        <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
-                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n{$feedName}')){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
-                                    </div>
-                                    <div class="feedAction"">
+                                    <div class="feedAction">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
                                             {loop="$folders"}
                                             <option {if="$value2->getFolder()==$value3->getId()"}selected="selected"{/if} value="{$value3->getId()}">{$value3->getName()}</option>
@@ -124,6 +119,10 @@
                                             <input class="feedVerbose" style="display: none;" onclick="toggleFeedVerbose(this,{$value2->getIsverbose()},{$value2->getId()})" type="checkbox" title="{function="_t('HIDE_FEED_IS_VERBOSE')"}" checked>
                                             {/if}
                                         {/if}
+                                    </div>
+                                    <div class="feedButtons">
+                                        <button class="feedRename" onclick="renameFeed(this,{$value2->getId()})">{function="_t('RENAME')"}</button>
+                                        <button class="feedDelete" onclick="if(confirm('{function="_t('CONFIRM_DELETE_FEED')"}\n\n'+getFeedName({$value2->getId()}))){window.location='action.php?action=removeFeed&id={$value2->getId()}';}">{function="_t('DELETE')"}</button>
                                     </div>
                                 </li>
                             {/loop}
@@ -173,8 +172,19 @@
                         <h3>{function="_t('USER')"}</h3>
                         <p><label for="login">{function="_t('LOGIN')"} :</label> <input type="text" id="login" name="login" value="{$myUser->getLogin()}"></p>
                         <p><label for="password">{function="_t('PASSWORD')"} :</label> <input type="text" id="password" name="password" autocomplete="off" value="" placeholder="{function="_t('INSTALL_DISPLAY_CLEAR')"}"></p>
-                        <h4>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}</h4>
-                        <h4>{function="_t('HOWTO_RESET_PASSWORD')"}</h4>
+                        <p>{function="_t('LET_EMPTY_IF_NO_PASS_CHANGE')"}<br/>
+                        {function="_t('HOWTO_RESET_PASSWORD')"}</p>
+                        <fieldset>
+                            <!-- DEBUG <img id="qrCodeOtp" class="qrcodeOtp" src="../../qrcode.php?qr&label={$myUser->getOtpSecret()}&user=DEBUG%20{$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1"/> -->
+                            <img id="qrCodeOtp" class="qrcodeOtp" src="../../qrcode.php?qr&label={$serviceUrl}&user={$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1"/>
+                            <legend>{function="_t('OTP_SETTINGS')"}</legend>
+                            <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
+                            <p>{function="_t('OTP_SETTINGS_DESC')"}{$myUser->getOtpKey()}.</p>
+                        <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="otpSecret" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSecret()}">
+                        <i class="icon-random-otp" data-otp-generate="#otpSecret" data-otp-qrcode="#qrCodeOtp" title="Random OTP secret"></i>
+                        </p>
+                        </fieldset>
                     </section>
 
                     <section>
@@ -182,6 +192,7 @@
                         <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
                             {function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
                         <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
+                        {function="Plugin::callHook("setting_post_synchronisation_options", array($synchronisationType))"}
 
                         <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
                         {$synchronisationCode}
@@ -292,26 +303,18 @@
 
                 <section class="pluginBloc">
                     <h2>{function="_t('PLUGINS')"} :</h2>
-                    <p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/ldleman/Leed-market/"> Leed Market</a>.</p>
+                    <p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/Leed-market/">Leed Market</a>.</p>
                     
                     {if="$myUser!=false"}
                     <ul class="pluginMenu">
-                        <li class="selected" onclick="togglePluginMenu(this,'installed');">Plugins installés</li>
-                        <li  onclick="togglePluginMenu(this,'market');">Market</li>
+                        <li class="selected" data-toggle-group="plugins" data-toggle-tab="installed">Plugins installés</li>
+                        <li data-toggle-group="plugins" data-toggle-tab="installation">{function="_t('PLUGINS_INSTALLATION')"}</li>
+                        <li data-toggle-group="plugins" data-toggle-tab="market">Market</li>
                         <div class="clear"></div>
                     </ul>
 
-                    <div class="marketZone">
-                        <p>Recherchez et ajoutez les plugins proposés par la communauté en utilisant le formulaire ci dessous ! (<a href="http://market.idleman.fr/index.php?software=leed&amp;page=submit">Proposer un nouveau plugin</a>)</p>
-                        <form class="form-inline">
-                        <input type="text" id="keywordPlugin"> <button class="btn" id="btnSearchPlugin" onclick="searchPlugin($('#keywordPlugin').val());return false;">Rechercher</button>
-                        </form>
-                        <ul id="resultsPlugin"></ul>
-                        <br/><br/>
-                    </div>
-
-                    <div class="installedZone">
-                        <h3>{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
+                    <div class="plugin-tab" data-zone="installed" data-group="plugins" aria-hidden="false">
+                        <h3 class="plugin-title">{function="_t('AVAILABLE_PLUGIN_LIST')"} :</h3>
                         <ul class="pluginList">
                         {if="count($plugins)==0"}
                         {function="_t('NO_INSTALLED_PLUGINS')"}
@@ -340,6 +343,19 @@
                         {/if}
                         </ul>
                     </div>
+
+                    <div class="plugin-tab" data-zone="installation" data-group="plugins" aria-hidden="true">
+                        <form action="action.php" method="get">
+                            <h3 class="plugin-title">{function="_t('PLUGINS_INSTALL_FROM_URL')"}</h3>
+                            <p>{function="_t('PLUGINS_INSTALL_FROM_URL_FILE_SHOULD_BE_ZIP')"}</p>
+                            <input type="text" name="zip" />
+                            <input type="hidden" name="action" value="installPlugin" />
+                            <button type="submit">{function="_t('PLUGINS_INSTALL')"}</button>
+                        </form>
+                    </div>
+
+                    <div class="plugin-tab" data-zone="market" data-group="plugins" aria-hidden="true">
+                    </div>
                     {else}
                     <p>{function="_t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>
                     {/if}
@@ -348,7 +364,7 @@
 
 
 
-                {function="Plugin::callHook("setting_post_section", array(&$myUser))"}
+                {function="Plugin::callHook("setting_post_section", array(&$myUser,&$feeds))"}
             </article>
 
 

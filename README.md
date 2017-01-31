@@ -56,7 +56,7 @@ Vous pouvez retrouver la FAQ du projet ici : http://projet.idleman.fr/leed/?page
 
 ### Plugins
 
-Le dépot [Leed market](https://github.com/ldleman/Leed-market) contient tous les plugins à jour et approuvés officiellement pour le logiciel Leed.
+Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugins à jour et approuvés officiellement pour le logiciel Leed.
 
 ### Bibliothèques utilisées
 
@@ -125,7 +125,7 @@ You can find the project FAQ here : http://projet.idleman.fr/leed/?page=FAQ
 
 ### Plugins
 
-The [Leed-market](https://github.com/ldleman/Leed-market) repository contains all the plugins up to date and officially approved for Leed software.
+The [Leed-market](https://github.com/Leed-market) repository contains all the plugins up to date and officially approved for Leed software.
 
 ### Libraries used
 
@@ -194,7 +194,7 @@ Puede ver las preguntas más frecuentes sobre el proyecto aquí : http://projet.
 
 ### Complementos
 
-El repositorio [Leed market](https://github.com/ldleman/Leed-market) contiene todos los complementos oficialemente aprobados para Leed.
+El repositorio [Leed market](https://github.com/Leed-market) contiene todos los complementos oficialemente aprobados para Leed.
 
 ### Bibliotecas usadas
 

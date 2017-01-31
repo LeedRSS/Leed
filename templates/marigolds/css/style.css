@@ -41,7 +41,7 @@ sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: b
 sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
-ul, ol { margin: 1em 0; padding: 0 0 0 40px; }
+ul, ol { margin: 1em 0; padding: 0; }
 dd { margin: 0 0 0 40px; }
 nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 
@@ -71,6 +71,21 @@ table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
 
 .chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
+
+.notice,
+.button.notice {
+    background-color: #4caf50;
+}
+
+.warning,
+.button.warning {
+    background-color: #ff9800;
+}
+
+.error,
+.button.error {
+    background-color: #d32f2f;
+}
 
 
 /* ===== Initializr Styles =====================================================
@@ -192,6 +207,7 @@ body{ font:16px/26px 'Open Sans',Helvetica, Helvetica Neue, Arial; }
 .icon-progress-1:before { content: '\e81b'; } /* '' */
 .icon-progress-2:before { content: '\e81c'; } /* '' */
 .icon-folder-empty:before { content: '\e817'; } /* '' */
+.icon-random-otp:before { content: '\e802'; } /* '' */
 
 
 /* ===================
@@ -211,10 +227,6 @@ html, body { position: relative; height: 100%; }
 #footer-container,
 #main aside{
     background:#222222;
-}
-
-#main aside{
-
 }
 
 #title{ color:#ffffff; }
@@ -297,17 +309,18 @@ header a,header a:hover,header a:visited{
   text-decoration: none;
 }
 
-#main button, .loginBloc button,.button,.readUnreadButton{
+#main button, .loginButton, .button,.readUnreadButton{
     background-color:#f16529;
     border:0px;
     color:#ffffff;
     text-decoration:none;
-    padding:3px 8px 3px 8px;
+    padding: 0.4em 0.8em;
     font-size:10px;
     font-weight:bold;
 
     min-width: 35px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .readUnreadButton{
@@ -321,6 +334,11 @@ header a,header a:hover,header a:visited{
     cursor:pointer;
 }
 
+.unreadForFolder,
+.readFolder {
+    padding: 0px 3px 0px 3px;
+}
+
 #main aside a.unreadForFolder,#main aside a.readFolder{
 
     background-color:#F16529;
@@ -329,7 +347,6 @@ header a,header a:hover,header a:visited{
     margin:3px 3px 3px 0px;
     font-size:10px;
     font-weight:bold;
-    padding:0px 3px 0px 3px;
     line-height: 20px;
 
     min-width:55px;
@@ -357,6 +374,10 @@ header a,header a:hover,header a:visited{
 #main aside ul li h1.folder a{
     font-size: 16px;
     font-weight: normal;
+}
+
+.unreadForFeed {
+    margin: 5px 0 0 10px;
 }
 
 #menuBar aside h3{
@@ -532,16 +553,12 @@ header a,header a:hover,header a:visited{
 .loginBloc{
     background-color: #222222;
 
-    float: none;
     margin: 10px 0px 10px;
     padding: 5px;
-    width: auto;
 }
-.loginBloc input{
+.miniInput {
     width:100px;
     border:none;
-    margin-right:1%;
-
 }
 .wrongLogin input{
     background-color: #fdd;
@@ -605,10 +622,6 @@ header a,header a:hover,header a:visited{
     width:70%;
 }
 
-.addBloc{
-    margin-left: 40px;
-}
-
 #main.settings aside a {
     font-size: 16px;
 }
@@ -640,26 +653,30 @@ header a,header a:hover,header a:visited{
     vertical-align: top;
 }
 
-#main.settings .feedAction {
-    width: 25%;
-    float: right;
+.feedAction,
+.feedButtons {
+    display: inline-block;
+    vertical-align: top;
 }
 
-#main.settings .feedFolder {
+.settings .feedAction {
+    width: 25%;
+}
+
+.settings .feedFolder {
     width: 72%;
 }
 
-#main.settings .feedVerbose {
+.settings .feedVerbose {
     min-width: 1em;
     float:left;
 }
 
 .settings .feedButtons {
-    float: right;
     width: 28%;
 }
-#main.settings .feedRename,
-#main.settings .feedDelete {
+.settings .feedRename,
+.settings .feedDelete {
     min-width: 7em;
     width: 48%;
 }
@@ -676,6 +693,18 @@ footer a,#main aside a{
     color:#FFFFFF;
     text-decoration:none;
     font-size:12px;
+}
+
+#main aside a {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#main .feeds a {
+    max-width: 70%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #main aside a span{
@@ -723,6 +752,14 @@ footer a,#main aside a{
     text-decoration:none;
 }
 
+.plugin-tab {
+    padding: 20px;
+}
+
+.plugin-title {
+    margin-top: 0;
+}
+
 .pluginBloc li,.pluginBloc ul{
     list-style-type: none;
     margin: 0px;
@@ -748,18 +785,18 @@ footer a,#main aside a{
     margin:0;
     padding:0;
 }
-.marketZone{
-    display:none;
-}
 .pluginBloc .pluginMenu li{
     float:left;
     padding:5px;
     border:none;
-    margin:0;
+    margin:0 2px 0 0;
     cursor:pointer;
     transition: background .2s ease-in;
      background:#222222;
     color:#ffffff;
+}
+.pluginBloc .pluginMenu li:last-of-type{
+    margin-right: 0;
 }
 .pluginMenu li:hover,.pluginMenu li.selected{
    
@@ -775,11 +812,8 @@ footer a,#main aside a{
     box-shadow: 0 0 3px 0 #810000;
 }
 
-.errorSync a{
-    color:#ffffff;
-}
-
-#main article a.inError {
+.errorSync a,
+#main .errorSync a{
     color:#ffffff;
 }
 
@@ -817,17 +851,31 @@ footer a,#main aside a{
    ========================================================================== */
 
 @media only screen and (max-width: 480px) {
-
- .logo{
+    .logo{
         display:none;
     }
-    
-.loginBloc {
-        margin:0px;
+
+    .loginBloc {
+        text-align: center;
+    }
+
+    .loginButton {
+        padding: 1em 2em;
+    }
+
+    .miniInput {
+        display: block;
+        margin-bottom: 2%;
+        padding: 0.6em 1em;
+        width: 100%;
+        box-sizing: border-box;
+        vertical-align: middle;
     }
 
     nav a {
       margin-bottom: 3px;
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
     }
     .wrapper {
       margin: 0;
@@ -836,9 +884,52 @@ footer a,#main aside a{
     .versionBloc{
       display:none;
     }
+
+    #main aside a {
+        display: inline-block;
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+    }
+
+    #main button {
+        padding-top: 0.8em;
+        padding-bottom: 0.8em;
+    }
+
+    .pluginBloc .pluginMenu li {
+        float: none;
+        display: block;
+        margin-right: 0;
+        margin-bottom: 3px;
+    }
+
+    .settings .feedTitle,
+    .settings .feedAction,
+    .settings .feedButtons {
+        display: block;
+        margin-bottom: 3%;
+        width: 100%;
+    }
+
+    .settings .feedTitle > input,
+    .settings .feedFolder {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #main.settings .feedRename,
+    #main.settings .feedDelete {
+        width: 49%;
+    }
 }
 
 @media only screen and (min-width: 480px) {
+
+    ul,
+    ol,
+    .addBloc {
+        margin-left: 40px;
+    }
 
 /* ====================
     INTERMEDIATE: Menu
@@ -874,7 +965,7 @@ footer a,#main aside a{
 @media only screen and (min-width: 768px) {
     .loginBloc{
            float: left;
-           width: 40%;
+           width: 50%;
            margin: 15px 20px 0;
    }
 
@@ -948,6 +1039,7 @@ footer a,#main aside a{
 
 .ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
 .ir br { display: none; }
+[aria-hidden="true"] { display: none; }
 .hidden { display: none !important; visibility: hidden; }
 .visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
 .visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
@@ -1039,3 +1131,14 @@ article #loader{
   min-width: 20px;
 }
 
+/* =============================================================================
+   OTP
+   ========================================================================== */
+.qrcodeOtp {
+    float: left;
+    margin: 0em 1em 1em 0em;
+}
+
+.icon-random-otp {
+    cursor: pointer;
+}

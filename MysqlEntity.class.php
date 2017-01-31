@@ -14,7 +14,7 @@ require_once('MysqlConnector.class.php');
 class MysqlEntity
 {
 
-    private $dbconnector = false;
+    protected $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;
 
@@ -184,8 +184,8 @@ class MysqlEntity
     * @param  Aucun
     * @return Aucun retour
     */
-    public function save(){
-        if(isset($this->id)){
+    public function save($id_field='id'){
+        if(isset($this->$id_field)){
             $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`';
             $query .= ' SET ';
 
@@ -196,7 +196,7 @@ class MysqlEntity
                 $query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
             }
 
-            $query .= ' WHERE `id`="'.$this->id.'";';
+            $query .= ' WHERE `'.$id_field.'`="'.$this->$id_field.'";';
         }else{
             $query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
             $i=false;
@@ -215,7 +215,7 @@ class MysqlEntity
         }
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
-        $this->id =  (!isset($this->id)?$this->dbconnector->connection->insert_id:$this->id);
+        $this->$id_field =  (!isset($this->$id_field)?$this->dbconnector->connection->insert_id:$this->$id_field);
     }
 
     /**
@@ -235,13 +235,8 @@ class MysqlEntity
             if($i){$query .=',';}else{$i=true;}
             $query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
         }
-        $query .=' WHERE ';
+        $query .= $this->getWhereClause($columns2, $operation);
 
-        $i = false;
-        foreach ($columns2 as $column=>$value){
-            if($i){$query .='AND ';}else{$i=true;}
-            $query .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'" ';
-        }
         if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
     }
@@ -274,16 +269,8 @@ class MysqlEntity
     */
     public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug=false,$selColumn='*'){
         $objects = array();
-        $whereClause = '';
+        $whereClause = $this->getWhereClause($columns,$operation);
 
-            if($columns!=null && sizeof($columns)!=0){
-            $whereClause .= ' WHERE ';
-                $i = false;
-                foreach($columns as $column=>$value){
-                    if($i){$whereClause .=' AND ';}else{$i=true;}
-                    $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
-                }
-            }
             $query = 'SELECT '.$selColumn.' FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` '.$whereClause.' ';
             if($order!=null) $query .='ORDER BY '.$order.' ';
             if($limit!=null) $query .='LIMIT '.$limit.' ';
@@ -393,14 +380,26 @@ class MysqlEntity
     public function customExecute($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $result = $this->dbconnector->connection->query($request);
+        $error = $this->error();
+        if ($error) {
+            error_log('Leed error: '.$this->error());
+            error_log('Leed query: '.$query);
+        }
         if (false===$result) {
             throw new Exception($this->dbconnector->connection->error);
         }
         return $result;
     }
+
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        return $this->dbconnector->connection->query($request);
+        $result = $this->dbconnector->connection->query($request);
+        $error = $this->error();
+        if ($error) {
+            error_log('Leed error: '.$this->error());
+            error_log('Leed query: '.$request);
+        }
+        return $result;
     }
 
 
@@ -448,6 +447,56 @@ class MysqlEntity
     */
     public function escape_string($argument) {
         return $this->dbconnector->connection->escape_string($argument);
+    }
+
+
+    /**
+    * Méthode de récupération d'un opérateur défini dans la valeur d'un filtre avant réquête
+    * @author Simon Alberny
+    * @param <str> Opérateur (ex. : '=', '!=', '<', '<=', '>', '>=')
+    * @param <str> Valeur ou opérateur valeur (ex. : '1', '< 1')
+    * @return <array> 0: opérateur, 1: valeur
+    */
+    protected function getCustomQueryOperator($operation_default, $value) {
+        $valid_operators = array('=','!=','<','<=','>','>=');
+        $operation = $operation_default;
+
+        // Modification de l'opération si contenu dans la valeur du filtre
+        $value_list = explode(' ', $value);
+        if((count($value_list) > 0) && (in_array($value_list[0],$valid_operators))) {
+            $operation = $value_list[0];
+            $value = $value_list[1];
+        }
+
+        return array($operation, $value);
+    }
+
+    /**
+    * Définition des clauses du WHERE dans une requête à la base de données
+    * @author Simon Alberny
+    * @param <array> Tableau de correspondance colonne => valeur (ex. : array( 'column' => 'value', 'column2' => '!= 2' ) )
+    * @param <str> Opérateur (ex. : '=', '!=', '<', '<=', '>', '>=')
+    * @return <str> WHERE...
+    */
+    protected function getWhereClause($columns,$operation) {
+        $whereClause = '';
+        $operation_default = $operation;
+
+        if($columns!=null && sizeof($columns)!=0){
+            $whereClause .= ' WHERE ';
+            $i = false;
+            foreach($columns as $column=>$value){
+                $customQueryOperator = $this->getCustomQueryOperator($operation_default, $value);
+                if($i){$whereClause .=' AND ';}else{$i=true;}
+                $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'"'.$this->secure($customQueryOperator[1], $column).'"';
+            }
+        }
+
+        return $whereClause;
+    }
+
+    public function error() {
+        return $this->dbconnector->error();
     }
 
 }

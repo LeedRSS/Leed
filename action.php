@@ -38,16 +38,22 @@ switch ($action){
         }
         Functions::triggerDirectOutput();
 
-        if (!$commandLine)
+        if (!$commandLine){
             echo '<html>
                 <head>
                 <link rel="stylesheet" href="./templates/'.$theme.'/css/style.css">
                 </head>
                 <body>
                 <div class="sync">';
+        }
         $synchronisationType = $configurationManager->get('synchronisationType');
-        $maxEvents = $configurationManager->get('feedMaxEvents');
-        if('graduate'==$synchronisationType){
+
+        $synchronisationCustom = array();
+        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom,&$synchronisationType,&$commandLine,$configurationManager,$start));
+        if(isset($synchronisationCustom['type'])){
+            $feeds = $synchronisationCustom['feeds'];
+            $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t($synchronisationCustom['type']);
+        }elseif('graduate'==$synchronisationType){
             // sélectionne les 10 plus vieux flux
             $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
@@ -57,93 +63,9 @@ switch ($action){
             $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
         }
 
-
-        $currentDate = date('d/m/Y H:i:s');
-        if (!$commandLine) {
-            echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
-            echo "<dl>\n";
-        } else {
-            echo "{$syncTypeStr}\t{$currentDate}\n";
+        if(!isset($synchronisationCustom['no_normal_synchronize'])){
+            $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
         }
-        $nbErrors = 0;
-        $nbOk = 0;
-        $nbTotal = 0;
-        $localTotal = 0; // somme de tous les temps locaux, pour chaque flux
-        $nbTotalEvents = 0;
-        $syncId = time();
-        $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
-        $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
-
-        foreach ($feeds as $feed) {
-            $nbEvents = 0;
-            $nbTotal++;
-            $startLocal = microtime(true);
-            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
-            $parseTime = microtime(true)-$startLocal;
-            $localTotal += $parseTime;
-            $parseTimeStr = number_format($parseTime, 3);
-            if ($parseOk) { // It's ok
-                $errors = array();
-                $nbTotalEvents += $nbEvents;
-                $nbOk++;
-            } else {
-                // tableau au cas où il arrive plusieurs erreurs
-                $errors = array($feed->getError());
-
-                $nbErrors++;
-            }
-            $feedName = Functions::truncate($feed->getName(),30);
-            $feedUrl = $feed->getUrl();
-            $feedUrlTxt = Functions::truncate($feedUrl, 30);
-            if ($commandLine) {
-                echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
-                echo "{$feedName}\t{$feedUrlTxt}\n";
-            } else {
-
-                if (!$parseOk) echo '<div class="errorSync">';
-                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
-
-            }
-            foreach($errors as $error) {
-                if ($commandLine)
-                    echo "$error\n";
-                else
-                    echo "<dd>$error</dd>\n";
-            }
-            if (!$parseOk && !$commandLine) echo '</div>';
-//             if ($commandLine) echo "\n";
-            $feed->removeOldEvents($maxEvents, $syncId);
-        }
-        assert('$nbTotal==$nbOk+$nbErrors');
-        $totalTime = microtime(true)-$start;
-        assert('$totalTime>=$localTotal');
-        $totalTimeStr = number_format($totalTime, 3);
-        $currentDate = date('d/m/Y H:i:s');
-        if ($commandLine) {
-            echo "\t{$nbErrors}\t"._t('ERRORS')."\n";
-            echo "\t{$nbOk}\t"._t('GOOD')."\n";
-            echo "\t{$nbTotal}\t"._t('AT_TOTAL')."\n";
-            echo "\t$currentDate\n";
-            echo "\t$nbTotalEvents\n";
-            echo "\t{$totalTimeStr}\t"._t('SECONDS')."\n";
-        } else {
-            echo "</dl>\n";
-            echo "<div id='syncSummary'\n";
-            echo "<p>"._t('SYNCHRONISATION_COMPLETE')."</p>\n";
-            echo "<ul>\n";
-            echo "<li>{$nbErrors}\t"._t('ERRORS')."\n";
-            echo "<li>{$nbOk}\t"._t('GOOD')."\n";
-            echo "<li>{$nbTotal}\t"._t('AT_TOTAL')."\n";
-            echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
-            echo "<li>{$nbTotalEvents}\t"._t('NEW_ARTICLES')."\n";
-            echo "</ul>\n";
-            echo "</div>\n";
-        }
-
-        if (!$commandLine) {
-            echo '</div></body></html>';
-        }
-
     break;
 
 
@@ -152,8 +74,11 @@ switch ($action){
         $whereClause = array();
         $whereClause['unread'] = '1';
         if(isset($_['feed']))$whereClause['feed'] = $_['feed'];
+        if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
         $eventManager->change(array('unread'=>'0'),$whereClause);
-        header('location: ./index.php');
+        if(!Functions::isAjaxCall()){
+            header('location: ./index.php');
+        }
     break;
 
     case 'readFolder':
@@ -162,10 +87,14 @@ switch ($action){
         $feeds = $feedManager->loadAllOnlyColumn('id',array('folder'=>$_['folder']));
 
         foreach($feeds as $feed){
-            $eventManager->change(array('unread'=>'0'),array('feed'=>$feed->getId()));
+            $whereClause['feed'] = $feed->getId();
+            if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
+            $eventManager->change(array('unread'=>'0'),$whereClause);
         }
 
-        header('location: ./index.php');
+        if (!Functions::isAjaxCall()){
+            header('location: ./index.php');
+        }
 
     break;
 
@@ -188,8 +117,8 @@ switch ($action){
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
+            $configurationManager->put('otpEnabled',$_['otpEnabled']);
 
-            $userManager->change(array('login'=>$_['login']),array('id'=>$myUser->getId()));
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();
                 $userManager->change(array('password'=>User::encrypt($_['password'], $salt)),array('id'=>$myUser->getId()));
@@ -206,6 +135,16 @@ switch ($action){
                 else
                     $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
 
+            }
+
+            # Modifications dans la base de données, la portée courante et la sesssion
+            # @TODO: gérer cela de façon centralisée
+            $otpSecret = $_['otpSecret'];
+            if ($myUser->isOtpSecretValid($otpSecret)) {
+                $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
+                $myUser->setLogin($_['login']);
+                $myUser->setOtpSecret($otpSecret);
+                $_SESSION['currentUser'] = serialize($myUser);
             }
 
     header('location: ./settings.php#preferenceBloc');
@@ -354,7 +293,6 @@ switch ($action){
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
         if ($newFeed->notRegistered()) {
-            ///@TODO: avertir l'utilisateur du doublon non ajouté
             $newFeed->getInfos();
             $newFeed->setFolder(
                 (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
@@ -364,6 +302,10 @@ switch ($action){
             $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
             $newFeed->parse(time(), $_, $enableCache, $forceFeed);
             Plugin::callHook("action_after_addFeed", array(&$newFeed));
+        } else {
+            $logger = new Logger('settings');
+            $logger->appendLogs(_t("FEED_ALREADY_STORED"));
+            $logger->save();
         }
         header('location: ./settings.php#manageBloc');
     break;
@@ -494,13 +436,8 @@ switch ($action){
                 if (false===$tmpUser) {
                     $message = "Unknown user '{$_['login']}'! No password reset.";
                 } else {
-                    $id = $tmpUser->getId();
-                    $salt = $configurationManager->get('cryptographicSalt');
-                    $userManager->change(
-                        array('password'=>User::encrypt($resetPassword, $salt)),
-                        array('id'=>$id)
-                    );
-                    $message = "User '{$_['login']}' (id=$id) Password reset to '$resetPassword'.";
+                    $tmpUser->resetPassword($resetPassword, $configurationManager->get('cryptographicSalt'));
+                    $message = "User '{$_['login']}' (id={$tmpUser->getId()}) Password reset to '$resetPassword'.";
                 }
             }
             error_log($message);
@@ -518,7 +455,7 @@ switch ($action){
         }else{
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
-            $user = $userManager->exist($_['login'],$_['password'],$salt);
+            $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
             if($user==false){
                 header('location: ./index.php?action=wrongLogin');
             }else{
@@ -626,44 +563,11 @@ switch ($action){
 
     //Installation d'un nouveau plugin
     case 'installPlugin':
-    $tempZipName = 'plugins/'.md5(microtime());
-    echo '<br/>Téléchargement du plugin...';
-    file_put_contents($tempZipName,file_get_contents(urldecode($_['zip'])));
-    if(file_exists($tempZipName)){
-        echo '<br/>Plugin téléchargé <span class="label label-success">OK</span>';
-        echo '<br/>Extraction du plugin...';
-        $zip = new ZipArchive;
-        $res = $zip->open($tempZipName);
-        if ($res === TRUE) {
-            $tempZipFolder = $tempZipName.'_';
-            $zip->extractTo($tempZipFolder);
-            $zip->close();
-            echo '<br/>Plugin extrait <span class="readUnreadButton">OK</span>';
-            $pluginName = glob($tempZipFolder.'/*.plugin*.php');
-            if(count($pluginName)>0){
-            $pluginName = str_replace(array($tempZipFolder.'/','.enabled','.disabled','.plugin','.php'),'',$pluginName[0]);
-                if(!file_exists('plugins/'.$pluginName)){
-                    echo '<br/>Renommage...';
-                    if(rename($tempZipFolder,'plugins/'.$pluginName)){
-                        echo '<br/>Plugin installé, rechargez la page pour voir le plugin <span class="readUnreadButton">pensez à l\'activer</span>';
-                    }else{
-                        Functions::rmFullDir($tempZipFolder);
-                        echo '<br/>Impossible de renommer le plugin <span class="readUnreadButton">Erreur</span>';
-                    }
-                }else{
-                    echo '<br/>Plugin déjà installé <span class="readUnreadButton">OK</span>';
-                }
-            }else{
-                echo '<br/>Plugin invalide, fichier principal manquant <span class="readUnreadButton">Erreur</span>';
-            }
-
-        } else {
-          echo '<br/>Echec de l\'extraction <span class="readUnreadButton">Erreur</span>';
-        }
-         unlink($tempZipName);
-        }else{
-            echo '<br/>Echec du téléchargement <span class="readUnreadButton">Erreur</span>';
-        }
+        Plugin::install($_['zip']);
+    break;
+    case 'getGithubMarket':
+        $plugin = new Plugin();
+        $plugin->getGithubMarketRepos();
     break;
 }
 

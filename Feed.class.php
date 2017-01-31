@@ -80,10 +80,10 @@ class Feed extends MysqlEntity{
         $feed->set_feed_url($this->url);
         $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
         $this->lastSyncInError = 0;
+        $this->lastupdate = $_SERVER['REQUEST_TIME'];
         if (!$feed->init()) {
             $this->error = $feed->error;
             $this->lastSyncInError = 1;
-            $this->lastupdate = $_SERVER['REQUEST_TIME'];
             $this->save();
             return false;
         }
@@ -116,7 +116,11 @@ class Feed extends MysqlEntity{
             $event->setSyncId($syncId);
             $event->setGuid($item->get_id());
             $event->setTitle($item->get_title());
-            $event->setPubdate($item->get_date());
+            $event->setPubdate(
+                ''==$item->get_date()
+                    ? $this->lastupdate
+                    : $item->get_date()
+            );
             $event->setCreator(
                 ''==$item->get_author()
                     ? ''
@@ -126,27 +130,7 @@ class Feed extends MysqlEntity{
 
             $event->setFeed($this->id);
             $event->setUnread(1); // inexistant, donc non-lu
-
-            //Gestion de la balise enclosure pour les podcasts et autre cochonneries :)
-            $enclosure = $item->get_enclosure();
-            if($enclosure!=null && $enclosure->link!=''){
-                $enclosureName = substr(
-                    $enclosure->link,
-                    strrpos($enclosure->link, '/')+1,
-                    strlen($enclosure->link)
-                );
-                $enclosureArgs = strpos($enclosureName, '?');
-                if($enclosureArgs!==false)
-                    $enclosureName = substr($enclosureName,0,$enclosureArgs);
-                $enclosureFormat = isset($enclosure->handler)
-                    ? $enclosure->handler
-                    : substr($enclosureName, strrpos($enclosureName,'.')+1);
-
-                $enclosure ='<div class="enclosure"><h1>Fichier média :</h1><a href="'.$enclosure->link.'"> '.$enclosureName.'</a> <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span></div>';
-            }else{
-                $enclosure = '';
-            }
-
+            $enclosure = $this->getEnclosureHtml($item->get_enclosure());
             $event->setContent($item->get_content().$enclosure);
             $event->setDescription($item->get_description().$enclosure);
 
@@ -171,9 +155,40 @@ class Feed extends MysqlEntity{
         $query='UPDATE `'.MYSQL_PREFIX.'event` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
         $myQuery = $this->customQuery($query);
 
-        $this->lastupdate = $_SERVER['REQUEST_TIME'];
         $this->save();
         return true;
+    }
+
+    protected function getEnclosureHtml($enclosure) {
+        global $i18n;
+	$html = '';
+        if($enclosure!=null && $enclosure->link!=''){
+            $enclosureName = substr(
+                $enclosure->link,
+                strrpos($enclosure->link, '/')+1,
+                strlen($enclosure->link)
+            );
+            $enclosureArgs = strpos($enclosureName, '?');
+            if($enclosureArgs!==false)
+                $enclosureName = substr($enclosureName,0,$enclosureArgs);
+            $enclosureFormat = isset($enclosure->handler)
+                ? $enclosure->handler
+                : substr($enclosureName, strrpos($enclosureName,'.')+1);
+
+            $html ='<div class="enclosure"><h1>Fichier média :</h1>';
+            $enclosureType = $enclosure->get_type();
+            if (strpos($enclosureType, 'image/') === 0) {
+                $html .= '<img src="' . $enclosure->link . '" />';
+            } elseif (strpos($enclosureType, 'audio/') === 0) {
+                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
+            } elseif (strpos($enclosureType, 'video/') === 0) {
+                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
+            } else {
+                $html .= '<a href="'.$enclosure->link.'"> '.$enclosureName.'</a>';
+            }
+            $html .= ' <span>(Format '.strtoupper($enclosureFormat).', '.Functions::convertFileSize($enclosure->length).')</span></div>';
+        }
+        return $html;
     }
 
 
@@ -235,9 +250,10 @@ class Feed extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*'){
+    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+        $filter['feed'] = $this->getId();
         $eventManager = new Event();
-        $events = $eventManager->loadAllOnlyColumn($columns,array('feed'=>$this->getId()),$order,$start.','.$limit);
+        $events = $eventManager->loadAllOnlyColumn($columns,$filter,$order,$start.','.$limit);
         return $events;
     }
 
@@ -304,6 +320,96 @@ class Feed extends MysqlEntity{
     /** @returns vrai si l'url n'est pas déjà connue .*/
     function notRegistered() {
         return $this->rowCount(array('url' => $this->url)) == 0;
+    }
+
+    public function synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start) {
+        $currentDate = date('d/m/Y H:i:s');
+        if (!$commandLine) {
+            echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
+            echo "<dl>\n";
+        } else {
+            echo "{$syncTypeStr}\t{$currentDate}\n";
+        }
+        $maxEvents = $configurationManager->get('feedMaxEvents');
+        $nbErrors = 0;
+        $nbOk = 0;
+        $nbTotal = 0;
+        $localTotal = 0; // somme de tous les temps locaux, pour chaque flux
+        $nbTotalEvents = 0;
+        $syncId = time();
+        $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
+        $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+
+        foreach ($feeds as $feed) {
+            $nbEvents = 0;
+            $nbTotal++;
+            $startLocal = microtime(true);
+            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
+            $parseTime = microtime(true)-$startLocal;
+            $localTotal += $parseTime;
+            $parseTimeStr = number_format($parseTime, 3);
+            if ($parseOk) { // It's ok
+                $errors = array();
+                $nbTotalEvents += $nbEvents;
+                $nbOk++;
+            } else {
+                // tableau au cas où il arrive plusieurs erreurs
+                $errors = array($feed->getError());
+
+                $nbErrors++;
+            }
+            $feedName = Functions::truncate($feed->getName(),30);
+            $feedUrl = $feed->getUrl();
+            $feedUrlTxt = Functions::truncate($feedUrl, 30);
+            if ($commandLine) {
+                echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
+                echo "{$feedName}\t{$feedUrlTxt}\n";
+            } else {
+
+                if (!$parseOk) echo '<div class="errorSync">';
+                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+
+            }
+            foreach($errors as $error) {
+                if ($commandLine)
+                    echo "$error\n";
+                else
+                    echo "<dd>$error</dd>\n";
+            }
+            if (!$parseOk && !$commandLine) echo '</div>';
+//             if ($commandLine) echo "\n";
+            $feed->removeOldEvents($maxEvents, $syncId);
+        }
+        assert('$nbTotal==$nbOk+$nbErrors');
+        $totalTime = microtime(true)-$start;
+        assert('$totalTime>=$localTotal');
+        $totalTimeStr = number_format($totalTime, 3);
+        $currentDate = date('d/m/Y H:i:s');
+        if ($commandLine) {
+            echo "\t{$nbErrors}\t"._t('ERRORS')."\n";
+            echo "\t{$nbOk}\t"._t('GOOD')."\n";
+            echo "\t{$nbTotal}\t"._t('AT_TOTAL')."\n";
+            echo "\t$currentDate\n";
+            echo "\t$nbTotalEvents\n";
+            echo "\t{$totalTimeStr}\t"._t('SECONDS')."\n";
+        } else {
+            echo "</dl>\n";
+            echo "<div id='syncSummary'\n";
+            echo "<p>"._t('SYNCHRONISATION_COMPLETE')."</p>\n";
+            echo "<ul>\n";
+            echo "<li>{$nbErrors}\t"._t('ERRORS')."\n";
+            echo "<li>{$nbOk}\t"._t('GOOD')."\n";
+            echo "<li>{$nbTotal}\t"._t('AT_TOTAL')."\n";
+            echo "<li>{$totalTimeStr}\t"._t('SECONDS')."\n";
+            echo "<li>{$nbTotalEvents}\t"._t('NEW_ARTICLES')."\n";
+            echo "</ul>\n";
+            echo "</div>\n";
+        }
+
+        if (!$commandLine) {
+            echo '</div></body></html>';
+        }
+
     }
 
 }

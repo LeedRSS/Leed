@@ -26,10 +26,23 @@ class Folder extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*'){
-        $eventManager = new Event();
+    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+        if(!isset($filter['unread'])) {
+            $filter['unread'] = 1;
+        }
+        $filter['folder'] = $this->getId();
+        $whereClause = $this->getWhereClause($filter,'=');
+
         $objects = array();
-        $results = $this->customQuery('SELECT '.$columns.' FROM `'.MYSQL_PREFIX.'event` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.'event`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`folder` = '.$this->getId().' ORDER BY '.$order.' LIMIT '.$start.','.$limit);
+        $query = 
+            'SELECT '.$columns.' '.
+            'FROM `'.MYSQL_PREFIX.'event` '.
+            'INNER JOIN `'.MYSQL_PREFIX.'feed` '.
+            'ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) '.
+            $whereClause.' '.
+            'ORDER BY '.$order.' '.
+            'LIMIT '.$start.','.$limit;
+        $results = $this->customQuery($query);
         if($results!=false){
             while($item = $results->fetch_array()){
                 $object = new Event();

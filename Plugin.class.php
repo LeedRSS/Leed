@@ -122,7 +122,118 @@ class Plugin{
         return $plugins;
     }
 
+    public static function install($url) {
+        $logger = new Logger('settings');
+        if(empty($url)){
+            $logger->appendLogs("Pas d'url renseignée.");
+        }elseif(filter_var($url, FILTER_VALIDATE_URL) === false){
+            $logger->appendLogs("L'url renseignée n'est pas valide.");
+        }else{
+            $logger->appendLogs('Téléchargement du plugin...');
+            $pluginBaseFolder = str_replace('/', '', self::FOLDER).'/';
+            $tempZipName = $pluginBaseFolder.md5(microtime());
+            file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, self::getContext());
+            if(file_exists($tempZipName)){
+                $logger->appendLogs('Plugin téléchargé <span class="button notice">OK</span>');
+                $logger->appendLogs('Extraction du plugin...');
+                $zip = new ZipArchive;
+                $res = $zip->open($tempZipName);
+                if ($res === TRUE) {
+                    $tempZipFolder = $tempZipName.'_';
+                    $pluginFolder = $tempZipFolder;
+                    $zip->extractTo($tempZipFolder);
+                    $zip->close();
+                    $logger->appendLogs('Plugin extrait <span class="button notice">OK</span>');
+                    $fi = new FilesystemIterator($tempZipFolder, FilesystemIterator::SKIP_DOTS);
+                    if(iterator_count($fi) === 1) {
+                        foreach($fi as $file){
+                            $filename = $file->getFilename();
+                            $pluginFolder = $pluginBaseFolder.$filename;
+                            rename($tempZipFolder.'/'.$filename, $pluginFolder);
+                            rmdir($tempZipFolder);
+                        }
+                    }
+                    $pluginName = glob($pluginFolder.'/*.plugin*.php');
+                    if(count($pluginName)>0){
+                        $pluginName = str_replace(array($pluginFolder.'/','.enabled','.disabled','.plugin','.php'),'',$pluginName[0]);
+                        if(!file_exists($pluginBaseFolder.$pluginName)){
+                            $logger->appendLogs('Renommage...');
+                            if(rename($pluginFolder,$pluginBaseFolder.$pluginName)){
+                                $logger->appendLogs('Plugin installé, rechargez la page pour voir le plugin <span class="button notice">pensez à l\'activer</span>');
+                            }else{
+                                Functions::rmFullDir($pluginFolder);
+                                $logger->appendLogs('Impossible de renommer le plugin <span class="button error">Erreur</span>');
+                            }
+                        }else{
+                            $logger->appendLogs('Plugin déjà installé <span class="button warning">OK</span>');
+                        }
+                    }else{
+                        $logger->appendLogs('Plugin invalide, fichier principal manquant <span class="button error">Erreur</span>');
+                    }
 
+                } else {
+                    $logger->appendLogs('Echec de l\'extraction <span class="button error">Erreur</span>');
+                }
+                unlink($tempZipName);
+            }else{
+                $logger->appendLogs('Echec du téléchargement <span class="button error">Erreur</span>');
+            }
+        }
+        if(Functions::isAjaxCall()){
+            echo json_encode($logger->getLogs(), JSON_HEX_QUOT | JSON_HEX_TAG);
+        } else {
+            $logger->save();
+            header('location: ./settings.php#pluginBloc');
+        }
+    }
+
+    public function getGithubMarketRepos() {
+        header('Content-Type: application/json');
+        echo json_encode($this->getGithubMarketReposInfos($this->getGithubMarketReposList()));
+    }
+
+    protected function getGithubMarketReposList() {
+        return json_decode(file_get_contents('https://api.github.com/orgs/Leed-market/repos', false, $this->getContext()));
+    }
+
+    protected function getGithubMarketReposInfos($repos) {
+        $infos = array();
+        $installedPluginsNames = $this->getInstalledPluginsNames();
+        foreach($repos as $repo) {
+            $repoName = $repo->name;
+            if(!in_array(strtolower($repoName), $installedPluginsNames)) {
+                $infos[] = array(
+                    'name' => $repoName,
+                    'description' => isset($repo->description) ? $repo->description : false,
+                    'zipUrl' => 'https://github.com/'.$repo->full_name.'/archive/'.$repo->default_branch.'.zip'
+                );
+            }
+        }
+        return $infos;
+    }
+
+    protected function getInstalledPluginsNames() {
+        $names = array();
+        $installedPlugins = self::getAll();
+        if(!$installedPlugins || empty($installedPlugins)) {
+            return $names;
+        }
+        foreach($installedPlugins as $installedPlugin) {
+            $names[] = strtolower($installedPlugin->getName());
+        }
+        return $names;
+    }
+
+    protected static function getContext() {
+        return stream_context_create(
+                array (
+                    'http' => array (
+                        'follow_location' => true,
+                        'user_agent' => $_SERVER['HTTP_USER_AGENT']
+                    )
+                )
+            );
+    }
 
     public static function addHook($hookName, $functionName) {
         $GLOBALS['hooks'][$hookName][] = $functionName;

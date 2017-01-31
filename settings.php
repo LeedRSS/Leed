@@ -8,6 +8,11 @@
 
 require_once('header.php');
 
+$tpl->assign('serviceUrl', rtrim($_SERVER['HTTP_HOST'].$cookiedir,'/'));
+
+$logger = new Logger('settings');
+$tpl->assign('logs',$logger->flushLogs());
+
 // gestion de la langue
 $languageList = $i18n->languages;
 $tpl->assign('languageList',$languageList);
@@ -42,6 +47,8 @@ $tpl->assign('articleDisplayHomeSort', $configurationManager->get('articleDispla
 $tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisplayFolderSort'));
 $tpl->assign('articleDisplayMode', $configurationManager->get('articleDisplayMode'));
 $tpl->assign('optionFeedIsVerbose', $configurationManager->get('optionFeedIsVerbose'));
+
+$tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
 
 //Suppression de l'état des plugins inexistants
 Plugin::pruneStates();

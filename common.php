@@ -6,8 +6,8 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('VERSION_NUMBER_CODE','1.6.1');
-define('VERSION_NAME_CODE','dev');
+define('VERSION_NUMBER_CODE','1.8');
+define('VERSION_NAME_CODE','Stable');
 
 /* ----------MAJ de la version du constant.php--------------------- */
 if (is_writable('constant.php')) {
@@ -39,6 +39,7 @@ $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
 require_once('i18n.php');
+require_once('otphp/lib/otphp.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Update') or require_once('Update.class.php');
@@ -50,6 +51,7 @@ class_exists('User') or require_once('User.class.php');
 class_exists('Folder') or require_once('Folder.class.php');
 class_exists('Configuration') or require_once('Configuration.class.php');
 class_exists('Opml') or require_once('Opml.class.php');
+class_exists('Logger') or require_once('Logger.class.php');
 
 
 //error_reporting(E_ALL);
