@@ -40,7 +40,7 @@
                 <h3 class="left">{function="_t('FEED')"}</h3> <button style="margin: 10px 0px 0px 10px;" onclick="if(confirm('{function="_t('CONFIRM_MARK_ALL_AS_READ')"}'))window.location='action.php?action=readAll'">{function="_t('MARK_ALL_AS_READ')"}</button>
                 <div class="readingFolderButton" onclick="toggleUnreadFeedFolder(this,{$displayOnlyUnreadFeedFolder_reverse});" title="{function="_t('DISPLAY_ONLY_UNREAD_FEEDFOLDER')"}"><i class="icon-resize-{if="$displayOnlyUnreadFeedFolder=='true'"}small{else}full{/if}"></i></div>
                 {function="Plugin::callHook("menu_post_header_options", array(&$myUser))"}
-                <ul class="clear">
+                <ul class="feeds clear">
 
 
 
