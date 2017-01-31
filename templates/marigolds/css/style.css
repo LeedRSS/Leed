@@ -696,12 +696,15 @@ footer a,#main aside a{
 }
 
 #main aside a {
-    max-width: 70%;
-    overflow: hidden;
     display: inline-block;
+    vertical-align: middle;
+}
+
+#main .feeds a {
+    max-width: 70%;
     text-overflow: ellipsis;
     white-space: nowrap;
-    vertical-align: middle;
+    overflow: hidden;
 }
 
 #main aside a span{
