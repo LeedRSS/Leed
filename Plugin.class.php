@@ -132,7 +132,7 @@ class Plugin{
             $logger->appendLogs('Téléchargement du plugin...');
             $pluginBaseFolder = str_replace('/', '', self::FOLDER).'/';
             $tempZipName = $pluginBaseFolder.md5(microtime());
-            file_put_contents($tempZipName,file_get_contents(urldecode($url)), false, self::getContext());
+            file_put_contents($tempZipName,self::getUrlContent(urldecode($url)));
             if(file_exists($tempZipName)){
                 $logger->appendLogs('Plugin téléchargé <span class="button notice">OK</span>');
                 $logger->appendLogs('Extraction du plugin...');
@@ -193,7 +193,7 @@ class Plugin{
     }
 
     protected function getGithubMarketReposList() {
-        return json_decode(file_get_contents('https://api.github.com/orgs/Leed-market/repos', false, $this->getContext()));
+        return json_decode($this->getUrlContent("https://api.github.com/orgs/Leed-market/repos"));
     }
 
     protected function getGithubMarketReposInfos($repos) {
@@ -224,15 +224,19 @@ class Plugin{
         return $names;
     }
 
-    protected static function getContext() {
-        return stream_context_create(
-                array (
-                    'http' => array (
-                        'follow_location' => true,
-                        'user_agent' => $_SERVER['HTTP_USER_AGENT']
-                    )
-                )
-            );
+    protected function getUrlContent($url) {
+        $timeout = 20;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_REFERER, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true );
+        $datas = curl_exec($ch);
+        curl_close($ch);
+        return $datas;
     }
 
     public static function addHook($hookName, $functionName) {
