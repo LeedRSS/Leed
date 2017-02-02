@@ -150,7 +150,7 @@ class Functions
         }
         $fin='…' ;
         $nb=$limit-1;
-        return mb_substr($str, 0, $nb, 'UTF-8').$fin;
+        return htmlentities(mb_substr($str, 0, $nb, 'UTF-8').$fin);
     }
 
 
