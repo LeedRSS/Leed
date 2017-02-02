@@ -10,7 +10,7 @@ Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un 
 - Version : Branche de Développement
 - Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 - Page du projet : http://projet.idleman.fr/leed
-- Licence : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+- Licence : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche programmée (cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacun des flux suivis.
 
