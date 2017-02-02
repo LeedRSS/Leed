@@ -84,7 +84,7 @@
  "LAUNCH_SYNCHRONISATION":"Lancer une synchronisation manuelle",
  "LET_EMPTY_IF_NO_PASS_CHANGE":"Laissez le champ vide si vous ne souhaitez pas changer le mot de passe.",
  "LET_SLASH_AT_END":"Laissez bien un '/' en fin de chaine. Par exemple : http://monsite.com/leed/",
- "LIBRARIES":"LIBRAIRIES",
+ "LIBRARIES":"BIBLIOTHÈQUES",
  "LIBRARIES_PARAGRAPHE":"<ul><li><b>Responsive / Cross browser :</b> Initializr (<a href='http://www.initializr.com'>http://www.initializr.com</a>)</li><li><b>Javascript :</b> JQuery (<a href='http://www.jquery.com'>http://www.jquery.com</a>)</li><li><b>PHP Template :</b> RainTPL (<a href='http://www.raintpl.com'>http://www.raintpl.com</a>)</li><li><b>Parseur RSS :</b> SimplePie (<a href='http://simplepie.org'>http://simplepie.org</a>)</li></ul>",
  "LICENCE":"LICENCE",
  "LOADING":"Chargement en cours…",
