@@ -37,6 +37,11 @@ class Logger {
         }
     }
 
+    public function hasLogs()
+    {
+        return count($this->logs) > 0;
+    }
+
     public function setName($name)
     {
         $this->name = $name;

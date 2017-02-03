@@ -110,6 +110,32 @@ class User extends MysqlEntity{
         setcookie('leedStaySignedIn', '', -1);
     }
 
+    public function create($login = false, $password = false, $salt = false) {
+        $logger = new Logger('settings');
+        if(empty($login)) {
+            $logger->appendLogs(_t("USER_ADD_MISSING_LOGIN"));
+        }
+        $existingUser = $this->load(array('login' => $login));
+        if($existingUser instanceof User) {
+            $logger->appendLogs(_t("USER_ADD_DUPLICATE"));
+            $logger->save();
+            return false;
+        }
+        if(empty($password)) {
+            $logger->appendLogs(_t("USER_ADD_MISSING_PASSWORD"));
+        }
+        if($logger->hasLogs()) {
+            $logger->save();
+            return false;
+        }
+        $this->setLogin($login);
+        $this->setPassword($password, $salt);
+        $this->save();
+        $logger->appendLogs(_t("USER_ADD_OK"). ' '.$login);
+        $logger->save();
+        return true;
+    }
+
     function getId(){
         return $this->id;
     }

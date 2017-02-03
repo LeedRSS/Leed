@@ -17,6 +17,7 @@
                         <li><a class="toggle" href="#manageBloc">{function="_t('FEED_MANAGING')"}</a></li>
                         <li><a class="toggle" href="#synchronizeBloc">{function="_t('MANUAL_FEED_UPDATE')"}</a></li>
                         <li><a class="toggle" href="#preferenceBloc">{function="_t('PREFERENCES')"}</a></li>
+                        <li><a class="toggle" href="#usersBloc">{function="_t('USERS')"}</a></li>
                         <li><a class="toggle" href="#importBloc">{function="_t('IMPORT')"}</a></li>
                         <li><a class="toggle" href="#exportBloc">{function="_t('EXPORT')"}</a></li>
                         <li><a class="toggle" href="#bookBloc">{function="_t('BOOKMARKLET')"}</a></li>
@@ -275,6 +276,15 @@
                 </section>
             {/if}
 
+                <section class="usersBloc">
+                    <h2>{function="_t('USERS')"}</h2>
+                    <form action="./action.php?action=addUser" method="POST" autocomplete="off">
+                        <h3>{function="_t('USER_ADD')"}</h3>
+                        <input type="text" name="login">
+                        <input type="password" name="password" pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9\-]{1,25}[a-zA-Z0-9]{1}$">
+                        <button type="submit">{function="_t('USER_ADD')"}</button>
+                    </form>
+                </section>
 
                 <section class="importBloc">
                     <h2>{function="_t('IMPORT_FEED_OPML_FORMAT')"}</h2>

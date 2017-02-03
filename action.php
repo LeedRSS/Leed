@@ -556,6 +556,15 @@ switch ($action){
 
         break;
 
+    case 'addUser':
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        $login = isset($_['login']) ? $_['login'] : false;
+        $password = isset($_['password']) ? $_['password'] : false;
+        $admin = new User();
+        $admin->create($login, $password, $configurationManager->get('cryptographicSalt'));
+        header('location: ./settings.php#usersBloc');
+        break;
+
     default:
         require_once("SimplePie.class.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));
