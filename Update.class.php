@@ -74,7 +74,7 @@ class Update{
         if(count($newFilesForUpdate)==0) return false;
         if (!$simulation) {
             Functions::purgeRaintplCache();
-            $conn = MysqlConnector::getInstance()->connection;
+            $mysqlEntity = new MysqlEntity();
             foreach($newFilesForUpdate as $file){
                 // récupération du contenu du sql
                 $sql = file_get_contents(dirname(__FILE__).Update::FOLDER.'/'.$file);
@@ -84,20 +84,18 @@ class Update{
                 foreach ($sql_array as $val) {
                     $val = preg_replace('#([-].*)|(\n)#','',$val);
                     if ($val != '') {
-                        $val = self::queryFilter($val,$conn);
-                        $result = $conn->query($val);
+                        $result = $mysqlEntity->customQuery($val);
                         $ficlog = dirname(__FILE__).Update::FOLDER.'/'.substr($file,0,strlen($file)-3).'log';
                         if (false===$result) {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$conn->error."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->error."\n", FILE_APPEND);
                         } else {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$conn->affected_rows.' rows affected'."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->affected_rows.' rows affected'."\n", FILE_APPEND);
                         }
                     }
                 }
             }
-            unset($conn);
             $_SESSION = array();
             session_unset();
             session_destroy();
@@ -106,21 +104,6 @@ class Update{
         Update::addUpdateFile(array($newFilesForUpdate));
 
         return true;
-    }
-
-    protected function queryFilter($query,$conn) {
-        $query = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$query);
-        if (strpos($query,'##FIRST_USER_LOGIN##') !== false) {
-            $firstUserLogin = $conn->query('SELECT login FROM `'.MYSQL_PREFIX.User::TABLE_NAME.'` ORDER BY id LIMIT 1;');
-            include('User.class.php');
-            $userManager = new User();
-            $user = $userManager->load(array('id'=>1));
-            $query = str_replace('##FIRST_USER_LOGIN##',$user->getLogin().'_',$query);
-        }
-        if(strpos($query,'##') !== false) {
-            throw new Exception('Remaining unreplaced keys before a query:'.$query);
-        }
-        return $query;
     }
 
 }
