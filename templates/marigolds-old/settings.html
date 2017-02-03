@@ -328,7 +328,7 @@
                                         <li><h4>{function="_t('AUTHOR')"}: </h4>{if="$address"}<a href="{if="strpos($address, '@')"}mailto:{/if}{$address}">{/if}{$value}{if="$address"}</a>{/if}</li>
                                     {/loop}
                                 {/if}
-                                <li><h4>{function="_t('LICENCE')"}: </h4>{$value->getLicence()}</li>
+                                <li><h4>{function="_t('LICENSE')"}: </h4>{$value->getLicence()}</li>
                                 <li><h4>{function="_t('VERSION')"}: </h4><code>{$value->getVersion()}</code></li>
                                 <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
                                 <li>{$value->getDescription()}</li>
