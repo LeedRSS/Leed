@@ -139,7 +139,6 @@
                      <iframe class="importFrame" src="action.php?action=synchronizeForm" name="idFrameSynchro" id="idFrameSynchro" width="100%" height="300" ></iframe>
                 </section>
 
-                {if="(isset($myUser)) && ($myUser!=false)"}
                 <section class="preferenceBloc">
                     <h2>{function="_t('PREFERENCES')"} :</h2>
                     <form method="POST" action="action.php?action=updateConfiguration">
@@ -215,7 +214,6 @@
                     </section>
 
                     <section>
-                        {if="$myUser!=false"}
                         <h3>{function="_t('PREFERENCES')"}</h3>
                         <fieldset>
                             <legend>{function="_t('ALLOW_ANONYMOUS_READ')"}</legend>
@@ -305,12 +303,8 @@
 
                 <section class="bookBloc">
                     <h2>{function="_t('USE_BOOKMARK')"} :</h2>
-                    {if="$myUser!=false"}
                     <a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="$myUser->getToken()"}'">+ {function="_t('ADD_TO_LEED')"}</a>
                     <p>{function="_t('USE_BOOKMARK_DESC')"}</p>
-                    {else}
-                    <p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
-                    {/if}
                 </section>
 
 
@@ -319,7 +313,6 @@
                     <h2>{function="_t('PLUGINS')"} :</h2>
                     <p>{function="_t('CAN_DOWNLOAD_PLUGINS')"} : <a href="https://github.com/Leed-market/">Leed Market</a>.</p>
                     
-                    {if="$myUser!=false"}
                     <ul class="pluginMenu">
                         <li class="selected" data-toggle-group="plugins" data-toggle-tab="installed">Plugins installés</li>
                         <li data-toggle-group="plugins" data-toggle-tab="installation">{function="_t('PLUGINS_INSTALLATION')"}</li>
@@ -370,9 +363,6 @@
 
                     <div class="plugin-tab" data-zone="market" data-group="plugins" aria-hidden="true">
                     </div>
-                    {else}
-                    <p>{function="_t('YOU_MUST_BE_CONNECTED_PLUGIN')"}</p>
-                    {/if}
                 </section>
 
 
