@@ -565,6 +565,14 @@ switch ($action){
         header('location: ./settings.php#usersBloc');
         break;
 
+    case 'delUser':
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        $userId = isset($_['user-id']) ? $_['user-id'] : false;
+        $user = new User();
+        $user->remove($userId);
+        header('location: ./settings.php#usersBloc');
+        break;
+
     default:
         require_once("SimplePie.class.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));

@@ -278,7 +278,7 @@
                         <h3>{function="_t('USER_LIST')"}</h3>
                         <ul>
                             {loop="$userList"}
-                                <li>{$value->getLogin()}</li>
+                                <li>{$value->getLogin()} <button type="submit" name="user-id" value="{$value->getId()}">{function="_t('USER_DELETE')"}</button></li>
                             {/loop}
                         </ul>
                     </form>

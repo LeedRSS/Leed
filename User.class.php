@@ -147,6 +147,25 @@ class User extends MysqlEntity{
         return true;
     }
 
+    public function remove($userId) {
+        $logger = new Logger('settings');
+        if(empty($userId)) {
+            $logger->appendLogs(_t("USER_DEL_MISSING_ID"));
+            $logger->save();
+            return false;
+        }
+        $user = $this->load(array('id' => $userId));
+        if(!$user) {
+            $logger->appendLogs(_t("USER_DEL_UNKNOWN_ID").' '.$userId);
+            $logger->save();
+            return false;
+        }
+        $this->delete(array('id' => $userId));
+        $logger->appendLogs(_t("USER_DEL_OK").$user->getLogin());
+        $logger->save();
+        return true;
+    }
+
     function getId(){
         return $this->id;
     }
