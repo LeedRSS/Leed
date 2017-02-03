@@ -270,14 +270,18 @@
 
                     <button name="installButton">{function="_t('SAVE')"}</button>
                     </form>
-                    {else}
-                    <p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>
-                    {/if}
                 </section>
-            {/if}
 
                 <section class="usersBloc">
                     <h2>{function="_t('USERS')"}</h2>
+                    <form action="./action.php?action=delUser" method="post">
+                        <h3>{function="_t('USER_LIST')"}</h3>
+                        <ul>
+                            {loop="$userList"}
+                                <li>{$value->getLogin()}</li>
+                            {/loop}
+                        </ul>
+                    </form>
                     <form action="./action.php?action=addUser" method="POST" autocomplete="off">
                         <h3>{function="_t('USER_ADD')"}</h3>
                         <input type="text" name="login">

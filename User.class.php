@@ -110,6 +110,17 @@ class User extends MysqlEntity{
         setcookie('leedStaySignedIn', '', -1);
     }
 
+    public function getUserList() {
+        return $this->loadAllOnlyColumn(
+            '`'.MYSQL_PREFIX.$this::TABLE_NAME.'`.`id`,'.
+            '`'.MYSQL_PREFIX.$this::TABLE_NAME.'`.`login`',
+            array('id' => 1),
+            '`id` ASC',
+            null,
+            '>='
+        );
+    }
+
     public function create($login = false, $password = false, $salt = false) {
         $logger = new Logger('settings');
         if(empty($login)) {
