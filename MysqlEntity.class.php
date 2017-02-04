@@ -500,10 +500,13 @@ class MysqlEntity
             $query = str_replace('##FIRST_USER_LOGIN##',$user->getLogin().'_',$query);
         }
         if (strpos($query,'##USER##') !== false) {
-		$myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
-		if ($myUser!=false) {
-                    $query = str_replace('##USER##',$myUser->getLogin(),$query);
-                }
+            $login = (isset($_SESSION) && isset($_SESSION[User::SESSION_OVERRIDE])) ? $_SESSION[User::SESSION_OVERRIDE] : false;
+            if($login === false && isset($_SESSION['currentUser'])) {
+                $login = unserialize($_SESSION['currentUser'])->getLogin();
+            }
+            if ($login !== false) {
+                $query = str_replace('##USER##', $login, $query);
+            }
         }
         if(strpos($query,'##')) {
             throw new Exception('Remaining unreplaced keys before a query:'.$query);

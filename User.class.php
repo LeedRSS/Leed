@@ -9,6 +9,7 @@
 class User extends MysqlEntity{
 
     const TABLE_NAME = 'user';
+    const SESSION_OVERRIDE = 'userLogin';
     const OTP_INTERVAL = 30;
     const OTP_DIGITS   = 8;
     const OTP_DIGEST   = 'sha1';
@@ -142,6 +143,7 @@ class User extends MysqlEntity{
         $this->setLogin($login);
         $this->setPassword($password, $salt);
         $this->save();
+        $this->createSideTables($login);
         $logger->appendLogs(_t("USER_ADD_OK"). ' '.$login);
         $logger->save();
         return true;
@@ -160,10 +162,38 @@ class User extends MysqlEntity{
             $logger->save();
             return false;
         }
+        $this->setLogin($user->getLogin());
+        $this->deleteSideTables();
         $this->delete(array('id' => $userId));
         $logger->appendLogs(_t("USER_DEL_OK").$user->getLogin());
         $logger->save();
         return true;
+    }
+
+    protected function createSideTables() {
+        $this->manageSideTables();
+    }
+
+    protected function deleteSideTables() {
+        $this->manageSideTables('remove');
+    }
+
+    protected function manageSideTables($action = 'add') {
+        $_SESSION[$this::SESSION_OVERRIDE] = $this->getLogin();
+        $actionMethod = $action === 'add' ? 'create' : 'destroy';
+        $feedManager = new Feed();
+        $feedManager->$actionMethod();
+        $eventManager = new Event();
+        $eventManager->$actionMethod();
+        $folderManager = new Folder();
+        $folderManager->$actionMethod();
+        if($action === 'add' && $folderManager->rowCount() === '0') {
+            $folderManager->setName(_t('GENERAL_FOLDER'));
+            $folderManager->setParent(-1);
+            $folderManager->setIsopen(1);
+            $folderManager->save();
+        }
+        unset($_SESSION[$this::SESSION_OVERRIDE]);
     }
 
     function getId(){
