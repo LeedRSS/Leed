@@ -160,38 +160,6 @@ function searchPlugin(keyword){
     $.getJSON(baseUrl+"/api.php?s=leed&m=search&k="+keyword+"&callback=?");
 }
 
-function jsonp(data){
-    
-    switch(data.method){
-        case 'search':
-            $('#resultsPlugin').html('');
-            if(data.results!=null && data.results.length>0){
-                for(var key in data.results){
-                    var plugin = data.results[key];
-                    tpl = 
-                    '<li>\
-                        <ul>\
-                            <li><h4>Nom: </h4>'+plugin.name+'</li>\
-                            <li><h4>Auteur: </h4><a href="mailto:'+plugin.mail+'">'+plugin.author+'</a></li>\
-                            <li><h4>Licence: </h4><a href="http://google.fr/#q='+plugin.licence+'">'+plugin.licence+'</a></li>\
-                            <li><h4>Version: </h4><code>'+plugin.version+'</code></li>\
-                            <li><h4>Site web: </h4><a href="'+plugin.link+'">'+plugin.link+'</a></li>\
-                            <li>'+plugin.description+'</li>\
-                            <li><button class="btn" onclick="installPlugin(\''+plugin.dll+'\');">Installer</button></li>\
-                        </ul>\
-                    </li>';
-                    $('#resultsPlugin').append(tpl);
-                }
-            }else{
-                $('#resultsPlugin').append('<li>Aucun résultats pour cette recherche.</li>');
-            }   
-        break;
-        case 'get':
-        
-        break;
-    }
-}
-
 function installPlugin(url){
     $('#resultsPlugin').load('action.php?action=installPlugin&zip='+encodeURIComponent(url));
 }
