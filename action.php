@@ -119,22 +119,8 @@ switch ($action){
             $configurationManager->put('theme',$_['ChgTheme']);
             $configurationManager->put('otpEnabled',$_['otpEnabled']);
 
-            if(trim($_['password'])!='') {
-                $salt = User::generateSalt();
-                $userManager->change(array('password'=>User::encrypt($_['password'], $salt)),array('id'=>$myUser->getId()));
-                /* /!\ En multi-utilisateur, il faudra changer l'information au
-                niveau du compte lui-même et non au niveau du déploiement comme
-                ici. C'est ainsi parce que c'est plus efficace de stocker le sel
-                dans la config que dans le fichier de constantes, difficile à
-                modifier. */
-                $oldSalt = $configurationManager->get('cryptographicSalt');
-                if (empty($oldSalt))
-                    /* Pendant la migration à ce système, les déploiements
-                    ne posséderont pas cette donnée. */
-                    $configurationManager->add('cryptographicSalt', $salt);
-                else
-                    $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
-
+            if(!empty(trim($_['password']))) {
+                $myUser->changePassword($_['password']);
             }
 
             # Modifications dans la base de données, la portée courante et la sesssion
@@ -436,7 +422,7 @@ switch ($action){
                 if (false===$tmpUser) {
                     $message = "Unknown user '{$_['login']}'! No password reset.";
                 } else {
-                    $tmpUser->resetPassword($resetPassword, $configurationManager->get('cryptographicSalt'));
+                    $tmpUser->resetPassword($resetPassword);
                     $message = "User '{$_['login']}' (id={$tmpUser->getId()}) Password reset to '$resetPassword'.";
                 }
             }
@@ -453,9 +439,7 @@ switch ($action){
                 exit();
             }
         }else{
-            $salt = $configurationManager->get('cryptographicSalt');
-            if (empty($salt)) $salt = '';
-            $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
+            $user = $userManager->exist($_['login'],$_['password'],@$_['otp']);
             if($user==false){
                 error_log("Leed: wrong login for '".$_['login']."'");
                 header('location: ./index.php?action=wrongLogin');
@@ -561,7 +545,7 @@ switch ($action){
         $login = isset($_['login']) ? $_['login'] : false;
         $password = isset($_['password']) ? $_['password'] : false;
         $admin = new User();
-        $admin->create($login, $password, $configurationManager->get('cryptographicSalt'));
+        $admin->create($login, $password);
         header('location: ./settings.php#usersBloc');
         break;
 

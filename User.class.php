@@ -15,7 +15,7 @@ class User extends MysqlEntity{
     const OTP_DIGEST   = 'sha1';
     private $otpControler;
 
-    protected $id,$login,$password,$otpSecret;
+    protected $id,$login,$password,$otpSecret,$salt;
     protected $CLASS_NAME = 'User';
     protected $object_fields =
     array(
@@ -23,6 +23,7 @@ class User extends MysqlEntity{
         'login'=>'string',
         'password'=>'string',
         'otpSecret'=>'string',
+        'salt' => 'string'
     );
 
     protected $object_fields_uniques =
@@ -53,11 +54,11 @@ class User extends MysqlEntity{
         return str_pad($otp->now(), $otp->digits, '0', STR_PAD_LEFT);
     }
 
-    function exist($login,$password,$salt='',$otpEntered=Null){
+    function exist($login,$password,$otpEntered=Null){
         $userManager = new User();
-        $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
+        $user = $userManager->load(array('login'=>$login));
 
-        if (false!=$user) {
+        if ($user instanceof User && $this->isPasswordMatched($user, $password)) {
             $otpSecret = $user->otpSecret;
 
             global $configurationManager;
@@ -74,6 +75,26 @@ class User extends MysqlEntity{
         }
 
         return false;
+    }
+
+    protected function isPasswordMatched($user, $dirtyPassword) {
+        return $this->encrypt($dirtyPassword,$user->getSalt()) === $user->getPassword();
+    }
+
+    public function changePassword($dirtyPassword) {
+        $logger = new Logger('settings');
+        $newSalt = $this->generateSalt();
+        $newPassword = $this->encrypt($dirtyPassword, $newSalt);
+        $this->__construct();
+        $this->change(
+            array(
+                'password' => $newPassword,
+                'salt' => $newSalt
+            ),
+            array('id' => $this->getId())
+        );
+        $logger->appendLogs("Votre mot de passe a bien été mis à jour.");
+        $logger->save();
     }
 
     static function get($login){
@@ -122,7 +143,7 @@ class User extends MysqlEntity{
         );
     }
 
-    public function create($login = false, $password = false, $salt = false) {
+    public function create($login = false, $password = false) {
         $logger = new Logger('settings');
         if(empty($login)) {
             $logger->appendLogs(_t("USER_ADD_MISSING_LOGIN"));
@@ -141,7 +162,7 @@ class User extends MysqlEntity{
             return false;
         }
         $this->setLogin($login);
-        $this->setPassword($password, $salt);
+        $this->setPassword($password, $this->generateSalt());
         $this->save();
         $this->createSideTables($login);
         $logger->appendLogs(_t("USER_ADD_OK"). ' '.$login);
@@ -214,6 +235,15 @@ class User extends MysqlEntity{
 
     function setPassword($password,$salt=''){
         $this->password = User::encrypt($password,$salt);
+        $this->setSalt($salt);
+    }
+
+    public function getSalt() {
+        return $this->salt;
+    }
+
+    function setSalt($salt){
+        $this->salt = $salt;
     }
 
     function getOtpSecret(){
@@ -224,8 +254,8 @@ class User extends MysqlEntity{
         $this->otpSecret = $otpSecret;
     }
 
-    function resetPassword($resetPassword, $salt=''){
-        $this->setPassword($resetPassword, $salt);
+    public function resetPassword($resetPassword){
+        $this->setPassword($resetPassword, $this->getSalt());
         $this->otpSecret = '';
         $this->save();
     }
