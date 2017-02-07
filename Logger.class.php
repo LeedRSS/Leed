@@ -25,7 +25,7 @@ class Logger {
         return $logs;
     }
 
-    protected function destroy(){
+    public function destroy(){
         unset($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()]);
     }
 

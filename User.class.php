@@ -16,7 +16,6 @@ class User extends MysqlEntity{
     private $otpControler;
 
     protected $id,$login,$password,$otpSecret,$salt;
-    protected $CLASS_NAME = 'User';
     protected $object_fields =
     array(
         'id'=>'key',
@@ -143,8 +142,11 @@ class User extends MysqlEntity{
         );
     }
 
-    public function create($login = false, $password = false) {
-        $logger = new Logger('settings');
+    public function add($login = false, $password = false, $logger = false) {
+        if(!$logger) {
+            require_once('Logger.class.php');
+            $logger = new Logger('settings');
+        }
         if(empty($login)) {
             $logger->appendLogs(_t("USER_ADD_MISSING_LOGIN"));
         }
@@ -171,6 +173,7 @@ class User extends MysqlEntity{
     }
 
     public function remove($userId) {
+        require_once('Logger.class.php');
         $logger = new Logger('settings');
         if(empty($userId)) {
             $logger->appendLogs(_t("USER_DEL_MISSING_ID"));
