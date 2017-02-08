@@ -490,6 +490,10 @@ class MysqlEntity
         return $this->dbconnector->error();
     }
 
+    public function affectedRows() {
+        return $this->dbconnector->connection->affected_rows;
+    }
+
     protected function queryFilter($query) {
         $query = str_replace('##MYSQL_PREFIX##',MYSQL_PREFIX,$query);
         if (strpos($query,'##FIRST_USER_LOGIN##')) {

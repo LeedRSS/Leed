@@ -192,10 +192,6 @@ $install->launch(isset($_['installButton']));
                 ?>
                 </select>
             </li>
-            <li>
-                <span><?php echo _t('PROJECT_ROOT') ?></span>
-                <input type="text" name="root" value="<?php echo $install->getDefaultRoot(); ?>">
-            </li>
         </ul>
         <h2><?php echo _t('INSTALL_TAB_BDD') ?></h2>
         <ul>

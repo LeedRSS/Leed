@@ -32,6 +32,13 @@ $(document).ready(function(){
             }
         );
 
+        $('[data-bookmarklet]').attr('href', function() {
+            var url = window.location.toString().split('/');
+            url.pop();
+            var urlBase = url.join('/');
+            return "javascript:document.location='"+urlBase+"/action.php?action=login&newUrl='+escape(document.location)+'&usr="+$(this).data('bookmarklet')+"'";
+        });
+
     }else{
 
         targetThisEvent($('article section:first'),true);

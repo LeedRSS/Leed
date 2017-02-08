@@ -42,8 +42,7 @@ class Configuration extends MysqlEntity{
         'synchronisationEnableCache' => '0',
         'synchronisationForceFeed' => '0',
         'synchronisationType' => 'auto',
-        'theme' => 'marigolds',
-        'root' => ''
+        'theme' => 'marigolds'
     );
 
     function __construct(){
@@ -117,10 +116,6 @@ class Configuration extends MysqlEntity{
                     break;
                 case 'synchronisationCode':
                     $value = $this->createSynchronisationCode();
-                    break;
-                case 'root':
-                    $root = $_POST['root'];
-                    $value = (substr($root, strlen($root)-1)=='/'?$root:$root.'/');
                     break;
                 default:
                     $value = $defaultValue;

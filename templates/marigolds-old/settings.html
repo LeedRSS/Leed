@@ -144,8 +144,6 @@
                     <form method="POST" action="action.php?action=updateConfiguration">
                     <section>
                         <h3>{function="_t('GENERALITY')"}</h3>
-                        <p><label for="root">{function="_t('PROJECT_ROOT')"} :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
-                        <h4>{function="_t('LET_SLASH_AT_END')"}</h4>
                         <p>{function="_t('INSTALL_LANGUAGE')"} :
                         <select name="ChgLanguage">
                             {loop="$languageList"}
@@ -280,7 +278,7 @@
                 <section class="bookBloc">
                     <h2>{function="_t('USE_BOOKMARK')"} :</h2>
                     {if="$myUser!=false"}
-                    <a class="button" href="javascript:document.location='{$configurationManager->get('root')}action.php?action=login&newUrl='+escape(document.location)+'&usr={function="$myUser->getToken()"}'">+ {function="_t('ADD_TO_LEED')"}</a>
+                    <a class="button" href="#" data-bookmarklet="{function="$myUser->getToken()"}">+ {function="_t('ADD_TO_LEED')"}</a>
                     <p>{function="_t('USE_BOOKMARK_DESC')"}</p>
                     {else}
                     <p>{function="_t('YOU_MUST_BE_CONNECTED_BOOKMARK')"}</p>

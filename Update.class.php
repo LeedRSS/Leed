@@ -88,10 +88,10 @@ class Update{
                         $ficlog = dirname(__FILE__).Update::FOLDER.'/'.substr($file,0,strlen($file)-3).'log';
                         if (false===$result) {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->error."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->error()."\n", FILE_APPEND);
                         } else {
                             file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->affected_rows.' rows affected'."\n", FILE_APPEND);
+                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->affectedRows().' rows affected'."\n", FILE_APPEND);
                         }
                     }
                 }

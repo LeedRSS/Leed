@@ -102,7 +102,6 @@ switch ($action){
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
 
             //Ajout des préférences et réglages
-            $configurationManager->put('root',(substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/'));
             $configurationManager->put('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
             $configurationManager->put('articlePerPages',$_['articlePerPages']);
             $configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
