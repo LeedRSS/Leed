@@ -77,6 +77,14 @@ class Translation {
             $translations = array();
         } else {
             $translations = json_decode($content, true);
+            foreach ($translations as $id => $translation) {
+                if (empty($translation)) {
+                    # Retire les traductions vides afin qu'elles soient
+                    # traduites dans une autre langue si possible.
+                    unset($translations[$id]);
+                }
+            }
+
             if (!empty($content) && empty($translations))
                 error_log("Error while loading '$fileName'");
         }
