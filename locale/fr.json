@@ -22,7 +22,6 @@
  "INSTALL_BTN_END":"Accéder à mon Leed",
  "INSTALL_COMMENT_BDD":"(à créer avant)",
  "INSTALL_COMMENT_HOST":"(Généralement 'localhost')",
- "INSTALL_DISPLAY_CLEAR":"(sera affiché en clair)",
  "INSTALL_END":"Vous pouvez personnaliser votre installation grâce à de nombreux plugins disponibles sur <a target='_blank' href='https://github.com/Leed-market'>Leed-market</a>.",
  "INSTALL_ERROR_CONNEXION":"Connexion impossible à la base de données.",
  "INSTALL_ERROR_CURL":"La fonction requise 'curl_exec' est inaccessible sur votre serveur, veuillez installer le module Curl de PHP.",

@@ -205,7 +205,7 @@ $install->launch(isset($_['installButton']));
             </li>
             <li>
                 <span><?php echo _t('PASSWORD') ?></span>
-                <input type="text" autocomplete="off" name="mysqlMdp" value="<?php echo $install->options['db']['mysqlMdp']; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
+                <input type="password" autocomplete="off" name="mysqlMdp" value="<?php echo $install->options['db']['mysqlMdp']; ?>">
             </li>
             <li>
                 <span><?php echo _t('INSTALL_BDD') ?></span>
@@ -224,7 +224,7 @@ $install->launch(isset($_['installButton']));
             </li>
             <li>
                 <span><?php echo _t('PASSWORD') ?></span>
-                <input type="text" autocomplete="off" name="password" value="<?php echo $install->options['user']['password']; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
+                <input type="password" autocomplete="off" name="password" value="<?php echo $install->options['user']['password']; ?>">
             </li>
         </ul>
         <button id="installButton" name="installButton"><?php echo _t('INSTALL_BTN') ?></button>

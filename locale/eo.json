@@ -22,7 +22,6 @@
  "INSTALL_BTN_END":"Aliri mian Leed",
  "INSTALL_COMMENT_BDD":"(je krei antaŭe)",
  "INSTALL_COMMENT_HOST":"(Ĝenerale 'localhost')",
- "INSTALL_DISPLAY_CLEAR":"(estos afiŝita nekaŝe)",
  "INSTALL_END":"Vi povas adapti vian instalon danke al multaj kromaĵoj haveblaj ĉe <a target='_blank' href='https://github.com/Leed-market'>Leed-market</a>.",
  "INSTALL_ERROR_CONNEXION":"Konekto neebla al datumbazo.",
  "INSTALL_ERROR_CURL":"La funkcio nepra 'curl_exec' ne akceseblas ĉe via servilo, kontrolu vian version de PHP.",
