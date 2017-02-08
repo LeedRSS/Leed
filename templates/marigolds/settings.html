@@ -21,7 +21,8 @@
                         <li><a class="toggle" href="#exportBloc">{function="_t('EXPORT')"}</a></li>
                         <li><a class="toggle" href="#bookBloc">{function="_t('BOOKMARKLET')"}</a></li>
                         <li><a class="toggle" href="#pluginBloc">{function="_t('AVAILABLES_PLUGINS')"}</a></li>
-                        <li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purge';}">{function="_t('TRASH_EVENTS')"}</li>
+                        <li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_EVENTS')"}')){window.location='action.php?action=purgeEvents';}">{function="_t('TRASH_EVENTS')"}</li>
+                        <li class="pointer" onclick="if(confirm('{function="_t('CONFIRM_TRASH_CACHE')"}')){window.location='action.php?action=purgeCache';}">{function="_t('TRASH_CACHE')"}</li>
                     </ul>
                     <h3>{function="_t('PLUGINS_INSTALLED')"}</h3>
                     <ul>

@@ -151,9 +151,16 @@ switch ($action){
     break;
 
 
-    case 'purge':
+    case 'purgeEvents':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         $eventManager->truncate();
+        header('location: ./settings.php');
+    break;
+
+
+    case 'purgeCache':
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        Functions::purgeRaintplCache();
         header('location: ./settings.php');
     break;
 
