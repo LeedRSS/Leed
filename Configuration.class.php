@@ -9,7 +9,7 @@
 
 class Configuration extends MysqlEntity{
 
-    const TABLE_NAME = 'configuration';
+    const TABLE_NAME = MYSQL_PREFIX.'configuration';
     protected $id,$key,$value,$confTab;
     protected $object_fields =
     array(

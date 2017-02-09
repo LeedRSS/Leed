@@ -58,14 +58,13 @@ $tpl->assign('articlePerPages',$articlePerPages);
 $tpl->assign('displayOnlyUnreadFeedFolder',$displayOnlyUnreadFeedFolder);
 $tpl->assign('displayOnlyUnreadFeedFolder_reverse',$displayOnlyUnreadFeedFolder_reverse);
 
-$eventTableName = MYSQL_PREFIX.Event::TABLE_NAME;
-$target = '`'.$eventTableName.'`.`title`,`'.$eventTableName.'`.`unread`,`'.$eventTableName.'`.`favorite`,`'.$eventTableName.'`.`feed`,';
-if($articleDisplayMode=='summary') $target .= '`'.$eventTableName.'`.`description`,';
-if($articleDisplayMode=='content') $target .= '`'.$eventTableName.'`.`content`,';
-if($articleDisplayLink) $target .= '`'.$eventTableName.'`.`link`,';
-if($articleDisplayDate) $target .= '`'.$eventTableName.'`.`pubdate`,';
-if($articleDisplayAuthor) $target .= '`'.$eventTableName.'`.`creator`,';
-$target .= '`'.$eventTableName.'`.`id`';
+$target = '`'.Event::TABLE_NAME.'`.`title`,`'.Event::TABLE_NAME.'`.`unread`,`'.Event::TABLE_NAME.'`.`favorite`,`'.Event::TABLE_NAME.'`.`feed`,';
+if($articleDisplayMode=='summary') $target .= '`'.Event::TABLE_NAME.'`.`description`,';
+if($articleDisplayMode=='content') $target .= '`'.Event::TABLE_NAME.'`.`content`,';
+if($articleDisplayLink) $target .= '`'.Event::TABLE_NAME.'`.`link`,';
+if($articleDisplayDate) $target .= '`'.Event::TABLE_NAME.'`.`pubdate`,';
+if($articleDisplayAuthor) $target .= '`'.Event::TABLE_NAME.'`.`creator`,';
+$target .= '`'.Event::TABLE_NAME.'`.`id`';
 
 $tpl->assign('target',$target);
 $tpl->assign('feeds','');
@@ -97,7 +96,7 @@ switch($action){
         $page = (isset($_['page'])?$_['page']:1);
         $pages = ceil($numberOfItem/$articlePerPages);
         $startArticle = ($page-1)*$articlePerPages;
-        if($articleDisplayFolderSort) {$order = '`'.$eventTableName.'`.`pubdate` desc';} else {$order = '`'.$eventTableName.'`.`pubdate` asc';}
+        if($articleDisplayFolderSort) {$order = '`'.Event::TABLE_NAME.'`.`pubdate` desc';} else {$order = '`'.Event::TABLE_NAME.'`.`pubdate` asc';}
         $events = $currentFolder->getEvents($startArticle,$articlePerPages,$order,$target);
 
 

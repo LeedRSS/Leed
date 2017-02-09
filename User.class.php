@@ -8,7 +8,7 @@
 
 class User extends MysqlEntity{
 
-    const TABLE_NAME = 'user';
+    const TABLE_NAME = MYSQL_PREFIX.'user';
     const SESSION_OVERRIDE = 'userLogin';
     const OTP_INTERVAL = 30;
     const OTP_DIGITS   = 8;
@@ -133,8 +133,8 @@ class User extends MysqlEntity{
 
     public function getUserList() {
         return $this->loadAllOnlyColumn(
-            '`'.MYSQL_PREFIX.$this::TABLE_NAME.'`.`id`,'.
-            '`'.MYSQL_PREFIX.$this::TABLE_NAME.'`.`login`',
+            '`'.$this::TABLE_NAME.'`.`id`,'.
+            '`'.$this::TABLE_NAME.'`.`login`',
             array('id' => 1),
             '`id` ASC',
             null,

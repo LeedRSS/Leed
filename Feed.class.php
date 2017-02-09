@@ -8,7 +8,7 @@
 
 class Feed extends MysqlEntity{
 
-    const TABLE_NAME = '##USER##_feed';
+    const TABLE_NAME = MYSQL_PREFIX.'##USER##_feed';
     protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose,$lastSyncInError;
     protected $object_fields =
     array(
@@ -151,7 +151,7 @@ class Feed extends MysqlEntity{
         foreach($events as $item){
             $listid.=','.$item;
         }
-        $query='UPDATE `'.MYSQL_PREFIX.Event::TABLE_NAME.'` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
+        $query='UPDATE `'.Event::TABLE_NAME.'` SET syncId='.$syncId.' WHERE id in (0'.$listid.');';
         $myQuery = $this->customQuery($query);
 
         $this->save();
@@ -201,7 +201,7 @@ class Feed extends MysqlEntity{
         ));
         $limit = $nbLines - $maxEvent;
         if ($limit<=0) return;
-        $tableEvent = '`'.MYSQL_PREFIX.Event::TABLE_NAME."`";
+        $tableEvent = '`'.Event::TABLE_NAME."`";
         $query = "
             DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubdate ASC LIMIT {$limit}
         ";
@@ -258,7 +258,7 @@ class Feed extends MysqlEntity{
 
     function countUnreadEvents(){
         $unreads = array();
-        $results = Feed::customQuery("SELECT COUNT(`".MYSQL_PREFIX.Event::TABLE_NAME."`.`id`), `".MYSQL_PREFIX.Event::TABLE_NAME."`.`feed` FROM `".MYSQL_PREFIX.Event::TABLE_NAME."` WHERE `".MYSQL_PREFIX.Event::TABLE_NAME."`.`unread` = 1 GROUP BY `".MYSQL_PREFIX.Event::TABLE_NAME."`.`feed`") ;
+        $results = Feed::customQuery("SELECT COUNT(`".Event::TABLE_NAME."`.`id`), `".Event::TABLE_NAME."`.`feed` FROM `".Event::TABLE_NAME."` WHERE `".Event::TABLE_NAME."`.`unread` = 1 GROUP BY `".Event::TABLE_NAME."`.`feed`") ;
         if($results!=false){
             $total = 0;
             while($item = $results->fetch_array()){
@@ -274,7 +274,7 @@ class Feed extends MysqlEntity{
         $feedsFolderMap = array();
         $feedsIdMap = array();
 
-        $results = Feed::customQuery("SELECT `".MYSQL_PREFIX.self::TABLE_NAME."`.`name` AS name, `".MYSQL_PREFIX.self::TABLE_NAME."`.`id`   AS id, `".MYSQL_PREFIX.self::TABLE_NAME."`.`url`  AS url, `".MYSQL_PREFIX.Folder::TABLE_NAME."`.`id` AS folder FROM `".MYSQL_PREFIX.self::TABLE_NAME."` INNER JOIN `".MYSQL_PREFIX.Folder::TABLE_NAME."` ON ( `".MYSQL_PREFIX.self::TABLE_NAME."`.`folder` = `".MYSQL_PREFIX.Folder::TABLE_NAME."`.`id` ) ORDER BY `".MYSQL_PREFIX.self::TABLE_NAME."`.`name` ;");
+        $results = Feed::customQuery("SELECT `".self::TABLE_NAME."`.`name` AS name, `".self::TABLE_NAME."`.`id`   AS id, `".self::TABLE_NAME."`.`url`  AS url, `".Folder::TABLE_NAME."`.`id` AS folder FROM `".self::TABLE_NAME."` INNER JOIN `".Folder::TABLE_NAME."` ON ( `".self::TABLE_NAME."`.`folder` = `".Folder::TABLE_NAME."`.`id` ) ORDER BY `".self::TABLE_NAME."`.`name` ;");
         if($results!=false){
             while($item = $results->fetch_array()){
                 $name = $item['name'];
