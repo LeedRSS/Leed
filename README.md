@@ -7,8 +7,11 @@ Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.o
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
 - Application : Leed (Light Feed)
-- Version : Branche de Développement
-- Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
+- Auteur : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Contributeurs principaux : (par ordre alphabétique des pseudos)
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Page du projet : http://projet.idleman.fr/leed
 - Licence : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
@@ -64,6 +67,8 @@ Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugin
 - Javascript : JQuery (http://www.jquery.com)
 - Moteur template : RainTPL (http://www.raintpl.com)
 - Parseur RSS : SimplePie (http://simplepie.org)
+- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP : OtPhp (https://github.com/lelag/otphp)
 
 
 ---------
@@ -76,10 +81,13 @@ Leed (short for Light Feed) is a minimalist [RSS](https://fr.wikipedia.org/wiki/
 This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quick as possible when you connect to it.
 
 - Application: Leed (Light Feed)
-- Version : Branch Development
-- Author : Valentin Carruesco aka Idleman ( idleman@idleman.fr )
+- Author: Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Main contributors: (alphabetical order of pseudos)
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Project page: http://projet.idleman.fr/leed
-- License: [CC by-nc -sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+- License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 All tasks are performed in the background thanks to a scheduled task (cron), so the user does not experience delays due to the recovery and processing of each of the monitored feed.
 
@@ -133,6 +141,8 @@ The [Leed-market](https://github.com/Leed-market) repository contains all the pl
 - Javascript: JQuery ( http://www.jquery.com )
 - Template Engine: RainTPL ( http://www.raintpl.com )
 - RSS Parser: SimplePie ( http://simplepie.org )
+- QR Code: PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP: OtPhp (https://github.com/lelag/otphp)
  
 
 ---------
@@ -145,10 +155,13 @@ Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org
 Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://fr.wikipedia.org/wiki/Cron) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
 
 - Script : Leed (Light Feed)
-- Versión : Branche de Développement
-- Autor : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
+- Autor : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Principales contribuyentes (por orden alfabético del pseudos):
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Página del proyecto : http://projet.idleman.fr/leed
-- Licencia : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+- Licencia : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Todas las tareas de tratamiento de los RSS se efectuan de manera invisible gracias a una tarea sincronizada (Cron). Así, el usuario no debe sufrir los largos tiempos necesarios para recuperar y tratar los RSS.
 
@@ -202,3 +215,5 @@ El repositorio [Leed market](https://github.com/Leed-market) contiene todos los 
 - Javascript : JQuery (http://www.jquery.com)
 - PHP Template : RainTPL (http://www.raintpl.com)
 - RSS parser : SimplePie (http://simplepie.org)
+- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP : OtPhp (https://github.com/lelag/otphp)
