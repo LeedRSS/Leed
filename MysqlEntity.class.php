@@ -17,6 +17,7 @@ class MysqlEntity
     protected $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;
+    protected $prepare = array();
 
 
     function sgbdType($type){
@@ -75,6 +76,32 @@ class MysqlEntity
             break;
         }
         return $return ;
+    }
+
+    protected function secureNew($value, $field){
+        $type = false;
+
+        // ce champ n'existe pas : on le considère comme une chaîne de caractères
+        if (isset($this->object_fields[$field]))
+            $type = $this->object_fields[$field];
+
+        $dbType = false;
+        switch($type){
+            case 'key':
+            case 'object':
+            case 'integer':
+            case 'boolean':
+                $dbType = 'i';
+            break;
+            case 'string':
+            case 'timestamp':
+            case 'longstring':
+            default;
+                $dbType = 's';
+            break;
+        }
+        $this->prepare[0] .= $dbType;
+        array_push($this->prepare, $value);
     }
 
     public function __construct(){
@@ -238,7 +265,8 @@ class MysqlEntity
         $i=false;
         foreach ($columns as $column=>$value){
             if($i){$query .=',';}else{$i=true;}
-            $query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
+            $this->secureNew($value, $column);
+            $query .= '`'.$column.'`=? ';
         }
         $query .= $this->getWhereClause($columns2, $operation);
 
@@ -383,14 +411,24 @@ class MysqlEntity
 
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $requestFiltered = $this->queryFilter($request);
-        $result = $this->dbconnector->connection->query($requestFiltered);
+            $this->dbconnector->__construct();
+            $requestFiltered = $this->queryFilter($request);
+            $stmt = $this->dbconnector->connection->prepare($requestFiltered);
+            if(count($this->prepare) > 0) {
+                echo '<pre>' . print_r( $this->prepare, true ) . '</pre>';
+                echo '<pre>' . print_r( $requestFiltered, true ) . '</pre>';
+                $stmt->bind_param('"'.implode('", "', $this->prepare).'"');
+            }
+            $result = $stmt->execute();
+            if($result === true) {
+                $this->prepare = array();
+            }
         $error = $this->error();
         if ($error) {
-            error_log('Leed error: '.$this->error());
-            error_log('Leed query: '.$request);
+            error_log('Leed error: '.$error);
+            error_log('Leed query: '.$requestFiltered);
         }
-        return $result;
+        return $stmt->get_result();
     }
 
 
@@ -479,7 +517,8 @@ class MysqlEntity
             foreach($columns as $column=>$value){
                 $customQueryOperator = $this->getCustomQueryOperator($operation_default, $value);
                 if($i){$whereClause .=' AND ';}else{$i=true;}
-                $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'"'.$this->secure($customQueryOperator[1], $column).'"';
+                $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'?';
+                $this->secureNew($customQueryOperator[1], $column);
             }
         }
 
