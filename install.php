@@ -124,7 +124,7 @@ if (!@function_exists('curl_exec')){
 }else{
     $test[$lib_success][] = _t('INSTALL_INFO_CURL');
 }
-if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
+if (@version_compare(PHP_VERSION, '5.5.0') <= 0){
     $test[$lib_errors][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
 }else{
     $test[$lib_success][] = _t('INSTALL_INFO_PHPV', array(PHP_VERSION));
