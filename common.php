@@ -70,7 +70,8 @@ raintpl::configure("base_url", null );
 raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
 raintpl::configure("cache_dir", "./cache/tmp/" );
 
-$resultUpdate = Update::ExecutePatch();
+$update = new Update();
+$resultUpdate = $update->executePatch();
 
 $userManager = new User();
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);

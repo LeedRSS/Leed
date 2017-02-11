@@ -8,6 +8,13 @@
 
 class Update{
     const FOLDER = '/updates';
+    protected $mysqlEntity;
+    protected $currentPatch = array();
+    protected $updatesFolderPath = "";
+
+    public function __construct() {
+        $this->updatesFolderPath = dirname(__FILE__).self::FOLDER.'/';
+    }
 
     /**
      * Description : Récupération des fichiers déjà passés lors des anciennes mises à jour.
@@ -40,8 +47,10 @@ class Update{
     /**
      * Description : Permet de trouver les fichiers qui n'ont pas encore été joués
      */
-    private static function getNewPatch() {
-        $files = glob(dirname(__FILE__). Update::FOLDER .'/*.sql');
+    protected function getNewPatch() {
+        $sqlFiles = glob($this->updatesFolderPath.'*.sql');
+        $phpFiles = glob($this->updatesFolderPath.'*.php');
+        $files = array_merge($sqlFiles, $phpFiles);
         if(empty($files))
             $files = array();
 
@@ -67,33 +76,21 @@ class Update{
      * Description : Permet l'execution des fichiers sql non joués
      * @simulation : true pour ne pas faire les actions en bdd
      */
-    public static function ExecutePatch($simulation=false) {
-        $newFilesForUpdate = Update::getNewPatch();
+    public function executePatch($simulation=false) {
+        $newFilesForUpdate = $this->getNewPatch();
 
         //si aucun nouveau fichier de mise à jour à traiter @return : false
         if(count($newFilesForUpdate)==0) return false;
         if (!$simulation) {
             Functions::purgeRaintplCache();
-            $mysqlEntity = new MysqlEntity();
-            foreach($newFilesForUpdate as $file){
-                // récupération du contenu du sql
-                $sql = file_get_contents(dirname(__FILE__).Update::FOLDER.'/'.$file);
-
-                //on sépare chaque requête par les ;
-                $sql_array = explode (";",$sql);
-                foreach ($sql_array as $val) {
-                    $val = preg_replace('#([-].*)|(\n)#','',$val);
-                    if ($val != '') {
-                        $result = $mysqlEntity->customQuery($val);
-                        $ficlog = dirname(__FILE__).Update::FOLDER.'/'.substr($file,0,strlen($file)-3).'log';
-                        if (false===$result) {
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->error()."\n", FILE_APPEND);
-                        } else {
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : SQL : '.$val."\n", FILE_APPEND);
-                            file_put_contents($ficlog, date('d/m/Y H:i:s').' : '.$mysqlEntity->affectedRows().' rows affected'."\n", FILE_APPEND);
-                        }
-                    }
+            $this->setMysqlEntity( new MysqlEntity() );
+            foreach($newFilesForUpdate as $newFile){
+                $this->setCurrentPatch($newFile);
+                if(Functions::endsWith($this->currentPatch['name'], 'php')) {
+                    include($this->currentPatch['path']);
+                }
+                if(Functions::endsWith($this->currentPatch['name'], 'sql')) {
+                    $this->makeSqlUpdate();
                 }
             }
             $_SESSION = array();
@@ -104,6 +101,49 @@ class Update{
         Update::addUpdateFile(array($newFilesForUpdate));
 
         return true;
+    }
+
+    protected function makeSqlUpdate() {
+        $sql = file_get_contents($this->currentPatch['path']);
+        $sql_array = explode (";",$sql);
+        foreach ($sql_array as $val) {
+            $val = preg_replace('#([-].*)|(\n)#','',$val);
+            if ($val != '') {
+                $result = $this->mysqlEntity->customQuery($val);
+                if (false===$result) {
+                    $this->writeLog('SQL : '.$val);
+                    $this->writeLog($this->mysqlEntity->error());
+                } else {
+                    $this->writeLog('SQL : '.$val);
+                    $this->writeLog($this->mysqlEntity->affectedRows().' rows affected');
+                }
+            }
+        }
+    }
+
+    protected function writeLog($message) {
+        file_put_contents($this->currentPath['logsPath'], date('d/m/Y H:i:s').' : '.$message."\n", FILE_APPEND);
+    }
+
+    public function getCurrentPatch() {
+        return $this->currentPatch;
+    }
+
+    public function setCurrentPatch($fileName) {
+        $this->currentPatch = array(
+            'name' => $fileName,
+            'path' => $this->updatesFolderPath.$fileName,
+
+            'logsPath' => $this->updatesFolderPath.substr($fileName,0,strlen($fileName)-3).'log'
+        );
+    }
+
+    public function getMysqlEntity() {
+        return $this->mysqlEntity;
+    }
+
+    public function setMysqlEntity(MysqlEntity $mysqlEntity) {
+        $this->mysqlEntity = $mysqlEntity;
     }
 
 }
