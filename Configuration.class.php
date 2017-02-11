@@ -25,23 +25,9 @@ class Configuration extends MysqlEntity{
 
     protected $options = array(
         'articleDisplayAnonymous' => '0',
-        'articleDisplayAuthor' => '1',
-        'articleDisplayDate' => '1',
-        'articleDisplayFolderSort' => '1',
-        'articleDisplayHomeSort' => '1',
-        'articleDisplayLink' => '1',
-        'articleDisplayMode' => 'summary',
-        'articlePerPages' => '5',
-        'displayOnlyUnreadFeedFolder' => 'false',
-        'feedMaxEvents' => '50',
         'language' => 'en',
-        'optionFeedIsVerbose' => 1,
-        'paginationScale' => 5,
         'syncGradCount' => '10',
         'synchronisationCode' => '',
-        'synchronisationEnableCache' => '0',
-        'synchronisationForceFeed' => '0',
-        'synchronisationType' => 'auto',
         'theme' => 'marigolds'
     );
 

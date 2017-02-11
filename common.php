@@ -81,6 +81,10 @@ if (empty($myUser)) {
     $_SESSION['currentUser'] = serialize($myUser);
 }
 
+$myUserConfs = $myUser instanceof User ?
+    $myUser->getConf()
+    : $userManager->getConf();
+
 $feedManager = new Feed();
 $eventManager = new Event();
 $folderManager = new Folder();
@@ -102,6 +106,7 @@ if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';
 $tpl->assign('myUser',$myUser);
+$tpl->assign('myUserConfs',$myUserConfs);
 $tpl->assign('feedManager',$feedManager);
 $tpl->assign('eventManager',$eventManager);
 $tpl->assign('userManager',$userManager);

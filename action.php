@@ -100,23 +100,12 @@ switch ($action){
 
     case 'updateConfiguration':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        $myUser->updateConf($_['user']);
 
-            //Ajout des préférences et réglages
-            $configurationManager->put('articleDisplayAnonymous',$_['articleDisplayAnonymous']);
-            $configurationManager->put('articlePerPages',$_['articlePerPages']);
-            $configurationManager->put('articleDisplayLink',$_['articleDisplayLink']);
-            $configurationManager->put('articleDisplayDate',$_['articleDisplayDate']);
-            $configurationManager->put('articleDisplayAuthor',$_['articleDisplayAuthor']);
-            $configurationManager->put('articleDisplayHomeSort',$_['articleDisplayHomeSort']);
-            $configurationManager->put('articleDisplayFolderSort',$_['articleDisplayFolderSort']);
-            $configurationManager->put('articleDisplayMode',$_['articleDisplayMode']);
-            $configurationManager->put('synchronisationType',$_['synchronisationType']);
-            $configurationManager->put('synchronisationEnableCache',$_['synchronisationEnableCache']);
-            $configurationManager->put('synchronisationForceFeed',$_['synchronisationForceFeed']);
-            $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
-            $configurationManager->put('language',$_['ChgLanguage']);
-            $configurationManager->put('theme',$_['ChgTheme']);
-            $configurationManager->put('otpEnabled',$_['otpEnabled']);
+            $configurationManager->put('articleDisplayAnonymous',$_['conf']['articleDisplayAnonymous']);
+            $configurationManager->put('language',$_['conf']['language']);
+            $configurationManager->put('theme',$_['conf']['theme']);
+            $configurationManager->put('otpEnabled',$_['conf']['otpEnabled']);
 
             if(!empty(trim($_['password']))) {
                 $myUser->changePassword($_['password']);
@@ -124,15 +113,14 @@ switch ($action){
 
             # Modifications dans la base de données, la portée courante et la sesssion
             # @TODO: gérer cela de façon centralisée
-            $otpSecret = $_['otpSecret'];
+            $otpSecret = $_['user']['otpSecret'];
             if ($myUser->isOtpSecretValid($otpSecret)) {
                 $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
                 $myUser->setLogin($_['login']);
                 $myUser->setOtpSecret($otpSecret);
-                $_SESSION['currentUser'] = serialize($myUser);
             }
-
-    header('location: ./settings.php#preferenceBloc');
+        $_SESSION['currentUser'] = serialize($myUser);
+        header('location: ./settings.php#preferenceBloc');
     break;
 
 

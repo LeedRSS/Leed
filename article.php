@@ -18,19 +18,13 @@ $tpl->assign('allFeeds',$allFeeds);
 $scroll = isset($_['scroll']) ? $_['scroll'] : 0;
 $tpl->assign('scrollpage',$scroll);
 // récupération des variables pour l'affichage
-$articleConf['articlePerPages'] = $configurationManager->get('articlePerPages');
-$articleDisplayLink = $configurationManager->get('articleDisplayLink');
-$articleDisplayDate = $configurationManager->get('articleDisplayDate');
-$articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
-$articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
-$articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort');
-$articleDisplayMode = $configurationManager->get('articleDisplayMode');
-$optionFeedIsVerbose = $configurationManager->get('optionFeedIsVerbose');
+$articleConf['articlePerPages'] = $myUserConfs->articlePerPages;
+$optionFeedIsVerbose = $myUserConfs->optionFeedIsVerbose;
 
-$tpl->assign('articleDisplayAuthor',$articleDisplayAuthor);
-$tpl->assign('articleDisplayDate',$articleDisplayDate);
-$tpl->assign('articleDisplayLink',$articleDisplayLink);
-$tpl->assign('articleDisplayMode',$articleDisplayMode);
+$tpl->assign('articleDisplayAuthor',$myUserConfs->articleDisplayAuthor);
+$tpl->assign('articleDisplayDate',$myUserConfs->articleDisplayDate);
+$tpl->assign('articleDisplayLink',$myUserConfs->articleDisplayLink);
+$tpl->assign('articleDisplayMode',$myUserConfs->articleDisplayMode);
 
 if(isset($_['hightlighted'])) {
     $hightlighted = $_['hightlighted'];
@@ -40,11 +34,11 @@ if(isset($_['hightlighted'])) {
 $tpl->assign('time',$_SERVER['REQUEST_TIME']);
 
 $target = '`'.Event::TABLE_NAME.'`.`title`,`'.Event::TABLE_NAME.'`.`unread`,`'.Event::TABLE_NAME.'`.`favorite`,`'.Event::TABLE_NAME.'`.`feed`,';
-if($articleDisplayMode=='summary') $target .= '`'.Event::TABLE_NAME.'`.`description`,';
-if($articleDisplayMode=='content') $target .= '`'.Event::TABLE_NAME.'`.`content`,';
-if($articleDisplayLink) $target .= '`'.Event::TABLE_NAME.'`.`link`,';
-if($articleDisplayDate) $target .= '`'.Event::TABLE_NAME.'`.`pubdate`,';
-if($articleDisplayAuthor) $target .= '`'.Event::TABLE_NAME.'`.`creator`,';
+if($myUserConfs->articleDisplayMode=='summary') $target .= '`'.Event::TABLE_NAME.'`.`description`,';
+if($myUserConfs->articleDisplayMode=='content') $target .= '`'.Event::TABLE_NAME.'`.`content`,';
+if($myUserConfs->articleDisplayLink) $target .= '`'.Event::TABLE_NAME.'`.`link`,';
+if($myUserConfs->articleDisplayDate) $target .= '`'.Event::TABLE_NAME.'`.`pubdate`,';
+if($myUserConfs->articleDisplayAuthor) $target .= '`'.Event::TABLE_NAME.'`.`creator`,';
 $target .= '`'.Event::TABLE_NAME.'`.`id`';
 
 $nblus = isset($_['nblus']) ? $_['nblus'] : 0;
@@ -66,7 +60,7 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);
-        if($articleDisplayFolderSort) {$order = '`'.Event::TABLE_NAME.'`.`pubdate` desc';} else {$order = '`'.Event::TABLE_NAME.'`.`pubdate` asc';}
+        if($myUserConfs->articleDisplayFolderSort) {$order = '`'.Event::TABLE_NAME.'`.`pubdate` desc';} else {$order = '`'.Event::TABLE_NAME.'`.`pubdate` asc';}
         $events = $currentFolder->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS FAVORIS */
@@ -78,7 +72,7 @@ switch($action){
     case 'unreadEvents':
     default:
         $filter['unread'] = 1;
-        if($articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
+        if($myUserConfs->articleDisplayHomeSort) {$order = 'pubdate desc';} else {$order = 'pubdate asc';}
         if($optionFeedIsVerbose) {
             $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$articleConf['startArticle'].','.$articleConf['articlePerPages']);
         } else {

@@ -145,7 +145,7 @@
                     <section>
                         <h3>{function="_t('GENERALITY')"}</h3>
                         <p>{function="_t('INSTALL_LANGUAGE')"} :
-                        <select name="ChgLanguage">
+                        <select name="conf[language]">
                             {loop="$languageList"}
                                 {if="$value==$currentLanguage"}
                                     <option selected=selected value='{$value}'>{$value}</option>";
@@ -155,7 +155,7 @@
                             {/loop}
                         </select></p>
                         <p>{function="_t('THEMES')"} :
-                            <select name="ChgTheme">
+                            <select name="conf[theme]">
                                 {loop="$themeList"}
                                 {if="$value==$currentTheme"}
                                 <option selected=selected value='{$value}'>{$value}</option>";
@@ -176,10 +176,10 @@
                             <!-- DEBUG <img id="qrCodeOtp" class="qrcodeOtp" src="../../qrcode.php?qr&label={$myUser->getOtpSecret()}&user=DEBUG%20{$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1"/> -->
                             <img id="qrCodeOtp" class="qrcodeOtp" src="../../qrcode.php?qr&label={$serviceUrl}&user={$myUser->getLogin()}&key={$myUser->getOtpSecret()}&issuer={$serviceUrl}&algorithm=sha1&digits=8&period=30&_qrSize=4&_qrMargin=1"/>
                             <legend>{function="_t('OTP_SETTINGS')"}</legend>
-                            <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="otpEnabled" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="otpEnabled" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$otpEnabled"} checked="checked" {/if} value="1" id="otpEnabledYes" name="conf[otpEnabled]" /><label for="otpEnabledYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$otpEnabled"} checked="checked" {/if} value="0" id="otpEnabledNo" name="conf[otpEnabled]" /><label for="otpEnabledNo">{function="_t('NO')"}</label>
                             <p>{function="_t('OTP_SETTINGS_DESC')"}{$myUser->getOtpKey()}.</p>
-                        <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="otpSecret" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSecret()}">
+                        <p><label for="otpSecret">{function="_t('OTP_SECRET')"} :</label> <input type="text" id="otpSecret" name="user[otpSecret]" autocomplete="off" placeholder="{function="_t('OTP_DISABLED_EMPTY')"}" value="{$myUser->getOtpSecret()}">
                         <i class="icon-random-otp" data-otp-generate="#otpSecret" data-otp-qrcode="#qrCodeOtp" title="Random OTP secret"></i>
                         </p>
                         </fieldset>
@@ -187,9 +187,9 @@
 
                     <section>
                         <h3>{function="_t('SYNCHRONISATION')"}</h3>
-                        <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="synchronisationType"> <label for="synchronisationTypeComplete"><strong>
+                        <p><input type="radio"  {if="$synchronisationType=='auto'"} checked="checked" {/if} value="auto" id="synchronisationTypeComplete" name="user[synchronisationType]"> <label for="synchronisationTypeComplete"><strong>
                             {function="_t('AUTOMATIC_FULL')"} :</strong></label> {function="_t('AUTOMATIC_FULL_DESC')"}</p>
-                        <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="synchronisationType"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
+                        <p><input type="radio" {if=" $synchronisationType=='graduate'"} checked="checked" {/if}  value="graduate" id="synchronisationTypeGraduated" name="user[synchronisationType]"> <label for="synchronisationTypeGraduated"><strong>{function="_t('AUTOMATIC_GRADUATE')"} :</strong></label> {function="_t('AUTOMATIC_GRADUATE_DESC')"}</p>
                         {function="Plugin::callHook("setting_post_synchronisation_options", array($synchronisationType))"}
 
                         <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
@@ -198,14 +198,14 @@
                         <p><strong>{function="_t('SYNCHRONISATION_OPTION')"}</strong>
                         <fieldset>
                             <legend>{function="_t('ENABLE_CACHE')"}</legend>
-                            <input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="user[synchronisationEnableCache]" /><label for="synchronisationEnableCacheYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$synchronisationEnableCache"} checked="checked" {/if} value="0" id="synchronisationEnableCacheNo" name="user[synchronisationEnableCache]" /><label for="synchronisationEnableCacheNo">{function="_t('NO')"}</label>
                             <p>{function="_t('ENABLE_CACHE_DESC')"}</p>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('FORCE_INTEGRATION')"}</legend>
-                            <input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="synchronisationForceFeed" /><label for="synchronisationForceFeedYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$synchronisationForceFeed"} checked="checked" {/if} value="1" id="synchronisationForceFeedYes" name="user[synchronisationForceFeed]" /><label for="synchronisationForceFeedYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="user[synchronisationForceFeed]" /><label for="synchronisationForceFeedNo">{function="_t('NO')"}</label>
                             <p>{function="_t('FORCE_INTEGRATION_DESC')"}</p>
                         </fieldset>
                         </p>
@@ -215,47 +215,47 @@
                         <h3>{function="_t('PREFERENCES')"}</h3>
                         <fieldset>
                             <legend>{function="_t('ALLOW_ANONYMOUS_READ')"}</legend>
-                            <input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="conf[articleDisplayAnonymous]" /><label for="articleDisplayAnonymousYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="conf[articleDisplayAnonymous]" /><label for="articleDisplayAnonymousNo">{function="_t('NO')"}</label>
                             <h4>{function="_t('ALLOW_ANONYMOUS_READ_DESC')"}</h4>
                         </fieldset>
                         <fieldset>
                             <legend><label for="articlePerPages">{function="_t('EVENT_NUMBER_PER_PAGES')"}</label></legend>
-                            <input type="text" value="{$configurationManager->get('articlePerPages')}" id="articlePerPages" name="articlePerPages" size="4" />
+                            <input type="text" value="{$myUserConfs->articlePerPages}" id="articlePerPages" name="user[articlePerPages]" size="4" />
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SORT_BY_RECENT_EVENT_HOME')"}</legend>
-                            <input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="articleDisplayHomeSort" /><label for="articleDisplayHomeSortNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$articleDisplayHomeSort"} checked="checked" {/if} value="1" id="articleDisplayHomeSortYes" name="user[articleDisplayHomeSort]" /><label for="articleDisplayHomeSortYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$articleDisplayHomeSort"} checked="checked" {/if} value="0" id="articleDisplayHomeSortNo" name="user[articleDisplayHomeSort]" /><label for="articleDisplayHomeSortNo">{function="_t('NO')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SORT_BY_RECENT_EVENT_FOLDER')"}</legend>
-                            <input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSorttNo" name="articleDisplayFolderSort" /><label for="articleDisplayFolderSortNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$articleDisplayFolderSort"} checked="checked" {/if} value="1" id="articleDisplayFolderSortYes" name="user[articleDisplayFolderSort]" /><label for="articleDisplayFolderSortYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="!$articleDisplayFolderSort"} checked="checked" {/if} value="0" id="articleDisplayFolderSortNo" name="user[articleDisplayFolderSort]" /><label for="articleDisplayFolderSortNo">{function="_t('NO')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_LINK')"}</legend>
-                            <input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="articleDisplayLink" /><label for="articleDisplayLinkYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="articleDisplayLink" /><label for="articleDisplayLinkNo">{function="_t('NO')"}</label>
+                            <input type="radio"  {if="$articleDisplayLink=='1'"} checked="checked" {/if}value="1" id="articleDisplayLinkYes" name="user[articleDisplayLink]" /><label for="articleDisplayLinkYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayLink=='0'"} checked="checked" {/if} value="0" id="articleDisplayLinkNo" name="user[articleDisplayLink]" /><label for="articleDisplayLinkNo">{function="_t('NO')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_DATE')"}</legend>
-                            <input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" id="articleDisplayDateYes" name="articleDisplayDate" /><label for="articleDisplayDateYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" id="articleDisplayDateNo" name="articleDisplayDate" /><label for="articleDisplayDateNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$articleDisplayDate=='1'"} checked="checked" {/if} value="1" id="articleDisplayDateYes" name="user[articleDisplayDate]" /><label for="articleDisplayDateYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayDate=='0'"} checked="checked" {/if} value="0" id="articleDisplayDateNo" name="user[articleDisplayDate]" /><label for="articleDisplayDateNo">{function="_t('NO')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_AUTHOR')"}</legend>
-                            <input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="articleDisplayAuthor" /><label for="articleDisplayAuthorYes">{function="_t('YES')"}</label>
-                            <input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="articleDisplayAuthor" /><label for="articleDisplayAuthorNo">{function="_t('NO')"}</label>
+                            <input type="radio" {if="$articleDisplayAuthor=='1'"} checked="checked" {/if} value="1" id="articleDisplayAuthorYes" name="user[articleDisplayAuthor]" /><label for="articleDisplayAuthorYes">{function="_t('YES')"}</label>
+                            <input type="radio" {if="$articleDisplayAuthor=='0'"} checked="checked" {/if} value="0" id="articleDisplayAuthorNo" name="user[articleDisplayAuthor]" /><label for="articleDisplayAuthorNo">{function="_t('NO')"}</label>
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('SHOW_EVENT_CONTENT')"}</legend>
-                            <input type="radio" {if="$articleDisplayMode=='title'"} checked="checked" {/if} value="title" id="articleDisplayModeTitle" name="articleDisplayMode" /><label for="articleDisplayModeTitle">{function="_t('TITLE')"}</label>
-                            <input type="radio" {if="$articleDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="articleDisplayModeSummary" name="articleDisplayMode" /><label for="articleDisplayModeSummary">{function="_t('SUMMARY')"}</label>
-                            <input type="radio" {if="$articleDisplayMode=='content'"} checked="checked" {/if} value="content" id="articleDisplayModeContent" name="articleDisplayMode" /><label for="articleDisplayModeContent">{function="_t('CONTENT')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='title'"} checked="checked" {/if} value="title" id="articleDisplayModeTitle" name="user[articleDisplayMode]" /><label for="articleDisplayModeTitle">{function="_t('TITLE')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='summary'"} checked="checked" {/if} value="summary" id="articleDisplayModeSummary" name="user[articleDisplayMode]" /><label for="articleDisplayModeSummary">{function="_t('SUMMARY')"}</label>
+                            <input type="radio" {if="$articleDisplayMode=='content'"} checked="checked" {/if} value="content" id="articleDisplayModeContent" name="user[articleDisplayMode]" /><label for="articleDisplayModeContent">{function="_t('CONTENT')"}</label>
                         </fieldset>
                         <fieldset>
-                            <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
+                            <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$myUserConfs->feedMaxEvents.'" name="user[feedMaxEvents]" size="4" />'))"}</legend>
                             <h4>{function="_t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</h4>
                         </fieldset>
 

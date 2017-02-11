@@ -38,16 +38,16 @@ if($myUser !== false) {
     //autres variables de configuration
     $tpl->assign('feeds',$feedManager->populate('name'));
     $tpl->assign('folders',$folderManager->populate('name'));
-    $tpl->assign('synchronisationType',$configurationManager->get('synchronisationType'));
-    $tpl->assign('synchronisationEnableCache',$configurationManager->get('synchronisationEnableCache'));
-    $tpl->assign('synchronisationForceFeed',$configurationManager->get('synchronisationForceFeed'));
-    $tpl->assign('articleDisplayLink', $configurationManager->get('articleDisplayLink'));
-    $tpl->assign('articleDisplayDate', $configurationManager->get('articleDisplayDate'));
-    $tpl->assign('articleDisplayAuthor', $configurationManager->get('articleDisplayAuthor'));
-    $tpl->assign('articleDisplayHomeSort', $configurationManager->get('articleDisplayHomeSort'));
-    $tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisplayFolderSort'));
-    $tpl->assign('articleDisplayMode', $configurationManager->get('articleDisplayMode'));
-    $tpl->assign('optionFeedIsVerbose', $configurationManager->get('optionFeedIsVerbose'));
+    $tpl->assign('synchronisationType',$myUserConfs->synchronisationType);
+    $tpl->assign('synchronisationEnableCache',$myUserConfs->synchronisationEnableCache);
+    $tpl->assign('synchronisationForceFeed',$myUserConfs->synchronisationForceFeed);
+    $tpl->assign('articleDisplayLink', $myUserConfs->articleDisplayLink);
+    $tpl->assign('articleDisplayDate', $myUserConfs->articleDisplayDate);
+    $tpl->assign('articleDisplayAuthor', $myUserConfs->articleDisplayAuthor);
+    $tpl->assign('articleDisplayHomeSort', $myUserConfs->articleDisplayHomeSort);
+    $tpl->assign('articleDisplayFolderSort', $myUserConfs->articleDisplayFolderSort);
+    $tpl->assign('articleDisplayMode', $myUserConfs->articleDisplayMode);
+    $tpl->assign('optionFeedIsVerbose', $myUserConfs->optionFeedIsVerbose);
 
     $tpl->assign('userList', $userManager->getUserList());
 

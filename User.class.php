@@ -22,13 +22,31 @@ class User extends MysqlEntity{
         'login'=>'string',
         'password'=>'string',
         'otpSecret'=>'string',
-        'salt' => 'string'
+        'salt' => 'string',
+        'conf' => 'longstring'
     );
 
     protected $object_fields_uniques =
     array(
         'login'
     );
+
+    protected $conf = '{
+        "articleDisplayAuthor": "1",
+        "articleDisplayDate": "1",
+        "articleDisplayFolderSort": "1",
+        "articleDisplayHomeSort": "1",
+        "articleDisplayLink": "1",
+        "articleDisplayMode": "summary",
+        "articlePerPages": "5",
+        "displayOnlyUnreadFeedFolder": "false",
+        "feedMaxEvents": "50",
+        "optionFeedIsVerbose": 1,
+        "paginationScale": 5,
+        "synchronisationEnableCache": "0",
+        "synchronisationForceFeed": "0",
+        "synchronisationType": "auto"
+    }';
 
     function __construct(){
         parent::__construct();
@@ -220,6 +238,21 @@ class User extends MysqlEntity{
         unset($_SESSION[$this::SESSION_OVERRIDE]);
     }
 
+    public function updateConf($newConfs) {
+        $confs = $this->getConf();
+        foreach($newConfs as $key => $value) {
+            $confs->$key = $value;
+        }
+        $this->setConf($confs);
+        parent::__construct();
+        $this->change(
+            array(
+                'conf' => $this->conf
+            ),
+            array('id' => $this->getId())
+        );
+    }
+
     function getId(){
         return $this->id;
     }
@@ -247,6 +280,14 @@ class User extends MysqlEntity{
 
     function setSalt($salt){
         $this->salt = $salt;
+    }
+
+    public function getConf() {
+        return json_decode($this->conf);
+    }
+
+    public function setConf($conf) {
+        $this->conf = json_encode($conf);
     }
 
     function getOtpSecret(){
