@@ -9,14 +9,14 @@
         <!-- TITRE -->
         <h2 class="articleTitle">
             {function="Plugin::callHook("event_pre_title", array(&$value))"}
-            <a onclick="readThis(this,{$value->getId()},'title');" target="_blank" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a>
+            <a onclick="readThis(this,{$value->getId()},'title');" target="_blank" rel="noopener noreferrer" href="{$value->getLink()}" title="{$plainDescription}">{$value->getTitle()}</a>
             {function="Plugin::callHook("event_post_title", array(&$value))"}
         </h2>
         <!-- DETAILS + OPTIONS -->
         <h3 class="articleDetails">
             {function="Plugin::callHook("event_pre_top_options", array(&$value))"}
             {if="$articleDisplayLink"}
-                <a href="{$value->getLink()}" target="_blank">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
+                <a href="{$value->getLink()}" target="_blank" rel="noopener noreferrer">{$allFeeds['idMap'][$value->getFeed()]['name']}</a>
             {/if}
             {if="$articleDisplayAuthor"}
                 {if="$value->getCreator()"}

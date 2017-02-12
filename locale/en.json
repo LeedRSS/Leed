@@ -23,7 +23,7 @@
  "INSTALL_COMMENT_BDD":"(to be created before)",
  "INSTALL_COMMENT_HOST":"(Generally 'localhost')",
  "INSTALL_DISPLAY_CLEAR":"(will be displayed in clear)",
- "INSTALL_END":"You can customize your installation through many plugins available <a target='_blank' href='https://github.com/Leed-market'>Leed-market</a>.",
+ "INSTALL_END":"You can customize your installation through many plugins available <a target='_blank' rel='noopener noreferrer' href='https://github.com/Leed-market'>Leed-market</a>.",
  "INSTALL_ERROR_CONNEXION":"Unable to connect to database",
  "INSTALL_ERROR_CURL":"The required function 'curl_exec' is inaccessible on your server, please install the Curl module for PHP.",
  "INSTALL_ERROR_FILEGET":"The required function 'file_get_contents' is inaccessible on your server, check your version of PHP.",
