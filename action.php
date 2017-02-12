@@ -42,6 +42,7 @@ switch ($action){
             echo '<html>
                 <head>
                 <link rel="stylesheet" href="./templates/'.$theme.'/css/style.css">
+                <meta name="referrer" content="no-referrer" />
                 </head>
                 <body>
                 <div class="sync">';

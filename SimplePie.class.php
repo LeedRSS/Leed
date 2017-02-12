@@ -6620,6 +6620,7 @@ class SimplePie_Sanitize
 
         $ret .= '<html><head>';
         $ret .= '<meta http-equiv="Content-Type" content="' . $content_type . '; charset=utf-8" />';
+        $ret .= '<meta name="referrer" content="no-referrer" />';
         $ret .= '</head><body>' . $html . '</body></html>';
         return $ret;
     }
