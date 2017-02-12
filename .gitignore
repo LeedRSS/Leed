@@ -2,5 +2,6 @@
 /constant.php
 /logs/
 /plugins/
+/templates/
 update.json
 *.log
