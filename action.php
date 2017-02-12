@@ -48,23 +48,34 @@ switch ($action){
         }
         $synchronisationType = $configurationManager->get('synchronisationType');
 
-        $synchronisationCustom = array();
-        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom,&$synchronisationType,&$commandLine,$configurationManager,$start));
-        if(isset($synchronisationCustom['type'])){
-            $feeds = $synchronisationCustom['feeds'];
-            $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t($synchronisationCustom['type']);
-        }elseif('graduate'==$synchronisationType){
-            // sélectionne les 10 plus vieux flux
-            $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
-            $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
-        }else{
-            // sélectionne tous les flux, triés par le nom
-            $feeds = $feedManager->populate('name');
-            $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
+        $userList = array(1);
+        if ($commandLine){
+            $user = new User();
+            $userList = $user->getUserList();
         }
 
-        if(!isset($synchronisationCustom['no_normal_synchronize'])){
-            $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
+        $synchronisationCustom = array();
+        Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom,&$synchronisationType,&$commandLine,$configurationManager,$start));
+        foreach($userList as $user) {
+            if ($commandLine){
+                $_SESSION[User::SESSION_OVERRIDE] = $user->getLogin();
+            }
+            if(isset($synchronisationCustom['type'])){
+                $feeds = $synchronisationCustom['feeds'];
+                $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t($synchronisationCustom['type']);
+            }elseif('graduate'==$synchronisationType){
+                // sélectionne les 10 plus vieux flux
+                $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
+                $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
+            }else{
+                // sélectionne tous les flux, triés par le nom
+                $feeds = $feedManager->populate('name');
+                $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
+            }
+
+            if(!isset($synchronisationCustom['no_normal_synchronize'])){
+                $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
+            }
         }
     break;
 
