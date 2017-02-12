@@ -187,11 +187,17 @@ class User extends MysqlEntity{
         }
         $this->setLogin($login);
         $this->setPassword($password, $this->generateSalt());
-        $this->save();
-        $this->createSideTables($login);
-        $logger->appendLogs(_t("USER_ADD_OK"). ' '.$login);
+        $result = $this->save();
+        $isUserAdded = (int)$result->errorCode() === 00000;
+        $message = _t("USER_ADD_OK");
+        if($isUserAdded) {
+            $this->createSideTables($login);
+        } else {
+            $message = _t("USER_ADD_NO");
+        }
+        $logger->appendLogs($message. ' '.$login);
         $logger->save();
-        return true;
+        return $isUserAdded;
     }
 
     public function remove($userId) {
