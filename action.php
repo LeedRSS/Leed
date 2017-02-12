@@ -30,8 +30,8 @@ switch ($action){
         if (   false==$myUser
             && !$commandLine
             && !(isset($_['code'])
-                && $configurationManager->get('synchronisationCode')!=null
-                && $_['code']==$configurationManager->get('synchronisationCode')
+                && $syncCode!=null
+                && $_['code']==$syncCode
             )
         ) {
             die(_t('YOU_MUST_BE_CONNECTED_ACTION'));
@@ -542,8 +542,8 @@ switch ($action){
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         $login = isset($_['login']) ? $_['login'] : false;
         $password = isset($_['password']) ? $_['password'] : false;
-        $admin = new User();
-        $admin->create($login, $password);
+        $newUser = new User();
+        $newUser->add($login, $password);
         header('location: ./settings.php#usersBloc');
         break;
 
