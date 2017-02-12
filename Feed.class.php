@@ -369,7 +369,7 @@ class Feed extends MysqlEntity{
                     echo '<div class="errorSync">';
                 else
                     echo '<div>';
-                echo "<dt><i>{$parseTimeStr}s</i> | <a target='_blank' href='{$feedUrl}'>{$feedName}</a></dt>\n";
+                echo "<dt><i>{$parseTimeStr}s</i> | <a target='_blank' rel='noopener noreferrer' href='{$feedUrl}'>{$feedName}</a></dt>\n";
 
             }
             foreach($errors as $error) {

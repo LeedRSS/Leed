@@ -311,7 +311,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
         echo '</div>
             <div id="footer-container">
                 <footer class="wrapper">
-                    <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+                    <p>Leed "Light Feed" by <a target="_blank" rel="noopener noreferrer" href="http://blog.idleman.fr">Idleman</a></p>
                 </footer>
             </div>
             </body>
@@ -411,7 +411,7 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
 </div>
 <div id="footer-container">
     <footer class="wrapper">
-        <p>Leed "Light Feed" by <a target="_blank" href="http://blog.idleman.fr">Idleman</a></p>
+        <p>Leed "Light Feed" by <a target="_blank" rel="noopener noreferrer" href="http://blog.idleman.fr">Idleman</a></p>
     </footer>
 </div>
 </body>
