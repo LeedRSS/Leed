@@ -52,6 +52,10 @@ class User extends MysqlEntity{
         parent::__construct();
     }
 
+    public function __sleep() {
+        return array('login', 'conf', 'otpSecret');
+    }
+
     function setId($id){
         $this->id = $id;
     }

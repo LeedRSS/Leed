@@ -17,7 +17,7 @@ class MysqlEntity
     protected $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;
-    protected $prepare = array();
+    protected $preparedValues = array();
 
 
     function sgbdType($type){
@@ -50,58 +50,29 @@ class MysqlEntity
         return $return ;
     }
 
-    /**
-     * Protège une variable pour MySQL
-     */
-    protected function secure($value, $field){
-        $type = false;
-
-        // ce champ n'existe pas : on le considère comme une chaîne de caractères
-        if (isset($this->object_fields[$field]))
-            $type = $this->object_fields[$field];
-
-        $return = false;
+    protected function prepareValue($value, $field){
+        $defaultValue = false;
+        $type = isset($this->object_fields[$field]) ?
+            $this->object_fields[$field]
+            : false;
         switch($type){
             case 'key':
             case 'object':
             case 'integer':
             case 'boolean':
-                $return = intval($value);
+                $defaultValue = 0;
             break;
             case 'string':
             case 'timestamp':
             case 'longstring':
             default;
-                $return = $this->dbconnector->connection->real_escape_string((string)$value);
+                $defaultValue = '';
             break;
         }
-        return $return ;
-    }
-
-    protected function secureNew($value, $field){
-        $type = false;
-
-        // ce champ n'existe pas : on le considère comme une chaîne de caractères
-        if (isset($this->object_fields[$field]))
-            $type = $this->object_fields[$field];
-
-        $dbType = false;
-        switch($type){
-            case 'key':
-            case 'object':
-            case 'integer':
-            case 'boolean':
-                $dbType = 'i';
-            break;
-            case 'string':
-            case 'timestamp':
-            case 'longstring':
-            default;
-                $dbType = 's';
-            break;
+        if($field !== 'id' && is_null($value)) {
+            $value = $defaultValue;
         }
-        $this->prepare[0] .= $dbType;
-        array_push($this->prepare, $value);
+        array_push($this->preparedValues, $value);
     }
 
     public function __construct(){
@@ -196,7 +167,8 @@ class MysqlEntity
                 foreach($event->object_fields as $field=>$type){
                     if($type!='key'){
                         if($i){$query .=',';}else{$i=true;}
-                        $query .='"'.$this->secure($event->$field, $field).'"';
+                        $this->prepareValue($event->$field, $field);
+                        $query .='?';
                     }
                 }
 
@@ -225,7 +197,8 @@ class MysqlEntity
             foreach($this->object_fields as $field=>$type){
                 if($i){$query .=',';}else{$i=true;}
                 $id = $this->$field;
-                $query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
+                $this->prepareValue($id, $field);
+                $query .= '`'.$field.'`=?';
             }
 
             $query .= ' WHERE `'.$id_field.'`="'.$this->$id_field.'";';
@@ -240,14 +213,18 @@ class MysqlEntity
             $i=false;
             foreach($this->object_fields as $field=>$type){
                 if($i){$query .=',';}else{$i=true;}
-                $query .='"'.$this->secure($this->$field, $field).'"';
+                $this->prepareValue($this->$field, $field);
+                $query .='?';
             }
 
             $query .=');';
         }
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
-        $this->customQuery($query);
-        $this->$id_field =  (!isset($this->$id_field)?$this->dbconnector->connection->insert_id:$this->$id_field);
+        $result = $this->customQuery($query);
+        $this->$id_field = isset($this->$id_field)?
+            $this->$id_field
+            : $this->dbconnector->connection->lastInsertId();
+        return $result;
     }
 
     /**
@@ -265,7 +242,7 @@ class MysqlEntity
         $i=false;
         foreach ($columns as $column=>$value){
             if($i){$query .=',';}else{$i=true;}
-            $this->secureNew($value, $column);
+            $this->prepareValue($value, $column);
             $query .= '`'.$column.'`=? ';
         }
         $query .= $this->getWhereClause($columns2, $operation);
@@ -311,7 +288,7 @@ class MysqlEntity
 
             if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
             $result = $this->customQuery($query);
-            while($queryReturn = $result->fetch_assoc()){
+            while($queryReturn = $result->fetch(PDO::FETCH_ASSOC)){
                 $thisClass = get_class($this);
                 $object = new $thisClass();
                 foreach($this->object_fields as $field=>$type){
@@ -375,13 +352,14 @@ class MysqlEntity
             $i=false;
             foreach($columns as $column=>$value){
                 if($i){$whereClause .=' AND ';}else{$i=true;}
-                $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
+                $this->prepareValue($value, $column);
+                $whereClause .= '`'.$column.'`=?';
             }
         }
         $query = 'SELECT COUNT(1) FROM `'.get_class($this)::TABLE_NAME.'`'.$whereClause;
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
-        $number = $myQuery->fetch_array();
+        $number = $myQuery->fetch(PDO::FETCH_NUM);
         return $number[0];
     }
 
@@ -401,7 +379,8 @@ class MysqlEntity
         $i=false;
         foreach($columns as $column=>$value){
             if($i){$whereClause .=' AND ';}else{$i=true;}
-            $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
+            $this->prepareValue($value, $column);
+            $whereClause .= '`'.$column.'`'.$operation.'?';
         }
         $query = 'DELETE FROM `'.get_class($this)::TABLE_NAME.'` WHERE '.$whereClause.' ;';
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
@@ -410,25 +389,21 @@ class MysqlEntity
     }
 
     public function customQuery($request){
-        if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-            $this->dbconnector->__construct();
+        try {
+            if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
             $requestFiltered = $this->queryFilter($request);
             $stmt = $this->dbconnector->connection->prepare($requestFiltered);
-            if(count($this->prepare) > 0) {
-                echo '<pre>' . print_r( $this->prepare, true ) . '</pre>';
-                echo '<pre>' . print_r( $requestFiltered, true ) . '</pre>';
-                $stmt->bind_param('"'.implode('", "', $this->prepare).'"');
+            $result = $stmt->execute($this->preparedValues);
+            $this->preparedValues = array();
+            return $stmt;
+        }catch(PDOException  $e) {
+            echo "Error: ".$e;
+            $error = $this->error();
+            if ($error) {
+                error_log('Leed error: '.$this->error());
+                error_log('Leed query: '.$request);
             }
-            $result = $stmt->execute();
-            if($result === true) {
-                $this->prepare = array();
-            }
-        $error = $this->error();
-        if ($error) {
-            error_log('Leed error: '.$error);
-            error_log('Leed query: '.$requestFiltered);
         }
-        return $stmt->get_result();
     }
 
 
@@ -467,7 +442,7 @@ class MysqlEntity
     public function tableExists() {
         $table = '`'.get_class($this)::TABLE_NAME.'';
         $result = $this->customQuery("SHOW TABLES LIKE '$table'");
-        $assoc = $result->fetch_assoc();
+        $assoc = $result->fetch(PDO::FETCH_ASSOC);
         return false===$assoc ? false : true;
     }
 
@@ -518,7 +493,7 @@ class MysqlEntity
                 $customQueryOperator = $this->getCustomQueryOperator($operation_default, $value);
                 if($i){$whereClause .=' AND ';}else{$i=true;}
                 $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'?';
-                $this->secureNew($customQueryOperator[1], $column);
+                $this->prepareValue($customQueryOperator[1], $column);
             }
         }
 

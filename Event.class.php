@@ -51,7 +51,7 @@ class Event extends MysqlEntity{
         $events = array();
         $query = 'SELECT COUNT(`'.self::TABLE_NAME.'`.`id`),`'.Feed::TABLE_NAME.'`.`folder` FROM `'.self::TABLE_NAME.'` INNER JOIN `'.Feed::TABLE_NAME.'` ON (`'.self::TABLE_NAME.'`.`feed` = `'.Feed::TABLE_NAME.'`.`id`) WHERE `'.self::TABLE_NAME.'`.`unread`=1 GROUP BY `'.Feed::TABLE_NAME.'`.`folder`';
         $results = $this->customQuery($query);
-        while($item = $results->fetch_array()){
+        while($item = $results->fetch(PDO::FETCH_NUM)){
             $events[$item[1]] = intval($item[0]);
         }
 
@@ -60,8 +60,8 @@ class Event extends MysqlEntity{
 
     function getEventCountNotVerboseFeed(){
         $query = 'SELECT COUNT(1) FROM `'.self::TABLE_NAME.'` INNER JOIN `'.Feed::TABLE_NAME.'` ON (`'.self::TABLE_NAME.'`.`feed` = `'.Feed::TABLE_NAME.'`.`id`) WHERE `'.self::TABLE_NAME.'`.`unread`=1 AND `'.Feed::TABLE_NAME.'`.`isverbose`=0';
-        $results = $this->customQuery($query);
-        while($item = $results->fetch_array()){
+        $results = $this->customQuery();
+        while($item = $results->fetch(PDO::FETCH_NUM)){
             $nbitem =  $item[0];
         }
 
@@ -69,11 +69,10 @@ class Event extends MysqlEntity{
     }
 
     function getEventsNotVerboseFeed($start=0,$limit=10000,$order,$columns='*'){
-        $eventManager = new Event();
         $objects = array();
         $results = $this->customQuery('SELECT '.$columns.' FROM `'.self::TABLE_NAME.'` INNER JOIN `'.Feed::TABLE_NAME.'` ON (`'.self::TABLE_NAME.'`.`feed` = `'.Feed::TABLE_NAME.'`.`id`) WHERE `'.self::TABLE_NAME.'`.`unread`=1 AND `'.Feed::TABLE_NAME.'`.`isverbose` = 0 ORDER BY '.$order.' LIMIT '.$start.','.$limit);
         if($results!=false){
-            while($item = $results->fetch_array()){
+            while($item = $results->fetch(PDO::FETCH_NUM)){
                 $object = new Event();
                 foreach($object->getObject_fields() as $field=>$type){
                     $setter = 'set'.ucFirst($field);
