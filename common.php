@@ -110,14 +110,7 @@ $tpl->assign('articleDisplayAnonymous',$articleDisplayAnonymous);
 $isAlwaysDisplayed = ($articleDisplayAnonymous=='1') || ($myUser!=false);
 $tpl->assign('isAlwaysDisplayed',$isAlwaysDisplayed);
 
-//Récuperation et sécurisation de toutes les variables POST et GET
-$_ = array();
-foreach($_POST as $key=>$val){
-    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
-}
-foreach($_GET as $key=>$val){
-    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
-}
+$_ = array_merge($_POST, $_GET);
 
 $tpl->assign('_',$_);
 $tpl->assign('action','');

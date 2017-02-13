@@ -33,7 +33,7 @@ class Install {
         foreach ($this->options as $type => $options) {
             foreach ($options as $var => $defaultValue) {
                 if (!empty($_[$var])) {
-                    $val = $type === 'db' ? str_replace("'", "\'", $_[$var]) : Functions::secure($_[$var]);
+                    $val = $type === 'db' ? str_replace("'", "\'", $_[$var]) : $_[$var];
                     $this->options[$type][$var] = $val;
                 }
             }

@@ -12,22 +12,6 @@ class Functions
     public $debug=0;
 
     /**
-     * Securise la variable utilisateur entrée en parametre
-     * @author Valentin
-     * @param<String> variable a sécuriser
-     * @param<Integer> niveau de securisation
-     * @return<String> variable securisée
-     */
-
-    public static function secure($var,$level = 1){
-        $var = htmlspecialchars($var, ENT_QUOTES, "UTF-8");
-        if($level<1)$var = mysqli_real_escape_string($var);
-        if($level<2)$var = addslashes($var);
-        return $var;
-    }
-
-
-    /**
      * Return l'environnement/serveur sur lequel on se situe, permet de changer les
      * connexions bdd en fonction de la dev, la préprod ou la prod
      */
