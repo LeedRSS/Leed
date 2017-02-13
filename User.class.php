@@ -41,11 +41,13 @@ class User extends MysqlEntity{
         "articlePerPages": "5",
         "displayOnlyUnreadFeedFolder": "false",
         "feedMaxEvents": "50",
+        "language": "en",
         "optionFeedIsVerbose": 1,
         "paginationScale": 5,
         "synchronisationEnableCache": "0",
         "synchronisationForceFeed": "0",
-        "synchronisationType": "auto"
+        "synchronisationType": "auto",
+        "theme": "marigolds"
     }';
 
     function __construct(){

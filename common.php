@@ -61,15 +61,6 @@ date_default_timezone_set('Europe/Paris');
 $configurationManager = new Configuration();
 $conf = $configurationManager->getAll();
 
-$theme = $configurationManager->get('theme');
-
-//Instanciation du template
-$tpl = new RainTPL();
-//Definition des dossiers de template
-raintpl::configure("base_url", null );
-raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
-raintpl::configure("cache_dir", "./cache/tmp/" );
-
 $update = new Update();
 $resultUpdate = $update->executePatch();
 
@@ -86,21 +77,19 @@ $myUserConfs = $myUser instanceof User ?
     $myUser->getConf()
     : $userManager->getConf();
 
+$theme = $myUserConfs->theme;
+$language = $myUserConfs->language;
+
 $feedManager = new Feed();
 $eventManager = new Event();
 $folderManager = new Folder();
 
-$language = $configurationManager->get('language');
-//@todo requis pour la MAJ mais pourra être supprimé.
-if (empty($language)) {
-    // On tente de récupérer la valeur issue de 'constant.php'
-    if (defined('LANGUAGE')) $language = LANGUAGE;
-    elseif (defined('LANGAGE')) $language = LANGAGE; // ancien bug de nommage
-    else $language = Translation::DEFAULT_LANGUAGE;
-    $configurationManager->put('language', $language);
-}
-// Faut-il supprimer la variable /langu?age/ de 'constant.php'?
-
+//Instanciation du template
+$tpl = new RainTPL();
+//Definition des dossiers de template
+raintpl::configure("base_url", null );
+raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
+raintpl::configure("cache_dir", "./cache/tmp/" );
 
 i18n_init($language, dirname(__FILE__).'/templates/'.$theme.'/');
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));

@@ -145,7 +145,7 @@
                     <section>
                         <h3>{function="_t('GENERALITY')"}</h3>
                         <p>{function="_t('INSTALL_LANGUAGE')"} :
-                        <select name="conf[language]">
+                        <select name="user[language]">
                             {loop="$languageList"}
                                 {if="$value==$currentLanguage"}
                                     <option selected=selected value='{$value}'>{$value}</option>";
@@ -155,7 +155,7 @@
                             {/loop}
                         </select></p>
                         <p>{function="_t('THEMES')"} :
-                            <select name="conf[theme]">
+                            <select name="user[theme]">
                                 {loop="$themeList"}
                                 {if="$value==$currentTheme"}
                                 <option selected=selected value='{$value}'>{$value}</option>";

@@ -61,7 +61,7 @@ class Feed extends MysqlEntity{
     nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
     car elle est appelée aussi pour autre chose que l'ajout.
     */
-    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false){
+    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false, $users = false){
         $nbEvents = 0;
         assert('is_int($syncId) && $syncId>0');
         if (empty($this->id) || 0 == $this->id) {
@@ -143,7 +143,14 @@ class Feed extends MysqlEntity{
                 $event->setContent($event->getDescription());
 
             $event->setCategory($item->get_category());
-            $event->save();
+            if(is_array($users)) {
+                foreach($users as $user) {
+                    $_SESSION[User::SESSION_OVERRIDE] = $user;
+                    $event->save();
+                }
+            } else {
+                $event->save();
+            }
             $nbEvents++;
         }
 

@@ -25,10 +25,8 @@ class Configuration extends MysqlEntity{
 
     protected $options = array(
         'articleDisplayAnonymous' => '0',
-        'language' => 'en',
         'syncGradCount' => '10',
-        'synchronisationCode' => '',
-        'theme' => 'marigolds'
+        'synchronisationCode' => ''
     );
 
     function __construct(){
