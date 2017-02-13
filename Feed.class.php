@@ -61,7 +61,7 @@ class Feed extends MysqlEntity{
     nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
     car elle est appelée aussi pour autre chose que l'ajout.
     */
-    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false, $users = false){
+    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false, $users = array()){
         $nbEvents = 0;
         assert('is_int($syncId) && $syncId>0');
         if (empty($this->id) || 0 == $this->id) {
@@ -99,59 +99,55 @@ class Feed extends MysqlEntity{
 
         $events = array();
         $iEvents = 0;
-        foreach($items as $item){
-            // Ne retient que les 100 premiers éléments de flux.
-            if ($iEvents++>=100) break;
+        foreach($users as $user) {
+            $_SESSION[User::SESSION_OVERRIDE] = $user;
+            foreach($items as $item){
+                // Ne retient que les 100 premiers éléments de flux.
+                if ($iEvents++>=100) break;
 
-            // Si le guid existe déjà, on évite de le reparcourir.
-            $alreadyParsed = $eventManager->load(array('guid'=>$item->get_id(), 'feed'=>$this->id));
-            if (isset($alreadyParsed)&&($alreadyParsed!=false)) {
-                $events[]=$alreadyParsed->getId();
-                continue;
-            }
-
-            // Initialisation des informations de l'événement (élt. de flux)
-            $event = new Event();
-            $event->setSyncId($syncId);
-            $event->setGuid($item->get_id());
-            $event->setTitle($item->get_title());
-            $event->setPubdate(
-                ''==$item->get_date()
-                    ? $this->lastupdate
-                    : $item->get_date()
-            );
-            $event->setCreator(
-                ''==$item->get_author()
-                    ? ''
-                    : $item->get_author()->name
-            );
-            $event->setLink($item->get_permalink());
-
-            $event->setFeed($this->id);
-            $event->setUnread(1); // inexistant, donc non-lu
-            $enclosure = $this->getEnclosureHtml($item->get_enclosure());
-            $event->setContent($item->get_content().$enclosure);
-            $event->setDescription($item->get_description().$enclosure);
-
-            if(trim($event->getDescription())=='')
-                $event->setDescription(
-                    substr($event->getContent(),0,300)
-                    .'…<br><a href="'.$event->getLink()
-                    .'">Lire la suite de l\'article</a>'
-                );
-            if(trim($event->getContent())=='')
-                $event->setContent($event->getDescription());
-
-            $event->setCategory($item->get_category());
-            if(is_array($users)) {
-                foreach($users as $user) {
-                    $_SESSION[User::SESSION_OVERRIDE] = $user;
-                    $event->save();
+                // Si le guid existe déjà, on évite de le reparcourir.
+                $alreadyParsed = $eventManager->load(array('guid'=>$item->get_id(), 'feed'=>$this->id));
+                if (isset($alreadyParsed)&&($alreadyParsed!=false)) {
+                    $events[]=$alreadyParsed->getId();
+                    continue;
                 }
-            } else {
+
+                // Initialisation des informations de l'événement (élt. de flux)
+                $event = new Event();
+                $event->setSyncId($syncId);
+                $event->setGuid($item->get_id());
+                $event->setTitle($item->get_title());
+                $event->setPubdate(
+                    ''==$item->get_date()
+                        ? $this->lastupdate
+                        : $item->get_date()
+                );
+                $event->setCreator(
+                    ''==$item->get_author()
+                        ? ''
+                        : $item->get_author()->name
+                );
+                $event->setLink($item->get_permalink());
+
+                $event->setFeed($this->id);
+                $event->setUnread(1); // inexistant, donc non-lu
+                $enclosure = $this->getEnclosureHtml($item->get_enclosure());
+                $event->setContent($item->get_content().$enclosure);
+                $event->setDescription($item->get_description().$enclosure);
+
+                if(trim($event->getDescription())=='')
+                    $event->setDescription(
+                        substr($event->getContent(),0,300)
+                        .'…<br><a href="'.$event->getLink()
+                        .'">Lire la suite de l\'article</a>'
+                    );
+                if(trim($event->getContent())=='')
+                    $event->setContent($event->getDescription());
+
+                $event->setCategory($item->get_category());
                 $event->save();
+                $nbEvents++;
             }
-            $nbEvents++;
         }
 
         $listid = "";
@@ -329,6 +325,7 @@ class Feed extends MysqlEntity{
     }
 
     public function synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start) {
+        $usersAndFeeds = $this->uniqueSync($feeds);
         $currentDate = date('d/m/Y H:i:s');
         if (!$commandLine) {
             echo "<p>{$syncTypeStr} {$currentDate}</p>\n";
@@ -346,11 +343,11 @@ class Feed extends MysqlEntity{
         $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
         $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
 
-        foreach ($feeds as $feed) {
+        foreach ($usersAndFeeds['feeds'] as $feed) {
             $nbEvents = 0;
             $nbTotal++;
             $startLocal = microtime(true);
-            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
+            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed, $usersAndFeeds['feedLinkedToUsers'][$feed->getUrl()]);
             $parseTime = microtime(true)-$startLocal;
             $localTotal += $parseTime;
             $parseTimeStr = number_format($parseTime, 3);
@@ -418,6 +415,27 @@ class Feed extends MysqlEntity{
             echo '</div></body></html>';
         }
 
+    }
+
+    protected function uniqueSync($usersFeeds) {
+        $feedLinkedToUsers = array();
+        $uniqueFeeds = array();
+        $urlsAlreadyAdded = array();
+        $currentUrl = '';
+        foreach($usersFeeds as $user => $feeds) {
+            foreach($feeds as $feed) {
+                $currentUrl = $feed->getUrl();
+                if(!in_array($currentUrl, $urlsAlreadyAdded)) {
+                    $uniqueFeeds[] = $feed;
+                    $feedLinkedToUsers[$currentUrl][] = $user;
+                    $urlsAlreadyAdded[] = $currentUrl;
+                }
+            }
+        }
+        return array(
+            'feedLinkedToUsers' => $feedLinkedToUsers,
+            'feeds' => $uniqueFeeds
+        );
     }
 
 }

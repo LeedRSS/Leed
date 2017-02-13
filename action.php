@@ -48,7 +48,7 @@ switch ($action){
         }
         $synchronisationType = $configurationManager->get('synchronisationType');
 
-        $userList = array(1);
+        $userList = array($myUser);
         if ($commandLine){
             $user = new User();
             $userList = $user->getUserList();
@@ -56,26 +56,28 @@ switch ($action){
 
         $synchronisationCustom = array();
         Plugin::callHook("action_before_synchronisationtype", array(&$synchronisationCustom,&$synchronisationType,&$commandLine,$configurationManager,$start));
+        $feeds = array();
         foreach($userList as $user) {
+            $userLogin = $user->getLogin();
             if ($commandLine){
                 $_SESSION[User::SESSION_OVERRIDE] = $user->getLogin();
             }
             if(isset($synchronisationCustom['type'])){
-                $feeds = $synchronisationCustom['feeds'];
+                $feeds[$userLogin] = $synchronisationCustom['feeds'];
                 $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t($synchronisationCustom['type']);
             }elseif('graduate'==$synchronisationType){
                 // sélectionne les 10 plus vieux flux
-                $feeds = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
+                $feeds[$userLogin] = $feedManager->loadAll(null,'lastupdate', $syncGradCount);
                 $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('GRADUATE_SYNCHRONISATION');
             }else{
                 // sélectionne tous les flux, triés par le nom
-                $feeds = $feedManager->populate('name');
+                $feeds[$userLogin] = $feedManager->populate('name');
                 $syncTypeStr = _t('SYNCHRONISATION_TYPE').' : '._t('FULL_SYNCHRONISATION');
             }
+        }
 
-            if(!isset($synchronisationCustom['no_normal_synchronize'])){
-                $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
-            }
+        if(!isset($synchronisationCustom['no_normal_synchronize'])){
+            $feedManager->synchronize($feeds, $syncTypeStr, $commandLine, $configurationManager, $start);
         }
     break;
 
@@ -284,7 +286,7 @@ switch ($action){
             $newFeed->save();
             $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
             $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
-            $newFeed->parse(time(), $_, $enableCache, $forceFeed);
+            $newFeed->parse(time(), $_, $enableCache, $forceFeed, array($myUser->getLogin()));
             Plugin::callHook("action_after_addFeed", array(&$newFeed));
         } else {
             $logger = new Logger('settings');
