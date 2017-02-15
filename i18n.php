@@ -27,11 +27,13 @@ class Translation {
         if (!is_array($languages)) $languages = array($languages);
         $this->listLanguages();
         $languages[]=self::DEFAULT_LANGUAGE;
-        foreach ($languages as $language)
+        foreach ($languages as $language) {
+            if (empty($language)) continue;
             if ($this->load($language)) {
                 $this->language = $language;
                 break;
             }
+        }
     }
 
     /* Peuple la liste des langues avec une traduction */
@@ -115,6 +117,22 @@ class Translation {
     /* @return la version Json des traductions */
     function getJson() {
         return json_encode($this->trans);
+    }
+
+    /* @return un tableau des langues préférées */
+    static function getHttpAcceptLanguages($httpAcceptLanguage=Null) {
+        /** Exemple de directive :
+         * eo,fr;q=0.8,fr-FR;q=0.6,en-US;q=0.4,en;q=0.2
+         * Les langues sont séparées entre elles par des virgules.
+         * Chaque langue est séparée du coefficient, si présent, par un point-virgule.
+         */
+        // Suppose que les langues préférées sont en premier.
+        if (is_null($httpAcceptLanguage)) $httpAcceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $languageList = array();
+        foreach (explode(',', $httpAcceptLanguage) as $language) {
+            $languageList[] = substr($language, 0, 2); // fr-FR;q=0.6 --> fr
+        }
+        return array_unique($languageList); // en-US,en-UK --> en, en --> en
     }
 
 }
