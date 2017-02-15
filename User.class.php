@@ -15,7 +15,6 @@ class User extends MysqlEntity{
 
     protected $id,$login,$password,$otpSecret;
     protected $TABLE_NAME = 'user';
-    protected $CLASS_NAME = 'User';
     protected $object_fields =
     array(
         'id'=>'key',

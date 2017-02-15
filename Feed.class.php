@@ -10,7 +10,6 @@ class Feed extends MysqlEntity{
 
     protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose,$lastSyncInError;
     protected $TABLE_NAME = 'feed';
-    protected $CLASS_NAME = 'Feed';
     protected $object_fields =
     array(
         'id'=>'key',

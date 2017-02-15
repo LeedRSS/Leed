@@ -10,7 +10,6 @@ class Event extends MysqlEntity{
 
     protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
     protected $TABLE_NAME = 'event';
-    protected $CLASS_NAME = 'Event';
     protected $object_fields =
     array(
         'id'=>'key',

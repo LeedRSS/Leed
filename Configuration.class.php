@@ -11,7 +11,6 @@ class Configuration extends MysqlEntity{
 
     protected $id,$key,$value,$confTab;
     protected $TABLE_NAME = 'configuration';
-    protected $CLASS_NAME = 'Configuration';
     protected $object_fields =
     array(
         'id'=>'key',
