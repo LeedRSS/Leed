@@ -7,9 +7,10 @@
  */
 
 require_once('Functions.class.php');
+require_once('Install.class.php');
 require_once('i18n.php');
 global $i18n;
-$install_terminee=false;
+$install = new Install();
 
 /* Prend le choix de langue de l'utilisateur, soit :
  * - lorsqu'il vient de changer la langue du sélecteur ($lang)
@@ -31,11 +32,6 @@ if (file_exists('constant.php')) {
     die(_t('ALREADY_INSTALLED'));
 }
 
-/* Nombres de thèmes disponibles
- * 0 - Pas possible, car il y aura au moins Marigolds
- * 1 - Indique le thème (Marigolds), mais ne permet pas la modification
- * 2 - Indique un thème et permet la sélection. Marigolds est mis en premier. 
- */
 define('DEFAULT_TEMPLATE', 'marigolds');
 $templates = scandir('templates');
 if (!in_array(DEFAULT_TEMPLATE, $templates)) die('Missing default template : '.DEFAULT_TEMPLATE);
@@ -51,189 +47,9 @@ session_start();
 
 // Protection des variables
 $_ = array_merge($_GET, $_POST);
-$whiteList = array(
-    /* La liste blanche recense les variables ne devant pas être passées via
-       la sécurisation, mais simplement échappées pour Php. */
-    'mysqlHost', 'mysqlLogin', 'mysqlMdp', 'mysqlBase', 'mysqlPrefix',
-);
-foreach($_ as $key=>&$val){
- $val = in_array($key, $whiteList)
-    ? str_replace("'", "\'", $val)
-    : Functions::secure($val);
-}
+$installActionName = 'installButton';
+$install->launch($_, $installActionName);
 
-// Valeurs par défaut, remplacées si une autre valeur est saisie.
-foreach (array('login','mysqlBase','mysqlHost','mysqlLogin','mysqlMdp','mysqlPrefix','password','root') as $var) {
-    /* Initalise les variables avec le contenu des champs
-     * pour rappeler les valeurs déjà saisies. */
-    if (!empty($_[$var]))
-        $$var = $_[$var];
-    else
-        $$var = '';
-}
-if (empty($root)) {
-    // Ne peut être vide, alors on met la valeur par défaut
-    $root = str_replace(
-        basename(__FILE__),
-        '',
-        $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']
-    );
-}
-if (!isset($_['mysqlPrefix'])) {
-    // Le formulaire n'étant pas soumis, on met cette valeur par défaut.
-    $mysqlPrefix = 'leed__'; // séparation en groupe de tables PhpMyAdmin
-}
-
-$lib_errors = _t('ERROR');
-$lib_success = _t('SUCCESS');
-
-if(isset($_['installButton'])){
-    if (empty($_['password']) || empty($_['login'])) {
-        $test[$lib_errors][] = _t('INSTALL_ERROR_USERPWD');
-    }
-    if (!Functions::testDb(
-        $_['mysqlHost'], $_['mysqlLogin'], $_['mysqlMdp'], $_['mysqlBase']
-    )) {
-        $test[$lib_errors][] = _t('INSTALL_ERROR_CONNEXION');
-    } else {
-        $test[$lib_success][] = _t('INSTALL_INFO_CONNEXION');
-    }
-}
-if(!is_writable('./')){
-    $test[$lib_errors][]=_t('INSTALL_ERROR_RIGHT', array(str_replace(basename(__FILE__),'',__FILE__)));
-}else{
-    $test[$lib_success][]=_t('INSTALL_INFO_RIGHT');
-}
-if (!@function_exists('mysqli_connect')){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_MYSQLICONNECT');
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_MYSQLICONNECT');
-}
-if (!@function_exists('file_get_contents')){
-    $test[$lib_errors][] =  _t('INSTALL_ERROR_FILEGET');
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_FILEGET');
-}
-if (!@function_exists('file_put_contents')){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_FILEPUT');
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_FILEPUT');
-}
-if (!@function_exists('curl_exec')){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_CURL');
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_CURL');
-}
-if (@version_compare(PHP_VERSION, '5.5.0') <= 0){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_PHPV', array(PHP_VERSION));
-}
-if(ini_get('safe_mode') && ini_get('max_execution_time')!=0){
-    $test[$lib_errors][] = _t('INSTALL_ERROR_SAFEMODE');
-}else{
-    $test[$lib_success][] = _t('INSTALL_INFO_SAFEMODE');
-}
-
-if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, l'installation peut se faire.
-    $constant = "<?php
-    define('VERSION_NUMBER','1.6');
-    define('VERSION_NAME','Dev');
-
-    //Host de Mysql, le plus souvent localhost ou 127.0.0.1
-    define('MYSQL_HOST','{$mysqlHost}');
-    //Identifiant MySQL
-    define('MYSQL_LOGIN','{$mysqlLogin}');
-    //mot de passe MySQL
-    define('MYSQL_MDP','{$mysqlMdp}');
-    //Nom de la base MySQL ou se trouvera leed
-    define('MYSQL_BDD','{$mysqlBase}');
-    //Prefix des noms des tables leed pour les bases de données uniques
-    define('MYSQL_PREFIX','{$mysqlPrefix}');
-?>";
-
-    file_put_contents('constant.php', $constant);
-    if (!is_readable('constant.php'))
-        die('"constant.php" not found!');
-
-    require_once('constant.php');
-    require_once('MysqlEntity.class.php');
-    class_exists('Update') or require_once('Update.class.php');
-    Update::ExecutePatch(true);
-    require_once('Feed.class.php');
-    require_once('Event.class.php');
-
-    require_once('User.class.php');
-    require_once('Folder.class.php');
-    require_once('Configuration.class.php');
-
-    $cryptographicSalt = User::generateSalt();
-    $synchronisationCode = substr(sha1(rand(0,30).time().rand(0,30)),0,10);
-    $root = (substr($_['root'], strlen($_['root'])-1)=='/'?$_['root']:$_['root'].'/');
-
-    // DOSSIERS À CONSERVER TELS QUELS, SI DÉJÀ EXISTANTS
-    $feedManager = new Feed(); $feedManager->create();
-    $eventManager = new Event(); $eventManager->create();
-
-    // COMPTE ADMINISTRATEUR, RÀZ SI NÉCESSAIRE
-    $userManager = new User();
-    if ($userManager->tableExists()) {
-        // Suppose qu'il n'y a qu'un seul utilisateur
-        $userManager->truncate();
-    }
-    $userManager->create();
-    $admin = new User();
-    $admin->setLogin($_['login']);
-    $admin->setPassword($_['password'],$cryptographicSalt);
-    $admin->save();
-    $_SESSION['currentUser'] = serialize($admin);
-
-    // DOSSIERS DE FLUX, RECRÉE LE DOSSIER GÉNÉRAL SI NÉCESSAIRE
-    $folderManager = new Folder();
-    $folderManager->create();
-    if ($folderManager->rowCount()==0) {
-        //Création du dossier général
-        $folder = new Folder();
-        $folder->setName(_t('GENERAL_FOLDER'));
-        $folder->setParent(-1);
-        $folder->setIsopen(1);
-        $folder->save();
-    }
-
-    // REMET À ZÉRO LA CONFIGURATION
-    $configurationManager = new Configuration();
-    if ($configurationManager->tableExists()) {
-        $configurationManager->truncate();
-    }
-    $configurationManager->create();
-    $configurationManager->add('articleDisplayAnonymous','0');
-    $configurationManager->add('articleDisplayAuthor','1');
-    $configurationManager->add('articleDisplayDate','1');
-    $configurationManager->add('articleDisplayFolderSort','1');
-    $configurationManager->add('articleDisplayHomeSort','1');
-    $configurationManager->add('articleDisplayLink','1');
-    $configurationManager->add('articleDisplayMode','summary');
-    $configurationManager->add('articlePerPages','5');
-    $configurationManager->add('cryptographicSalt', $cryptographicSalt);
-    $configurationManager->add('displayOnlyUnreadFeedFolder','false');
-    $configurationManager->add('feedMaxEvents','50');
-    $configurationManager->add('language', $_POST['install_changeLngLeed']);
-    $configurationManager->add('optionFeedIsVerbose',1);
-    $configurationManager->add('paginationScale',5);
-    $configurationManager->add('syncGradCount','10');
-    $configurationManager->add('synchronisationCode',$synchronisationCode);
-    $configurationManager->add('synchronisationEnableCache','0');
-    $configurationManager->add('synchronisationForceFeed','0');
-    $configurationManager->add('synchronisationType','auto');
-    $selectedTemplate = isset($_POST['template']) ? $_POST['template'] : DEFAULT_TEMPLATE;
-    $configurationManager->add('theme', $selectedTemplate);
-    $configurationManager->add('root',$root);
-
-    $install_terminee=true;
-} /* Ci-dessous, on y va si :
-- la page est simplement affichée, sans avoir été validée
-- le formulaire est soumis, mais l'installation ne peut se faire
-*/
 ?>
 <!doctype html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -300,14 +116,14 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
         </header>
     </div>
     <?php
-    if ($install_terminee){
+    if ($install->getFinished()){
         echo '<div id="main-container">
                 <div id="main" class="wrapper clearfix">
                     <div id="menuBar"></div>
                         <h1>'._t('INSTALL_TITLE_END').'</h1>
                         <span>'._t('INSTALL_END').'</span>
                         <hr>
-                        <button id="installButton" name="installButton" onclick="document.location.href=\'settings.php#preferenceBloc\'">'._t('INSTALL_BTN_END').'</button>
+                        <button id="installButton" name="<?php echo $installActionName; ?>" onclick="document.location.href=\'settings.php#preferenceBloc\'">'._t('INSTALL_BTN_END').'</button>
               ';
         // écriture des balises de fin et ne pas faire la suite
         echo '</div>
@@ -330,12 +146,17 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
             <h3 class="left"><?php echo _t('INSTALL_PRE_REQUIS') ?></h3>
             <ul class="clear" style="margin:0">
             <?php
-                foreach($test as $type=>$messages){
+                foreach($install->logs as $type => $messages){
+                    if(empty($messages)) {
+                        continue;
+                    }
                     $class = 'message ';
-                    $class .= $lib_errors==$type ? 'messageError':'messageSuccess';
-                    echo "<li class='$class'>$type&nbsp;:\n<ul>";
+                    $class .= $type === 'errors' ? 'messageError':'messageSuccess';
+                    $label = $type === 'errors' ? _t('ERROR') : _t('SUCCESS');
+                    echo "<li class='$class'>$label&nbsp;:<ul>";
+
                     foreach ($messages as $message){
-                        echo "<li>$message</li>\n";
+                        echo "<li>$message</li>";
                     }
                     echo "</ul></li>";
                 }
@@ -371,44 +192,44 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
             </li>
             <li>
                 <span><?php echo _t('PROJECT_ROOT') ?></span>
-                <input type="text" name="root" value="<?php echo $root; ?>">
+                <input type="text" name="root" value="<?php echo $install->getDefaultRoot(); ?>">
             </li>
         </ul>
         <h2><?php echo _t('INSTALL_TAB_BDD') ?></h2>
         <ul>
             <li>
                 <span><?php echo _t('INSTALL_HOST') ?></span>
-                <input type="text" name="mysqlHost" value="<?php echo $mysqlHost; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_HOST') ?>">
+                <input type="text" name="mysqlHost" value="<?php echo $install->options['db']['mysqlHost']; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_HOST') ?>">
             </li>
             <li>
                 <span><?php echo _t('LOGIN') ?></span>
-                <input type="text" name="mysqlLogin" value="<?php echo $mysqlLogin; ?>">
+                <input type="text" name="mysqlLogin" value="<?php echo $install->options['db']['mysqlLogin']; ?>">
             </li>
             <li>
                 <span><?php echo _t('PASSWORD') ?></span>
-                <input type="text" autocomplete="off" name="mysqlMdp" value="<?php echo $mysqlMdp; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
+                <input type="text" autocomplete="off" name="mysqlMdp" value="<?php echo $install->options['db']['mysqlMdp']; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
             </li>
             <li>
                 <span><?php echo _t('INSTALL_BDD') ?></span>
-                <input type="text" name="mysqlBase" value="<?php echo $mysqlBase; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_BDD') ?>">
+                <input type="text" name="mysqlBase" value="<?php echo $install->options['db']['mysqlBase']; ?>" placeholder="<?php echo _t('INSTALL_COMMENT_BDD') ?>">
             </li>
             <li>
                 <span><?php echo _t('INSTALL_PREFIX_TABLE') ?></span>
-                <input type="text" name="mysqlPrefix" value="<?php echo $mysqlPrefix; ?>">
+                <input type="text" name="mysqlPrefix" value="<?php echo $install->options['db']['mysqlPrefix']; ?>">
             </li>
         </ul>
         <h2><?php echo _t('INSTALL_TAB_ADMIN') ?></h2>
         <ul>
             <li>
                 <span><?php echo _t('LOGIN') ?></span>
-                <input type="text" name="login" value="<?php echo $login; ?>" placeholder="<?php echo _t('LOGIN') ?>">
+                <input type="text" name="login" value="<?php echo $install->options['user']['login']; ?>" placeholder="<?php echo _t('LOGIN') ?>">
             </li>
             <li>
                 <span><?php echo _t('PASSWORD') ?></span>
-                <input type="text" autocomplete="off" name="password" value="<?php echo $password; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
+                <input type="text" autocomplete="off" name="password" value="<?php echo $install->options['user']['password']; ?>" placeholder="<?php echo _t('INSTALL_DISPLAY_CLEAR') ?>">
             </li>
         </ul>
-        <button id="installButton" name="installButton"><?php echo _t('INSTALL_BTN') ?></button>
+        <button id="installButton" name="<?php echo $installActionName; ?>"><?php echo _t('INSTALL_BTN') ?></button>
     </form>
 </div>
 <div id="footer-container">

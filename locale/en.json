@@ -29,6 +29,7 @@
  "INSTALL_ERROR_FILEGET":"The required function 'file_get_contents' is inaccessible on your server, check your version of PHP.",
  "INSTALL_ERROR_FILEPUT":"The required 'file_put_contents' is inaccessible on your server, check your version of PHP.",
  "INSTALL_ERROR_MYSQLICONNECT":"The required function 'mysqli_connect' is inaccessible on your server, check your MySql installation.",
+ "INSTALL_ERROR_DB_INFOS":"The 'host', 'username' and 'base' fields about your database are required.",
  "INSTALL_ERROR_PHPV":"Your PHP version ($1) is too old, it is possible that some features script include malfunctions.",
  "INSTALL_ERROR_RIGHT":"Can't write in Leed directory, please add write permissions on the entire folder (sudo chmod 777 -R $1, think about shielding permissions later)",
  "INSTALL_ERROR_SAFEMODE":"The script can not manage the timeout alone because your safe mode is enabled,<br/>in your PHP configuration file, set the max_execution_time variable to 0 or disable safemode.",
