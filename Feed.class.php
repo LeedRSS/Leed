@@ -206,7 +206,7 @@ class Feed extends MysqlEntity{
             DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubdate ASC LIMIT {$limit}
         ";
         ///@TODO: escape the variables inside mysql
-         $this->customExecute($query);
+         $this->customQuery($query);
     }
 
     function setId($id){

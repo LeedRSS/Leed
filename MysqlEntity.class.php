@@ -377,21 +377,6 @@ class MysqlEntity
 
     }
 
-    ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
-    public function customExecute($request){
-        if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $result = $this->dbconnector->connection->query($request);
-        $error = $this->error();
-        if ($error) {
-            error_log('Leed error: '.$this->error());
-            error_log('Leed query: '.$query);
-        }
-        if (false===$result) {
-            throw new Exception($this->dbconnector->connection->error);
-        }
-        return $result;
-    }
-
     public function customQuery($request){
         if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $result = $this->dbconnector->connection->query($request);
