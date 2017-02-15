@@ -52,10 +52,10 @@ $install->launch($_, $installActionName);
 
 ?>
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="<?php echo $currentLanguage;?>"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="<?php echo $currentLanguage;?>"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="<?php echo $currentLanguage;?>"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="<?php echo $currentLanguage;?>"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta name="referrer" content="no-referrer" />
