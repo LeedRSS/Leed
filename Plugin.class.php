@@ -193,7 +193,7 @@ class Plugin{
     }
 
     protected function getGithubMarketReposList() {
-        return json_decode($this->getUrlContent("https://api.github.com/orgs/Leed-market/repos"));
+        return json_decode(self::getUrlContent("https://api.github.com/orgs/Leed-market/repos"));
     }
 
     protected function getGithubMarketReposInfos($repos) {
@@ -224,7 +224,7 @@ class Plugin{
         return $names;
     }
 
-    protected function getUrlContent($url) {
+    protected static function getUrlContent($url) {
         $timeout = 20;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
