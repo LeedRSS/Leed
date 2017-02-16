@@ -180,9 +180,9 @@ class Feed extends MysqlEntity{
             if (strpos($enclosureType, 'image/') === 0) {
                 $html .= '<img src="' . $enclosure->link . '" />';
             } elseif (strpos($enclosureType, 'audio/') === 0) {
-                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
+                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
             } elseif (strpos($enclosureType, 'video/') === 0) {
-                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
+                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
             } else {
                 $html .= '<a href="'.$enclosure->link.'"> '.$enclosureName.'</a>';
             }
