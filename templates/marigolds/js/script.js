@@ -214,7 +214,7 @@ function searchPlugin(keyword){
                     if(typeof(plugin.description) === 'string') {
                         tpl += '<li>'+plugin.description+'</li>';
                     }
-                    tpl += '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">Installer</button></li>'+
+                    tpl += '<li><button class="btn" onclick="installPlugin(\''+plugin.zipUrl+'\',$(this).parent());">'+_t('PLUGINS_INSTALL')+'</button></li>'+
                         '</ul></li>';
                 }
                 tpl += '</ul>';
