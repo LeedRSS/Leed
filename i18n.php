@@ -18,15 +18,16 @@ class Translation {
     // tableau associatif des traductions
     var $trans = array();
     var $language = ''; // langue courante
-    var $languages = array(); // langues disponibles
+    var $translatedLanguages = array(); // langues traduites
 
     /** @param location L'endroit où se trouve le dossier 'locale'
      *  @param languages Les langues demandées */
     function __construct($location, $languages=array()) {
         $this->location = $location;
         if (!is_array($languages)) $languages = array($languages);
-        $this->listLanguages();
+        $this->translatedLanguages = $this->listLanguages();
         $languages[]=self::DEFAULT_LANGUAGE;
+        $this->languages = $languages;
         foreach ($languages as $language) {
             if (empty($language)) continue;
             if ($this->load($language)) {
@@ -36,17 +37,18 @@ class Translation {
         }
     }
 
-    /* Peuple la liste des langues avec une traduction */
+    /* @return la liste des langues avec une traduction */
     protected function listLanguages() {
-        $this->languages = array();
+        $translatedLanguages = array();
         $files = glob($this->location.'/'.self::LOCALE_DIR.'/*.json');
         if (is_array($files)) {
             foreach($files as $file){
                 preg_match('/([a-z]{2})\.json$/', $file, $matches);
                 assert('!empty($matches)');
-                $this->languages [] = $matches[1];
+                $translatedLanguages [] = $matches[1];
             }
         }
+        return $translatedLanguages;
     }
 
     /* Charge la traduction
@@ -59,7 +61,7 @@ class Translation {
         }
         $trans = $this->loadFile($language);
         if (empty($trans)) return false;
-        assert('in_array($language, $this->languages)');
+        assert('in_array($language, $this->translatedLanguages)');
         if ($language!=self::DEFAULT_LANGUAGE) {
             $defaultTrans = $this->loadFile(self::DEFAULT_LANGUAGE);
             assert('!empty($defaultTrans)');
