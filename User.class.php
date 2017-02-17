@@ -15,13 +15,17 @@ class User extends MysqlEntity{
 
     protected $id,$login,$password,$otpSecret;
     protected $TABLE_NAME = 'user';
-    protected $CLASS_NAME = 'User';
     protected $object_fields =
     array(
         'id'=>'key',
         'login'=>'string',
         'password'=>'string',
         'otpSecret'=>'string',
+    );
+
+    protected $object_fields_uniques =
+    array(
+        'login'
     );
 
     function __construct(){

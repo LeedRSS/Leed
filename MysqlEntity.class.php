@@ -97,7 +97,7 @@ class MysqlEntity
     public function destroy($debug=false)
     {
         $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -111,7 +111,7 @@ class MysqlEntity
     public function truncate($debug=false)
     {
         $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -135,11 +135,16 @@ class MysqlEntity
                 $query .= ',KEY `index'.$field.'` (`'.$field.'`)';
             }
         }
+        if (isset($this->object_fields_uniques)){
+            foreach($this->object_fields_uniques as $field){
+                $query .= ',UNIQUE `unique'.$field.'` (`'.$field.'`)';
+            }
+        }
         $query .= ')
         ENGINE InnoDB,
         DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
         ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -172,7 +177,7 @@ class MysqlEntity
             }
 
             $query .=';';
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+            if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
 
         $this->customQuery($query);
     }
@@ -213,7 +218,7 @@ class MysqlEntity
 
             $query .=');';
         }
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
         $this->$id_field =  (!isset($this->$id_field)?$this->dbconnector->connection->insert_id:$this->$id_field);
     }
@@ -237,7 +242,7 @@ class MysqlEntity
         }
         $query .= $this->getWhereClause($columns2, $operation);
 
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
     }
 
@@ -276,11 +281,12 @@ class MysqlEntity
             if($limit!=null) $query .='LIMIT '.$limit.' ';
             $query .=';';
 
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+            if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
             $result = $this->customQuery($query);
             while($queryReturn = $result->fetch_assoc()){
 
-                $object = new $this->CLASS_NAME();
+                $thisClass = get_class($this);
+                $object = new $thisClass();
                 foreach($this->object_fields as $field=>$type){
                     if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
                 }
@@ -346,7 +352,7 @@ class MysqlEntity
             }
         }
         $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
         $number = $myQuery->fetch_array();
         return $number[0];
@@ -371,28 +377,13 @@ class MysqlEntity
             $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
         }
         $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
 
     }
 
-    ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
-    public function customExecute($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $result = $this->dbconnector->connection->query($request);
-        $error = $this->error();
-        if ($error) {
-            error_log('Leed error: '.$this->error());
-            error_log('Leed query: '.$query);
-        }
-        if (false===$result) {
-            throw new Exception($this->dbconnector->connection->error);
-        }
-        return $result;
-    }
-
     public function customQuery($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
+        if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $result = $this->dbconnector->connection->query($request);
         $error = $this->error();
         if ($error) {
