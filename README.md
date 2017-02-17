@@ -79,7 +79,7 @@ This reader can be installed on your own server and works with a system of [cron
 - Version : Branch Stable
 - Author : Valentin Carruesco aka Idleman ( idleman@idleman.fr )
 - Project page: http://projet.idleman.fr/leed
-- License: [CC by-nc -sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+- License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 All tasks are performed in the background thanks to a scheduled task (cron), so the user does not experience delays due to the recovery and processing of each of the monitored feed.
 
@@ -148,7 +148,7 @@ Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema
 - Versión : Branche Stable
 - Autor : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
 - Página del proyecto : http://projet.idleman.fr/leed
-- Licencia : [CC by-nc-sa](http://creativecommons.org/licenses/by-nc-sa/2.0/fr/)
+- Licencia : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Todas las tareas de tratamiento de los RSS se efectuan de manera invisible gracias a una tarea sincronizada (Cron). Así, el usuario no debe sufrir los largos tiempos necesarios para recuperar y tratar los RSS.
 
