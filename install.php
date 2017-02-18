@@ -225,7 +225,8 @@ if (isset($_['installButton']) && empty($test[$lib_errors])) { // Pas d'erreur, 
     $configurationManager->add('synchronisationEnableCache','0');
     $configurationManager->add('synchronisationForceFeed','0');
     $configurationManager->add('synchronisationType','auto');
-    $configurationManager->add('theme', $_POST['template']);
+    $selectedTemplate = isset($_POST['template']) ? $_POST['template'] : DEFAULT_TEMPLATE;
+    $configurationManager->add('theme', $selectedTemplate);
     $configurationManager->add('root',$root);
 
     $install_terminee=true;
