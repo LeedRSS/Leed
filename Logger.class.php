@@ -25,7 +25,7 @@ class Logger {
         return $logs;
     }
 
-    protected function destroy(){
+    public function destroy(){
         unset($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()]);
     }
 
@@ -35,6 +35,11 @@ class Logger {
         ) {
             $this->logs = array_unique(array_merge($this->logs, unserialize($_SESSION[self::LOGGER_IDENTIFIER][$this->getName()])));
         }
+    }
+
+    public function hasLogs()
+    {
+        return count($this->logs) > 0;
     }
 
     public function setName($name)

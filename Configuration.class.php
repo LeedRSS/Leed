@@ -23,6 +23,31 @@ class Configuration extends MysqlEntity{
         'key'
     );
 
+    protected $options = array(
+        'articleDisplayAnonymous' => '0',
+        'articleDisplayAuthor' => '1',
+        'articleDisplayDate' => '1',
+        'articleDisplayFolderSort' => '1',
+        'articleDisplayHomeSort' => '1',
+        'articleDisplayLink' => '1',
+        'articleDisplayMode' => 'summary',
+        'articlePerPages' => '5',
+        'displayOnlyUnreadFeedFolder' => 'false',
+        'feedMaxEvents' => '50',
+        'language' => 'en',
+        'optionFeedIsVerbose' => 1,
+        'paginationScale' => 5,
+        'syncGradCount' => '10',
+        'synchronisationCode' => '',
+        'synchronisationEnableCache' => '0',
+        'synchronisationForceFeed' => '0',
+        'synchronisationType' => 'auto',
+        'theme' => 'marigolds',
+        'root' => '',
+        'cryptographicSalt' => '',
+        'otpEnabled' => 0
+    );
+
     function __construct(){
         parent::__construct();
     }
@@ -62,6 +87,10 @@ class Configuration extends MysqlEntity{
         unset($_SESSION['configuration']);
     }
 
+    protected function createSynchronisationCode() {
+        return substr(sha1(rand(0,30).time().rand(0,30)),0,10);
+    }
+
     public function add($key,$value){
         $config = new Configuration();
         $config->setKey($key);
@@ -69,6 +98,37 @@ class Configuration extends MysqlEntity{
         $config->save();
         $this->confTab[$key] = $value;
         unset($_SESSION['configuration']);
+    }
+
+    public function setDefaults() {
+        foreach($this->options as $option => $defaultValue) {
+            switch($option) {
+                case 'language':
+                    $value = isset($_POST['install_changeLngLeed']) ? $_POST['install_changeLngLeed'] : $defaultValue;
+                    break;
+                case 'theme':
+                    $value = isset($_POST['template']) ? $_POST['template'] : $defaultValue;
+                    break;
+                case 'synchronisationCode':
+                    $value = $this->createSynchronisationCode();
+                    break;
+                case 'root':
+                    $root = $_POST['root'];
+                    $value = (substr($root, strlen($root)-1)=='/'?$root:$root.'/');
+                    break;
+                case 'cryptographicSalt':
+                    $value = $this->generateSalt();
+                    break;
+                default:
+                    $value = $defaultValue;
+                    break;
+            }
+            $this->add($option, $value);
+        }
+    }
+
+    protected function generateSalt() {
+        return ''.mt_rand().mt_rand();
     }
 
     function getId(){
