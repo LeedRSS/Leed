@@ -85,19 +85,14 @@ $feedManager = new Feed();
 $eventManager = new Event();
 $folderManager = new Folder();
 
-$language = $configurationManager->get('language');
-//@todo requis pour la MAJ mais pourra être supprimé.
-if (empty($language)) {
-    // On tente de récupérer la valeur issue de 'constant.php'
-    if (defined('LANGUAGE')) $language = LANGUAGE;
-    elseif (defined('LANGAGE')) $language = LANGAGE; // ancien bug de nommage
-    else $language = Translation::DEFAULT_LANGUAGE;
-    $configurationManager->put('language', $language);
+// Sélection de la langue de l'interface utilisateur
+if (!$myUser) {
+    $languages = Translation::getHttpAcceptLanguages();
+} else {
+    $languages = array($configurationManager->get('language'));
 }
-// Faut-il supprimer la variable /langu?age/ de 'constant.php'?
 
-
-i18n_init($language, dirname(__FILE__).'/templates/'.$theme.'/');
+i18n_init($languages, dirname(__FILE__).'/templates/'.$theme.'/');
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';
