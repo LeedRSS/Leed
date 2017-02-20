@@ -15,8 +15,8 @@ class MysqlEntity
 {
 
     protected $dbconnector = false;
-    private $debug = false;
-    private $debugAllQuery = false;
+    protected $debug = false;
+    protected $debugAllQuery = false;
     protected $preparedValues = array();
 
 
@@ -75,13 +75,27 @@ class MysqlEntity
         array_push($this->preparedValues, $value);
     }
 
-    public function __construct(){
+    protected function connect() {
         $this->dbconnector = MysqlConnector::getInstance();
     }
 
-    public function __destruct(){
-
+    public function __construct(){
+        $this->connect();
     }
+
+    function __sleep() {
+        $variableList = array('debug', 'debugAllQuery');
+        if (isset($this->object_fields)) {
+            // Une sous-classe définit sa liste de champs de BDD
+            $variableList = array_merge($variableList, array_keys($this->object_fields));
+        }
+        return $variableList;
+    }
+
+    function __wakeup() {
+        $this->connect();
+    }
+
 
     // GESTION SQL
 
