@@ -91,10 +91,9 @@ class MysqlEntity
     * Methode de suppression de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function destroy($debug=false)
+    public function destroy()
     {
         $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
@@ -105,10 +104,9 @@ class MysqlEntity
     * Methode de nettoyage de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function truncate($debug=false)
+    public function truncate()
     {
         $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
@@ -119,10 +117,9 @@ class MysqlEntity
     * Methode de creation de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function create($debug=false){
+    public function create(){
         $query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'` (';
 
         $i=false;
@@ -230,10 +227,9 @@ class MysqlEntity
     * @param <Array> $colonnes=>$valeurs
     * @param <Array> $colonnes (WHERE) =>$valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function change($columns,$columns2,$operation='=',$debug=false){
+    public function change($columns,$columns2,$operation='='){
         $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
         $i=false;
         foreach ($columns as $column=>$value){
@@ -252,11 +248,10 @@ class MysqlEntity
     * @category manipulation SQL
     * @param <String> $ordre=null
     * @param <String> $limite=null
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Array<Entity>> $Entity
     */
-    public function populate($order=null,$limit=null,$debug=false){
-        $results = $this->loadAll(array(),$order,$limit,'=',$debug);
+    public function populate($order=null,$limit=null){
+        $results = $this->loadAll(array(),$order,$limit,'=');
         return $results;
     }
 
@@ -269,10 +264,9 @@ class MysqlEntity
     * @param <String> $ordre=null
     * @param <String> $limite=null
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Array<Entity>> $Entity
     */
-    public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug=false,$selColumn='*'){
+    public function loadAll($columns,$order=null,$limit=null,$operation="=",$selColumn='*'){
         $objects = array();
         $whereClause = $this->getWhereClause($columns,$operation);
 
@@ -296,8 +290,8 @@ class MysqlEntity
             return $objects;
     }
 
-    public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug=false){
-        $objects = $this->loadAll($columns,$order,$limit,$operation,$debug,$selColumn);
+    public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="="){
+        $objects = $this->loadAll($columns,$order,$limit,$operation,$selColumn);
         if(count($objects)==0)$objects = array();
         return $objects;
     }
@@ -310,11 +304,10 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
     */
-    public function load($columns,$operation='=',$debug=false){
-        $objects = $this->loadAll($columns,null,1,$operation,$debug);
+    public function load($columns,$operation='='){
+        $objects = $this->loadAll($columns,null,1,$operation);
         if(!isset($objects[0]))$objects[0] = false;
         return $objects[0];
     }
@@ -326,18 +319,16 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
     */
-    public function getById($id,$operation='=',$debug=false){
-        return $this->load(array('id'=>$id),$operation,$debug);
+    public function getById($id,$operation='='){
+        return $this->load(array('id'=>$id),$operation);
     }
 
     /**
     * Methode de comptage des éléments de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return<Integer> nombre de ligne dans l'entité'
     */
     public function rowCount($columns=null)
@@ -365,10 +356,9 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function delete($columns,$operation='=',$debug=false){
+    public function delete($columns,$operation='='){
         $whereClause = '';
 
         $i=false;
