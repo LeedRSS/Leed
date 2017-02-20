@@ -20,7 +20,7 @@ class Folder extends MysqlEntity{
 
     function unreadCount(){
         $results = $this->customQuery('SELECT COUNT(`'.MYSQL_PREFIX.'event`.`id`) FROM `'.MYSQL_PREFIX.'event` INNER JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.'event`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`folder` = '.$this->getId());
-        $number = $results->fetch_array();
+        $number = $results->fetch(PDO::FETCH_NUM);
         return $number[0];
     }
 
@@ -43,7 +43,7 @@ class Folder extends MysqlEntity{
             'LIMIT '.$start.','.$limit;
         $results = $this->customQuery($query);
         if($results!=false){
-            while($item = $results->fetch_array()){
+            while($item = $results->fetch(PDO::FETCH_ASSOC)){
                 $object = new Event();
                     foreach($object->getObject_fields() as $field=>$type){
                         $setter = 'set'.ucFirst($field);

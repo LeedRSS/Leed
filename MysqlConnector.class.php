@@ -20,8 +20,13 @@ class MysqlConnector
     public static $instance = null;
 
     public function __construct(){
-        $this->connection = new mysqli(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP,MYSQL_BDD);
+        $this->connect();
+    }
+
+    public function connect() {
+        $this->connection = new PDO("mysql:host=".MYSQL_HOST.";dbname=".MYSQL_BDD,MYSQL_LOGIN,MYSQL_MDP);
         $this->connection->query('SET NAMES utf8');
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
 
 
@@ -189,7 +194,7 @@ class MysqlConnector
     }
 
     public function error() {
-        return mysqli_error($this->connection);
+        return $this->connection->errorInfo();
     }
 
 }
