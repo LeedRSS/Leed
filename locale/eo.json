@@ -68,5 +68,12 @@
  "SYNCHRONISATION_TYPE":"tipo de sinkrono",
  "SYNCHRONIZE_COFFEE_TIME":"NB: La sinkronado povas daûri iom, lasu vian retumilon funkcii kaj iru trinki kafon.&nbsp;:)",
  "SYNCHRONIZE_NOW":"Sinkroni nun",
+ "USER_ADD_DUPLICATE":"",
+ "USER_ADD_MISSING_LOGIN":"",
+ "USER_ADD_MISSING_PASSWORD":"",
+ "USER_ADD_OK":"",
+ "USER_DEL_MISSING_ID":"",
+ "USER_DEL_OK":"",
+ "USER_DEL_UNKNOWN_ID":"",
  "YOU_MUST_BE_CONNECTED_ACTION":"Vi devas esti ensalutita por fari tiun agon."
 }

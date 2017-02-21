@@ -68,5 +68,12 @@
  "SYNCHRONISATION_TYPE":"Tipo de syncronisación",
  "SYNCHRONIZE_COFFEE_TIME":"NB : La syncronisación puede tomar cierto tiempo, deje su navegador y vaya tomarse un cafe.&nbsp;:)",
  "SYNCHRONIZE_NOW":"Syncronisar ahora",
+ "USER_ADD_DUPLICATE":"Ya existe un usuario con ese nombre.",
+ "USER_ADD_MISSING_LOGIN":"El campo usuario no puede estar vacío.",
+ "USER_ADD_MISSING_PASSWORD":"El campo contraseña no puede estar vacío. ",
+ "USER_ADD_OK":"Usuario añadido.",
+ "USER_DEL_MISSING_ID":"Algo salió mal : id del usuario está vacío.",
+ "USER_DEL_OK":"Usuario suprimido.",
+ "USER_DEL_UNKNOWN_ID":"Algo salió mal : nombre de usuario desconocido.",
  "YOU_MUST_BE_CONNECTED_ACTION":"Usted debe haber iniciado una sesión para continuar."
 }

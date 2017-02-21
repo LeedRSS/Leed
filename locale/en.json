@@ -68,5 +68,12 @@
  "SYNCHRONISATION_TYPE":"Synchronization type",
  "SYNCHRONIZE_COFFEE_TIME":"NB : The synchronization can take time, leave your browser do the job and go grab a coffee :).",
  "SYNCHRONIZE_NOW":"Synchronize now",
+ "USER_ADD_DUPLICATE":"A user with this login already exists. Please use another one.",
+ "USER_ADD_MISSING_LOGIN":"The login field can't be empty.",
+ "USER_ADD_MISSING_PASSWORD":"The password field can't be empty.",
+ "USER_ADD_OK":"User added.",
+ "USER_DEL_MISSING_ID":"Something went wrong: the user id is missing.",
+ "USER_DEL_OK":"User removed.",
+ "USER_DEL_UNKNOWN_ID":"Something went wrong: the user id is unknown",
  "YOU_MUST_BE_CONNECTED_ACTION":"You must be logged in for this action."
 }
