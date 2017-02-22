@@ -27,7 +27,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 
 ### Installation
 
-1. Récupérez le projet sur [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) ou sur la page [github](https://github.com/ldleman/Leed).
+1. Récupérez le projet sur [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) ou sur la page [github](https://github.com/LeedRSS/Leed).
 2. Placez le projet dans votre répertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
@@ -96,7 +96,7 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 
 ### Installation
 
-1. Retrieve the project archive at [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or at [github](https://github.com/ldleman/Leed).
+1. Retrieve the project archive at [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or at [github](https://github.com/LeedRSS/Leed).
 2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get an error 500) onto the folder and its contents .
 3. From your browser, go to the setup page _install.php_ (eg your.domaine.fr/leed/install.ph ) and follow the instructions.
 4. Once the installation is complete, remove the _install.php_ as a security measure.
@@ -165,7 +165,7 @@ El script también está compatible con los archivos de exportación/importació
 
 ### Instalación
 
-1. Recuperar el proyecto sobre [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) o sobre [github](https://github.com/ldleman/Leed).
+1. Recuperar el proyecto sobre [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) o sobre [github](https://github.com/LeedRSS/Leed).
 2. Poner el proyecto en su directorio web y aplicar un permiso _chmod 775_ sobre el directorio y su contenido (si su _web host_ es OVH, aplicar un permiso _0755_ para no tener un error 500).
 3. Desde el navegador, ir a la página de configuración _install.php_ (por ejemplo : http://su.sitio.fr/leed/install.php) y seguir las instrucciones.
 4. Una vez terminada la instalación, suprimir el archivo _install.php_ por medida de seguridad.
