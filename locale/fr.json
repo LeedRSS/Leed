@@ -74,6 +74,6 @@
  "USER_ADD_OK":"Utilisateur ajouté.",
  "USER_DEL_MISSING_ID":"Quelque chose s'est mal passé : l'id de l'utilisateur est absent.",
  "USER_DEL_OK":"Utilisateur supprimé.",
- "USER_DEL_UNKNOWN_ID":"Quelque chose s'est mal passé : l'id de l'utilisateur est inconnu",
+ "USER_DEL_UNKNOWN_ID":"Quelque chose s'est mal passé : l'id de l'utilisateur est inconnu.",
  "YOU_MUST_BE_CONNECTED_ACTION":"Vous devez être connecté pour effectuer cette action."
 }
