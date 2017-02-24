@@ -6,7 +6,7 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('VERSION_NUMBER_CODE','1.8');
+define('VERSION_NUMBER_CODE','1.8.1');
 define('VERSION_NAME_CODE','Stable');
 
 /* ----------MAJ de la version du constant.php--------------------- */
