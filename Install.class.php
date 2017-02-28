@@ -77,9 +77,6 @@ class Install {
 
     protected function createConstantFile() {
         $constant = "<?php
-define('VERSION_NUMBER','1.6');
-define('VERSION_NAME','Dev');
-
 //Host de Mysql, le plus souvent localhost ou 127.0.0.1
 define('MYSQL_HOST','{$this->options['db']['mysqlHost']}');
 //Identifiant MySQL
