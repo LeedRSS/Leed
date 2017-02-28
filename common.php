@@ -9,6 +9,12 @@
 define('LEED_VERSION_NUMBER','1.8.1');
 define('LEED_VERSION_NAME','dev');
 
+/* Assure la compatibilité des greffons utilisant ces anciennes constantes.
+ * Cela doit rester en place jusque Leed v2.0.
+ */
+if (!defined('VERSION_NUMBER')) define('VERSION_NUMBER', LEED_VERSION_NUMBER);
+if (!defined('VERSION_NAME')) define('VERSION_NAME', LEED_VERSION_NAME);
+
 /* ---------------------------------------------------------------- */
 // Mise en place d'un timezone par default pour utiliser les fonction de date en php
 $timezone_default = 'Europe/Paris'; // valeur par défaut :)
