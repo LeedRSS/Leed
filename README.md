@@ -69,6 +69,7 @@ Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugin
 - Parseur RSS : SimplePie (http://simplepie.org)
 - QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
 - OTP : OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)
 
 
 ---------
@@ -143,6 +144,7 @@ The [Leed-market](https://github.com/Leed-market) repository contains all the pl
 - RSS Parser: SimplePie ( http://simplepie.org )
 - QR Code: PhpQrCode (https://sourceforge.net/projects/phpqrcode)
 - OTP: OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)
  
 
 ---------
@@ -217,3 +219,4 @@ El repositorio [Leed market](https://github.com/Leed-market) contiene todos los 
 - RSS parser : SimplePie (http://simplepie.org)
 - QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
 - OTP : OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)

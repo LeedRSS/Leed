@@ -174,6 +174,11 @@ define('MYSQL_PREFIX','{$this->options['db']['mysqlPrefix']}');
         }else{
             $this->logs['notices'][] = _t('INSTALL_INFO_CURL');
         }
+        if (!@function_exists('gd_info')){
+            $this->logs['errors'][] = _t('INSTALL_ERROR_GD');
+        }else{
+            $this->logs['notices'][] = _t('INSTALL_INFO_GD');
+        }
         if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
             $this->logs['errors'][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
         }else{
