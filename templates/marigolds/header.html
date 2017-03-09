@@ -27,7 +27,7 @@
                 <h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a><div class="versionBloc">{#LEED_VERSION_NUMBER#}&nbsp;{#LEED_VERSION_NAME#}</div></h1>
                 <div class="loginBloc">
                     {if="!$myUser"}
-                    {if="$wrongLogin"}
+                    {if="@$wrongLogin"}
                         {$wrongLoginClass=' wrongLogin'}
                     {else}
                         {$wrongLoginClass=''}
