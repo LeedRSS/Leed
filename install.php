@@ -21,12 +21,20 @@ if (isset($_GET['lang'])) $lang = $_GET['lang'];
 elseif (isset($_POST['install_changeLngLeed'])) $lang = $_POST['install_changeLngLeed'];
 
 $installDirectory = dirname(__FILE__).'/install';
-if (empty($lang))
-    $currentLanguage = i18n_init(Functions::getBrowserLanguages(),$installDirectory);
-else
-    $currentLanguage = i18n_init($lang,$installDirectory);
 
-$languageList = $i18n->languages;
+// N'affiche que les langues du navigateur
+// @TODO: il faut afficher toutes les langues disponibles
+//        avec le choix par défaut de la langue préférée
+$languageList = Functions::getBrowserLanguages();
+if (!empty($lang)) {
+    // L'utilisateur a choisi une langue, qu'on incorpore dans la liste
+    array_unshift($languageList, $lang);
+    $liste = array_unique($languageList);
+}
+unset($i18n); //@TODO: gérer un singleton et le choix de langue / liste de langue
+$currentLanguage = i18n_init($languageList, $installDirectory);
+
+$languageList = array_unique($i18n->languages);
 
 if (file_exists('constant.php')) {
     die(_t('ALREADY_INSTALLED'));
