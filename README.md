@@ -7,8 +7,11 @@ Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.o
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
 - Application : Leed (Light Feed)
-- Version : Branche Stable
-- Auteur : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
+- Auteur : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Contributeurs principaux : (par ordre alphabétique des pseudos)
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Page du projet : http://projet.idleman.fr/leed
 - Licence : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
@@ -21,7 +24,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 ### Pré-requis
 
 - Serveur Apache conseillé (non testé sur les autres serveurs type Nginx…)
-- PHP 5.3 minimum
+- PHP 5.5 minimum
 - MySQL
 - Un peu de bon sens :-)
 
@@ -64,6 +67,9 @@ Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugin
 - Javascript : JQuery (http://www.jquery.com)
 - Moteur template : RainTPL (https://github.com/feulf/raintpl)
 - Parseur RSS : SimplePie (http://simplepie.org)
+- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP : OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)
 
 
 ---------
@@ -76,8 +82,11 @@ Leed (short for Light Feed) is a minimalist [RSS](https://fr.wikipedia.org/wiki/
 This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quick as possible when you connect to it.
 
 - Application: Leed (Light Feed)
-- Version : Branch Stable
-- Author : Valentin Carruesco aka Idleman ( idleman@idleman.fr )
+- Author: Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Main contributors: (alphabetical order of pseudos)
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Project page: http://projet.idleman.fr/leed
 - License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
@@ -90,7 +99,7 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 ### Prerequisites
 
 - Recommended Apache server (not tested on other webservers such as Nginx…)
-- PHP 5.3 minimum
+- PHP 5.5 minimum
 - MySQL
 - A little common sense :-)
 
@@ -133,6 +142,9 @@ The [Leed-market](https://github.com/Leed-market) repository contains all the pl
 - Javascript: JQuery ( http://www.jquery.com )
 - Template Engine: RainTPL ( https://github.com/feulf/raintpl )
 - RSS Parser: SimplePie ( http://simplepie.org )
+- QR Code: PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP: OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)
  
 
 ---------
@@ -145,8 +157,11 @@ Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org
 Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://fr.wikipedia.org/wiki/Cron) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
 
 - Script : Leed (Light Feed)
-- Versión : Branche Stable
-- Autor : Valentin CARRUESCO aka Idleman (idleman@idleman.fr)
+- Autor : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Principales contribuyentes (por orden alfabético del pseudos):
+  - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
+  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Página del proyecto : http://projet.idleman.fr/leed
 - Licencia : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
@@ -159,7 +174,7 @@ El script también está compatible con los archivos de exportación/importació
 ### Prerrequisito
 
 - Se recomienda Apache (non testé sur les autres serveurs type Nginx…)
-- PHP versión 5.3 mínima
+- PHP versión 5.5 mínima
 - MySQL
 - Un poco de sentido común ;-)
 
@@ -202,3 +217,6 @@ El repositorio [Leed market](https://github.com/Leed-market) contiene todos los 
 - Javascript : JQuery (http://www.jquery.com)
 - PHP Template : RainTPL (https://github.com/feulf/raintpl)
 - RSS parser : SimplePie (http://simplepie.org)
+- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
+- OTP : OtPhp (https://github.com/lelag/otphp)
+- Php GD : LibGD (https://libgd.github.io/)

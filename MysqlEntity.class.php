@@ -91,13 +91,12 @@ class MysqlEntity
     * Methode de suppression de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function destroy($debug=false)
+    public function destroy()
     {
         $query = 'DROP TABLE IF EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -105,13 +104,12 @@ class MysqlEntity
     * Methode de nettoyage de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function truncate($debug=false)
+    public function truncate()
     {
         $query = 'TRUNCATE TABLE `'.MYSQL_PREFIX.$this->TABLE_NAME.'`;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -119,10 +117,9 @@ class MysqlEntity
     * Methode de creation de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function create($debug=false){
+    public function create(){
         $query = 'CREATE TABLE IF NOT EXISTS `'.MYSQL_PREFIX.$this->TABLE_NAME.'` (';
 
         $i=false;
@@ -135,11 +132,16 @@ class MysqlEntity
                 $query .= ',KEY `index'.$field.'` (`'.$field.'`)';
             }
         }
+        if (isset($this->object_fields_uniques)){
+            foreach($this->object_fields_uniques as $field){
+                $query .= ',UNIQUE `unique'.$field.'` (`'.$field.'`)';
+            }
+        }
         $query .= ')
         ENGINE InnoDB,
         DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
         ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
     }
 
@@ -172,7 +174,7 @@ class MysqlEntity
             }
 
             $query .=';';
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+            if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
 
         $this->customQuery($query);
     }
@@ -213,7 +215,7 @@ class MysqlEntity
 
             $query .=');';
         }
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
         $this->$id_field =  (!isset($this->$id_field)?$this->dbconnector->connection->insert_id:$this->$id_field);
     }
@@ -225,10 +227,9 @@ class MysqlEntity
     * @param <Array> $colonnes=>$valeurs
     * @param <Array> $colonnes (WHERE) =>$valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function change($columns,$columns2,$operation='=',$debug=false){
+    public function change($columns,$columns2,$operation='='){
         $query = 'UPDATE `'.MYSQL_PREFIX.$this->TABLE_NAME.'` SET ';
         $i=false;
         foreach ($columns as $column=>$value){
@@ -237,7 +238,7 @@ class MysqlEntity
         }
         $query .= $this->getWhereClause($columns2, $operation);
 
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
     }
 
@@ -247,11 +248,10 @@ class MysqlEntity
     * @category manipulation SQL
     * @param <String> $ordre=null
     * @param <String> $limite=null
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Array<Entity>> $Entity
     */
-    public function populate($order=null,$limit=null,$debug=false){
-        $results = $this->loadAll(array(),$order,$limit,'=',$debug);
+    public function populate($order=null,$limit=null){
+        $results = $this->loadAll(array(),$order,$limit,'=');
         return $results;
     }
 
@@ -264,10 +264,9 @@ class MysqlEntity
     * @param <String> $ordre=null
     * @param <String> $limite=null
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Array<Entity>> $Entity
     */
-    public function loadAll($columns,$order=null,$limit=null,$operation="=",$debug=false,$selColumn='*'){
+    public function loadAll($columns,$order=null,$limit=null,$operation="=",$selColumn='*'){
         $objects = array();
         $whereClause = $this->getWhereClause($columns,$operation);
 
@@ -276,11 +275,12 @@ class MysqlEntity
             if($limit!=null) $query .='LIMIT '.$limit.' ';
             $query .=';';
 
-            if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+            if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
             $result = $this->customQuery($query);
             while($queryReturn = $result->fetch_assoc()){
 
-                $object = new $this->CLASS_NAME();
+                $thisClass = get_class($this);
+                $object = new $thisClass();
                 foreach($this->object_fields as $field=>$type){
                     if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
                 }
@@ -290,8 +290,8 @@ class MysqlEntity
             return $objects;
     }
 
-    public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="=",$debug=false){
-        $objects = $this->loadAll($columns,$order,$limit,$operation,$debug,$selColumn);
+    public function loadAllOnlyColumn($selColumn,$columns,$order=null,$limit=null,$operation="="){
+        $objects = $this->loadAll($columns,$order,$limit,$operation,$selColumn);
         if(count($objects)==0)$objects = array();
         return $objects;
     }
@@ -304,11 +304,10 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
     */
-    public function load($columns,$operation='=',$debug=false){
-        $objects = $this->loadAll($columns,null,1,$operation,$debug);
+    public function load($columns,$operation='='){
+        $objects = $this->loadAll($columns,null,1,$operation);
         if(!isset($objects[0]))$objects[0] = false;
         return $objects[0];
     }
@@ -320,18 +319,16 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return <Entity> $Entity ou false si aucun objet n'est trouvé en base
     */
-    public function getById($id,$operation='=',$debug=false){
-        return $this->load(array('id'=>$id),$operation,$debug);
+    public function getById($id,$operation='='){
+        return $this->load(array('id'=>$id),$operation);
     }
 
     /**
     * Methode de comptage des éléments de l'entité
     * @author Valentin CARRUESCO
     * @category manipulation SQL
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return<Integer> nombre de ligne dans l'entité'
     */
     public function rowCount($columns=null)
@@ -346,7 +343,7 @@ class MysqlEntity
             }
         }
         $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);
         $number = $myQuery->fetch_array();
         return $number[0];
@@ -359,10 +356,9 @@ class MysqlEntity
     * @param <Array> $colonnes (WHERE)
     * @param <Array> $valeurs (WHERE)
     * @param <String> $operation="=" definis le type d'operateur pour la requete select
-    * @param <String> $debug=false active le debug mode (0 ou 1)
     * @return Aucun retour
     */
-    public function delete($columns,$operation='=',$debug=false){
+    public function delete($columns,$operation='='){
         $whereClause = '';
 
         $i=false;
@@ -371,28 +367,13 @@ class MysqlEntity
             $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
         }
         $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
-        if($this->debug)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
+        if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $this->customQuery($query);
 
     }
 
-    ///@TODO: pourquoi deux méthodes différentes qui font la même chose ?
-    public function customExecute($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
-        $result = $this->dbconnector->connection->query($request);
-        $error = $this->error();
-        if ($error) {
-            error_log('Leed error: '.$this->error());
-            error_log('Leed query: '.$query);
-        }
-        if (false===$result) {
-            throw new Exception($this->dbconnector->connection->error);
-        }
-        return $result;
-    }
-
     public function customQuery($request){
-        if($this->debugAllQuery)echo '<hr>'.$this->CLASS_NAME.' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
+        if($this->debugAllQuery)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$request.'<br>'.$this->dbconnector->connection->error;
         $result = $this->dbconnector->connection->query($request);
         $error = $this->error();
         if ($error) {
@@ -436,10 +417,10 @@ class MysqlEntity
     */
 
     public function tableExists() {
-        $table = '`'.MYSQL_PREFIX.$this->TABLE_NAME.'';
+        $table = MYSQL_PREFIX.$this->TABLE_NAME;
         $result = $this->customQuery("SHOW TABLES LIKE '$table'");
         $assoc = $result->fetch_assoc();
-        return false===$assoc ? false : true;
+        return !is_null($assoc);
     }
 
     /**

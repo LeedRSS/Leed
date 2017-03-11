@@ -150,7 +150,7 @@ class Functions
         }
         $fin='…' ;
         $nb=$limit-1;
-        return mb_substr($str, 0, $nb, 'UTF-8').$fin;
+        return htmlentities(mb_substr($str, 0, $nb, 'UTF-8').$fin);
     }
 
 
@@ -391,5 +391,27 @@ class Functions
         }
     }
 
-}
+    /**
+    * Vide le contenu du cache de RainTpl
+    *
+    */
+    public static function purgeRaintplCache() {
+        $directory = raintpl::$cache_dir;
+        if ($directory) {
+            $files = glob($directory.'*.rtpl.php');
+            if ($files) {
+                foreach($files as $file) {
+                    if (!unlink($file)) {
+                        error_log("Leed: cannot unlink '$file'");
+                    }
+                }
+            } else {
+                error_log('Leed: Raintpl, no file cached: '.$directory.'   '.getcwd());
+            }
+        } else {
+            error_log('Leed: Raintpl cache directory not set!');
+        }
+    }
+
+    }
 ?>

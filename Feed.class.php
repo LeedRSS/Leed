@@ -10,7 +10,6 @@ class Feed extends MysqlEntity{
 
     protected $id,$name,$url,$events=array(),$description,$website,$folder,$lastupdate,$isverbose,$lastSyncInError;
     protected $TABLE_NAME = 'feed';
-    protected $CLASS_NAME = 'Feed';
     protected $object_fields =
     array(
         'id'=>'key',
@@ -78,7 +77,7 @@ class Feed extends MysqlEntity{
         $feed->enable_cache($enableCache);
         $feed->force_feed($forceFeed);
         $feed->set_feed_url($this->url);
-        $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) '.VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
+        $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) '.LEED_VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
         $this->lastSyncInError = 0;
         $this->lastupdate = $_SERVER['REQUEST_TIME'];
         if (!$feed->init()) {
@@ -180,9 +179,9 @@ class Feed extends MysqlEntity{
             if (strpos($enclosureType, 'image/') === 0) {
                 $html .= '<img src="' . $enclosure->link . '" />';
             } elseif (strpos($enclosureType, 'audio/') === 0) {
-                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
+                $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
             } elseif (strpos($enclosureType, 'video/') === 0) {
-                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'.$i18n->get('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
+                $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
             } else {
                 $html .= '<a href="'.$enclosure->link.'"> '.$enclosureName.'</a>';
             }
@@ -207,7 +206,7 @@ class Feed extends MysqlEntity{
             DELETE FROM {$tableEvent} WHERE feed={$this->id} AND favorite!=1 AND unread!=1 AND syncId!={$currentSyncId} ORDER BY pubdate ASC LIMIT {$limit}
         ";
         ///@TODO: escape the variables inside mysql
-         $this->customExecute($query);
+         $this->customQuery($query);
     }
 
     function setId($id){
@@ -365,9 +364,11 @@ class Feed extends MysqlEntity{
                 echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
                 echo "{$feedName}\t{$feedUrlTxt}\n";
             } else {
-
-                if (!$parseOk) echo '<div class="errorSync">';
-                echo "<dt><i>{$parseTimeStr}s</i> | <a href='{$feedUrl}'>{$feedName}</a></dt>\n";
+                if (!$parseOk)
+                    echo '<div class="errorSync">';
+                else
+                    echo '<div>';
+                echo "<dt><i>{$parseTimeStr}s</i> | <a target='_blank' rel='noopener noreferrer' href='{$feedUrl}'>{$feedName}</a></dt>\n";
 
             }
             foreach($errors as $error) {

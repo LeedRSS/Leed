@@ -6,21 +6,15 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('VERSION_NUMBER_CODE','1.8.1');
-define('VERSION_NAME_CODE','Stable');
+define('LEED_VERSION_NUMBER','1.8.2');
+define('LEED_VERSION_NAME','stable');
 
-/* ----------MAJ de la version du constant.php--------------------- */
-if (is_writable('constant.php')) {
-    $content = file_get_contents('constant.php');
-    preg_match('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_version);
-    preg_match('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#',$content,$matches_name);
-    if ($matches_version[1]!=VERSION_NUMBER_CODE or $matches_name[1]!=VERSION_NAME_CODE)
-    {
-        $content = preg_replace('#define\(\'VERSION_NUMBER\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NUMBER\',\''.VERSION_NUMBER_CODE.'\');', $content);
-        $content = preg_replace('#define\(\'VERSION_NAME\',\'([A-Za-z0-9.]+)\'\);?#','define(\'VERSION_NAME\',\''.VERSION_NAME_CODE.'\');', $content);
-        file_put_contents('constant.php', $content);
-    }
-};
+/* Assure la compatibilité des greffons utilisant ces anciennes constantes.
+ * Cela doit rester en place jusque Leed v2.0.
+ */
+if (!defined('VERSION_NUMBER')) define('VERSION_NUMBER', LEED_VERSION_NUMBER);
+if (!defined('VERSION_NAME')) define('VERSION_NAME', LEED_VERSION_NAME);
+
 /* ---------------------------------------------------------------- */
 // Mise en place d'un timezone par default pour utiliser les fonction de date en php
 $timezone_default = 'Europe/Paris'; // valeur par défaut :)
@@ -40,13 +34,12 @@ require_once('constant.php');
 require_once('RainTPL.php');
 require_once('i18n.php');
 require_once('otphp/lib/otphp.php');
+class_exists('Functions') or require_once('Functions.class.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');
 class_exists('Update') or require_once('Update.class.php');
-$resultUpdate = Update::ExecutePatch();
 class_exists('Feed') or require_once('Feed.class.php');
 class_exists('Event') or require_once('Event.class.php');
-class_exists('Functions') or require_once('Functions.class.php');
 class_exists('User') or require_once('User.class.php');
 class_exists('Folder') or require_once('Folder.class.php');
 class_exists('Configuration') or require_once('Configuration.class.php');
@@ -58,6 +51,20 @@ class_exists('Logger') or require_once('Logger.class.php');
 
 //Calage de la date
 date_default_timezone_set('Europe/Paris');
+
+$configurationManager = new Configuration();
+$conf = $configurationManager->getAll();
+
+$theme = $configurationManager->get('theme');
+
+//Instanciation du template
+$tpl = new RainTPL();
+//Definition des dossiers de template
+raintpl::configure("base_url", null );
+raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
+raintpl::configure("cache_dir", "./cache/tmp/" );
+
+$resultUpdate = Update::ExecutePatch();
 
 $userManager = new User();
 $myUser = (isset($_SESSION['currentUser'])?unserialize($_SESSION['currentUser']):false);
@@ -71,30 +78,15 @@ if (empty($myUser)) {
 $feedManager = new Feed();
 $eventManager = new Event();
 $folderManager = new Folder();
-$configurationManager = new Configuration();
-$conf = $configurationManager->getAll();
 
-$language = $configurationManager->get('language');
-//@todo requis pour la MAJ mais pourra être supprimé.
-if (empty($language)) {
-    // On tente de récupérer la valeur issue de 'constant.php'
-    if (defined('LANGUAGE')) $language = LANGUAGE;
-    elseif (defined('LANGAGE')) $language = LANGAGE; // ancien bug de nommage
-    else $language = Translation::DEFAULT_LANGUAGE;
-    $configurationManager->put('language', $language);
+// Sélection de la langue de l'interface utilisateur
+if (!$myUser) {
+    $languages = Translation::getHttpAcceptLanguages();
+} else {
+    $languages = array($configurationManager->get('language'));
 }
-// Faut-il supprimer la variable /langu?age/ de 'constant.php'?
 
-$theme = $configurationManager->get('theme');
-
-//Instanciation du template
-$tpl = new RainTPL();
-//Definition des dossiers de template
-raintpl::configure("base_url", null );
-raintpl::configure("tpl_dir", './templates/'.$theme.'/' );
-raintpl::configure("cache_dir", "./cache/tmp/" );
-
-i18n_init($language, dirname(__FILE__).'/templates/'.$theme.'/');
+i18n_init($languages, dirname(__FILE__).'/templates/'.$theme.'/');
 if ($resultUpdate) die (_t('LEED_UPDATE_MESSAGE'));
 
 $view = '';

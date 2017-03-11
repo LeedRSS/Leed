@@ -542,10 +542,6 @@ header a,header a:hover,header a:visited{
     text-align: center;
 }
 
-.logo .versionBloc:before{
-    content : 'V ';
-}
-
 .logo .versionBloc.newVersion{
      background: none repeat scroll 0 0 #F16529;
 }

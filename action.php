@@ -24,7 +24,7 @@ Plugin::callHook("action_pre_case", array(&$_,$myUser));
 switch ($action){
     case 'commandLine':
     case 'synchronize':
-        require_once("SimplePie.class.php");
+        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
         $syncCode = $configurationManager->get('synchronisationCode');
         $syncGradCount = $configurationManager->get('syncGradCount');
         if (   false==$myUser
@@ -152,9 +152,16 @@ switch ($action){
     break;
 
 
-    case 'purge':
+    case 'purgeEvents':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         $eventManager->truncate();
+        header('location: ./settings.php');
+    break;
+
+
+    case 'purgeCache':
+        if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
+        Functions::purgeRaintplCache();
         header('location: ./settings.php');
     break;
 
@@ -289,7 +296,7 @@ switch ($action){
 
     case 'addFeed':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-        require_once("SimplePie.class.php");
+        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
         if(!isset($_['newUrl'])) break;
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
@@ -361,7 +368,7 @@ switch ($action){
     case 'removeFolder':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
         if(isset($_['id']) && is_numeric($_['id']) && $_['id']>0){
-            $eventManager->customExecute('DELETE FROM `'.MYSQL_PREFIX.'event` WHERE `'.MYSQL_PREFIX.'event`.`feed` in (SELECT `'.MYSQL_PREFIX.'feed`.`id` FROM `'.MYSQL_PREFIX.'feed` WHERE `'.MYSQL_PREFIX.'feed`.`folder` =\''.intval($_['id']).'\') ;');
+            $eventManager->customQuery('DELETE FROM `'.MYSQL_PREFIX.'event` WHERE `'.MYSQL_PREFIX.'event`.`feed` in (SELECT `'.MYSQL_PREFIX.'feed`.`id` FROM `'.MYSQL_PREFIX.'feed` WHERE `'.MYSQL_PREFIX.'feed`.`folder` =\''.intval($_['id']).'\') ;');
             $feedManager->delete(array('folder'=>$_['id']));
             $folderManager->delete(array('id'=>$_['id']));
         }
@@ -458,6 +465,7 @@ switch ($action){
             if (empty($salt)) $salt = '';
             $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
             if($user==false){
+                error_log("Leed: wrong login for '".$_['login']."'");
                 header('location: ./index.php?action=wrongLogin');
             }else{
                 $_SESSION['currentUser'] = serialize($user);
@@ -557,7 +565,7 @@ switch ($action){
         break;
 
     default:
-        require_once("SimplePie.class.php");
+        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));
         //exit('0');
     break;
