@@ -25,7 +25,7 @@ $installDirectory = dirname(__FILE__).'/install';
 // N'affiche que les langues du navigateur
 // @TODO: il faut afficher toutes les langues disponibles
 //        avec le choix par défaut de la langue préférée
-$languageList = Functions::getBrowserLanguages();
+$languageList = Translation::getHttpAcceptLanguages();
 if (!empty($lang)) {
     // L'utilisateur a choisi une langue, qu'on incorpore dans la liste
     array_unshift($languageList, $lang);

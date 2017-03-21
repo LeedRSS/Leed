@@ -355,20 +355,6 @@ class Functions
     }
 
     /**
-    * @return les langues acceptées par le navigateur
-    */
-    public static function getBrowserLanguages() {
-        /* http://www.w3.org/International/questions/qa-lang-priorities.en.php
-         * ex: da, en-gb;q=0.8,en;q=0.7 --> array('da','en');
-        */
-        if (!array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER)) return array();
-        $languages = array();
-        $chunks = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        foreach($chunks as $chunk) $languages []= substr($chunk, 0, 2);
-        return array_unique($languages);
-    }
-
-    /**
     * @return boolean
     */
     public static function isAjaxCall() {
