@@ -42,7 +42,9 @@ class Install {
     }
 
     public function launch($_, $installActionName) {
-        $this->checkFunctionsExists();
+        if (!$this->checkFunctionsExists()) {
+	        return false;
+        }
         if(!isset($_[$installActionName])) {
             return false;
         }
@@ -189,6 +191,7 @@ define('MYSQL_PREFIX','{$this->options['db']['mysqlPrefix']}');
         }else{
             $this->logs['notices'][] = _t('INSTALL_INFO_SAFEMODE');
         }
+        return empty($this->logs['errors']);
     }
 
     public function setFinished($finished) {
