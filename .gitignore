@@ -2,6 +2,7 @@
 /constant.php
 /logs/
 /plugins/
-/templates/ !/templates/marigolds/
+!/templates/marigolds/
+/templates/
 update.json
 *.log
