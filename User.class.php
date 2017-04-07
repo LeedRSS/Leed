@@ -175,6 +175,10 @@ class User extends MysqlEntity{
         return $result;
     }
 
+    static function generateSalt() {
+        return ''.mt_rand().mt_rand();
+    }
+
     function setStayConnected() {
         ///@TODO: set the current web directory, here and on del
         setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
