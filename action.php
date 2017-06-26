@@ -24,7 +24,7 @@ Plugin::callHook("action_pre_case", array(&$_,$myUser));
 switch ($action){
     case 'commandLine':
     case 'synchronize':
-        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
+        require_once("SimplePie.class.php");
         $syncCode = $configurationManager->get('synchronisationCode');
         $syncGradCount = $configurationManager->get('syncGradCount');
         if (   false==$myUser
@@ -296,7 +296,7 @@ switch ($action){
 
     case 'addFeed':
         if($myUser==false) exit(_t('YOU_MUST_BE_CONNECTED_ACTION'));
-        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
+        require_once("SimplePie.class.php");
         if(!isset($_['newUrl'])) break;
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
@@ -565,7 +565,7 @@ switch ($action){
         break;
 
     default:
-        require_once("SimplePie.compiled-1.4.3-2-geb6dd2d.php");
+        require_once("SimplePie.class.php");
         Plugin::callHook("action_post_case", array(&$_,$myUser));
         //exit('0');
     break;
