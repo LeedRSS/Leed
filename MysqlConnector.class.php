@@ -2,7 +2,7 @@
 
 /*
     @nom: mysql
-    @auteur: Idleman (idleman@idleman.fr)
+    @auteur: Idleman (http://blog.idleman.fr)
     @date de création:
     @description: Classe de gestion des connexions Mysql
 */

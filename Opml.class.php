@@ -96,7 +96,6 @@ class Opml  {
   <head>
     <title>Leed export</title>
     <ownerName>Leed</ownerName>
-    <ownerEmail>idleman@idleman.fr</ownerEmail>
     <dateCreated>$date</dateCreated>
   </head>
   <body>\n";

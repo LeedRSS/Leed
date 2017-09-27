@@ -2,7 +2,7 @@
 
 /*
  @nom: action
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description: Page de gestion des évenements non liés a une vue particulière (appels ajax, requetes sans resultats etc...)
  */
 

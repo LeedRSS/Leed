@@ -123,7 +123,7 @@
  "PROJECT_PAGE":"Paĝo pri la projekto",
  "PROJECT_ROOT":"Radiko projekta",
  "QUESTIONS_SUGGESTIONS":"DEMANDOJ & SUGESTOJ",
- "QUESTIONS_SUGGESTIONS_PARAGRAPH":"<ul><li><b>Por ĉiaj demandoj kaj rimarkoj:</b> Kontrolu unuavice, ke la respondo ne troviĝas en la <a href='http://projet.idleman.fr/leed/?page=FAQ'>FAQ</a> aŭ ĉe <a href='http://projet.idleman.fr/leed'>la vikio de la projekto</a>, se nekaze, sendu al mi viajn demandon/sugestojn/rimarkojn al <a href='mailto:idleman@idleman.fr'>idleman@idleman.fr</a></li><li><b>Pro reŝargi la pasvorton</b>, kreu dosieron <em>resetPassword</em> ĉe la retejradiko. La konekto ĉiam funkcios, la pasvorto provizita anstataŭos la malnovan.</li></ul>",
+ "QUESTIONS_SUGGESTIONS_PARAGRAPH":"<ul><li><b>Por ĉiaj demandoj kaj rimarkoj:</b> Kontrolu unuavice, ke la respondo ne troviĝas en la <a href='http://projet.idleman.fr/leed/?page=FAQ'>FAQ</a> aŭ ĉe <a href='http://projet.idleman.fr/leed'>la vikio de la projekto</a>, se nekaze, sendu al mi viajn demandon/sugestojn/rimarkojn al <a href='http://blog.idleman.fr'>http://blog.idleman.fr</a></li><li><b>Pro reŝargi la pasvorton</b>, kreu dosieron <em>resetPassword</em> ĉe la retejradiko. La konekto ĉiam funkcios, la pasvorto provizita anstataŭos la malnovan.</li></ul>",
  "READ":"Legita",
  "READ_ALL_FOLDER_CONFIRM":"Ĉion marki kiel legitan por ĉi-fluujo?",
  "READ_FOLDER_ITEMS":"Legi la eventojn de ĉi-fluujo",

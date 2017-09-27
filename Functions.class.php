@@ -2,7 +2,7 @@
 
 /*
  @nom: constant
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description:  Classe de stockage des fonctions utiles (toutes disponibles en static)
  */
 

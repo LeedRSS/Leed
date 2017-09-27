@@ -2,7 +2,7 @@
 
 /*
  @nom: Plugin
- @auteur: Valentin CARRUESCO (idleman@idleman.fr)
+ @auteur: Valentin CARRUESCO (http://blog.idleman.fr)
  @description: Classe de gestion des plugins au travers de l'application
  */
 

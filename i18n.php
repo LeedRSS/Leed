@@ -2,7 +2,7 @@
 
 /*
  @nom: i18n
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description:  Fonctions de gestion de la traduction
  */
 

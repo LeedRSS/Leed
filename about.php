@@ -2,7 +2,7 @@
 
 /*
  @nom: about
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description: Page "A propos" d'information contextuelles sur le projet
  */
 
