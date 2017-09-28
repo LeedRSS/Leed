@@ -3,7 +3,7 @@
 
 /*
  @nom: Configuration
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description: Classe de gestion des préférences, fonctionne sur un simple système clé=>valeur avec un cache session pour eviter les requête inutiles
  */
 

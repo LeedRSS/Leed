@@ -3,7 +3,7 @@
 
 
 /* TEAM */
-  Creator: Idleman (idleman@idleman.fr)
+  Creator: Idleman (http://blog.idleman.fr)
   Contributors: Sbgodin (http://sbgodin.fr)
                 Simounet (contact@simounet.net)
                 Alef-Burzmali (thomas.fargeix@burzmali.com)

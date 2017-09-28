@@ -2,11 +2,11 @@
 
 /*
  @nom: common
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('LEED_VERSION_NUMBER','1.8.2');
+define('LEED_VERSION_NUMBER','1.8.3');
 define('LEED_VERSION_NAME','dev');
 
 /* Assure la compatibilité des greffons utilisant ces anciennes constantes.

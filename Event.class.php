@@ -2,7 +2,7 @@
 
 /*
  @nom: Event
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description: Classe de gestion des évenements/news liés a chaques flux RSS/ATOM
  */
 

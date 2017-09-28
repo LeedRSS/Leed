@@ -7,7 +7,7 @@ Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.o
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
 - Application : Leed (Light Feed)
-- Auteur : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Auteur : Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Contributeurs principaux : (par ordre alphabétique des pseudos)
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
@@ -82,7 +82,7 @@ Leed (short for Light Feed) is a minimalist [RSS](https://fr.wikipedia.org/wiki/
 This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quick as possible when you connect to it.
 
 - Application: Leed (Light Feed)
-- Author: Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Author: Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Main contributors: (alphabetical order of pseudos)
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
@@ -157,7 +157,7 @@ Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org
 Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://fr.wikipedia.org/wiki/Cron) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
 
 - Script : Leed (Light Feed)
-- Autor : Valentin CARRUESCO aka **Idleman** (idleman@idleman.fr)
+- Autor : Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Principales contribuyentes (por orden alfabético del pseudos):
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)

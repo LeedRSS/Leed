@@ -2,7 +2,7 @@
 
 /*
  @nom: install
- @auteur: Idleman (idleman@idleman.fr)
+ @auteur: Idleman (http://blog.idleman.fr)
  @description:  Page d'installation du script (a supprimer après installation)
  */
 
