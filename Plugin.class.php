@@ -193,7 +193,7 @@ class Plugin{
     }
 
     protected function getGithubMarketReposList() {
-        return json_decode(self::getUrlContent("https://api.github.com/orgs/Leed-market/repos"));
+        return json_decode(self::getUrlContent("https://api.github.com/orgs/Leed-market/repos?per_page=1000"));
     }
 
     protected function getGithubMarketReposInfos($repos) {
