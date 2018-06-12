@@ -156,6 +156,11 @@ define('MYSQL_PREFIX','{$this->options['db']['mysqlPrefix']}');
         }else{
             $this->logs['notices'][] = _t('INSTALL_INFO_RIGHT');
         }
+        if (!@function_exists('simplexml_load_file')){
+            $this->logs['errors'][] = _t('INSTALL_ERROR_PHPXML');
+        }else{
+            $this->logs['notices'][] = _t('INSTALL_INFO_PHPXML');
+        }
         if (!@function_exists('mysqli_connect')){
             $this->logs['errors'][] = _t('INSTALL_ERROR_MYSQLICONNECT');
         }else{
