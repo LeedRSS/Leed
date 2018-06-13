@@ -277,16 +277,16 @@ class MysqlEntity
 
             if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
             $result = $this->customQuery($query);
-            while($queryReturn = $result->fetch_assoc()){
-
-                $thisClass = get_class($this);
-                $object = new $thisClass();
-                foreach($this->object_fields as $field=>$type){
-                    if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
+            if ($result)
+                while($queryReturn = $result->fetch_assoc()){
+                    $thisClass = get_class($this);
+                    $object = new $thisClass();
+                    foreach($this->object_fields as $field=>$type){
+                        if(isset($queryReturn[$field])) $object->$field = $queryReturn[$field];
+                    }
+                    $objects[] = $object;
+                    unset($object);
                 }
-                $objects[] = $object;
-                unset($object);
-            }
             return $objects;
     }
 
