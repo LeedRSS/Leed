@@ -77,7 +77,7 @@ class Feed extends MysqlEntity{
         $feed->enable_cache($enableCache);
         $feed->force_feed($forceFeed);
         $feed->set_feed_url($this->url);
-        $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) '.LEED_VERSION_NAME.' by idleman http://projet.idleman.fr/leed');
+        $feed->set_useragent('Mozilla/5.0 (X11; Ubuntu; Linux x86_64) Gecko/20100101 Firefox');
         $this->lastSyncInError = 0;
         $this->lastupdate = $_SERVER['REQUEST_TIME'];
         if (!$feed->init()) {
