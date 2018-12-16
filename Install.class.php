@@ -186,6 +186,11 @@ define('MYSQL_PREFIX','{$this->options['db']['mysqlPrefix']}');
         }else{
             $this->logs['notices'][] = _t('INSTALL_INFO_GD');
         }
+        if (!@function_exists('mb_internal_encoding')){
+            $this->logs['errors'][] = _t('INSTALL_ERROR_MB');
+        }else{
+            $this->logs['notices'][] = _t('INSTALL_INFO_MB');
+        }
         if (@version_compare(PHP_VERSION, '5.1.0') <= 0){
             $this->logs['errors'][] = _t('INSTALL_ERROR_PHPV', array(PHP_VERSION));
         }else{
