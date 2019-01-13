@@ -67,7 +67,7 @@ if($articleDisplayAuthor) $target .= '`'.MYSQL_PREFIX.'event`.`creator`,';
 $target .= '`'.MYSQL_PREFIX.'event`.`id`';
 
 $tpl->assign('target',$target);
-$tpl->assign('feeds','');
+$tpl->assign('feeds',[]);
 $tpl->assign('order','');
 $tpl->assign('unreadEventsForFolder',0);
 $pagesArray = array();
