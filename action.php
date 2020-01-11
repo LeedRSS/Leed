@@ -78,7 +78,7 @@ switch ($action){
         if(isset($_['last-event-id']))$whereClause['id'] = '<= ' . $_['last-event-id'];
         $eventManager->change(array('unread'=>'0'),$whereClause);
         if(!Functions::isAjaxCall()){
-            header('location: ./index.php');
+            header('location: ./');
         }
     break;
 
@@ -94,7 +94,7 @@ switch ($action){
         }
 
         if (!Functions::isAjaxCall()){
-            header('location: ./index.php');
+            header('location: ./');
         }
 
     break;
@@ -466,11 +466,11 @@ switch ($action){
             $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
             if($user==false){
                 error_log("Leed: wrong login for '".$_['login']."'");
-                header('location: ./index.php?action=wrongLogin');
+                header('location: ./?action=wrongLogin');
             }else{
                 $_SESSION['currentUser'] = serialize($user);
                 if (isset($_['rememberMe'])) $user->setStayConnected();
-                header('location: ./index.php');
+                header('location: ./');
             }
             exit();
         }
@@ -498,7 +498,7 @@ switch ($action){
         $_SESSION = array();
         session_unset();
         session_destroy();
-        header('location: ./index.php');
+        header('location: ./');
     break;
 
     case 'displayOnlyUnreadFeedFolder':
