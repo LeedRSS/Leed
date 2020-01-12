@@ -46,7 +46,7 @@
 
                         <!--Pour chaques dossier-->
                         {loop="folders"}
-                            {$feeds=""}
+                            {$feeds=[]}
                             <!--on récupere tous les flux lié au dossier-->
                               {if="isset($allFeedsPerFolder[$value->getId()])"}
                                   {$feeds=$allFeedsPerFolder[$value->getId()]}
