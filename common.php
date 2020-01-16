@@ -6,7 +6,7 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('LEED_VERSION_NUMBER','1.8.3');
+define('LEED_VERSION_NUMBER','1.8.4');
 define('LEED_VERSION_NAME','dev');
 
 /* Assure la compatibilité des greffons utilisant ces anciennes constantes.
