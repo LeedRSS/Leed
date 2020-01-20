@@ -350,6 +350,8 @@ class Functions
            de configuration existe. */
         $link = mysqli_connect($server, $login, $pass, $db);
         if (false===$link) return false;
+        $version = mysqli_get_server_version($link);
+        if( $version < 50503 ) return false;
         mysqli_close($link);
         return true;
     }

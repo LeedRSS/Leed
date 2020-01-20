@@ -24,13 +24,13 @@ class MysqlEntity
         switch($type){
             case 'string':
             case 'timestamp':
-                $return = 'VARCHAR(225) CHARACTER SET utf8 COLLATE utf8_general_ci';
+                $return = 'VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
             break;
             case 'longstring':
-                $return = 'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
+                $return = 'TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
             break;
             case 'extralongstring':
-                $return = 'MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
+                $return = 'MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
                 break;
             case 'key':
                 $return = 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY';
@@ -43,7 +43,7 @@ class MysqlEntity
                 $return = 'INT(1)';
             break;
             default;
-                $return = 'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci';
+                $return = 'TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
             break;
         }
         return $return ;
@@ -139,7 +139,7 @@ class MysqlEntity
         }
         $query .= ')
         ENGINE InnoDB,
-        DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
+        DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
         ;';
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
         $myQuery = $this->customQuery($query);

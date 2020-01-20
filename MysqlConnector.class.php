@@ -21,7 +21,8 @@ class MysqlConnector
 
     public function __construct(){
         $this->connection = new mysqli(MYSQL_HOST,MYSQL_LOGIN,MYSQL_MDP,MYSQL_BDD);
-        $this->connection->query('SET NAMES utf8');
+        $this->connection->set_charset('utf8mb4');
+        $this->connection->query('SET NAMES utf8mb4');
     }
 
 
