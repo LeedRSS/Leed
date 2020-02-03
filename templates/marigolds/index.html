@@ -46,7 +46,7 @@
 
                         <!--Pour chaques dossier-->
                         {loop="folders"}
-                            {$feeds=""}
+                            {$feeds=[]}
                             <!--on récupere tous les flux lié au dossier-->
                               {if="isset($allFeedsPerFolder[$value->getId()])"}
                                   {$feeds=$allFeedsPerFolder[$value->getId()]}
@@ -59,7 +59,7 @@
                     <li>
                         <h1 class="folder{if="$unreadEventsForFolder==0"} hidefeed{/if}"{if="$displayOnlyUnreadFeedFolder=='true' && $unreadEventsForFolder==0"} style="display:none;"{/if}>
                             {function="Plugin::callHook("menu_pre_folder_link", array(&$value))"}
-                            <a  title="{function="_t('READ_FOLDER_ITEMS')"}" class="folderLink" href="index.php?action=selectedFolder&amp;folder={$value->getId()}" data-id="{$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" data-mark-all-read="folder">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
+                            <a  title="{function="_t('READ_FOLDER_ITEMS')"}" class="folderLink" href="./?action=selectedFolder&amp;folder={$value->getId()}" data-id="{$value->getId()}">{$value->getName()}</a> <a class="readFolder" title="{function="_t('FOLD_UNFOLD_FOLDER')"}" onclick="toggleFolder(this,{$value->getId()});" >{if="!$value->getIsopen()"}<i class="icon-folder-empty"></i>{else}<i class="icon-folder-open-empty"></i>{/if}</a> {if="$unreadEventsForFolder!=0"}<a class="unreadForFolder"  title="{function="_t('MARK_AS_READ_FOLDER_ITEMS',array($unreadEventsForFolder))"}" data-mark-all-read="folder">{$unreadEventsForFolder} {function="_t('UNREAD')"}</a>{/if}
                             {function="Plugin::callHook("menu_post_folder_link", array(&$value))"}
                         </h1>
                         <!-- FLUX DU DOSSIER -->
@@ -75,7 +75,7 @@
                                                 {else}
                                                 <li class="errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                 {/if}
-                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="./?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     <button class="right unreadForFeed" data-mark-all-read="feed">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
                                                     </button>
@@ -88,7 +88,7 @@
                                                     {else}
                                                     <li class="hidefeed errorSync" style="display:none;" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                     {/if}
-                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                    {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="./?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                     {if="isset($unread[$value2['id']])"}
                                                     <button class="right unreadForFeed" data-mark-all-read="feed">
                                                     <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
@@ -112,7 +112,7 @@
                                                 <li class="hidefeed errorSync" title="{function="_t('SYNCHRONISATION_ERROR')"}">
                                                 {/if}
                                             {/if}
-                                                {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="index.php?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
+                                                {function="Plugin::callHook("menu_pre_feed_link", array(&$value))"}                                             <a href="./?action=selectedFeed&amp;feed={$value2['id']}" class="feedLink" data-id="{$value2['id']}" title="{$value2['url']}">{function="Functions::truncate($value2['name'],37)"} </a>
                                                 {if="isset($unread[$value2['id']])"}
                                                     <button class="right unreadForFeed" data-mark-all-read="feed">
                                                         <span title="{function="_t('MARK_AS_READ')"}">{$unread[$value2['id']]}</span>
@@ -153,8 +153,8 @@
                    
                         {$currentFeed->getDescription()} <div class="clear"></div>
                             {function="_t('SEE_THE')"}
-                    <a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">{function="ucfirst(_t('UNREAD'))"}</a> |
-                    <a href="index.php?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">{function="_t('OLDER')"}</a> {function="_t('IN_FIRST')"}
+                    <a href="./?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=unread">{function="ucfirst(_t('UNREAD'))"}</a> |
+                    <a href="./?action=selectedFeed&amp;feed={$_['feed']}&amp;page={$page}&amp;order=older">{function="_t('OLDER')"}</a> {function="_t('IN_FIRST')"}
                 {/if}
 
                 {if="$action=='selectedFolder'"}

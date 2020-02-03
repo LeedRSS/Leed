@@ -12,7 +12,7 @@ Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un 
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
-- Page du projet : http://projet.idleman.fr/leed
+- Page du projet : https://github.com/LeedRSS/Leed
 - Licence : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Toutes les tâches de traitements de flux sont effectuées de manière invisible par une tâche programmée (cron), ainsi, l'utilisateur ne subit pas les lenteurs dues à la récupération et au traitement de chacun des flux suivis.
@@ -30,7 +30,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 
 ### Installation
 
-1. Récupérez le projet sur [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) ou sur la page [github](https://github.com/LeedRSS/Leed).
+1. Récupérez le projet sur la page [github](https://github.com/LeedRSS/Leed).
 2. Placez le projet dans votre répertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
@@ -52,10 +52,6 @@ crontab
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
  Si vous n'avez pas accès a la commande _wget_ sur votre serveur, vous pouvez essayer son chemin complet _/usr/bin/wget_.
-
-### Foire Aux Questions (F.A.Q.)
-
-Vous pouvez retrouver la FAQ du projet ici : http://projet.idleman.fr/leed/?page=FAQ
 
 ### Plugins
 
@@ -87,7 +83,7 @@ This reader can be installed on your own server and works with a system of [cron
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
-- Project page: http://projet.idleman.fr/leed
+- Project page: https://github.com/LeedRSS/Leed
 - License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 All tasks are performed in the background thanks to a scheduled task (cron), so the user does not experience delays due to the recovery and processing of each of the monitored feed.
@@ -105,7 +101,7 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 
 ### Installation
 
-1. Retrieve the project archive at [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) or at [github](https://github.com/LeedRSS/Leed).
+1. Retrieve the project archive at [github](https://github.com/LeedRSS/Leed).
 2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get an error 500) onto the folder and its contents .
 3. From your browser, go to the setup page _install.php_ (eg your.domaine.fr/leed/install.ph ) and follow the instructions.
 4. Once the installation is complete, remove the _install.php_ as a security measure.
@@ -127,10 +123,6 @@ Crontab
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
  If you do not have access to the _wget_ command on your server, you can try the full path _/usr/bin/wget_.
-
-### Frequently Asked Questions (F.A.Q.)
-
-You can find the project FAQ here : http://projet.idleman.fr/leed/?page=FAQ
 
 ### Plugins
 
@@ -162,7 +154,7 @@ Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
   - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
-- Página del proyecto : http://projet.idleman.fr/leed
+- Página del proyecto : https://github.com/LeedRSS/Leed
 - Licencia : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Todas las tareas de tratamiento de los RSS se efectuan de manera invisible gracias a una tarea sincronizada (Cron). Así, el usuario no debe sufrir los largos tiempos necesarios para recuperar y tratar los RSS.
@@ -180,7 +172,7 @@ El script también está compatible con los archivos de exportación/importació
 
 ### Instalación
 
-1. Recuperar el proyecto sobre [idleman.fr](http://projet.idleman.fr/leed/?page=Téléchargement) o sobre [github](https://github.com/LeedRSS/Leed).
+1. Recuperar el proyecto sobre [github](https://github.com/LeedRSS/Leed).
 2. Poner el proyecto en su directorio web y aplicar un permiso _chmod 775_ sobre el directorio y su contenido (si su _web host_ es OVH, aplicar un permiso _0755_ para no tener un error 500).
 3. Desde el navegador, ir a la página de configuración _install.php_ (por ejemplo : http://su.sitio.fr/leed/install.php) y seguir las instrucciones.
 4. Una vez terminada la instalación, suprimir el archivo _install.php_ por medida de seguridad.
@@ -202,10 +194,6 @@ crontab
 "http://127.0.0.1/leed/action.php?action=synchronize&code=votre_code_synchronisation"
 ```
  Si no tiene _wget_ en su servido, puede intentar con el camino complejo _/usr/bin/wget_.
-
-### Preguntas más frecuentes
-
-Puede ver las preguntas más frecuentes sobre el proyecto aquí : http://projet.idleman.fr/leed/?page=FAQ
 
 ### Complementos
 

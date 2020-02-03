@@ -24,7 +24,7 @@
         <a id="pageTop" class="hidden">{$action}</a>
         <div id="header-container">
             <header class="wrapper clearfix">
-                <h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a><div class="versionBloc">{#LEED_VERSION_NUMBER#}&nbsp;{#LEED_VERSION_NAME#}</div></h1>
+                <h1 class="logo" id="title"><a href="./">L<i>eed</i></a><div class="versionBloc">{#LEED_VERSION_NUMBER#}&nbsp;{#LEED_VERSION_NAME#}</div></h1>
                 <div class="loginBloc">
                     {if="!$myUser"}
                     {if="@$wrongLogin"}
@@ -53,8 +53,8 @@
 
                 <nav>
                     <ul>
-                        <li><a href="index.php" title="{function="_t('HOME')"}"><i class="icon-home"></i></a></li>
-                        <li><a href="index.php?action=favorites" title="{function="_t('FAVORITES')"}"><i class="icon-star-empty"></i></a></li>
+                        <li><a href="./" title="{function="_t('HOME')"}"><i class="icon-home"></i></a></li>
+                        <li><a href="./?action=favorites" title="{function="_t('FAVORITES')"}"><i class="icon-star-empty"></i></a></li>
                         <li><a href="settings.php" title="{function="_t('MANAGE')"}"><i class="icon-cog"></i></a></li>
                         <li><a class="synchronyzeButton" title="{function="_t('LAUNCH_SYNCHRONISATION')"}" onclick="synchronize('{if="$myUser"}{$synchronisationCode}{/if}');"><i class="icon-arrows-cw"></i></a></li>
                         {function="Plugin::callHook("navigate_post_link", array(&$myUser))"}

@@ -118,7 +118,7 @@ $install->launch($_, $installActionName);
 <div class="global-wrapper">
     <div id="header-container">
         <header class="wrapper clearfix">
-            <h1 class="logo" id="title"><a href="./index.php">L<i>eed</i></a></h1>
+            <h1 class="logo" id="title"><a href="./">L<i>eed</i></a></h1>
             <nav>
             </nav>
         </header>
