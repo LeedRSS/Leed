@@ -99,7 +99,7 @@
                                 {$feedName=Functions::truncate($value2->getName(),40)}
                                 <li class="feedListItem{if="$value->getLastSyncInError()==1"} errorSync{/if}">
                                     <span class="feedTitle js-feedTitle"{if="$value->getLastSyncInError()==1"} title="{function="_t('SYNCHRONISATION_ERROR')"}"{/if}>
-                                        <a{if="$value->getLastSyncInError()==1"} class="inError"{/if} href="?action=selectedFeed&feed={$value2->getId();}" data-feed-id="{$value2->getId()}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
+                                        <a{if="$value->getLastSyncInError()==1"} class="inError"{/if} href="./?action=selectedFeed&feed={$value2->getId();}" data-feed-id="{$value2->getId()}">{$feedName}</a><a href="{$value2->getUrl()}" class="underlink">{$value2->getUrl()}</a>
                                     </span>
                                     <div class="feedAction">
                                         <select class="feedFolder" onchange="changeFeedFolder(this,{$value2->getId()});">
