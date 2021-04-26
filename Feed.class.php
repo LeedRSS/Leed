@@ -178,7 +178,7 @@ class Feed extends MysqlEntity{
             $enclosureType = $enclosure->get_type();
             if (strpos($enclosureType, 'image/') === 0) {
                 $html .= '<img src="' . $enclosure->link . '" />';
-            } elseif (strpos($enclosureType, 'audio/') === 0) {
+            } elseif (strpos($enclosureType, 'audio/') === 0 || strpos($enclosureType, 'application/ogg') === 0) {
                 $html .= '<audio src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_AUDIO_ELEMENT_NOT_SUPPORTED').'</audio>';
             } elseif (strpos($enclosureType, 'video/') === 0) {
                 $html .= '<video src="' . $enclosure->link . '" preload="none" controls>'._t('BROWSER_VIDEO_ELEMENT_NOT_SUPPORTED').'</video>';
