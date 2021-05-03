@@ -36,19 +36,6 @@ class Feed extends MysqlEntity{
         parent::__construct();
     }
 
-    /** @TODO: ne faire qu'un seul chargement avec SimplePie et récupérer les
-    même informations. Mettre le chargement en cache au moins d'une méthode
-    loadLeed() qui ne chargera qu'une seule fois. Voire même en déclenchement
-    retardé, au dernier moment. */
-    function getInfos(){
-        $xml = @simplexml_load_file($this->url);
-        if($xml!=false){
-            $n = $xml->xpath('channel/title'); $this->name = $n[0];
-            $d = $xml->xpath('channel/description'); $this->description = $d[0];
-            $w = $xml->xpath('channel/link'); $this->website = $w[0];
-        }
-    }
-
     function getError() { return $this->error; }
     function getLastSyncInError() { return $this->lastSyncInError; }
 
