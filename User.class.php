@@ -8,6 +8,7 @@
 
 class User extends MysqlEntity{
 
+    const COOKIE_NAME = 'leedStaySignedIn';
     const OTP_INTERVAL = 30;
     const OTP_DIGITS   = 8;
     const OTP_DIGEST   = 'sha1';
@@ -165,7 +166,7 @@ class User extends MysqlEntity{
         $userManager = new User();
         $users = $userManager->populate('id');
         $phpAuth = strtolower(@$_SERVER['PHP_AUTH_USER']);
-        if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
+        if (empty($auth)) $auth = @$_COOKIE[self::COOKIE_NAME];
         foreach($users as $user){
             if ($user->getToken()==$auth || strtolower($user->login)===$phpAuth){
                 $result = $user;
@@ -181,11 +182,11 @@ class User extends MysqlEntity{
 
     function setStayConnected() {
         ///@TODO: set the current web directory, here and on del
-        setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
+        header('Set-Cookie: ' . self::COOKIE_NAME . '=' . $this->getToken() . '; Expires=' . gmdate('D, d-M-Y H:i:s', time()+31536000) . '; Max-Age=31536000; SameSite=Strict');
     }
 
     static function delStayConnected() {
-        setcookie('leedStaySignedIn', '', -1);
+        setcookie(self::COOKIE_NAME, '', -1);
     }
 
     function getId(){
