@@ -8,9 +8,9 @@
 
 class User extends MysqlEntity{
 
-    protected $id;
-    protected $login;
-    protected $password;
+    const COOKIE_NAME = 'leedStaySignedIn';
+
+    protected $id,$login,$password;
     protected $TABLE_NAME = 'user';
     protected $object_fields =
     array(
@@ -131,7 +131,7 @@ class User extends MysqlEntity{
         $userManager = new User();
         $users = $userManager->populate('id');
         $phpAuth = isset($_SERVER['PHP_AUTH_USER']) ? strtolower($_SERVER['PHP_AUTH_USER']) : false;
-        if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
+        if (empty($auth)) $auth = @$_COOKIE[self::COOKIE_NAME];
         foreach($users as $user){
             if ($user->getToken()==$auth || strtolower($user->login)===$phpAuth){
                 $result = $user;
@@ -147,11 +147,11 @@ class User extends MysqlEntity{
 
     function setStayConnected() {
         ///@TODO: set the current web directory, here and on del
-        setcookie('leedStaySignedIn', $this->getToken(), time()+31536000);
+        header('Set-Cookie: ' . self::COOKIE_NAME . '=' . $this->getToken() . '; Expires=' . gmdate('D, d-M-Y H:i:s', time()+31536000) . '; Max-Age=31536000; SameSite=Strict');
     }
 
     static function delStayConnected() {
-        setcookie('leedStaySignedIn', '', -1);
+        setcookie(self::COOKIE_NAME, '', -1);
     }
 
     function getId(){
