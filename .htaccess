@@ -7,6 +7,8 @@
 # Use ChromeFrame if it's installed for a better experience for the poor IE folk
 
 <IfModule mod_headers.c>
+  # F*ck you Google!
+  Header always set Permissions-Policy: interest-cohort=()
   Header set X-UA-Compatible "IE=Edge,chrome=1"
   # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
   <FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
