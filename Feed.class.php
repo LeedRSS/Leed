@@ -261,7 +261,7 @@ class Feed extends MysqlEntity{
         $feedsFolderMap = array();
         $feedsIdMap = array();
 
-        $results = Feed::customQuery("SELECT `".MYSQL_PREFIX."feed`.`name` AS name, `".MYSQL_PREFIX."feed`.`id`   AS id, `".MYSQL_PREFIX."feed`.`url`  AS url, `".MYSQL_PREFIX."folder`.`id` AS folder FROM `".MYSQL_PREFIX."feed` INNER JOIN `".MYSQL_PREFIX."folder` ON ( `".MYSQL_PREFIX."feed`.`folder` = `".MYSQL_PREFIX."folder`.`id` ) ORDER BY `".MYSQL_PREFIX."feed`.`name` ;");
+        $results = Feed::customQuery("SELECT `".MYSQL_PREFIX."feed`.`name` AS name, `".MYSQL_PREFIX."feed`.`id`   AS id, `".MYSQL_PREFIX."feed`.`url`  AS url, `".MYSQL_PREFIX."folder`.`id` AS folder FROM `".MYSQL_PREFIX."feed` LEFT JOIN `".MYSQL_PREFIX."folder` ON ( `".MYSQL_PREFIX."feed`.`folder` = `".MYSQL_PREFIX."folder`.`id` ) ORDER BY `".MYSQL_PREFIX."feed`.`name` ;");
         if($results!=false){
             while($item = $results->fetch_array()){
                 $name = $item['name'];
