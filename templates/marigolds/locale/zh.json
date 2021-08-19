@@ -1,7 +1,7 @@
 {
  "ABOUT":"关于",
  "ABOUT_LEED":"关于Leed (Light Feed)",
- "ADD":"add",
+ "ADD":"添加",
  "ADD_FEED":"添加feed",
  "ADD_FOLDER":"添加目录",
  "ADD_TO_LEED":"添加到Leed",
@@ -77,7 +77,7 @@
  "IMPORT_FEED_OPML_FORMAT":"从opml文件导入feed",
  "INSTALLATION":"安装",
  "INSTALLATION_PARAGRAPH":"<ul><li>1. 从 <a href='https://github.com/LeedRSS/Leed.git'>GIT 存储库</a> 或 <a href='http://projet.idleman.fr/leed/?page=Téléchargement'>存档</a>获取项目的当前版本</li><li>2. 将内容放在您的 Web 文件夹中，并为其及其内容授予所有读/写权限 (chmod 777)</li><li>3. 从浏览器访问安装页面 (http://mysite.com/leed/install.php) 并按说明进行操作.</li><li>4. 出于安全原因，请在安装完成后删除install.php</li><li>5. 编辑计划任务 (编辑方法: sudo crontab -e) 并唤起此页面 http://mysite.com/leed/action.php?action=synchronize&code=votre_code_synchronisation 例如 : <br/><code>0 * * * * wget --no-check-certificate -q -O /var/www/leed/logsCron 'http://mysite.com/leed/action.php?action=synchronize&code=votre_code_synchronisation'</code><br/>同步代码在<a href=settings.php#preferenceBloc>Manage > Preferences</a><br/>每小时的整点更新所有Feed (请勿过于频繁地调用此脚本).</li>6. 安装过程到此结束感谢您选择此免费且简洁的RSS聚合器Leed :p.</li></ul>",
- "INSTALL_DISPLAY_CLEAR":"(将会获得更干净的显示)",
+ "INSTALL_DISPLAY_CLEAR":"(密码将保持可见)",
  "INSTALL_LANGUAGE":"语言",
  "IN_FIRST":"优先",
  "KEEP_LAST_X_EVENTS_FEED":"保留Feed的最后 $1 个内容",
