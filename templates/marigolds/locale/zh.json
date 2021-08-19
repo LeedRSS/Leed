@@ -85,7 +85,7 @@
  "LAUNCH_SYNCHRONISATION":"开始手动同步",
  "LET_EMPTY_IF_NO_PASS_CHANGE":"如果不想更改密码，请保持此处为空。",
  "LET_SLASH_AT_END":"请保证URL以/结尾，例如：http://mysite.com/leed/",
- "LIBRARIES":"引用的库,
+ "LIBRARIES":"引用的库",
  "LIBRARIES_PARAGRAPHE":"<ul><li><b>响应式/跨浏览器 :</b> Initializr (<a href='http://www.initializr.com'>http://www.initializr.com</a>)</li><li><b>Javascript :</b> JQuery (<a href='http://www.jquery.com'>http://www.jquery.com</a>)</li><li><b>PHP模板 :</b> RainTPL (<a href='https://github.com/feulf/raintpl'>https://github.com/feulf/raintpl</a>)</li><li><b>RSS解析器 :</b> SimplePie (<a href='http://simplepie.org'>http://simplepie.org</a>)</li><li><b>二维码:</b> PhpQrCode (<a href='https://sourceforge.net/projects/phpqrcode/'>https://sourceforge.net/projects/phpqrcode</a>)</li><li><b>OTP:</b> OtPhp (<a href='https://github.com/lelag/otphp/'>https://github.com/lelag/otphp</a>)</li><li><b>Php GD :</b> LibGD (<a href='https://libgd.github.io/'>https://libgd.github.io/</a>)</li></ul>",
  "LICENSE":"许可证",
  "LOADING":"正在加载...",
