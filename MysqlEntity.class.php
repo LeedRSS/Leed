@@ -166,7 +166,7 @@ class MysqlEntity
                 foreach($event->object_fields as $field=>$type){
                     if($type!='key'){
                         if($i){$query .=',';}else{$i=true;}
-                        $query .='"'.$this->secure($event->$field, $field).'"';
+                        $query .='\''.$this->secure($event->$field, $field).'\'';
                     }
                 }
 
@@ -195,10 +195,10 @@ class MysqlEntity
             foreach($this->object_fields as $field=>$type){
                 if($i){$query .=',';}else{$i=true;}
                 $id = $this->$field;
-                $query .= '`'.$field.'`="'.$this->secure($id, $field).'"';
+                $query .= '`'.$field.'`=\''.$this->secure($id, $field).'\'';
             }
 
-            $query .= ' WHERE `'.$id_field.'`="'.$this->$id_field.'";';
+            $query .= ' WHERE `'.$id_field.'`=\''.$this->$id_field.'\';';
         }else{
             $query = 'INSERT INTO `'.MYSQL_PREFIX.$this->TABLE_NAME.'`(';
             $i=false;
@@ -210,7 +210,7 @@ class MysqlEntity
             $i=false;
             foreach($this->object_fields as $field=>$type){
                 if($i){$query .=',';}else{$i=true;}
-                $query .='"'.$this->secure($this->$field, $field).'"';
+                $query .='\''.$this->secure($this->$field, $field).'\'';
             }
 
             $query .=');';
@@ -234,7 +234,7 @@ class MysqlEntity
         $i=false;
         foreach ($columns as $column=>$value){
             if($i){$query .=',';}else{$i=true;}
-            $query .= '`'.$column.'`="'.$this->secure($value, $column).'" ';
+            $query .= '`'.$column.'`=\''.$this->secure($value, $column).'\' ';
         }
         $query .= $this->getWhereClause($columns2, $operation);
 
@@ -339,7 +339,7 @@ class MysqlEntity
             $i=false;
             foreach($columns as $column=>$value){
                 if($i){$whereClause .=' AND ';}else{$i=true;}
-                $whereClause .= '`'.$column.'`="'.$this->secure($value, $column).'"';
+                $whereClause .= '`'.$column.'`=\''.$this->secure($value, $column).'\'';
             }
         }
         $query = 'SELECT COUNT(1) FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'`'.$whereClause;
@@ -364,7 +364,7 @@ class MysqlEntity
         $i=false;
         foreach($columns as $column=>$value){
             if($i){$whereClause .=' AND ';}else{$i=true;}
-            $whereClause .= '`'.$column.'`'.$operation.'"'.$this->secure($value, $column).'"';
+            $whereClause .= '`'.$column.'`'.$operation.'\''.$this->secure($value, $column).'\'';
         }
         $query = 'DELETE FROM `'.MYSQL_PREFIX.$this->TABLE_NAME.'` WHERE '.$whereClause.' ;';
         if($this->debug)echo '<hr>'.get_class($this).' ('.__METHOD__ .') : Requete --> '.$query.'<br>'.$this->dbconnector->connection->error;
@@ -469,7 +469,7 @@ class MysqlEntity
             foreach($columns as $column=>$value){
                 $customQueryOperator = $this->getCustomQueryOperator($operation_default, $value);
                 if($i){$whereClause .=' AND ';}else{$i=true;}
-                $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'"'.$this->secure($customQueryOperator[1], $column).'"';
+                $whereClause .= '`'.$column.'`'.$customQueryOperator[0].'\''.$this->secure($customQueryOperator[1], $column).'\'';
             }
         }
 
