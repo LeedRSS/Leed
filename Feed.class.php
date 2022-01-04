@@ -36,19 +36,6 @@ class Feed extends MysqlEntity{
         parent::__construct();
     }
 
-    /** @TODO: ne faire qu'un seul chargement avec SimplePie et récupérer les
-    même informations. Mettre le chargement en cache au moins d'une méthode
-    loadLeed() qui ne chargera qu'une seule fois. Voire même en déclenchement
-    retardé, au dernier moment. */
-    function getInfos(){
-        $xml = @simplexml_load_file($this->url);
-        if($xml!=false){
-            $n = $xml->xpath('channel/title'); $this->name = $n[0];
-            $d = $xml->xpath('channel/description'); $this->description = $d[0];
-            $w = $xml->xpath('channel/link'); $this->website = $w[0];
-        }
-    }
-
     function getError() { return $this->error; }
     function getLastSyncInError() { return $this->lastSyncInError; }
 
@@ -89,10 +76,10 @@ class Feed extends MysqlEntity{
 
         $feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
 
-        if($this->name=='') $this->name = $feed->get_title();
-        if($this->name=='') $this->name = $this->url;
-        $this->website = $feed->get_link();
-        $this->description = $feed->get_description();
+        if($this->name == '') $this->name = $feed->get_title();
+        if($this->name == '') $this->name = $this->url;
+        if($this->website == '') $this->website = $feed->get_link();
+        if($this->description == '') $this->description = $feed->get_description();
 
         $items = $feed->get_items();
         $eventManager = new Event();

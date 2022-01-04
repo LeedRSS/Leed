@@ -301,7 +301,6 @@ switch ($action){
         $newFeed = new Feed();
         $newFeed->setUrl(Functions::clean_url($_['newUrl']));
         if ($newFeed->notRegistered()) {
-            $newFeed->getInfos();
             $newFeed->setFolder(
                 (isset($_['newUrlCategory'])?$_['newUrlCategory']:1)
             );
