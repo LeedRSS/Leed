@@ -83,7 +83,7 @@ switch($action){
         $page = (isset($_['page'])?$_['page']:1);
         $pages = ceil($numberOfItem/$articlePerPages);
         $startArticle = ($page-1)*$articlePerPages;
-        $events = $currentFeed->getEvents($startArticle,$articlePerPages,$order,$target);
+        $events = $currentFeed->getEvents($order,$startArticle,$articlePerPages,$target);
 
         $tpl->assign('order',(isset($_['order'])?$_['order']:''));
 
@@ -97,7 +97,7 @@ switch($action){
         $pages = ceil($numberOfItem/$articlePerPages);
         $startArticle = ($page-1)*$articlePerPages;
         if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` asc';}
-        $events = $currentFolder->getEvents($startArticle,$articlePerPages,$order,$target);
+        $events = $currentFolder->getEvents($order,$startArticle,$articlePerPages,$target);
 
 
     break;
@@ -134,7 +134,7 @@ switch($action){
         if($optionFeedIsVerbose) {
             $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$startArticle.','.$articlePerPages);
         } else {
-            $events = $eventManager->getEventsNotVerboseFeed($startArticle,$articlePerPages,$order,$target);
+            $events = $eventManager->getEventsNotVerboseFeed($order,$startArticle,$articlePerPages,$target);
         }
         $tpl->assign('numberOfItem',$numberOfItem);
 

@@ -236,7 +236,7 @@ class Feed extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+    function getEvents($order,$start=0,$limit=10000,$columns='*',$filter=false){
         $filter['feed'] = $this->getId();
         $eventManager = new Event();
         $events = $eventManager->loadAllOnlyColumn($columns,$filter,$order,$start.','.$limit);
