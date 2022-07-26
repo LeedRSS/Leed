@@ -52,13 +52,13 @@ define('SIMPLEPIE_NAME', 'SimplePie');
 /**
  * SimplePie Version
  */
-define('SIMPLEPIE_VERSION', '1.5.8');
+define('SIMPLEPIE_VERSION', '1.6.0');
 
 /**
  * SimplePie Build
  * @todo Hardcode for release (there's no need to have to call SimplePie_Misc::get_build() only every load of simplepie.inc)
  */
-define('SIMPLEPIE_BUILD', '20220105000000');
+define('SIMPLEPIE_BUILD', '20220421110903');
 
 /**
  * SimplePie Website URL
@@ -651,6 +651,13 @@ class SimplePie
 	public $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
 
 	/**
+	 * @var array Stores the default attributes to be renamed by rename_attributes().
+	 * @see SimplePie::rename_attributes()
+	 * @access private
+	 */
+	public $rename_attributes = array();
+
+	/**
 	 * @var bool Should we throw exceptions, or use the old-style error property?
 	 * @access private
 	 */
@@ -1221,6 +1228,15 @@ class SimplePie
 	public function encode_instead_of_strip($enable = true)
 	{
 		$this->sanitize->encode_instead_of_strip($enable);
+	}
+
+	public function rename_attributes($attribs = '')
+	{
+		if ($attribs === '')
+		{
+			$attribs = $this->rename_attributes;
+		}
+		$this->sanitize->rename_attributes($attribs);
 	}
 
 	public function strip_attributes($attribs = '')
@@ -2199,7 +2215,7 @@ class SimplePie
 	 */
 	public function get_base($element = array())
 	{
-		if (!($this->get_type() & SIMPLEPIE_TYPE_RSS_SYNDICATION) && !empty($element['xml_base_explicit']) && isset($element['xml_base']))
+		if (!empty($element['xml_base_explicit']) && isset($element['xml_base']))
 		{
 			return $element['xml_base'];
 		}
@@ -3316,6 +3332,8 @@ class SimplePie
 	}
 }
 
+class_alias('SimplePie', 'SimplePie\SimplePie', false);
+
 /**
  * Manages all author-related data
  *
@@ -3423,6 +3441,8 @@ class SimplePie_Author
 	}
 }
 
+class_alias('SimplePie_Author', 'SimplePie\Author', false);
+
 /**
  * Used to create cache objects
  *
@@ -3515,6 +3535,8 @@ class SimplePie_Cache
 	}
 }
 
+class_alias('SimplePie_Cache', 'SimplePie\Cache', false);
+
 /**
  * Base for cache objects
  *
@@ -3585,6 +3607,8 @@ interface SimplePie_Cache_Base
 	 */
 	public function unlink();
 }
+
+class_alias('SimplePie_Cache_Base', 'SimplePie\Cache\Base', false);
 
 /**
  * Base class for database-based caches
@@ -3679,6 +3703,8 @@ abstract class SimplePie_Cache_DB implements SimplePie_Cache_Base
 		return array(serialize($data->data), $items_by_id);
 	}
 }
+
+class_alias('SimplePie_Cache_DB', 'SimplePie\Cache\DB', false);
 
 /**
  * Caches data to the filesystem
@@ -3801,6 +3827,8 @@ class SimplePie_Cache_File implements SimplePie_Cache_Base
 		return false;
 	}
 }
+
+class_alias('SimplePie_Cache_File', 'SimplePie\Cache\File', false);
 
 /**
  * Caches data to memcache
@@ -3940,6 +3968,8 @@ class SimplePie_Cache_Memcache implements SimplePie_Cache_Base
 	}
 }
 
+class_alias('SimplePie_Cache_Memcache', 'SimplePie\Cache\Memcache', false);
+
 /**
  * Caches data to memcached
  *
@@ -4063,6 +4093,8 @@ class SimplePie_Cache_Memcached implements SimplePie_Cache_Base
         return false;
     }
 }
+
+class_alias('SimplePie_Cache_Memcached', 'SimplePie\Cache\Memcached', false);
 
 /**
  * Caches data to a MySQL database
@@ -4301,7 +4333,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 					$query->bindValue(':data', serialize($data));
 					$query->bindValue(':time', time());
 					$query->bindValue(':feed', $this->id);
-					if ($this->execute())
+					if ($query->execute())
 					{
 						return true;
 					}
@@ -4461,6 +4493,8 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 		return $query->execute() && $query2->execute();
 	}
 }
+
+class_alias('SimplePie_Cache_MySQL', 'SimplePie\Cache\MySQL', false);
 
 /**
  * Caches data to redis
@@ -4622,6 +4656,8 @@ class SimplePie_Cache_Redis implements SimplePie_Cache_Base {
 
 }
 
+class_alias('SimplePie_Cache_Redis', 'SimplePie\Cache\Redis', false);
+
 /**
  * Handles `<media:text>` captions as defined in Media RSS.
  *
@@ -4777,6 +4813,8 @@ class SimplePie_Caption
 	}
 }
 
+class_alias('SimplePie_Caption', 'SimplePie\Caption', false);
+
 /**
  * Manages all category-related data
  *
@@ -4815,7 +4853,7 @@ class SimplePie_Category
 
 	/**
 	 * Category type
-	 * 
+	 *
 	 * category for <category>
 	 * subject for <dc:subject>
 	 *
@@ -4896,6 +4934,8 @@ class SimplePie_Category
 		return $this->type;
 	}
 }
+
+class_alias('SimplePie_Category', 'SimplePie\Category', false);
 
 /**
  * Content-type sniffing
@@ -5172,6 +5212,8 @@ class SimplePie_Content_Type_Sniffer
 	}
 }
 
+class_alias('SimplePie_Content_Type_Sniffer', 'SimplePie\Content\Type\Sniffer', false);
+
 /**
  * Manages `<media:copyright>` copyright tags as defined in Media RSS
  *
@@ -5253,6 +5295,8 @@ class SimplePie_Copyright
 		return null;
 	}
 }
+
+class_alias('SimplePie_Copyright', 'SimplePie\Copyright', false);
 
 /**
  * SimplePie class.
@@ -5373,6 +5417,8 @@ class SimplePie_Credit
 		return null;
 	}
 }
+
+class_alias('SimplePie_Credit', 'SimplePie\Credit', false);
 
 /**
  * Decode HTML Entities
@@ -7208,6 +7254,8 @@ class SimplePie_Enclosure
 	}
 }
 
+class_alias('SimplePie_Enclosure', 'SimplePie\Enclosure', false);
+
 /**
  * General SimplePie exception class
  *
@@ -7216,6 +7264,8 @@ class SimplePie_Enclosure
 class SimplePie_Exception extends Exception
 {
 }
+
+class_alias('SimplePie_Exception', 'SimplePie\Exception', false);
 
 /**
  * Used for fetching remote files and reading local files
@@ -7475,6 +7525,8 @@ class SimplePie_File
 		}
 	}
 }
+
+class_alias('SimplePie_File', 'SimplePie\File', false);
 
 /**
  * HTTP Response Parser
@@ -7952,6 +8004,8 @@ class SimplePie_HTTP_Parser
 		return $data;
 	}
 }
+
+class_alias('SimplePie_HTTP_Parser', 'SimplePie\HTTP\Parser', false);
 
 /**
  * IRI parser/serialiser/normaliser
@@ -9146,6 +9200,8 @@ class SimplePie_IRI
 		return $iauthority;
 	}
 }
+
+class_alias('SimplePie_IRI', 'SimplePie\IRI', false);
 
 /**
  * Manages all item-related data
@@ -12071,6 +12127,8 @@ class SimplePie_Item
 	}
 }
 
+class_alias('SimplePie_Item', 'SimplePie\Item', false);
+
 /**
  * Used for feed auto-discovery
  *
@@ -12460,6 +12518,8 @@ class SimplePie_Locator
 		return null;
 	}
 }
+
+class_alias('SimplePie_Locator', 'SimplePie\Locator', false);
 
 /**
  * Miscellanous utilities
@@ -14692,6 +14752,8 @@ function embed_wmedia(width, height, link) {
 	}
 }
 
+class_alias('SimplePie_Misc', 'SimplePie\Misc', false);
+
 /**
  * Class to validate and to work with IPv6 addresses.
  *
@@ -14917,6 +14979,8 @@ class SimplePie_Net_IPv6
 		return self::check_ipv6($ip);
 	}
 }
+
+class_alias('SimplePie_Net_IPv6', 'SimplePie\Net\IPv6', false);
 
 /**
  * Date Parser
@@ -15900,6 +15964,8 @@ class SimplePie_Parse_Date
 	}
 }
 
+class_alias('SimplePie_Parse_Date', 'SimplePie\Parse\Date', false);
+
 /**
  * Parses XML into something sane
  *
@@ -16537,6 +16603,8 @@ class SimplePie_Parser
 	}
 }
 
+class_alias('SimplePie_Parser', 'SimplePie\Parser', false);
+
 /**
  * Handles `<media:rating>` or `<itunes:explicit>` tags as defined in Media RSS and iTunes RSS respectively
  *
@@ -16618,6 +16686,8 @@ class SimplePie_Rating
 		return null;
 	}
 }
+
+class_alias('SimplePie_Rating', 'SimplePie\Rating', false);
 
 /**
  * Handles creating objects and calling methods
@@ -16802,6 +16872,8 @@ class SimplePie_Registry
 	}
 }
 
+class_alias('SimplePie_Registry', 'SimplePie\Registry', false);
+
 /**
  * Handles `<media:restriction>` as defined in Media RSS
  *
@@ -16908,6 +16980,8 @@ class SimplePie_Restriction
 	}
 }
 
+class_alias('SimplePie_Restriction', 'SimplePie\Restriction', false);
+
 /**
  * Used for data cleanup and post-processing
  *
@@ -16928,6 +17002,7 @@ class SimplePie_Sanitize
 	var $strip_htmltags = array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style');
 	var $encode_instead_of_strip = false;
 	var $strip_attributes = array('bgsound', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc');
+	var $rename_attributes = array();
 	var $add_attributes = array('audio' => array('preload' => 'none'), 'iframe' => array('sandbox' => 'allow-scripts allow-same-origin'), 'video' => array('preload' => 'none'));
 	var $strip_comments = false;
 	var $output_encoding = 'UTF-8';
@@ -17036,6 +17111,25 @@ class SimplePie_Sanitize
 		$this->encode_instead_of_strip = (bool) $encode;
 	}
 
+	public function rename_attributes($attribs = array())
+	{
+		if ($attribs)
+		{
+			if (is_array($attribs))
+			{
+				$this->rename_attributes = $attribs;
+			}
+			else
+			{
+				$this->rename_attributes = explode(',', $attribs);
+			}
+		}
+		else
+		{
+			$this->rename_attributes = false;
+		}
+	}
+
 	public function strip_attributes($attribs = array('bgsound', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc'))
 	{
 		if ($attribs)
@@ -17088,9 +17182,9 @@ class SimplePie_Sanitize
 	 * Set element/attribute key/value pairs of HTML attributes
 	 * containing URLs that need to be resolved relative to the feed
 	 *
-	 * Defaults to |a|@href, |area|@href, |blockquote|@cite, |del|@cite,
-	 * |form|@action, |img|@longdesc, |img|@src, |input|@src, |ins|@cite,
-	 * |q|@cite
+	 * Defaults to |a|@href, |area|@href, |audio|@src, |blockquote|@cite,
+	 * |del|@cite, |form|@action, |img|@longdesc, |img|@src, |input|@src,
+	 * |ins|@cite, |q|@cite, |source|@src, |video|@src
 	 *
 	 * @since 1.0
 	 * @param array|null $element_attribute Element/attribute key/value pairs, null for default
@@ -17102,6 +17196,7 @@ class SimplePie_Sanitize
 			$element_attribute = array(
 				'a' => 'href',
 				'area' => 'href',
+				'audio' => 'src',
 				'blockquote' => 'cite',
 				'del' => 'cite',
 				'form' => 'action',
@@ -17111,7 +17206,12 @@ class SimplePie_Sanitize
 				),
 				'input' => 'src',
 				'ins' => 'cite',
-				'q' => 'cite'
+				'q' => 'cite',
+				'source' => 'src',
+				'video' => array(
+					'poster',
+					'src'
+				)
 			);
 		}
 		$this->replace_url_attributes = (array) $element_attribute;
@@ -17241,6 +17341,14 @@ class SimplePie_Sanitize
 					}
 				}
 
+				if ($this->rename_attributes)
+				{
+					foreach ($this->rename_attributes as $attrib)
+					{
+						$this->rename_attr($attrib, $xpath);
+					}
+				}
+
 				if ($this->strip_attributes)
 				{
 					foreach ($this->strip_attributes as $attrib)
@@ -17314,6 +17422,8 @@ class SimplePie_Sanitize
 				{
 					$data = preg_replace('/^<div' . SIMPLEPIE_PCRE_XML_ATTRIBUTE . '>/', '<div>', $data);
 				}
+
+				$data = str_replace('</source>', '', $data);
 			}
 
 			if ($type & SIMPLEPIE_CONSTRUCT_IRI)
@@ -17509,6 +17619,17 @@ class SimplePie_Sanitize
 		}
 	}
 
+	protected function rename_attr($attrib, $xpath)
+	{
+		$elements = $xpath->query('//*[@' . $attrib . ']');
+
+		foreach ($elements as $element)
+		{
+			$element->setAttribute('data-sanitized-' . $attrib, $element->getAttribute($attrib));
+			$element->removeAttribute($attrib);
+		}
+	}
+
 	protected function add_attr($tag, $valuePairs, $document)
 	{
 		$elements = $document->getElementsByTagName($tag);
@@ -17521,6 +17642,8 @@ class SimplePie_Sanitize
 		}
 	}
 }
+
+class_alias('SimplePie_Sanitize', 'SimplePie\Sanitize', false);
 
 /**
  * Handles `<atom:source>`
@@ -18057,6 +18180,8 @@ class SimplePie_Source
 	}
 }
 
+class_alias('SimplePie_Source', 'SimplePie\Source', false);
+
 /**
  * Parses the XML Declaration
  *
@@ -18372,6 +18497,8 @@ class SimplePie_XML_Declaration_Parser
 		}
 	}
 }
+
+class_alias('SimplePie_XML_Declaration_Parser', 'SimplePie\XML\Declaration\Parser', false);
 
 /**
  * Decode 'gzip' encoded HTTP data
@@ -18695,4 +18822,6 @@ class SimplePie_gzdecode
 		return false;
 	}
 }
+
+class_alias('SimplePie_gzdecode', 'SimplePie\Gzdecode', false);
 
