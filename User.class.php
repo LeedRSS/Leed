@@ -164,7 +164,7 @@ class User extends MysqlEntity{
         $result = false;
         $userManager = new User();
         $users = $userManager->populate('id');
-        $phpAuth = strtolower(@$_SERVER['PHP_AUTH_USER']);
+        $phpAuth = isset($_SERVER['PHP_AUTH_USER']) ? strtolower($_SERVER['PHP_AUTH_USER']) : false;
         if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
         foreach($users as $user){
             if ($user->getToken()==$auth || strtolower($user->login)===$phpAuth){
