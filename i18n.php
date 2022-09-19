@@ -44,7 +44,8 @@ class Translation {
         if (is_array($files)) {
             foreach($files as $file){
                 preg_match('/([a-z]{2})\.json$/', $file, $matches);
-                assert('!empty($matches)');
+                $hasLocale = !empty($matches);
+                assert($hasLocale);
                 $translatedLanguages [] = $matches[1];
             }
         }
@@ -61,10 +62,12 @@ class Translation {
         }
         $trans = $this->loadFile($language);
         if (empty($trans)) return false;
-        assert('in_array($language, $this->translatedLanguages)');
+        $isLanguageKnown = in_array($language, $this->translatedLanguages);
+        assert($isLanguageKnown);
         if ($language!=self::DEFAULT_LANGUAGE) {
             $defaultTrans = $this->loadFile(self::DEFAULT_LANGUAGE);
-            assert('!empty($defaultTrans)');
+            $hasDefaultTrans = !empty($defaultTrans);
+            assert($hasDefaultTrans);
             $trans = array_merge($defaultTrans, $trans);
         }
         $this->trans = $trans;

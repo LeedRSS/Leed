@@ -79,8 +79,10 @@ class User extends MysqlEntity{
     }
 
     function getToken() {
-        assert('!empty($this->password)');
-        assert('!empty($this->login)');
+        $hasPassword = !empty($this->password);
+        $hasLogin = !empty($this->login);
+        assert($hasLogin);
+        assert($hasPassword);
         return sha1($this->password.$this->login);
     }
 

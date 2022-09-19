@@ -438,7 +438,8 @@ switch ($action){
                 /* Pas supprimable ==> on ne remet pas à zéro */
             } else {
                 $resetPassword = $_['password'];
-                assert('!empty($resetPassword)');
+                $hasResetPassword = !empty($resetPassword);
+                assert($hasResetPassword);
                 $tmpUser = User::get($_['login']);
                 if (false===$tmpUser) {
                     $message = "Unknown user '{$_['login']}'! No password reset.";
