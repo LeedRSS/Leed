@@ -288,7 +288,7 @@ class Feed extends MysqlEntity{
     }
 
     function getLastupdate(){
-        return $this->lastUpdate;
+        return $this->lastupdate;
     }
 
     function setLastupdate($lastupdate){
