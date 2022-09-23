@@ -39,7 +39,7 @@ $articleDisplayFolderSort = $configurationManager->get('articleDisplayFolderSort
 $articleDisplayHomeSort = $configurationManager->get('articleDisplayHomeSort');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayMode = $configurationManager->get('articleDisplayMode');
-$articlePerPages = $configurationManager->get('articlePerPages');
+$articlePerPages = (int) $configurationManager->get('articlePerPages');
 $displayOnlyUnreadFeedFolder = $configurationManager->get('displayOnlyUnreadFeedFolder');
 if (!isset($displayOnlyUnreadFeedFolder)) $displayOnlyUnreadFeedFolder=false;
 ($displayOnlyUnreadFeedFolder=='true')?$displayOnlyUnreadFeedFolder_reverse='false':$displayOnlyUnreadFeedFolder_reverse='true';

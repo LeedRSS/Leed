@@ -18,7 +18,7 @@ $tpl->assign('allFeeds',$allFeeds);
 $scroll = isset($_['scroll']) ? $_['scroll'] : 0;
 $tpl->assign('scrollpage',$scroll);
 // récupération des variables pour l'affichage
-$articleConf['articlePerPages'] = $configurationManager->get('articlePerPages');
+$articleConf['articlePerPages'] = (int) $configurationManager->get('articlePerPages');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
