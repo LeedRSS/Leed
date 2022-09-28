@@ -77,6 +77,10 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN FLUX EN PARTICULIER */
     case 'selectedFeed':
         $currentFeed = $feedManager->getById($_['feed']);
+        if(!is_object($currentFeed)) {
+            header('location: ./');
+            exit;
+        }
         $tpl->assign('currentFeed',$currentFeed);
         $numberOfItem = $eventManager->rowCount(array('feed'=>$currentFeed->getId()));
         $allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
@@ -89,6 +93,10 @@ switch($action){
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);
+        if(!is_object($currentFolder)) {
+            header('location: ./');
+            exit;
+        }
         $tpl->assign('currentFolder',$currentFolder);
         $numberOfItem = $currentFolder->unreadCount();
         if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` asc';}
