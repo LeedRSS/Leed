@@ -83,11 +83,17 @@ switch($action){
         }
         $tpl->assign('currentFeed',$currentFeed);
         $numberOfItem = $eventManager->rowCount(array('feed'=>$currentFeed->getId()));
-        $allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
-        $order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['unread']);
+        $allowedOrder = array(
+            'date' => 'pubdate DESC',
+            'older' => 'pubdate',
+            'unread' => 'unread DESC,pubdate DESC'
+        );
+        $orderKey = isset($_['order']) && array_key_exists($_['order'], $allowedOrder) ?
+            $_['order'] : 'unread';
+        $order = $allowedOrder[$orderKey];
         $events = $currentFeed->getEvents($order,$startArticle,$articlePerPages,$target);
 
-        $tpl->assign('order',(isset($_['order'])?$_['order']:''));
+        $tpl->assign('order', $orderKey);
 
     break;
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
