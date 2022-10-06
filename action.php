@@ -461,8 +461,12 @@ switch ($action){
                 exit();
             }
         }else{
+            $isOtpEnabled = (bool) $configurationManager->get('otpEnabled');
             if((!isset($_['login']) || empty($_['login']) || !is_string($_['login']))
                 || (!isset($_['password']) || empty($_['password']) || !is_string($_['password']))
+                || ($isOtpEnabled
+                    && (!isset($_['otp']) || empty($_['otp']) || !is_string($_['otp']))
+                )
             ) {
                 error_log("Leed: wrong login action detected");
                 header('location: ./?action=wrongLogin');
@@ -470,7 +474,11 @@ switch ($action){
             }
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
-            $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
+            if($isOtpEnabled) {
+                $user = $userManager->exist($_['login'],$_['password'],$salt,$_['otp']);
+            } else {
+                $user = $userManager->exist($_['login'],$_['password'],$salt);
+            }
             if($user==false){
                 error_log("Leed: wrong login for '".$_['login']."'");
                 header('location: ./?action=wrongLogin');
