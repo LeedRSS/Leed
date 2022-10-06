@@ -461,6 +461,13 @@ switch ($action){
                 exit();
             }
         }else{
+            if((!isset($_['login']) || empty($_['login']) || !is_string($_['login']))
+                || (!isset($_['password']) || empty($_['password']) || !is_string($_['password']))
+            ) {
+                error_log("Leed: wrong login action detected");
+                header('location: ./?action=wrongLogin');
+                exit;
+            }
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
             $user = $userManager->exist($_['login'],$_['password'],$salt,@$_['otp']);
