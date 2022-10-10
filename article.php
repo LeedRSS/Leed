@@ -18,7 +18,7 @@ $tpl->assign('allFeeds',$allFeeds);
 $scroll = isset($_['scroll']) ? $_['scroll'] : 0;
 $tpl->assign('scrollpage',$scroll);
 // récupération des variables pour l'affichage
-$articleConf['articlePerPages'] = $configurationManager->get('articlePerPages');
+$articleConf['articlePerPages'] = (int) $configurationManager->get('articlePerPages');
 $articleDisplayLink = $configurationManager->get('articleDisplayLink');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
@@ -61,13 +61,13 @@ switch($action){
         $currentFeed = $feedManager->getById($_['feed']);
         $allowedOrder = array('date'=>'pubdate DESC','older'=>'pubdate','unread'=>'unread DESC,pubdate DESC');
         $order = (isset($_['order'])?$allowedOrder[$_['order']]:$allowedOrder['unread']);
-        $events = $currentFeed->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
+        $events = $currentFeed->getEvents($order,$articleConf['startArticle'],$articleConf['articlePerPages'],$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS D'UN DOSSIER EN PARTICULIER */
     case 'selectedFolder':
         $currentFolder = $folderManager->getById($_['folder']);
         if($articleDisplayFolderSort) {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` desc';} else {$order = '`'.MYSQL_PREFIX.'event`.`pubdate` asc';}
-        $events = $currentFolder->getEvents($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target,$filter);
+        $events = $currentFolder->getEvents($order,$articleConf['startArticle'],$articleConf['articlePerPages'],$target,$filter);
     break;
     /* AFFICHAGE DES EVENEMENTS FAVORIS */
     case 'favorites':
@@ -82,7 +82,7 @@ switch($action){
         if($optionFeedIsVerbose) {
             $events = $eventManager->loadAllOnlyColumn($target,$filter,$order,$articleConf['startArticle'].','.$articleConf['articlePerPages']);
         } else {
-            $events = $eventManager->getEventsNotVerboseFeed($articleConf['startArticle'],$articleConf['articlePerPages'],$order,$target);
+            $events = $eventManager->getEventsNotVerboseFeed($order,$articleConf['startArticle'],$articleConf['articlePerPages'],$target);
         }
         break;
 }

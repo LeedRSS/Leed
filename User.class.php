@@ -79,8 +79,10 @@ class User extends MysqlEntity{
     }
 
     function getToken() {
-        assert('!empty($this->password)');
-        assert('!empty($this->login)');
+        $hasPassword = !empty($this->password);
+        $hasLogin = !empty($this->login);
+        assert($hasLogin);
+        assert($hasPassword);
         return sha1($this->password.$this->login);
     }
 
@@ -164,7 +166,7 @@ class User extends MysqlEntity{
         $result = false;
         $userManager = new User();
         $users = $userManager->populate('id');
-        $phpAuth = strtolower(@$_SERVER['PHP_AUTH_USER']);
+        $phpAuth = isset($_SERVER['PHP_AUTH_USER']) ? strtolower($_SERVER['PHP_AUTH_USER']) : false;
         if (empty($auth)) $auth = @$_COOKIE['leedStaySignedIn'];
         foreach($users as $user){
             if ($user->getToken()==$auth || strtolower($user->login)===$phpAuth){

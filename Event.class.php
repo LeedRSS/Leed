@@ -67,7 +67,7 @@ class Event extends MysqlEntity{
         return $nbitem;
     }
 
-    function getEventsNotVerboseFeed($start=0,$limit=10000,$order,$columns='*'){
+    function getEventsNotVerboseFeed($order,$start=0,$limit=10000,$columns='*'){
         $eventManager = new Event();
         $objects = array();
         $results = $this->customQuery('SELECT '.$columns.' FROM `'.MYSQL_PREFIX.'event` LEFT JOIN `'.MYSQL_PREFIX.'feed` ON (`'.MYSQL_PREFIX.'event`.`feed` = `'.MYSQL_PREFIX.'feed`.`id`) WHERE `'.MYSQL_PREFIX.'event`.`unread`=1 AND `'.MYSQL_PREFIX.'feed`.`isverbose` = 0 ORDER BY '.$order.' LIMIT '.$start.','.$limit);

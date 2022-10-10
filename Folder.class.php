@@ -25,7 +25,7 @@ class Folder extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+    function getEvents($order,$start=0,$limit=10000,$columns='*',$filter=[]){
         if(!isset($filter['unread'])) {
             $filter['unread'] = 1;
         }

@@ -50,7 +50,8 @@ class Feed extends MysqlEntity{
     */
     function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false){
         $nbEvents = 0;
-        assert('is_int($syncId) && $syncId>0');
+        $isSyncIdOk = is_int($syncId) && $syncId > 0;
+        assert($isSyncIdOk);
         if (empty($this->id) || 0 == $this->id) {
             /* Le flux ne dispose pas pas d'id !. Ça arrive si on appelle
             parse() sans avoir appelé save() pour un nouveau flux.
@@ -236,7 +237,7 @@ class Feed extends MysqlEntity{
     }
 
 
-    function getEvents($start=0,$limit=10000,$order,$columns='*',$filter=false){
+    function getEvents($order,$start=0,$limit=10000,$columns='*',$filter=[]){
         $filter['feed'] = $this->getId();
         $eventManager = new Event();
         $events = $eventManager->loadAllOnlyColumn($columns,$filter,$order,$start.','.$limit);
@@ -368,9 +369,9 @@ class Feed extends MysqlEntity{
 //             if ($commandLine) echo "\n";
             $feed->removeOldEvents($maxEvents, $syncId);
         }
-        assert('$nbTotal==$nbOk+$nbErrors');
+        $isTotalOk = $nbTotal === $nbOk + $nbErrors;
+        assert($isTotalOk);
         $totalTime = microtime(true)-$start;
-        assert('$totalTime>=$localTotal');
         $totalTimeStr = number_format($totalTime, 3);
         $currentDate = date('d/m/Y H:i:s');
         if ($commandLine) {

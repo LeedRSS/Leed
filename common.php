@@ -106,11 +106,10 @@ $tpl->assign('isAlwaysDisplayed',$isAlwaysDisplayed);
 
 //Récuperation et sécurisation de toutes les variables POST et GET
 $_ = array();
-foreach($_POST as $key=>$val){
-    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
-}
-foreach($_GET as $key=>$val){
-    $_[$key]=Functions::secure($val, 2); // on ne veut pas d'addslashes
+foreach(array_merge($_POST, $_GET) as $key => $val){
+    if(is_string($val)) {
+        $_[$key] = Functions::secure($val, 2); // on ne veut pas d'addslashes
+    }
 }
 
 $tpl->assign('_',$_);
