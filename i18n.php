@@ -125,14 +125,14 @@ class Translation {
     }
 
     /* @return un tableau des langues préférées */
-    static function getHttpAcceptLanguages($httpAcceptLanguage=Null) {
+    static function getHttpAcceptLanguages() {
         /** Exemple de directive :
          * eo,fr;q=0.8,fr-FR;q=0.6,en-US;q=0.4,en;q=0.2
          * Les langues sont séparées entre elles par des virgules.
          * Chaque langue est séparée du coefficient, si présent, par un point-virgule.
          */
-        // Suppose que les langues préférées sont en premier.
-        if (is_null($httpAcceptLanguage)) $httpAcceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
+            $_SERVER['HTTP_ACCEPT_LANGUAGE'] : self::DEFAULT_LANGUAGE;
         $languageList = array();
         foreach (explode(',', $httpAcceptLanguage) as $language) {
             $languageList[] = substr($language, 0, 2); // fr-FR;q=0.6 --> fr
