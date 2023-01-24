@@ -24,7 +24,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 ### Pré-requis
 
 - Serveur Apache conseillé (non testé sur les autres serveurs type Nginx…)
-- PHP 5.6 minimum
+- PHP 7.2 minimum
 - MySQL
 - Un peu de bon sens :-)
 
@@ -95,7 +95,7 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 ### Prerequisites
 
 - Recommended Apache server (not tested on other webservers such as Nginx…)
-- PHP 5.6 minimum
+- PHP 7.2 minimum
 - MySQL
 - A little common sense :-)
 
@@ -166,7 +166,7 @@ El script también está compatible con los archivos de exportación/importació
 ### Prerrequisito
 
 - Se recomienda Apache (non testé sur les autres serveurs type Nginx…)
-- PHP versión 5.6 mínima
+- PHP versión 7.2 mínima
 - MySQL
 - Un poco de sentido común ;-)
 
