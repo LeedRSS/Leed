@@ -160,7 +160,7 @@ class Event extends MysqlEntity{
     }
 
     function setTitle($title){
-        $this->title = $title;
+        $this->title = mb_substr($title, 0, self::LEN_STRING);
     }
 
     function getContent(){

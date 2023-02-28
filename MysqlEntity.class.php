@@ -18,13 +18,14 @@ class MysqlEntity
     private $debug = false;
     private $debugAllQuery = false;
 
+    const LEN_STRING = 225;
 
     function sgbdType($type){
         $return = false;
         switch($type){
             case 'string':
             case 'timestamp':
-                $return = 'VARCHAR(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+                $return = 'VARCHAR('.self::LEN_STRING.') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
             break;
             case 'longstring':
                 $return = 'TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
