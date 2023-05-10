@@ -33,7 +33,6 @@ $start=microtime(true);
 require_once('constant.php');
 require_once('RainTPL.php');
 require_once('i18n.php');
-require_once('otphp/lib/otphp.php');
 class_exists('Functions') or require_once('Functions.class.php');
 class_exists('Plugin') or require_once('Plugin.class.php');
 class_exists('MysqlEntity') or require_once('MysqlEntity.class.php');

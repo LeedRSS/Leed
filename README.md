@@ -63,8 +63,6 @@ Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugin
 - Javascript : JQuery (http://www.jquery.com)
 - Moteur template : RainTPL (https://github.com/feulf/raintpl)
 - Parseur RSS : SimplePie (http://simplepie.org)
-- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
-- OTP : OtPhp (https://github.com/lelag/otphp)
 - Php GD : LibGD (https://libgd.github.io/)
 
 
@@ -134,8 +132,6 @@ The [Leed-market](https://github.com/Leed-market) repository contains all the pl
 - Javascript: JQuery ( http://www.jquery.com )
 - Template Engine: RainTPL ( https://github.com/feulf/raintpl )
 - RSS Parser: SimplePie ( http://simplepie.org )
-- QR Code: PhpQrCode (https://sourceforge.net/projects/phpqrcode)
-- OTP: OtPhp (https://github.com/lelag/otphp)
 - Php GD : LibGD (https://libgd.github.io/)
  
 
@@ -205,6 +201,4 @@ El repositorio [Leed market](https://github.com/Leed-market) contiene todos los 
 - Javascript : JQuery (http://www.jquery.com)
 - PHP Template : RainTPL (https://github.com/feulf/raintpl)
 - RSS parser : SimplePie (http://simplepie.org)
-- QR Code : PhpQrCode (https://sourceforge.net/projects/phpqrcode)
-- OTP : OtPhp (https://github.com/lelag/otphp)
 - Php GD : LibGD (https://libgd.github.io/)

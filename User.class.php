@@ -8,18 +8,15 @@
 
 class User extends MysqlEntity{
 
-    const OTP_INTERVAL = 30;
-    const OTP_DIGITS   = 8;
-    const OTP_DIGEST   = 'sha1';
-
-    protected $id,$login,$password,$otpSecret;
+    protected $id;
+    protected $login;
+    protected $password;
     protected $TABLE_NAME = 'user';
     protected $object_fields =
     array(
         'id'=>'key',
         'login'=>'string',
-        'password'=>'string',
-        'otpSecret'=>'string',
+        'password'=>'string'
     );
 
     protected $object_fields_uniques =
@@ -35,42 +32,9 @@ class User extends MysqlEntity{
         $this->id = $id;
     }
 
-    function isOtpSecretValid($otpSecret) {
-        // Teste si la longueur est d'au moins 8 caractères
-        // et en Base32: [A-Z] + [2-7]
-        return is_string($otpSecret) && preg_match('/^[a-zA-Z2-7]{8,}$/', $otpSecret);
-    }
-
-    protected function getOtpControler() {
-        return new \OTPHP\TOTP($this->otpSecret, array('interval'=>self::OTP_INTERVAL, 'digits'=>self::OTP_DIGITS, 'digest'=>self::OTP_DIGEST));
-    }
-
-    function getOtpKey() {
-        $otp = $this->getOtpControler();
-        return str_pad($otp->now(), $otp->digits, '0', STR_PAD_LEFT);
-    }
-
-    function exist($login,$password,$salt='',$otpEntered=Null){
+    function exist($login,$password,$salt=''){
         $userManager = new User();
-        $user = $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
-
-        if (false!=$user) {
-            $otpSecret = $user->otpSecret;
-
-            global $configurationManager;
-            switch (True) {
-                case !$configurationManager->get('otpEnabled'):
-                case empty($otpSecret) && empty($otpEntered):
-                    // Pas d'OTP s'il est désactivé dans la configuration où s'il n'est pas demandé et fourni.
-                    return $user;
-            }
-            $otp = $user->getOtpControler();
-            if ($otp->verify($otpEntered) || $otp->verify($otpEntered, time()-10)) {
-                return $user;
-            }
-        }
-
-        return false;
+        return $userManager->load(array('login'=>$login,'password'=>User::encrypt($password,$salt)));
     }
 
     static function get($login){
@@ -210,17 +174,8 @@ class User extends MysqlEntity{
         $this->password = User::encrypt($password,$salt);
     }
 
-    function getOtpSecret(){
-        return $this->otpSecret;
-    }
-
-    function setOtpSecret($otpSecret){
-        $this->otpSecret = $otpSecret;
-    }
-
     function resetPassword($resetPassword, $salt=''){
         $this->setPassword($resetPassword, $salt);
-        $this->otpSecret = '';
         $this->save();
     }
 

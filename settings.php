@@ -46,8 +46,6 @@ $tpl->assign('articleDisplayFolderSort', $configurationManager->get('articleDisp
 $tpl->assign('articleDisplayMode', $configurationManager->get('articleDisplayMode'));
 $tpl->assign('optionFeedIsVerbose', $configurationManager->get('optionFeedIsVerbose'));
 
-$tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
-
 //Suppression de l'état des plugins inexistants
 Plugin::pruneStates();
 

@@ -35,9 +35,6 @@
                     <form action="action.php?action=login" method="POST" class="{$wrongLoginClass}">
                         <input id="inputlogin" type="text" class="miniInput" name="login" placeholder="{function="_t('LOGIN')"}"/>
                         <input type="password" class="miniInput" name="password" placeholder="{function="_t('PASSWORD')"}"/>
-                        {if="$otpEnabled"}
-                        <input type="text" name="otp" class="miniInput" autocomplete="off" placeholder="{function="_t('OTP_CODE')"}"/>
-                        {/if}
                         <button class="loginButton">GO!!</button>
                         <span id="rememberMe">
                             <input type="checkbox" name="rememberMe">

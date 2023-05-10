@@ -38,11 +38,6 @@ $(document).ready(function(){
             event.preventDefault();
         });
 
-        $('[data-otp-generate]').click(function() {
-            var otpGeneratorEl = $(this);
-            randomOtpSecret($(otpGeneratorEl.data('otp-generate')), $(otpGeneratorEl.data('otp-qrcode')));
-        })
-
     }else{
 
         targetThisEvent($('article section:first'),true);
@@ -915,17 +910,4 @@ function markAllAsRead(el) {
     if(confirm(_t( translation ) + '\n\n' + infoLink.html())) {
         window.location = 'action.php?action=' + action + '=' + infoLink.data('id');
     }
-}
-
-function randomOtpSecret(inputEl, qrcodeEl) {
-    var base32chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-    var secretLength = 16;
-    var otpSecret = '';
-    for (i=0;i<secretLength;i++) {
-        otpSecret = otpSecret + base32chars[Math.floor(Math.random()*base32chars.length)];
-    }
-    url = qrcodeEl.attr("src").replace(/key=[a-zA-Z2-7]*/, 'key='+otpSecret);
-    //url = url.replace(/label=[a-zA-Z2-7]*/, 'label='+otpSecret); //DEBUG: ajout du secret dans le label, donc visible !
-    qrcodeEl.attr("src", url);
-    inputEl.val(otpSecret);
 }

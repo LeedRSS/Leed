@@ -30,8 +30,6 @@ if($isAlwaysDisplayed) {
     $feedState = new Feed();
     $tpl->assign('feedState',$feedState);
 }
-//afficher ou non le champ OTP
-$tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
 
 $articleDisplayAuthor = $configurationManager->get('articleDisplayAuthor');
 $articleDisplayDate = $configurationManager->get('articleDisplayDate');

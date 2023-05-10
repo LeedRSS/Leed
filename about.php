@@ -8,7 +8,6 @@
 
 require_once('header.php');
 
-$tpl->assign('otpEnabled', $configurationManager->get('otpEnabled'));
 $view = 'about';
 require_once('footer.php');
 

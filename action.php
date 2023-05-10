@@ -118,7 +118,6 @@ switch ($action){
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
-            $configurationManager->put('otpEnabled',$_['otpEnabled']);
 
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();
@@ -136,16 +135,6 @@ switch ($action){
                 else
                     $configurationManager->change(array('value'=>$salt), array('key'=>'cryptographicSalt'));
 
-            }
-
-            # Modifications dans la base de données, la portée courante et la sesssion
-            # @TODO: gérer cela de façon centralisée
-            $otpSecret = $_['otpSecret'];
-            if ($myUser->isOtpSecretValid($otpSecret)) {
-                $userManager->change(array('login'=>$_['login'], 'otpSecret'=>$otpSecret),array('id'=>$myUser->getId()));
-                $myUser->setLogin($_['login']);
-                $myUser->setOtpSecret($otpSecret);
-                $_SESSION['currentUser'] = serialize($myUser);
             }
 
     header('location: ./settings.php#preferenceBloc');
@@ -461,12 +450,8 @@ switch ($action){
                 exit();
             }
         }else{
-            $isOtpEnabled = (bool) $configurationManager->get('otpEnabled');
             if((!isset($_['login']) || empty($_['login']) || !is_string($_['login']))
                 || (!isset($_['password']) || empty($_['password']) || !is_string($_['password']))
-                || ($isOtpEnabled
-                    && (!isset($_['otp']) || empty($_['otp']) || !is_string($_['otp']))
-                )
             ) {
                 error_log("Leed: wrong login action detected");
                 header('location: ./?action=wrongLogin');
@@ -474,11 +459,7 @@ switch ($action){
             }
             $salt = $configurationManager->get('cryptographicSalt');
             if (empty($salt)) $salt = '';
-            if($isOtpEnabled) {
-                $user = $userManager->exist($_['login'],$_['password'],$salt,$_['otp']);
-            } else {
-                $user = $userManager->exist($_['login'],$_['password'],$salt);
-            }
+            $user = $userManager->exist($_['login'],$_['password'],$salt);
             if($user==false){
                 error_log("Leed: wrong login for '".$_['login']."'");
                 header('location: ./?action=wrongLogin');
