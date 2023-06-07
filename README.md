@@ -2,7 +2,7 @@
 
 > Français - [English](#leed-english-documentation) - [Español](#leed-documentaci%C3%B3n-espa%C3%B1ola)
 
-Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
+Leed (contraction de Light Feed) est un agrégateur [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom_Syndication_Format) minimaliste qui permet la consultation de flux RSS de manière rapide et non intrusive.
 
 Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un système de tâches [cron](https://fr.wikipedia.org/wiki/Cron) afin de traiter les informations de manière transparente et de les afficher le plus rapidement possible lorsque vous vous y connectez.
 
@@ -30,7 +30,7 @@ Leed est également compatible avec le format d'import/export [OPML](https://fr.
 
 ### Installation
 
-1. Récupérez le projet sur la page [github](https://github.com/LeedRSS/Leed).
+1. Récupérez le projet sur la page [github](https://github.com/LeedRSS/Leed/releases/latest).
 2. Placez le projet dans votre répertoire web et appliquez si nécessaire une permission _chmod 775_ (si vous êtes sur un hebergement ovh, préférez un _0755_ ou vous aurez une erreur 500) sur le dossier et son contenu.
 3. Depuis votre navigateur, accédez à la page d'installation _install.php_ (ex : votre.domaine.fr/leed/install.php) et suivez les instructions.
 4. Une fois l'installation terminée, supprimez le fichier _install.php_ par mesure de sécurité.
@@ -71,9 +71,9 @@ Le dépot [Leed market](https://github.com/Leed-market) contient tous les plugin
 
 # Leed (English documentation)
 
-Leed (short for Light Feed) is a minimalist [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) aggregator which offers fast RSS consultation and non-intrusive features.
+Leed (short for Light Feed) is a minimalist [RSS](https://en.wikipedia.org/wiki/Rss)/[ATOM](https://en.wikipedia.org/wiki/Atom_(web_standard)) aggregator which offers fast RSS consultation and non-intrusive features.
 
-This reader can be installed on your own server and works with a system of [cron](https://fr.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quick as possible when you connect to it.
+This reader can be installed on your own server and works with a system of [cron](https://en.wikipedia.org/wiki/Cron)  tasks to process information in a transparent manner and display the updates as quickly as possible when you connect to it.
 
 - Application: Leed (Light Feed)
 - Author: Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
@@ -88,7 +88,7 @@ All tasks are performed in the background thanks to a scheduled task (cron), so 
 
 Note that Leed is compatible with all resolutions on pc, tablet and smartphone.
 
-Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import / export which makes it compatible with aggregators applying the standard.
+Leed is also compatible with [OPML](https://en.wikipedia.org/wiki/OPML) import / export which makes it compatible with aggregators applying the standard.
 
 ### Prerequisites
 
@@ -99,7 +99,7 @@ Leed is also compatible with [OPML](https://fr.wikipedia.org/wiki/OPML) import /
 
 ### Installation
 
-1. Retrieve the project archive at [github](https://github.com/LeedRSS/Leed).
+1. Retrieve the project archive at [github](https://github.com/LeedRSS/Leed/releases/latest).
 2. Place the project in your web directory and if necessary apply a permission _chmod 775_ (if you're on a ovh hosting, prefer _0755_ or you will get an error 500) onto the folder and its contents .
 3. From your browser, go to the setup page _install.php_ (eg your.domaine.fr/leed/install.ph ) and follow the instructions.
 4. Once the installation is complete, remove the _install.php_ as a security measure.
@@ -140,9 +140,9 @@ The [Leed-market](https://github.com/Leed-market) repository contains all the pl
 
 # Leed (Documentación española)
 
-Leed (contracción de Light Feed) es un agregator [RSS](https://fr.wikipedia.org/wiki/Rss)/[ATOM](https://fr.wikipedia.org/wiki/Atom) minimalista que permite leer sus RSS rapidamente y facilmente.
+Leed (contracción de Light Feed) es un agregator [RSS](https://es.wikipedia.org/wiki/Rss)/[ATOM](https://es.wikipedia.org/wiki/Atom_(formato_de_redifusi%C3%B3n)) minimalista que permite leer sus RSS rapidamente y facilmente.
 
-Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://fr.wikipedia.org/wiki/Cron) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
+Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema de tareas [cron](https://es.wikipedia.org/wiki/Cron_(Unix)) para procesar los RSS de manera transparente y mostrarse tan pronto como sea posible cuando se conecta.
 
 - Script : Leed (Light Feed)
 - Autor : Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
@@ -157,7 +157,7 @@ Todas las tareas de tratamiento de los RSS se efectuan de manera invisible graci
 
 Se debe notar que Leed es compatible con todas las resoluciones, sobre un ordenador, una tablet o un móvil y funciona con todos los navegadores.
 
-El script también está compatible con los archivos de exportación/importación [OPML](https://fr.wikipedia.org/wiki/OPML) para permitir una migración rápida y fácil a partir de todos los agregadores que respetan el formato [OPML](https://fr.wikipedia.org/wiki/OPML).
+El script también está compatible con los archivos de exportación/importación [OPML](https://es.wikipedia.org/wiki/OPML) para permitir una migración rápida y fácil a partir de todos los agregadores que respetan el formato [OPML](https://es.wikipedia.org/wiki/OPML).
 
 ### Prerrequisito
 
@@ -168,7 +168,7 @@ El script también está compatible con los archivos de exportación/importació
 
 ### Instalación
 
-1. Recuperar el proyecto sobre [github](https://github.com/LeedRSS/Leed).
+1. Recuperar el proyecto sobre [github](https://github.com/LeedRSS/Leed/releases/latest).
 2. Poner el proyecto en su directorio web y aplicar un permiso _chmod 775_ sobre el directorio y su contenido (si su _web host_ es OVH, aplicar un permiso _0755_ para no tener un error 500).
 3. Desde el navegador, ir a la página de configuración _install.php_ (por ejemplo : http://su.sitio.fr/leed/install.php) y seguir las instrucciones.
 4. Una vez terminada la instalación, suprimir el archivo _install.php_ por medida de seguridad.
