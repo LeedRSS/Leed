@@ -15,7 +15,7 @@ $articleConf = array();
 //recuperation de tous les flux
 $allFeeds = $feedManager->getFeedsPerFolder();
 $tpl->assign('allFeeds',$allFeeds);
-$scroll = isset($_['scroll']) ? $_['scroll'] : 0;
+$scroll = isset($_['scroll']) ? (int) $_['scroll'] : 0;
 $tpl->assign('scrollpage',$scroll);
 // récupération des variables pour l'affichage
 $articleConf['articlePerPages'] = (int) $configurationManager->get('articlePerPages');
@@ -47,7 +47,7 @@ if($articleDisplayDate) $target .= '`'.MYSQL_PREFIX.'event`.`pubdate`,';
 if($articleDisplayAuthor) $target .= '`'.MYSQL_PREFIX.'event`.`creator`,';
 $target .= '`'.MYSQL_PREFIX.'event`.`id`';
 
-$nblus = isset($_['nblus']) ? $_['nblus'] : 0;
+$nblus = isset($_['nblus']) ? (int) $_['nblus'] : 0;
 $articleConf['startArticle'] = ($scroll*$articleConf['articlePerPages'])-$nblus;
 if ($articleConf['startArticle'] < 0) $articleConf['startArticle']=0;
 $action = $_['action'];
