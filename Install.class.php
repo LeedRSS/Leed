@@ -5,6 +5,7 @@ class Install {
     const DEFAULT_TABLES_PREFIX = 'leed__';
     const CONSTANT_FILE = 'constant.php';
     public $finished = false;
+    private $logger;
     public $logs = array(
         'errors' => array(),
         'notices' => array()
