@@ -21,7 +21,6 @@ class Event extends MysqlEntity{
         'link'=>'longstring',
         'unread'=>'integer',
         'feed'=>'integer',
-        'unread'=>'integer',
         'favorite'=>'integer',
         'pubdate'=>'integer',
         'syncId'=>'integer',
