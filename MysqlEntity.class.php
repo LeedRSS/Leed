@@ -14,6 +14,10 @@ require_once('MysqlConnector.class.php');
 class MysqlEntity
 {
 
+    protected $object_fields;
+    protected $TABLE_NAME;
+    protected $object_fields_index;
+    protected $object_fields_uniques;
     protected $dbconnector = false;
     private $debug = false;
     private $debugAllQuery = false;

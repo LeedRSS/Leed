@@ -8,7 +8,7 @@
 
 class Event extends MysqlEntity{
 
-    protected $id,$title,$guid,$content,$description,$pudate,$link,$feed,$category,$creator,$unread,$favorite;
+    protected $id,$title,$guid,$content,$description,$pubdate,$link,$feed,$category,$creator,$unread,$favorite,$syncId;
     protected $TABLE_NAME = 'event';
     protected $object_fields =
     array(
@@ -21,7 +21,6 @@ class Event extends MysqlEntity{
         'link'=>'longstring',
         'unread'=>'integer',
         'feed'=>'integer',
-        'unread'=>'integer',
         'favorite'=>'integer',
         'pubdate'=>'integer',
         'syncId'=>'integer',

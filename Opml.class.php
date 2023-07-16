@@ -10,6 +10,7 @@ require_once("common.php");
 
 class Opml  {
 
+    private $folders;
     // liens déjà connus, déjà abonnés, au moment de l'importation
     public $alreadyKnowns = array();
 
@@ -17,8 +18,7 @@ class Opml  {
      * Met à jour les données des flux.
      */
     protected function update() {
-        global $feedManager, $folderManager;
-        $this->feeds = $feedManager->populate('name');
+        global $folderManager;
         $this->folders = $folderManager->loadAll(array('parent'=>-1),'name');
     }
 

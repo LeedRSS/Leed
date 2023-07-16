@@ -16,9 +16,11 @@ class Translation {
     const DEFAULT_LANGUAGE = 'fr';
 
     // tableau associatif des traductions
-    var $trans = array();
-    var $language = ''; // langue courante
-    var $translatedLanguages = array(); // langues traduites
+    private $trans = array();
+    public $languages = [];
+    public $language = ''; // langue courante
+    public $translatedLanguages = array(); // langues traduites
+    private $location = '';
 
     /** @param location L'endroit où se trouve le dossier 'locale'
      *  @param languages Les langues demandées */

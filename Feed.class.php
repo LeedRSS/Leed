@@ -163,7 +163,7 @@ class Feed extends MysqlEntity{
                 : substr($enclosureName, strrpos($enclosureName,'.')+1);
 
             $html ='<div class="enclosure"><h1>Fichier média :</h1>';
-            $enclosureType = $enclosure->get_type();
+            $enclosureType = $enclosure->get_type() ?? '';
             if (strpos($enclosureType, 'image/') === 0) {
                 $html .= '<img src="' . $enclosure->link . '" />';
             } elseif (strpos($enclosureType, 'audio/') === 0 || strpos($enclosureType, 'application/ogg') === 0) {
