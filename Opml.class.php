@@ -18,8 +18,7 @@ class Opml  {
      * Met à jour les données des flux.
      */
     protected function update() {
-        global $feedManager, $folderManager;
-        $this->feeds = $feedManager->populate('name');
+        global $folderManager;
         $this->folders = $folderManager->loadAll(array('parent'=>-1),'name');
     }
 
