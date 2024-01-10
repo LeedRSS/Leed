@@ -46,6 +46,7 @@
             {/if}
             <a class="pointer right readUnreadButton"><i class="icon-eye" style="font-size:15px;"></i> {function="_t('READ')"}/{function="_t('UNREAD')"}</a>
             {function="Plugin::callHook("event_post_top_options", array(&$value))"}
+            {function="Plugin::callHook("event_share_actions", array(&$value))"}
         </h3>
 
         <!-- CONTENU/DESCRIPTION -->
