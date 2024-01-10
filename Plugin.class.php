@@ -200,6 +200,9 @@ class Plugin{
         $infos = array();
         $installedPluginsNames = $this->getInstalledPluginsNames();
         foreach($repos as $repo) {
+            if($repo->archived) {
+                continue;
+            }
             $repoName = $repo->name;
             if(!in_array(strtolower($repoName), $installedPluginsNames)) {
                 $infos[] = array(
