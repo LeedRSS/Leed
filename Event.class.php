@@ -6,6 +6,7 @@
  @description: Classe de gestion des évenements/news liés a chaques flux RSS/ATOM
  */
 
+#[\AllowDynamicProperties]
 class Event extends MysqlEntity{
 
     protected $id,$title,$guid,$content,$description,$pubdate,$link,$feed,$category,$creator,$unread,$favorite,$syncId;
