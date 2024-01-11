@@ -1,5 +1,9 @@
 {loop="$events"}
-    {$plainDescription=htmlspecialchars(strip_tags($value->getDescription()))}
+    {if="$value->getDescription()"}
+        {$plainDescription=htmlspecialchars(strip_tags($value->getDescription()))}
+    {else}
+        {$plainDescription=''}
+    {/if}
 
     <!-- CORPS ARTICLE -->
 
