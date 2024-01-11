@@ -55,8 +55,6 @@
             {$value->getDescription()}
             {function="Plugin::callHook("event_post_description", array(&$value))"}
             </div>
-        {else}
-            <div class="articleContent summary" style="display: none;"></div>
         {/if}
 
         {if="$articleDisplayMode=='content'"}
@@ -65,8 +63,6 @@
             {$value->getContent()}
             {function="Plugin::callHook("event_post_content", array(&$value))"}
             </div>
-        {else}
-            <div class="articleContent content" style="display: none;"></div>
         {/if}
 
         {if="$articleDisplayMode=='content'"}
