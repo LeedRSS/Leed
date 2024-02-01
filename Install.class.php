@@ -187,6 +187,11 @@ define('MYSQL_PREFIX','{$this->options['db']['mysqlPrefix']}');
         }else{
             $this->logs['notices'][] = _t('INSTALL_INFO_GD');
         }
+        if (!@class_exists('ZipArchive')){
+            $this->logs['errors'][] = _t('INSTALL_ERROR_ZIP_ARCHIVE');
+        }else{
+            $this->logs['notices'][] = _t('INSTALL_INFO_ZIP_ARCHIVE');
+        }
         if (!@function_exists('mb_internal_encoding')){
             $this->logs['errors'][] = _t('INSTALL_ERROR_MB');
         }else{
