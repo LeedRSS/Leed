@@ -34,10 +34,8 @@ class Install {
     protected function overrideDefaultValues($_) {
         foreach ($this->options as $type => $options) {
             foreach ($options as $var => $defaultValue) {
-                if (!empty($_[$var])) {
-                    $val = $type === 'db' ? str_replace("'", "\'", $_[$var]) : Functions::secure($_[$var]);
-                    $this->options[$type][$var] = $val;
-                }
+                $val = $type === 'db' ? str_replace("'", "\'", $_[$var]) : Functions::secure($_[$var]);
+                $this->options[$type][$var] = $val;
             }
         }
     }
