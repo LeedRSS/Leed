@@ -72,7 +72,7 @@ class SimplePie
     /**
      * SimplePie Version
      */
-    public const VERSION = '1.8.0';
+    public const VERSION = '1.8.1';
 
     /**
      * SimplePie Website URL
@@ -692,8 +692,7 @@ class SimplePie
     public function __construct()
     {
         if (version_compare(PHP_VERSION, '7.2', '<')) {
-            trigger_error('Please upgrade to PHP 7.2 or newer.');
-            die();
+            exit('Please upgrade to PHP 7.2 or newer.');
         }
 
         $this->set_useragent();
@@ -804,7 +803,7 @@ class SimplePie
         if ($file instanceof \SimplePie\File) {
             $this->feed_url = $file->url;
             $this->permanent_url = $this->feed_url;
-            $this->file =& $file;
+            $this->file = &$file;
             return true;
         }
         return false;
@@ -1376,7 +1375,7 @@ class SimplePie
         }
         $this->sanitize->strip_htmltags($tags);
         if ($encode !== null) {
-            $this->sanitize->encode_instead_of_strip($tags);
+            $this->sanitize->encode_instead_of_strip($encode);
         }
     }
 
@@ -1667,7 +1666,7 @@ class SimplePie
 
                     // Cache the file if caching is enabled
                     $this->data['cache_expiration_time'] = $this->cache_duration + time();
-                    if ($cache && ! $cache->set_data($this->get_cache_filename($this->feed_url), $this->data, $this->cache_duration)) {
+                    if ($cache && !$cache->set_data($this->get_cache_filename($this->feed_url), $this->data, $this->cache_duration)) {
                         trigger_error("$this->cache_location is not writable. Make sure you've set the correct relative or absolute path, and that the location is server-writable.", E_USER_WARNING);
                     }
                     return true;
@@ -1717,7 +1716,7 @@ class SimplePie
             $cache = new BaseDataCache($cache);
         }
 
-        if ($cache !== false && ! $cache instanceof DataCache) {
+        if ($cache !== false && !$cache instanceof DataCache) {
             throw new InvalidArgumentException(sprintf(
                 '%s(): Argument #1 ($cache) must be of type %s|false',
                 __METHOD__,
@@ -1775,7 +1774,7 @@ class SimplePie
                             $headers['if-none-match'] = $this->data['headers']['etag'];
                         }
 
-                        $file = $this->registry->create(File::class, [$this->feed_url, $this->timeout/10, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
+                        $file = $this->registry->create(File::class, [$this->feed_url, $this->timeout / 10, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
                         $this->status_code = $file->status_code;
 
                         if ($file->success) {
@@ -1812,7 +1811,7 @@ class SimplePie
         // If we don't already have the file (it'll only exist if we've opened it to check if the cache has been modified), open it.
         if (!isset($file)) {
             if ($this->file instanceof \SimplePie\File && $this->file->url === $this->feed_url) {
-                $file =& $this->file;
+                $file = &$this->file;
             } else {
                 $headers = [
                     'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
@@ -1834,7 +1833,7 @@ class SimplePie
 
             if (!$locate->is_feed($file)) {
                 $copyStatusCode = $file->status_code;
-                $copyContentType = $file->headers['content-type'];
+                $copyContentType = $file->headers['content-type'] ?? '';
                 try {
                     $microformats = false;
                     if (class_exists('DOMXpath') && function_exists('Mf2\parse')) {
@@ -2642,12 +2641,12 @@ class SimplePie
                 if ($this->registry->call(Misc::class, 'is_isegment_nz_nc', [$key])) {
                     if (isset($this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key])) {
                         $this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key]);
-                        $this->data['links'][$key] =& $this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key];
+                        $this->data['links'][$key] = &$this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key];
                     } else {
-                        $this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+                        $this->data['links'][self::IANA_LINK_RELATIONS_REGISTRY . $key] = &$this->data['links'][$key];
                     }
                 } elseif (substr($key, 0, 41) === self::IANA_LINK_RELATIONS_REGISTRY) {
-                    $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+                    $this->data['links'][substr($key, 41)] = &$this->data['links'][$key];
                 }
                 $this->data['links'][$key] = array_unique($this->data['links'][$key]);
             }
@@ -3103,7 +3102,7 @@ class SimplePie
         $trace = debug_backtrace();
         $file = $trace[0]['file'];
         $line = $trace[0]['line'];
-        trigger_error("Call to undefined method $class::$method() in $file on line $line", E_USER_ERROR);
+        throw new SimplePieException("Call to undefined method $class::$method() in $file on line $line");
     }
 
     /**
@@ -3562,12 +3561,12 @@ final class BaseDataCache implements DataCache
     {
         $data = $this->cache->load();
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             return $default;
         }
 
         // ignore data if internal cache expiration time is not set
-        if (! array_key_exists('__cache_expiration_time', $data)) {
+        if (!array_key_exists('__cache_expiration_time', $data)) {
             return $default;
         }
 
@@ -3722,13 +3721,13 @@ abstract class DB implements Base
             }
 
             if (isset($data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0])) {
-                $channel =& $data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0];
+                $channel = &$data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0];
             } elseif (isset($data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0])) {
-                $channel =& $data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0];
+                $channel = &$data->data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0];
             } elseif (isset($data->data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0])) {
-                $channel =& $data->data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0];
+                $channel = &$data->data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0];
             } elseif (isset($data->data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0]['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['channel'][0])) {
-                $channel =& $data->data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0]['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['channel'][0];
+                $channel = &$data->data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0]['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['channel'][0];
             } else {
                 $channel = null;
             }
@@ -4497,13 +4496,13 @@ class MySQL extends DB
 
             if ($items !== 0) {
                 if (isset($data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0])) {
-                    $feed =& $data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0];
+                    $feed = &$data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['feed'][0];
                 } elseif (isset($data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0])) {
-                    $feed =& $data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0];
+                    $feed = &$data['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['feed'][0];
                 } elseif (isset($data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0])) {
-                    $feed =& $data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0];
+                    $feed = &$data['child'][\SimplePie\SimplePie::NAMESPACE_RDF]['RDF'][0];
                 } elseif (isset($data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0])) {
-                    $feed =& $data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0];
+                    $feed = &$data['child'][\SimplePie\SimplePie::NAMESPACE_RSS_20]['rss'][0];
                 } else {
                     $feed = null;
                 }
@@ -4679,7 +4678,7 @@ final class Psr16 implements DataCache
     {
         $data = $this->cache->get($key, $default);
 
-        if (! is_array($data) || $data === $default) {
+        if (!is_array($data) || $data === $default) {
             return $default;
         }
 
@@ -6277,7 +6276,7 @@ class Enclosure
     {
         $length = $this->get_length();
         if ($length !== null) {
-            return round($length/1048576, 2);
+            return round($length / 1048576, 2);
         }
 
         return null;
@@ -6364,7 +6363,7 @@ class Enclosure
      * @param array|string $options See first parameter to {@see embed}
      * @return string HTML string to output
      */
-    public function native_embed($options='')
+    public function native_embed($options = '')
     {
         return $this->embed($options, true);
     }
@@ -6495,9 +6494,9 @@ class Enclosure
                 if ($height === 'auto') {
                     $width = 480;
                 } elseif ($widescreen) {
-                    $width = round((intval($height)/9)*16);
+                    $width = round((intval($height) / 9) * 16);
                 } else {
-                    $width = round((intval($height)/3)*4);
+                    $width = round((intval($height) / 3) * 4);
                 }
             } else {
                 $width = '100%';
@@ -6515,9 +6514,9 @@ class Enclosure
                         $height = 360;
                     }
                 } elseif ($widescreen) {
-                    $height = round((intval($width)/16)*9);
+                    $height = round((intval($width) / 16) * 9);
                 } else {
-                    $height = round((intval($width)/4)*3);
+                    $height = round((intval($width) / 4) * 3);
                 }
             } else {
                 $height = 376;
@@ -6667,7 +6666,7 @@ class Enclosure
                     $type = 'audio/x-ms-wma';
                     break;
 
-                // Video mime-types
+                    // Video mime-types
                 case '3gp':
                 case '3gpp':
                     $type = 'video/3gpp';
@@ -6730,7 +6729,7 @@ class Enclosure
                     $type = 'video/x-ms-wvx';
                     break;
 
-                // Flash mime-types
+                    // Flash mime-types
                 case 'spl':
                     $type = 'application/futuresplash';
                     break;
@@ -7136,7 +7135,7 @@ class Gzdecode
      */
     public function __set($name, $value)
     {
-        trigger_error("Cannot write property $name", E_USER_ERROR);
+        throw new Exception("Cannot write property $name");
     }
 
     /**
@@ -9671,12 +9670,12 @@ class Item implements RegistryAware
                 if ($this->registry->call(Misc::class, 'is_isegment_nz_nc', [$key])) {
                     if (isset($this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key])) {
                         $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key]);
-                        $this->data['links'][$key] =& $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key];
+                        $this->data['links'][$key] = &$this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key];
                     } else {
-                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = &$this->data['links'][$key];
                     }
                 } elseif (substr($key, 0, 41) === \SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY) {
-                    $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+                    $this->data['links'][substr($key, 41)] = &$this->data['links'][$key];
                 }
                 $this->data['links'][$key] = array_unique($this->data['links'][$key]);
             }
@@ -14891,9 +14890,8 @@ class Parser implements RegistryAware
             $xml = xml_parser_create_ns($this->encoding, $this->separator);
             xml_parser_set_option($xml, XML_OPTION_SKIP_WHITE, 1);
             xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-            xml_set_object($xml, $this);
-            xml_set_character_data_handler($xml, 'cdata');
-            xml_set_element_handler($xml, 'tag_open', 'tag_close');
+            xml_set_character_data_handler($xml, [$this, 'cdata']);
+            xml_set_element_handler($xml, [$this, 'tag_open'], [$this, 'tag_close']);
 
             // Parse!
             $wrapper = @is_writable(sys_get_temp_dir()) ? 'php://temp' : 'php://memory';
@@ -15043,8 +15041,8 @@ class Parser implements RegistryAware
                 $this->data['data'] .= '>';
             }
         } else {
-            $this->datas[] =& $this->data;
-            $this->data =& $this->data['child'][end($this->namespace)][end($this->element)][];
+            $this->datas[] = &$this->data;
+            $this->data = &$this->data['child'][end($this->namespace)][end($this->element)][];
             $this->data = ['data' => '', 'attribs' => $attribs, 'xml_base' => end($this->xml_base), 'xml_base_explicit' => end($this->xml_base_explicit), 'xml_lang' => end($this->xml_lang)];
             if ((end($this->namespace) === \SimplePie\SimplePie::NAMESPACE_ATOM_03 && in_array(end($this->element), ['title', 'tagline', 'copyright', 'info', 'summary', 'content']) && isset($attribs['']['mode']) && $attribs['']['mode'] === 'xml')
             || (end($this->namespace) === \SimplePie\SimplePie::NAMESPACE_ATOM_10 && in_array(end($this->element), ['rights', 'subtitle', 'summary', 'info', 'title', 'content']) && isset($attribs['']['type']) && $attribs['']['type'] === 'xhtml')
@@ -15074,7 +15072,7 @@ class Parser implements RegistryAware
             }
         }
         if ($this->current_xhtml_construct === -1) {
-            $this->data =& $this->datas[count($this->datas) - 1];
+            $this->data = &$this->datas[count($this->datas) - 1];
             array_pop($this->datas);
         }
 
@@ -15572,7 +15570,7 @@ class Registry
             $type = $this->legacyTypes[$type];
         }
 
-        if (! array_key_exists($type, $this->default)) {
+        if (!array_key_exists($type, $this->default)) {
             return false;
         }
 
@@ -15613,7 +15611,7 @@ class Registry
             $type = $this->legacyTypes[$type];
         }
 
-        if (! array_key_exists($type, $this->default)) {
+        if (!array_key_exists($type, $this->default)) {
             return null;
         }
 
@@ -15911,7 +15909,7 @@ class Sanitize implements RegistryAware
         $this->registry = $registry;
     }
 
-    public function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie\Cache', DataCache $cache = null)
+    public function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie\Cache', ?DataCache $cache = null)
     {
         if (isset($enable_cache)) {
             $this->enable_cache = (bool) $enable_cache;
@@ -15921,7 +15919,7 @@ class Sanitize implements RegistryAware
             $this->cache_location = (string) $cache_location;
         }
 
-        if (! is_string($cache_name_function) && ! is_object($cache_name_function) && ! $cache_name_function instanceof NameFilter) {
+        if (!is_string($cache_name_function) && !is_object($cache_name_function) && !$cache_name_function instanceof NameFilter) {
             throw new InvalidArgumentException(sprintf(
                 '%s(): Argument #3 ($cache_name_function) must be of type %s',
                 __METHOD__,
@@ -16075,7 +16073,7 @@ class Sanitize implements RegistryAware
         foreach ($domains as $domain) {
             $domain = trim($domain, ". \t\n\r\0\x0B");
             $segments = array_reverse(explode('.', $domain));
-            $node =& $this->https_domains;
+            $node = &$this->https_domains;
             foreach ($segments as $segment) {//Build a tree
                 if ($node === true) {
                     break;
@@ -16083,7 +16081,7 @@ class Sanitize implements RegistryAware
                 if (!isset($node[$segment])) {
                     $node[$segment] = [];
                 }
-                $node =& $node[$segment];
+                $node = &$node[$segment];
             }
             $node = true;
         }
@@ -16096,10 +16094,10 @@ class Sanitize implements RegistryAware
     {
         $domain = trim($domain, '. ');
         $segments = array_reverse(explode('.', $domain));
-        $node =& $this->https_domains;
+        $node = &$this->https_domains;
         foreach ($segments as $segment) {//Explore the tree
             if (isset($node[$segment])) {
-                $node =& $node[$segment];
+                $node = &$node[$segment];
             } else {
                 break;
             }
@@ -16741,12 +16739,12 @@ class Source implements RegistryAware
                 if ($this->registry->call(Misc::class, 'is_isegment_nz_nc', [$key])) {
                     if (isset($this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key])) {
                         $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key]);
-                        $this->data['links'][$key] =& $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key];
+                        $this->data['links'][$key] = &$this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key];
                     } else {
-                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = &$this->data['links'][$key];
                     }
                 } elseif (substr($key, 0, 41) === \SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY) {
-                    $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+                    $this->data['links'][substr($key, 41)] = &$this->data['links'][$key];
                 }
                 $this->data['links'][$key] = array_unique($this->data['links'][$key]);
             }
@@ -17781,7 +17779,7 @@ define('SIMPLEPIE_VERSION', NamespacedSimplePie::VERSION);
  * @todo Hardcode for release (there's no need to have to call SimplePie_Misc::get_build() only every load of simplepie.inc)
  * @deprecated since SimplePie 1.7.0, use \SimplePie\Misc::get_build() instead.
  */
-define('SIMPLEPIE_BUILD', '20230120083904');
+define('SIMPLEPIE_BUILD', '20241122164023');
 
 /**
  * SimplePie Website URL
