@@ -10,7 +10,7 @@ Cet agrégateur peut s'installer sur votre propre serveur et fonctionne avec un 
 - Auteur : Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Contributeurs principaux : (par ordre alphabétique des pseudos)
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
-  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Christophe HENRY aka **Sbgodin** (https://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Page du projet : https://github.com/LeedRSS/Leed
 - Licence : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
@@ -79,7 +79,7 @@ This reader can be installed on your own server and works with a system of [cron
 - Author: Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Main contributors: (alphabetical order of pseudos)
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
-  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Christophe HENRY aka **Sbgodin** (https://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Project page: https://github.com/LeedRSS/Leed
 - License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)
@@ -148,7 +148,7 @@ Se puede instalar este agregador sobre su servidor. Leed funciona con un sistema
 - Autor : Valentin CARRUESCO aka **Idleman** (http://blog.idleman.fr)
 - Principales contribuyentes (por orden alfabético del pseudos):
   - Maël ILLOUZ aka **Cobalt74** (https://www.cobestran.com)
-  - Christophe HENRY aka **Sbgodin** (http://sbgodin.fr)
+  - Christophe HENRY aka **Sbgodin** (https://sbgodin.fr)
   - Simon ALBERNY aka **Simounet** (https://www.simounet.net)
 - Página del proyecto : https://github.com/LeedRSS/Leed
 - Licencia : [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)

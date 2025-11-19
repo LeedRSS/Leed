@@ -4,7 +4,7 @@
 
 /* TEAM */
   Creator: Idleman (http://blog.idleman.fr)
-  Contributors: Sbgodin (http://sbgodin.fr)
+  Contributors: Sbgodin (https://sbgodin.fr)
                 Simounet (contact@simounet.net)
                 Alef-Burzmali (thomas.fargeix@burzmali.com)
                 Cobalt74 (http://www.cobestran.com)
