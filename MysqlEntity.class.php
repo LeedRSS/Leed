@@ -47,7 +47,7 @@ class MysqlEntity
             case 'boolean':
                 $return = 'INT(1)';
             break;
-            default;
+            default:
                 $return = 'TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
             break;
         }
@@ -75,7 +75,7 @@ class MysqlEntity
             case 'string':
             case 'timestamp':
             case 'longstring':
-            default;
+            default:
                 $return = $this->dbconnector->connection->real_escape_string((string)$value);
             break;
         }
