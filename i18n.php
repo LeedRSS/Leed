@@ -137,7 +137,7 @@ class Translation {
             $_SERVER['HTTP_ACCEPT_LANGUAGE'] : self::DEFAULT_LANGUAGE;
         $languageList = array();
         foreach (explode(',', $httpAcceptLanguage) as $language) {
-            $languageList[] = substr($language, 0, 2); // fr-FR;q=0.6 --> fr
+            $languageList[] = substr(trim($language), 0, 2); // fr-FR;q=0.6 --> fr
         }
         return array_unique($languageList); // en-US,en-UK --> en, en --> en
     }
