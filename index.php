@@ -69,6 +69,7 @@ $tpl->assign('target',$target);
 $tpl->assign('feeds',[]);
 $tpl->assign('order','');
 $tpl->assign('unreadEventsForFolder',0);
+$tpl->assign('currentFeed', null);
 $pagesArray = array();
 
 switch($action){
