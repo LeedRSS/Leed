@@ -15,7 +15,6 @@ $tpl->assign('logs',$logger->flushLogs());
 
 // gestion de la langue
 $tpl->assign('languageList',$i18n->translatedLanguages);
-$tpl->assign('currentLanguage',$configurationManager->get('language'));
 
 $wrongLogin = !empty($wrongLogin);
 $tpl->assign('wrongLogin',$wrongLogin);

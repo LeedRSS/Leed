@@ -96,6 +96,7 @@ $tpl->assign('userManager',$userManager);
 $tpl->assign('folderManager',$folderManager);
 $tpl->assign('configurationManager',$configurationManager);
 $tpl->assign('synchronisationCode',$configurationManager->get('synchronisationCode'));
+$tpl->assign('currentLanguage',$configurationManager->get('language'));
 
 $articleDisplayAnonymous = $configurationManager->get('articleDisplayAnonymous');
 $tpl->assign('articleDisplayAnonymous',$articleDisplayAnonymous);
