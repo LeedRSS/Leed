@@ -66,6 +66,8 @@
  "OPML_FILE":"Fichier OPML",
  "PASSWORD":"Mot de passe",
  "PENDING":"En cours…",
+ "PLUGIN_MUST_BE_DEACTIVATED_BEFORE_IT_CAN_BE_DELETED": "Le plugin doit être désactivé avant d'être supprimé.",
+ "PLUGIN_REMOVE": "Supprimer",
  "PROJECT_ROOT":"Racine du projet",
  "PUBDATE_WITHINSTANT":"le $1",
  "PUBDATE_WITHINSTANT_LOWERH1":"il y a $1 min",

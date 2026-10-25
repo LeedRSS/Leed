@@ -378,6 +378,30 @@ class Plugin{
 
     }
 
+    public static function removed($pluginUid){
+        $logger = new Logger('settings');
+        $plugins = Plugin::getAll();
+        foreach($plugins as $plugin){
+            if($plugin->getUid()==$pluginUid){
+                if($plugin->getState() === 1) {
+                    echo _t('PLUGIN_MUST_BE_DEACTIVATED_BEFORE_IT_CAN_BE_DELETED');
+                    exit;
+                }
+                if($pluginUid !== $plugin->getUid()) {
+                    http_response_code(400);
+                    exit;
+                }
+                $pluginPath = dirname($plugin->getPath());
+                $logger->appendLogs('Suppression du plugin : ' . $pluginPath);
+                Functions::deleteDirectoryRecursively($pluginPath);
+                return true;
+            }
+        }
+        $logger->appendLogs('Plugin ' . $pluginUid . ' à supprimer inconnu');
+        return false;
+
+    }
+
     function getUid(){
         $pathInfo = explode('/',$this->getPath());
         $count = count($pathInfo);

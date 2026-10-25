@@ -298,6 +298,17 @@ class Functions
         return $allFiles;
     }
 
+    public static function deleteDirectoryRecursively($dir){
+        array_map(function($file) {
+            if(is_dir($file)) {
+                self::deleteDirectoryRecursively($file);
+            } else {
+                unlink($file);
+            }
+        }, self::scanRecursiveDir($dir));
+        rmdir($dir);
+    }
+
     /** Permet la sortie directe de texte à l'écran, sans tampon.
         Source : http://php.net/manual/fr/function.flush.php
     */

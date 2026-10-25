@@ -327,6 +327,7 @@
                                 <li><h4>{function="_t('SITE')"}: </h4><a href="{$value->getLink()}">{$value->getLink()}</a></li>
                                 <li>{$value->getDescription()}</li>
                                 <li><a href="action.php?action=changePluginState&plugin={$value->getUid()}&state={$value->getState()}" class="button">{$value->getState()=="0"?_t('ENABLE'):_t('DISABLE')}</a></li>
+                                {if="$value->getState()=='0'"}<li><a href="action.php?action=removePlugin&plugin={$value->getUid()}" class="button">{function="_t('PLUGIN_REMOVE')"}</a></li>{/if}
                             </ul>
                         </li>
                         {/loop}

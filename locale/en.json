@@ -66,6 +66,8 @@
  "OPML_FILE":"OPML File",
  "PASSWORD":"Password",
  "PENDING":"In progress...",
+ "PLUGIN_MUST_BE_DEACTIVATED_BEFORE_IT_CAN_BE_DELETED": "The plugin must be deactivated before it can be deleted.",
+ "PLUGIN_REMOVE": "Remove",
  "PROJECT_ROOT":"Project root",
  "PUBDATE_WITHINSTANT":"the $1",
  "PUBDATE_WITHINSTANT_LOWERH1":"$1 min ago",

@@ -64,6 +64,8 @@
  "OPML_FILE":"Archivo OPML",
  "PASSWORD":"Contraseña",
  "PENDING":"En curso…",
+ "PLUGIN_MUST_BE_DEACTIVATED_BEFORE_IT_CAN_BE_DELETED": "El complemento debe desactivarse antes de eliminarlo.",
+ "PLUGIN_REMOVE": "Eliminar",
  "PROJECT_ROOT":"Raíz del proyecto",
  "PUBDATE_WITHINSTANT":"la $1",
  "PUBDATE_WITHINSTANT_LOWERH1":"hace $1 min",
