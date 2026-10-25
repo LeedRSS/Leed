@@ -238,7 +238,11 @@ class Plugin{
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true );
         $datas = curl_exec($ch);
-        curl_close($ch);
+         if (PHP_VERSION_ID >= 80000) {
+             unset($ch);
+         } else {
+             curl_close($ch);
+         }
         return $datas;
     }
 
