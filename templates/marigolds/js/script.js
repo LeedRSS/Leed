@@ -205,7 +205,7 @@ function searchPlugin(keyword){
                 for(i=0;i<data.length;i++){
                     var plugin = data[i];
                     tpl += '<li><ul>'+
-                        '<li><h4>Nom: </h4>'+plugin.name+'</li>';
+                        '<li><h4>Nom: </h4><a href="'+plugin.htmlUrl+'">'+plugin.name+'</a></li>';
                     if(typeof(plugin.description) === 'string') {
                         tpl += '<li>'+plugin.description+'</li>';
                     }
