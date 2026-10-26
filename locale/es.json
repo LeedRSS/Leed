@@ -7,6 +7,7 @@
  "ERROR":"Errores",
  "ERRORS":"error(es)",
  "FEED_ALREADY_STORED": "Fuente ya presente.",
+ "FEED_PARSING_FAILED_WITH_ALL_KNOWN_USER_AGENTS": "Error al analizar el feed con todos los agentes de usuario conocidos",
  "FORMAT_DATE_HOURS":"d/m/Y à H:i:s",
  "FULL_SYNCHRONISATION":"Syncronización completa…",
  "GENERAL_FOLDER":"General",

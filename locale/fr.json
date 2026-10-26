@@ -7,6 +7,7 @@
  "ERROR":"Erreurs",
  "ERRORS":"erreur(s)",
  "FEED_ALREADY_STORED": "Flux déjà présent.",
+ "FEED_PARSING_FAILED_WITH_ALL_KNOWN_USER_AGENTS": "Récupération du flux en erreur avec tous les agents utilisateur connus",
  "FORMAT_DATE_HOURS":"d/m/Y à H:i:s",
  "FULL_SYNCHRONISATION":"Synchronisation complète…",
  "GENERAL_FOLDER":"Générale",
