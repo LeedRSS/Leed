@@ -48,7 +48,7 @@ class Feed extends MysqlEntity{
     nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
     car elle est appelée aussi pour autre chose que l'ajout.
     */
-    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false){
+    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false, $customUserAgent=''){
         $nbEvents = 0;
         $isSyncIdOk = is_int($syncId) && $syncId > 0;
         assert($isSyncIdOk);
@@ -61,28 +61,24 @@ class Feed extends MysqlEntity{
             error_log($msg, E_USER_ERROR);
             die($msg); // Arrêt, sinon création événements sans flux associé.
         }
-        $feed = new SimplePie();
-        $feed->enable_cache($enableCache);
-        $feed->force_feed($forceFeed);
-        $feed->set_feed_url($this->url);
-        $feed->set_useragent('Mozilla/4.0 Leed (LightFeed Aggregator) ' . LEED_VERSION_NAME);
         $this->lastSyncInError = 0;
         $this->lastupdate = $_SERVER['REQUEST_TIME'];
-        if (!$feed->init()) {
-            $this->error = $feed->error;
+        $parsedFeed = $this->getParsedFeed($enableCache, $forceFeed, $customUserAgent);
+        if ($parsedFeed->error) {
+            $this->error = $parsedFeed->error;
             $this->lastSyncInError = 1;
             $this->save();
             return false;
         }
 
-        $feed->handle_content_type(); // UTF-8 par défaut pour SimplePie
+        $parsedFeed->handle_content_type(); // UTF-8 par défaut pour SimplePie
 
-        if($this->name == '') $this->name = $feed->get_title();
+        if($this->name == '') $this->name = $parsedFeed->get_title();
         if($this->name == '') $this->name = $this->url;
-        if($this->website == '') $this->website = $feed->get_link();
-        if($this->description == '') $this->description = $feed->get_description();
+        if($this->website == '') $this->website = $parsedFeed->get_link();
+        if($this->description == '') $this->description = $parsedFeed->get_description();
 
-        $items = $feed->get_items();
+        $items = $parsedFeed->get_items();
         $eventManager = new Event();
 
         $events = array();
@@ -326,12 +322,13 @@ class Feed extends MysqlEntity{
         $syncId = time();
         $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
         $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+        $parsingUserAgent = $configurationManager->get('parsingUserAgent');
 
         foreach ($feeds as $feed) {
             $nbEvents = 0;
             $nbTotal++;
             $startLocal = microtime(true);
-            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
+            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed, $parsingUserAgent);
             $parseTime = microtime(true)-$startLocal;
             $localTotal += $parseTime;
             $parseTimeStr = number_format($parseTime, 3);
@@ -399,6 +396,31 @@ class Feed extends MysqlEntity{
             echo '</div></body></html>';
         }
 
+    }
+
+    protected function getParsedFeed(bool $enableCache, bool $forceFeed, string $customUserAgent): \SimplePie\SimplePie {
+        $userAgentList = [
+            'Leed (LightFeed Aggregator) bot',
+            \SimplePie\Misc::get_default_useragent(),
+            'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:158.0) Gecko/20100101 Firefox/158.0'
+        ];
+        if(!empty($customUserAgent)) {
+            array_unshift($userAgentList , $customUserAgent);
+        }
+        foreach($userAgentList as $userAgent) {
+            $feed = new SimplePie\SimplePie();
+            $feed->enable_cache($enableCache);
+            $feed->force_feed($forceFeed);
+            $feed->set_feed_url($this->url);
+            $feed->set_useragent($userAgent);
+            $feed->init();
+            if(!$feed->error) {
+                return $feed;
+            }
+        }
+        echo _t('FEED_PARSING_FAILED_WITH_ALL_KNOWN_USER_AGENTS') . ' ';
+        return $feed;
     }
 
 }

@@ -200,6 +200,11 @@
                             <input type="radio" {if="!$synchronisationForceFeed"} checked="checked" {/if} value="0" id="synchronisationForceFeedNo" name="synchronisationForceFeed" /><label for="synchronisationForceFeedNo">{function="_t('NO')"}</label>
                             <p>{function="_t('FORCE_INTEGRATION_DESC')"}</p>
                         </fieldset>
+                        <fieldset>
+                            <legend>{function="_t('FEEDS_PARSING_USER_AGENT')"}</legend>
+                            <input type="text" class="input-large" value="{$configurationManager->get('parsingUserAgent')}" id="parsingUserAgent" name="parsingUserAgent" />
+                            <p>{function="_t('FEEDS_PARSING_USER_AGENT_CONTENT')"}</p>
+                        </fieldset>
                         </p>
                     </section>
 

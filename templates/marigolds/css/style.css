@@ -676,6 +676,11 @@ header a,header a:hover,header a:visited{
     width: 48%;
 }
 
+.settings .input-large {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .pointer{
     cursor:pointer;
 }
@@ -1008,6 +1013,16 @@ footer a,#main aside a{
     }
     #main #menuBar aside{
         padding:0px;
+    }
+
+
+    /* ============
+        WIDE: Settings
+       ============ */
+
+    .settings .input-large {
+        width: initial;
+        min-width: 400px;
     }
 }
 
