@@ -48,7 +48,7 @@ class Feed extends MysqlEntity{
     nécessaire, et appelle parse(). Impossible de vérifier dans parse() même
     car elle est appelée aussi pour autre chose que l'ajout.
     */
-    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false){
+    function parse($syncId,&$nbEvents =0, $enableCache=true, $forceFeed=false, $customUserAgent=''){
         $nbEvents = 0;
         $isSyncIdOk = is_int($syncId) && $syncId > 0;
         assert($isSyncIdOk);
@@ -63,7 +63,7 @@ class Feed extends MysqlEntity{
         }
         $this->lastSyncInError = 0;
         $this->lastupdate = $_SERVER['REQUEST_TIME'];
-        $parsedFeed = $this->getParsedFeed($enableCache, $forceFeed);
+        $parsedFeed = $this->getParsedFeed($enableCache, $forceFeed, $customUserAgent);
         if ($parsedFeed->error) {
             $this->error = $parsedFeed->error;
             $this->lastSyncInError = 1;
@@ -322,12 +322,13 @@ class Feed extends MysqlEntity{
         $syncId = time();
         $enableCache = ($configurationManager->get('synchronisationEnableCache')=='')?0:$configurationManager->get('synchronisationEnableCache');
         $forceFeed = ($configurationManager->get('synchronisationForceFeed')=='')?0:$configurationManager->get('synchronisationForceFeed');
+        $parsingUserAgent = $configurationManager->get('parsingUserAgent');
 
         foreach ($feeds as $feed) {
             $nbEvents = 0;
             $nbTotal++;
             $startLocal = microtime(true);
-            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed);
+            $parseOk = $feed->parse($syncId,$nbEvents, $enableCache, $forceFeed, $parsingUserAgent);
             $parseTime = microtime(true)-$startLocal;
             $localTotal += $parseTime;
             $parseTimeStr = number_format($parseTime, 3);
@@ -397,13 +398,16 @@ class Feed extends MysqlEntity{
 
     }
 
-    protected function getParsedFeed(bool $enableCache, bool $forceFeed): \SimplePie\SimplePie {
+    protected function getParsedFeed(bool $enableCache, bool $forceFeed, string $customUserAgent): \SimplePie\SimplePie {
         $userAgentList = [
             'Leed (LightFeed Aggregator) bot',
             \SimplePie\Misc::get_default_useragent(),
             'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
             'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:158.0) Gecko/20100101 Firefox/158.0'
         ];
+        if(!empty($customUserAgent)) {
+            array_unshift($userAgentList , $customUserAgent);
+        }
         foreach($userAgentList as $userAgent) {
             $feed = new SimplePie\SimplePie();
             $feed->enable_cache($enableCache);

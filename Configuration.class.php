@@ -44,7 +44,8 @@ class Configuration extends MysqlEntity{
         'synchronisationType' => 'auto',
         'theme' => 'marigolds',
         'root' => '',
-        'cryptographicSalt' => ''
+        'cryptographicSalt' => '',
+        'parsingUserAgent' => ''
     );
 
     function __construct(){

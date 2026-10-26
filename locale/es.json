@@ -8,6 +8,8 @@
  "ERRORS":"error(es)",
  "FEED_ALREADY_STORED": "Fuente ya presente.",
  "FEED_PARSING_FAILED_WITH_ALL_KNOWN_USER_AGENTS": "Error al analizar el feed con todos los agentes de usuario conocidos",
+ "FEEDS_PARSING_USER_AGENT": "Agente de usuario",
+ "FEEDS_PARSING_USER_AGENT_CONTENT": "Esta opción (vacía por defecto) se utiliza para recuperar los feeds. En ocasiones, puede ayudar a eludir un bloqueo.",
  "FORMAT_DATE_HOURS":"d/m/Y à H:i:s",
  "FULL_SYNCHRONISATION":"Syncronización completa…",
  "GENERAL_FOLDER":"General",

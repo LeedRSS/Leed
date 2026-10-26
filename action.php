@@ -118,6 +118,7 @@ switch ($action){
             $configurationManager->put('feedMaxEvents',$_['feedMaxEvents']);
             $configurationManager->put('language',$_['ChgLanguage']);
             $configurationManager->put('theme',$_['ChgTheme']);
+            $configurationManager->put('parsingUserAgent',$_['parsingUserAgent']);
 
             if(trim($_['password'])!='') {
                 $salt = User::generateSalt();
