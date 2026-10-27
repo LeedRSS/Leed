@@ -344,10 +344,9 @@ class Feed extends MysqlEntity{
             }
             $feedName = Functions::truncate($feed->getName(),30);
             $feedUrl = $feed->getUrl();
-            $feedUrlTxt = Functions::truncate($feedUrl, 30);
             if ($commandLine) {
                 echo date('d/m/Y H:i:s')."\t".$parseTimeStr."\t";
-                echo "{$feedName}\t{$feedUrlTxt}\n";
+                echo "{$feedName}\t{$feedUrl}\n";
             } else {
                 if (!$parseOk)
                     echo '<div class="errorSync">';
