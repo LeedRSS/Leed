@@ -29,8 +29,8 @@ class Translation {
         if (!is_array($languages)) $languages = array($languages);
         $this->translatedLanguages = $this->listLanguages();
         $languages[]=self::DEFAULT_LANGUAGE;
-        $this->languages = $languages;
-        foreach ($languages as $language) {
+        $this->languages = array_unique($languages);
+        foreach ($this->languages as $language) {
             if (empty($language)) continue;
             if ($this->load($language)) {
                 $this->language = $language;
