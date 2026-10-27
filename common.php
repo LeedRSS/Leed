@@ -6,8 +6,8 @@
  @description: Page incluse dans tous (ou presque) les fichiers du projet, inclus les entitées SQL et récupère/traite les variables de requetes
  */
 
-define('LEED_VERSION_NUMBER','1.15.3');
-define('LEED_VERSION_NAME','dev');
+define('LEED_VERSION_NUMBER','1.16.0');
+define('LEED_VERSION_NAME','stable');
 
 /* Assure la compatibilité des greffons utilisant ces anciennes constantes.
  * Cela doit rester en place jusque Leed v2.0.
