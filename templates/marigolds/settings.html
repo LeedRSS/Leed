@@ -146,7 +146,7 @@
                     <section>
                         <h3>{function="_t('GENERALITY')"}</h3>
                         <p><label for="root">{function="_t('PROJECT_ROOT')"} :</label> <input type="text" id="root" name="root" value="{$configurationManager->get('root')}"></p>
-                        <h4>{function="_t('LET_SLASH_AT_END')"}</h4>
+                        <p class="sidenote">{function="_t('LET_SLASH_AT_END')"}</p>
                         <p>{function="_t('INSTALL_LANGUAGE')"} :
                         <select name="ChgLanguage">
                             {loop="$languageList"}
@@ -187,7 +187,7 @@
                         <p><strong>{function="_t('SYNCHRONISATION_CODE')"} :</strong>
                         {$synchronisationCode}
                         </p>
-                        <p><strong>{function="_t('SYNCHRONISATION_OPTION')"}</strong>
+                        <h4>{function="_t('SYNCHRONISATION_OPTION')"}</h4>
                         <fieldset>
                             <legend>{function="_t('ENABLE_CACHE')"}</legend>
                             <input type="radio" {if="$synchronisationEnableCache"} checked="checked" {/if} value="1" id="synchronisationEnableCacheYes" name="synchronisationEnableCache" /><label for="synchronisationEnableCacheYes">{function="_t('YES')"}</label>
@@ -205,7 +205,6 @@
                             <input type="text" class="input-large" value="{$configurationManager->get('parsingUserAgent')}" id="parsingUserAgent" name="parsingUserAgent" />
                             <p>{function="_t('FEEDS_PARSING_USER_AGENT_CONTENT')"}</p>
                         </fieldset>
-                        </p>
                     </section>
 
                     <section>
@@ -215,7 +214,7 @@
                             <legend>{function="_t('ALLOW_ANONYMOUS_READ')"}</legend>
                             <input type="radio" {if="$articleDisplayAnonymous=='1'"} checked="checked" {/if} value="1" id="articleDisplayAnonymousYes" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousYes">{function="_t('YES')"}</label>
                             <input type="radio" {if="$articleDisplayAnonymous=='0'"} checked="checked" {/if} value="0" id="articleDisplayAnonymousNo" name="articleDisplayAnonymous" /><label for="articleDisplayAnonymousNo">{function="_t('NO')"}</label>
-                            <h4>{function="_t('ALLOW_ANONYMOUS_READ_DESC')"}</h4>
+                            <p class="sidenote">{function="_t('ALLOW_ANONYMOUS_READ_DESC')"}</p>
                         </fieldset>
                         <fieldset>
                             <legend><label for="articlePerPages">{function="_t('EVENT_NUMBER_PER_PAGES')"}</label></legend>
@@ -254,7 +253,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>{function="_t('KEEP_LAST_X_EVENTS_FEED',array('<input type="text" value="'.$configurationManager->get('feedMaxEvents').'" name="feedMaxEvents" size="4" />'))"}</legend>
-                            <h4>{function="_t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</h4>
+                            <p class="sidenote">{function="_t('KEEP_LAST_X_EVENTS_FEED_DESC')"}</p>
                         </fieldset>
 
                     </section>

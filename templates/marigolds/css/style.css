@@ -434,7 +434,7 @@ header a,header a:hover,header a:visited{
     margin-bottom:5px;
     font-size:1.1em;
 }
-#main article section h3.articleDetails, .preferenceBloc h4{
+#main article section h3.articleDetails, .preferenceBloc .sidenote{
     font-size:10px;
     font-weight:normal;
     color:#939393;
