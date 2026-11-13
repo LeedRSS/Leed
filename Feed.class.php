@@ -98,7 +98,10 @@ class Feed extends MysqlEntity{
             $event = new Event();
             $event->setSyncId($syncId);
             $event->setGuid($item->get_id());
-            $event->setTitle(html_entity_decode(htmlspecialchars_decode($item->get_title())));
+            // Store the title exactly as SimplePie returns it (HTML-sanitised/encoded).
+            // Decoding it here reintroduces active markup and causes stored XSS, since
+            // the template renders the title unescaped.
+            $event->setTitle($item->get_title());
             $event->setPubdate(
                 ''==$item->get_date()
                     ? $this->lastupdate
@@ -397,7 +400,36 @@ class Feed extends MysqlEntity{
 
     }
 
+    /**
+     * Refuse to fetch feed URLs that are not public http(s) (SSRF guard). Rejects
+     * non-http(s) schemes and hosts resolving to private/reserved/loopback/link-local
+     * ranges. Note: SimplePie still follows redirects, so a public URL redirecting to
+     * an internal address is not covered here - disable redirects or re-validate each
+     * hop for full protection.
+     */
+    protected static function isPublicFeedUrl(string $url): bool {
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+        $host = parse_url($url, PHP_URL_HOST);
+        if (!in_array($scheme, ['http', 'https'], true) || empty($host)) {
+            return false;
+        }
+        $ips = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : (gethostbynamel($host) ?: []);
+        if (empty($ips)) {
+            return false;
+        }
+        foreach ($ips as $ip) {
+            if (false === filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected function getParsedFeed(bool $enableCache, bool $forceFeed, string $customUserAgent): \SimplePie\SimplePie {
+        if (!self::isPublicFeedUrl($this->url)) {
+            echo _t('FEED_PARSING_FAILED_WITH_ALL_KNOWN_USER_AGENTS') . ' ';
+            return new SimplePie\SimplePie();
+        }
         $userAgentList = [
             'Leed (LightFeed Aggregator) bot',
             \SimplePie\Misc::get_default_useragent(),
